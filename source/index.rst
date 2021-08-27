@@ -8,7 +8,7 @@ Welcome to Nuclei documentation!
 .. toctree::
    :maxdepth: 3
    :numbered:
-   :caption: Contents:
+   :caption: Contents
 
    copyright.rst
    contact.rst
