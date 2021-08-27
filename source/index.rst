@@ -15,7 +15,6 @@ Welcome to Nuclei documentation!
    changelog.rst
    overview/index.rst
    errata.rst
-   license.rst
    glossary.rst
    appendix.rst
 

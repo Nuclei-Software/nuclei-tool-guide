@@ -22,11 +22,3 @@ Glossary
       term storage rather than copying it into RAM, saving writable memory for
       dynamic data and not the static program code.
 
-   DSP
-      (Digital Signal Processing) is the use of digital processing, such as by
-      computers or more specialized digital signal processors, to perform a wide
-      variety of signal processing operations.
-
-   NN
-      (Neural Network) is a network or circuit of neurons, or in a modern sense,
-      an artificial neural network, composed of artificial neurons or nodes.
