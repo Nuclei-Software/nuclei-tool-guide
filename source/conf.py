@@ -103,7 +103,7 @@ latex_elements = {
     \setsansfont{DejaVu Sans}
     \setmonofont{DejaVu Sans Mono}
     ''',
-        'preamble': r'''
+    'preamble': r'''
     \usepackage[titles]{tocloft}
     \cftsetpnumwidth {1.25cm}\cftsetrmarg{1.5cm}
     \setlength{\cftchapnumwidth}{0.75cm}
