@@ -1,0 +1,62 @@
+variables:
+  DOC_SERVER: doc
+  DOC_CENTER: /home/xl_ci/doc_center/nuclei_document
+  DOC_NAME: template
+  IMAGE: rego.corp.nucleisys.com/software/nmsis_build
+  IMAGE_TAG: gcc10-ubuntu2004
+
+default:
+  tags:
+    - env::docker
+    - net::outside
+  image: $IMAGE:$IMAGE_TAG
+
+stages:
+  - build
+  - deploy
+
+## Job for build document
+build_doc:
+  stage: build
+  only:
+    changes:
+      - ./**/**/**/*
+      - .gitlab-ci.yml
+  retry: 1
+  artifacts:
+    name: "${DOC_NAME}-${CI_COMMIT_SHA::8}"
+    paths:
+      - build/html
+    expire_in: 2 day
+  before_script:
+    - apt update
+    - apt install -y lftp python3 make latexmk texlive-base texlive-latex-extra xindy python3-pip
+    - pip3 install -r requirements.txt
+  script:
+    - make clean
+    - make all
+    - make latexpdf
+    - cp build/latex/*.pdf build/html/
+
+## Job for deploy document to internal server
+deploy_doc:
+  stage: deploy
+  when: on_success
+  retry: 1
+  only:
+    refs:
+      - master
+    changes:
+      - ./**/**/**/**/*
+      - .gitlab-ci.yml
+  script:
+    - ssh $DOC_SERVER "rm -rf $DOC_CENTER/$DOC_NAME/*"
+    - ssh $DOC_SERVER "mkdir -p $DOC_CENTER/$DOC_NAME/"
+    - cd build
+    - scp -r html $DOC_SERVER:$DOC_CENTER/$DOC_NAME
+    - echo "see generated doc here: http://doc/nuclei_document/$DOC_NAME/html/index.html"
+  dependencies:
+    - build_doc
+  tags:
+    - env::native
+    - host::xls01
