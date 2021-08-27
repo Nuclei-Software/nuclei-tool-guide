@@ -2,8 +2,8 @@ variables:
   DOC_SERVER: doc
   DOC_CENTER: /home/xl_ci/doc_center/nuclei_document
   DOC_NAME: template
-  IMAGE: rego.corp.nucleisys.com/software/nmsis_build
-  IMAGE_TAG: gcc10-ubuntu2004
+  IMAGE: rego.corp.nucleisys.com/software/docbuilder
+  IMAGE_TAG: latest
 
 default:
   tags:
@@ -25,8 +25,6 @@ build_doc:
       - build/html
     expire_in: 2 day
   before_script:
-    - apt update
-    - apt install -y lftp python3 make latexmk texlive-base texlive-latex-extra xindy python3-pip
     - pip3 install -r requirements.txt
   script:
     - make clean
