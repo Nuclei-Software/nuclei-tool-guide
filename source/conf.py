@@ -16,7 +16,7 @@ import sys
 
 # -- Project information -----------------------------------------------------
 
-project = 'Nuclei Documentation'
+project = 'Nuclei Template Documentation'
 copyright = '2019-Present, Nuclei'
 author = 'Nuclei'
 
@@ -43,8 +43,13 @@ extensions = [
     'breathe',
     'sphinx.ext.githubpages',
     'sphinx.ext.mathjax',
+    'sphinx.ext.autosectionlabel',
     'recommonmark'
 ]
+
+highlight_language = "c"
+autosectionlabel_prefix_document = True
+numfig = True
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -117,7 +122,12 @@ rst_prolog = """
 """
 
 rst_epilog = """
+.. |nuclei_core| replace:: Nuclei N/NX/UX Class Processors
+.. |nuclei_ncore| replace:: Nuclei N Class Processors
+.. |nuclei_nxcore| replace:: Nuclei NX Class Processors
+.. |nuclei_uxcore| replace:: Nuclei UX Class Processors
 """
+
 # -- Extension configuration -------------------------------------------------
 
 def setup(app):
