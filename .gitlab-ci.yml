@@ -18,10 +18,6 @@ stages:
 ## Job for build document
 build_doc:
   stage: build
-  only:
-    changes:
-      - ./**/**/**/*
-      - .gitlab-ci.yml
   retry: 1
   artifacts:
     name: "${DOC_NAME}-${CI_COMMIT_SHA::8}"
@@ -46,15 +42,12 @@ deploy_doc:
   only:
     refs:
       - master
-    changes:
-      - ./**/**/**/**/*
-      - .gitlab-ci.yml
   script:
     - ssh $DOC_SERVER "rm -rf $DOC_CENTER/$DOC_NAME/*"
     - ssh $DOC_SERVER "mkdir -p $DOC_CENTER/$DOC_NAME/"
     - cd build
     - scp -r html $DOC_SERVER:$DOC_CENTER/$DOC_NAME
-    - echo "see generated doc here: http://doc/nuclei_document/$DOC_NAME/html/index.html"
+    - echo "see generated html here http://doc/nuclei_document/$DOC_NAME/html/index.html"
   dependencies:
     - build_doc
   tags:
