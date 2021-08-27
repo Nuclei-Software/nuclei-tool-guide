@@ -2,6 +2,6 @@ docutils<0.17
 breathe~=4.30.0
 commonmark~=0.9.1
 recommonmark~=0.7.1
-Sphinx~=3.3.1
+Sphinx~=4.1.2
 sphinx-rtd-theme~=0.5.2
 sphinx_markdown_tables
