@@ -17,7 +17,7 @@
 注意一定要带上 ``_fig_clkdiag1`` , 这里的 ``clkdiag1`` 换成唯一的id， 后面的figure放置图片路径。
 ``:alt:`` 放置图片的标题，下面空一行，写图片的标题。引用这张图片的方法是 ``:ref:`fig_clkdiag1``` 。
 
-这里引用 图片 :ref:`fig_clkdiag1`
+这里引用 图片 :numref:`fig_clkdiag1`
 
 
 效果如下：

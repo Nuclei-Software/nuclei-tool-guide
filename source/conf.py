@@ -45,8 +45,10 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.autosectionlabel',
     'sphinx_markdown_tables',
+    'sphinxcontrib.wavedrom',
     'recommonmark'
 ]
+wavedrom_html_jsinline = False
 
 highlight_language = "c"
 autosectionlabel_prefix_document = True
