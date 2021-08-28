@@ -48,7 +48,7 @@ extensions = [
     'sphinxcontrib.wavedrom',
     'recommonmark'
 ]
-wavedrom_html_jsinline = False
+#wavedrom_html_jsinline = False
 
 highlight_language = "c"
 autosectionlabel_prefix_document = True
