@@ -129,3 +129,46 @@ ICB总线的初衷是为了能够尽可能地结合AXI总线和AHB总线的优�
    :alt: SRV300SoC总线
 
    SRV300SoC总线
+
+
+Test Wavedrom
+---------------
+
+.. wavedrom::
+
+        { "signal": [
+                { "name": "clk",  "wave": "P......" },
+                { "name": "bus",  "wave": "x.==.=x", "data": ["head", "body", "tail", "data"] },
+                { "name": "wire", "wave": "0.1..0." }
+        ]}
+
+
+
+Test Drawio
+---------------
+
+.. drawio-image:: /asserts/drawio/box.drawio
+    :export-width: 100
+    :align: center
+
+.. drawio-figure:: /asserts/drawio/box.drawio
+
+
+
+.. drawio-image:: /asserts/drawio/box.drawio
+   :align: center
+
+
+.. drawio-figure:: /asserts/drawio/flow.drawio
+   :align: center
+
+
+.. drawio-image:: /asserts/drawio/flow.drawio
+    :height: 100
+    :align: center
+
+.. drawio-figure:: /asserts/drawio/flow.drawio
+   :align: center
+   :alt: CPU Release Flow
+
+   CPU Release Flow

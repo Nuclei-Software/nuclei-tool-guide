@@ -46,9 +46,13 @@ extensions = [
     'sphinx.ext.autosectionlabel',
     'sphinx_markdown_tables',
     'sphinxcontrib.wavedrom',
+    "sphinxcontrib.drawio",
     'recommonmark'
 ]
 #wavedrom_html_jsinline = False
+
+drawio_headless=True
+drawio_no_sandbox=True
 
 highlight_language = "c"
 autosectionlabel_prefix_document = True

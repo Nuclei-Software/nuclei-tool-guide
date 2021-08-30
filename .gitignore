@@ -28,3 +28,5 @@ _build
 __pycache__
 *.pyc
 logs*
+node_modules
+*.deb
