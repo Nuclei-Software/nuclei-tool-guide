@@ -47,6 +47,7 @@ extensions = [
     'sphinx_markdown_tables',
     'sphinxcontrib.wavedrom',
     "sphinxcontrib.drawio",
+    'sphinxcontrib.plantuml',
     'recommonmark'
 ]
 #wavedrom_html_jsinline = False

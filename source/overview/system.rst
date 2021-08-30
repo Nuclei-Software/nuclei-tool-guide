@@ -175,3 +175,41 @@ Test Drawio
    :alt: CPU Release Flow
 
    CPU Release Flow
+
+Test UML
+---------------
+
+.. uml::
+   :caption: Caption with **bold** and *italic*
+   :width: 50mm
+   :align: center
+
+   Foo <|-- Bar
+
+.. uml::
+   :scale: 50 %
+   :align: center
+
+   Foo <|-- Bar
+
+.. uml::
+   :align: center
+
+   Alice -> Bob: Hi!
+   Alice <- Bob: How are you?
+
+.. uml::
+   :caption: Binary and Clock
+   :align: center
+
+   clock clk with period 1
+   binary "Enable" as EN
+
+   @0
+   EN is low
+
+   @5
+   EN is high
+
+   @10
+   EN is low
