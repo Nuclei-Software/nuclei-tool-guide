@@ -152,7 +152,10 @@ Test Drawio
     :align: center
 
 .. drawio-figure:: /asserts/drawio/box.drawio
+   :align: center
+   :alt: Box Testing
 
+   Box Testing
 
 
 .. drawio-image:: /asserts/drawio/box.drawio
