@@ -84,6 +84,8 @@ html_logo = 'asserts/logo/logo.png'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+html_search_language = "zh"
+
 html_theme_options = {
     'logo_only': True,
     'navigation_depth': 6
