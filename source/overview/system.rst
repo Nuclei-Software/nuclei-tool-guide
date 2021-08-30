@@ -181,13 +181,13 @@ Test UML
 
 .. uml::
    :caption: Caption with **bold** and *italic*
-   :width: 50mm
+   :width: 20mm
    :align: center
 
    Foo <|-- Bar
 
 .. uml::
-   :scale: 50 %
+   :scale: 100 %
    :align: center
 
    Foo <|-- Bar
