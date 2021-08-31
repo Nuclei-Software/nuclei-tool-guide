@@ -1,0 +1,45 @@
+
+
+Test Drawio
+---------------
+
+.. drawio-image:: /asserts/drawio/box.drawio
+    :export-width: 100
+    :align: center
+
+.. drawio-figure:: /asserts/drawio/box.drawio
+   :align: center
+   :alt: Box Testing
+
+   Box Testing
+
+
+.. drawio-image:: /asserts/drawio/box.drawio
+   :align: center
+
+
+.. drawio-figure:: /asserts/drawio/flow.drawio
+   :align: center
+
+
+.. drawio-image:: /asserts/drawio/flow.drawio
+    :height: 100
+    :align: center
+
+.. drawio-figure:: /asserts/drawio/flow.drawio
+   :align: center
+   :alt: CPU Release Flow
+
+   CPU Release Flow
+
+.. drawio-image:: /asserts/drawio/example.drawio
+   :align: center
+   :alt: Example DrawIO File, Sheet 1
+   :page-index: 0
+
+.. drawio-figure:: /asserts/drawio/example.drawio
+   :align: center
+   :alt: Example DrawIO File, Sheet 2
+   :page-index: 1
+   
+   drawio_figure_example

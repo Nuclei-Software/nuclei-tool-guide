@@ -1,5 +1,5 @@
-插入图片
---------
+Test Chinese Support
+====================
 
 图片请放在 ``source/asserts/images`` 目录下，插入图片的方法如下：
 
@@ -131,85 +131,3 @@ ICB总线的初衷是为了能够尽可能地结合AXI总线和AHB总线的优�
    SRV300SoC总线
 
 
-Test Wavedrom
----------------
-
-.. wavedrom::
-
-        { "signal": [
-                { "name": "clk",  "wave": "P......" },
-                { "name": "bus",  "wave": "x.==.=x", "data": ["head", "body", "tail", "data"] },
-                { "name": "wire", "wave": "0.1..0." }
-        ]}
-
-
-
-Test Drawio
----------------
-
-.. drawio-image:: /asserts/drawio/box.drawio
-    :export-width: 100
-    :align: center
-
-.. drawio-figure:: /asserts/drawio/box.drawio
-   :align: center
-   :alt: Box Testing
-
-   Box Testing
-
-
-.. drawio-image:: /asserts/drawio/box.drawio
-   :align: center
-
-
-.. drawio-figure:: /asserts/drawio/flow.drawio
-   :align: center
-
-
-.. drawio-image:: /asserts/drawio/flow.drawio
-    :height: 100
-    :align: center
-
-.. drawio-figure:: /asserts/drawio/flow.drawio
-   :align: center
-   :alt: CPU Release Flow
-
-   CPU Release Flow
-
-Test UML
----------------
-
-.. uml::
-   :caption: Caption with **bold** and *italic*
-   :width: 20mm
-   :align: center
-
-   Foo <|-- Bar
-
-.. uml::
-   :scale: 100 %
-   :align: center
-
-   Foo <|-- Bar
-
-.. uml::
-   :align: center
-
-   Alice -> Bob: Hi!
-   Alice <- Bob: How are you?
-
-.. uml::
-   :caption: Binary and Clock
-   :align: center
-
-   clock clk with period 1
-   binary "Enable" as EN
-
-   @0
-   EN is low
-
-   @5
-   EN is high
-
-   @10
-   EN is low
