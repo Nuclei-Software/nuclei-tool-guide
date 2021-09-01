@@ -28,10 +28,10 @@ scale: 50%:
 
    Foo <|-- Bar
 
-width: 50%:
+width: 20%:
 
 .. uml::
-   :width: 50 %
+   :width: 20 %
 
    Foo <|-- Bar
 
@@ -42,11 +42,11 @@ height: 400px:
 
    Foo <|-- Bar
 
-width: 10px * 1000%:
+width: 100px * 100%:
 
 .. uml::
-   :scale: 1000 %
-   :width: 10px
+   :scale: 100 %
+   :width: 100px
 
    Foo <|-- Bar
 

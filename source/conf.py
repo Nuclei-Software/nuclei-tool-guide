@@ -52,7 +52,7 @@ extensions = [
     'sphinxcontrib.plantuml',
     'recommonmark'
 ]
-#wavedrom_html_jsinline = False
+wavedrom_html_jsinline = False
 
 drawio_headless=True
 drawio_no_sandbox=True
