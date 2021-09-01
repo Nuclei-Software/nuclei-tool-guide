@@ -31,7 +31,7 @@ build_doc:
     - make clean
     - make all
     - make latexpdf
-    - cp build/latex/*.pdf build/html/
+    - cp build/latex/nuclei_*.pdf build/html/
 
 ## Job for deploy document to internal server
 deploy_doc:
