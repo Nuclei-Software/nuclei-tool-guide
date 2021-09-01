@@ -1,3 +1,8 @@
+.. raw:: latex
+
+    \listoffigures
+    \listoftables
+
 .. _copyright:
 
 版权声明

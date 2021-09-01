@@ -131,3 +131,172 @@ ICB总线的初衷是为了能够尽可能地结合AXI总线和AHB总线的优�
    SRV300SoC总线
 
 
+Test tables
+------------
+
+.. _table_core_csr_1:
+.. table:: CSR supported in the Nuclei processor core
+   :widths: 40,30,30,50,200
+
+   +------------+---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   | Type       | Address | R & W | Name          | Description                                                                                           |
+   +------------+---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   | | RISC-V   || These CSRs are following RISC-V standard privileged architecture specification.                                                        |
+   | | Standard || This document will not repeat its content here,                                                                                        |
+   | | CSRs     || please refer to RISC-V standard privileged architecture specification for more details.                                                |
+   +------------+---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   || Nuclei    | 0x307   | MRW   | mtvt          | ECLIC Interrupt Vector Table Base Address                                                             |
+   || Customized+---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   || CSRs      | Ox345   | MRW   | mnxti         | Used to enable taking the next interrupt and return the entry address of the next interrupt handler.  |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x346   | MRO   | mintstatus    | Current Interrupt Levels                                                                              |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x348   | MRW   | mscratchcsw   | Scratch swap register for privileged mode.                                                            |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x349   | MRW   | mscratchcswl  | Scratch swap register for interrupt levels.                                                           |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x320   | MRW   | mcountinhibit | Customized register used to control the on & off of counters                                          |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7c0   | MRW   | milm_ctl      | Enable/Disable the ILM address space.                                                                 |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7c1   | MRW   | mdlm_ctl      | Enable/Disable the DLM address space.                                                                 |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7c2   | MRW   | mecc_code     | ECC code injection register, can be used to simulate ECC error                                        |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7c3   | MRO   | mnvec         | Customized register used to indicate the NMI handler entry address                                    |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7c4   | MRW   | msubm         | Customized register storing current trap type and the previous trap type before trapped.              |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7c9   | MRW   | mdcause       | Customized register storing current trap's detailed cause.                                            |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7ca   | MRW   | mcache_ctl    | Customized register to control the cache features.                                                    |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7d0   | MRW   | mmisc_ctl     | Customized register controlling the selection of the NMI Handler Entry Address.                       |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7d6   | MRW   | msavestatus   | Customized register storing the value of mstatus.                                                     |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7d7   | MRW   | msaveepc1     | Customized register storing the value of mepc for the first-level preempted NMI or Exception.         |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7d8   | MRW   | msavecause1   | Customized register storing the value of mcause for the first-level preempted NMI or Exception.       |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7d9   | MRW   | msaveepc2     | Customized register storing the value of mepc for the second-level preempted NMI or Exception.        |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7da   | MRW   | msavecause2   | Customized register storing the value of mcause for the second-level preempted NMI or Exception.      |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7dd   | MRW   | mtlb_ctl      | TLB control register                                                                                  |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7de   | MRW   | mecc_lock     | To lock ECC configure registers, then all the ECC related CSRs cannot be modified, unless by reset    |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7eb   | MRW   | pushmsubm     | Customized register used to push the value of msubm into the stack memory.                            |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7ec   | MRW   | mtvt2         | Customized register used to indicate the common handler entry address of non-vectored interrupts.     |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7ed   | MRW   | jalmnxti      | | Customized register used to enable the ECLIC interrupt.                                             |
+   |            |         |       |               | | The read operation of this register will take the next interrupt, return the entry address of next  |
+   |            |         |       |               | | interrupt handler, and jump to the corresponding handler at the same time.                          |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7ee   | MRW   | pushmcause    | Customized register used to push the value of mcause into the stack memory.                           |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7ef   | MRW   | pushmepc      | Customized register used to push the value of mepc into the stack memory.                             |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7f0   | MRO   | mppicfg_info  | PPI configuration information.                                                                        |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x7f1   | MRO   | mfiocfg_info  | FIO configuration information.                                                                        |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x811   | MRW   | sleepvalue    | Customized register used to indicate the WFI sleep mode.                                              |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x812   | MRW   | txevt         | Customized register used to send an event.                                                            |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0x810   | MRW   | wfe           | Customized register used to control the WFE mode.                                                     |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0xfc0   | MRO   | micfg_info    | ILM and I-Cache configuration information.                                                            |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0xfc1   | MRO   | mdcfg_info    | DLM and D-Cache configuration information.                                                            |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0xfc2   | MRO   | mcfg_info     | Processor configuration information.                                                                  |
+   |            +---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+   |            | 0xfc3   | MRO   | mtlbcfg_info  | TLB configuration info.                                                                               |
+   +------------+---------+-------+---------------+-------------------------------------------------------------------------------------------------------+
+
+.. table:: mcause register
+   :widths: 50,30,110,150
+
+   ============= ======= =================================== ====================================================
+   **Field**     **Bit** **Description**                     **Note**
+   **INTERRUPT** 31      Current trap type:
+
+                         - 0: Exception or NMI
+                         - 1: Interrupt
+   **MINHV**     30      | Indicate processer is reading     | Note: These fields are only effect in CLIC mode.
+                         | interrupt vector table            | When in CLINT mode, these field is masked read
+                                                             | as zero, write ignored.
+   **MPP**       29:28   privilege mode before interrupt
+   **MPIE**      27      Interrupt enable before interrupt
+   **Reserved**  26:24   Reserved 0
+   **MPIL**      23:16   Previous interrupt level
+   **Reserved**  15:12   Reserved 0
+   **EXCCODE**   11:0    Exception/Interrupt Encoding
+   ============= ======= =================================== ====================================================
+
+
+.. table:: msubm register
+   :widths: 50,30,160
+
+   ============ ======= ==========================================
+   **Field**    **Bit** **Description**
+   **Reserved** 31:10   Reserved 0
+   **PTYP**     9:8     Machine sub-mode before entering the trap:
+
+                        -  0: Normal machine mode
+                        -  1: Interrupt handling mode
+                        -  2: Exception handling mode
+                        -  3: NMI handling mode
+   **TYP**      7:6     Current machine sub-mode:
+
+                        -  0: Normal machine mode
+                        -  1: Interrupt handling mode
+                        -  2: Exception handling mode
+                        -  3: NMI handling mode
+   **Reserved** 5:0     Reserved 0
+   ============ ======= ==========================================
+
+
+.. list-table:: Make targets supported by Nuclei SDK Build System
+   :widths: 20 80
+   :header-rows: 1
+   :align: center
+
+   * - target
+     - description
+   * - help
+     - display help message of Nuclei SDK build system
+   * - info
+     - display selected configuration information
+   * - all
+     - build application with selected configuration
+   * - clean
+     - clean application with selected configuration
+   * - dasm
+     - build and dissemble application with selected configuration
+   * - bin
+     - build and generate application binary with selected configuration
+   * - upload
+     - build and upload application with selected configuration
+   * - run_openocd
+     - run openocd server with selected configuration
+   * - run_gdb
+     - build and start gdb process with selected configuration
+   * - debug
+     - build and debug application with selected configuration
+   * - size
+     - show program size
+
+.. csv-table:: Balance Sheet
+   :header: Description,In,Out,Balance
+   :widths: 20, 10, 10, 10
+   :stub-columns: 1
+
+   Travel,,230.00,-230.00
+   Fees,,400.00,-630.00
+   Grant,700.00,,70.00
+   Train Fare,,70.00,**0.00**
