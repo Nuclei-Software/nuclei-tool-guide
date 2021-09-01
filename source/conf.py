@@ -57,6 +57,9 @@ extensions = [
 drawio_headless=True
 drawio_no_sandbox=True
 
+offline_skin_js_path = "asserts/default.js"
+offline_wavedrom_js_path = "asserts/wavedrom.js"
+
 highlight_language = "c"
 autosectionlabel_prefix_document = True
 numfig = True
