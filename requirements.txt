@@ -8,3 +8,4 @@ sphinx_markdown_tables
 sphinxcontrib-wavedrom
 sphinxcontrib-plantuml
 sphinxcontrib-drawio
+sphinxcontrib-svg2pdfconverter

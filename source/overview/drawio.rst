@@ -43,3 +43,17 @@ Test Drawio
    :page-index: 1
    
    drawio_figure_example
+
+.. figure:: /asserts/images/flow.svg
+   :width: 40 %
+   :align: center
+   :alt: Flow
+
+   Flow
+
+.. figure:: /asserts/images/example.svg
+   :height: 100
+   :align: center
+   :alt: Example
+
+   Example

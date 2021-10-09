@@ -48,6 +48,7 @@ extensions = [
     'sphinx.ext.autosectionlabel',
     'sphinx_markdown_tables',
     'sphinxcontrib.wavedrom',
+    'sphinxcontrib.inkscapeconverter',
     "sphinxcontrib.drawio",
     'sphinxcontrib.plantuml',
     'recommonmark'

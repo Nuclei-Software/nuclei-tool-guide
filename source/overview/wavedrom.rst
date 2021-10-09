@@ -166,6 +166,8 @@ Head, foot, tock, text
 H1, h2, h3, h4, h5, h6, muted, warning, error, info, success
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+This is testing multi level.
+
 .. wavedrom::
 
 	{"signal": [
@@ -175,12 +177,12 @@ H1, h2, h3, h4, h5, h6, muted, warning, error, info, success
 	],
 	"head": {"text":
 	  	["tspan",
-	  	  	["tspan", {"class":"error h1"}, "error "],
-	  	  	["tspan", {"class":"warning h2"}, "warning "],
-	  	  	["tspan", {"class":"info h3"}, "info "],
-	  	  	["tspan", {"class":"success h4"}, "success "],
-	  	  	["tspan", {"class":"muted h5"}, "muted "],
-	  	  	["tspan", {"class":"h6"}, "h6 "],
+	  	  	["tspan", {"class":"error h2"}, "error "],
+	  	  	["tspan", {"class":"warning h3"}, "warning "],
+	  	  	["tspan", {"class":"info h4"}, "info "],
+	  	  	["tspan", {"class":"success h5"}, "success "],
+	  	  	["tspan", {"class":"muted h6"}, "muted "],
+	  	  	["tspan", {"class":"h6"}, "h7 "],
 	  	  	"default ",
 	  	  	["tspan", {"fill":"pink", "font-weight":"bold", "font-style":"italic"}, "pink-bold-italic"]
 	  	]
