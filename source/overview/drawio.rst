@@ -1,7 +1,10 @@
 
+Test Drawio and SVG
+========================
 
-Test Drawio
----------------
+DrawIO
+------
+
 
 .. drawio-image:: /asserts/drawio/box.drawio
     :export-width: 100
@@ -44,6 +47,14 @@ Test Drawio
    
    drawio_figure_example
 
+.. drawio-figure:: /asserts/drawio/vsmf_femv2.drawio
+   :align: center
+   
+   vsmf_femv2
+
+SVG
+----
+
 .. figure:: /asserts/images/flow.svg
    :width: 40 %
    :align: center
@@ -57,3 +68,15 @@ Test Drawio
    :alt: Example
 
    Example
+
+.. figure:: /asserts/images/vsmf_fem.svg
+   :align: center
+   :alt: VSMF
+
+   VSMF
+
+.. figure:: /asserts/images/vsmf_femv2.svg
+   :align: center
+   :alt: VSMFv2
+
+   VSMFv2
