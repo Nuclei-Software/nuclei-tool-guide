@@ -22,8 +22,9 @@ help:
 all:
 	make html
 
-firefox:
-	firefox build/html/index.html
+pdf: all
+	make latexpdf
+	cp -f build/latex/nuclei_*.pdf build/html/
 
-firefox_pdf:
-	firefox build/latex/nuclei_*.pdf
+preview:
+	httpserver_cli -d build/html/

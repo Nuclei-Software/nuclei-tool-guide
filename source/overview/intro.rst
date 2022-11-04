@@ -19,3 +19,8 @@ customized csr support, nuclei openocd flashloader support.
 Nuclei QEMU is built on QEMU project, adding Nuclei N/NX/UX RISC-V processor support,
 which works with Nuclei SDK and Nuclei Linux SDK.
 
+.. note::
+
+    To get a pdf version of this documentation, please click `Nuclei Development Tool User Guide`_
+
+.. _Nuclei Development Tool User Guide: ../nuclei_tool_user_guide.pdf

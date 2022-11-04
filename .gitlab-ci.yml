@@ -21,6 +21,10 @@ build_doc:
   stage: build
   interruptible: true
   retry: 1
+  only:
+    refs:
+      - master
+      - merge_requests
   artifacts:
     name: "${DOC_NAME}-${CI_COMMIT_SHA::8}"
     paths:
@@ -31,9 +35,7 @@ build_doc:
       #- npm i wavedrom-cli
   script:
     - make clean
-    - make all
-    - make latexpdf
-    - cp build/latex/nuclei_*.pdf build/html/
+    - make pdf
 
 ## Job for deploy document to internal server
 deploy_doc:
