@@ -9,6 +9,7 @@ default:
   tags:
     - env::docker
     - net::outside
+    - host::whml1
   image: $IMAGE:$IMAGE_TAG
 
 stages:
@@ -18,6 +19,7 @@ stages:
 ## Job for build document
 build_doc:
   stage: build
+  interruptible: true
   retry: 1
   artifacts:
     name: "${DOC_NAME}-${CI_COMMIT_SHA::8}"
@@ -36,6 +38,7 @@ build_doc:
 ## Job for deploy document to internal server
 deploy_doc:
   stage: deploy
+  interruptible: true
   when: manual
   needs:
     - job: build_doc
