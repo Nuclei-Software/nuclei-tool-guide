@@ -2,19 +2,20 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Nuclei documentation!
-================================
+Welcome to Nuclei Tool User Guide!
+==================================
 
 .. toctree::
    :maxdepth: 3
    :numbered:
    :caption: Contents
 
-   copyright.rst
-   contact.rst
    changelog.rst
    overview/index.rst
-   errata.rst
+   ide/index.rst
+   toolchain/index.rst
+   openocd/index.rst
+   qemu/index.rst
    glossary.rst
    appendix.rst
 

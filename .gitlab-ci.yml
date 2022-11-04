@@ -1,7 +1,7 @@
 variables:
   DOC_SERVER: doc
   DOC_CENTER: /home/xl_ci/doc_center/nuclei_document
-  DOC_NAME: template
+  DOC_NAME: nuclei_tools
   IMAGE: rego.corp.nucleisys.com/software/docbuilder
   IMAGE_TAG: latest
 
@@ -24,9 +24,9 @@ build_doc:
     paths:
       - build/html
     expire_in: 2 day
-  before_script:
-    - pip3 install -r requirements.txt
-    - npm i wavedrom-cli
+    #before_script:
+      #- pip3 install -r requirements.txt
+      #- npm i wavedrom-cli
   script:
     - make clean
     - make all
@@ -36,7 +36,9 @@ build_doc:
 ## Job for deploy document to internal server
 deploy_doc:
   stage: deploy
-  when: on_success
+  when: manual
+  needs:
+    - job: build_doc
   retry: 1
   only:
     refs:

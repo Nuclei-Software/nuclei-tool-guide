@@ -1,7 +1,7 @@
-.. _overview:
+.. _openocd:
 
-Overview
-========
+Nuclei OpenOCD
+==============
 
 
 .. toctree::

@@ -21,11 +21,8 @@ Here are the steps to build the documentation:
 
 ~~~shell
 # in host pc, run this podman image
-podman run -it -v /home/$(whoami):/home/$(whoami) rego.corp.nucleisys.com/software/docbuilder:latest
+podman run -it -v $(pwd):/nuclei/workspace rego.corp.nucleisys.com/software/docbuilder:latest
 # in docker image now
-cd /path/to/your/doc
-pip3 install -r requirements.txt
-npm i wavedrom-cli
 # build html doc, html doc will be saved in build/html
 make html
 # build pdf doc, pdf doc will be saed in build/latex
