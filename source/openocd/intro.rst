@@ -93,7 +93,7 @@ Nuclei's SPI controller, used in Nuclei RISC-V fpga evaluation board and other b
 
 .. rubric:: Custom driver and open-flashloader
 
-Custom exists for compatibility with any SPI controller and any Flash. It also needs to be used in conjunction with 
+Custom exists for compatibility with any SPI controller and any Flash. It also needs to be used in conjunction with
 openflashloader to achieve the desired results.
 
 ``flash bank name custom base size chip_width bus_width target spi_base flashloader_path [simulation] [sectorsize=]``
@@ -108,8 +108,8 @@ Nuclei released openocd supports a number of nuclei customized CSRs, please chec
 
     Still in experiment stage, not for production usage.
 
-Some Nuclei cpus are equipped with trace support, which permits examination of the instruction activity. Trace 
-activity is controlled through an Embedded Trace(Etrace) Module on the core's scan chains. The following 
+Some Nuclei cpus are equipped with trace support, which permits examination of the instruction activity. Trace
+activity is controlled through an Embedded Trace(Etrace) Module on the core's scan chains. The following
 commands are for etrace.
 
 ``nuclei etrace config etrace-addr buffer-addr buffer-size wrap``
@@ -146,8 +146,8 @@ This command displays the current Etrace status.
 
 .. rubric:: Init resethalt command
 
-In practice, usually encountered due to software problems caused by the CPU stuck, then the debugger will not 
-be connected to the development board, only to the development board power off. If your code is running in 
+In practice, usually encountered due to software problems caused by the CPU stuck, then the debugger will not
+be connected to the development board, only to the development board power off. If your code is running in
 flash, powering down the board will not solve the problem. resethalt is designed to solve this problem.
 
 ``init resethalt``
@@ -165,13 +165,37 @@ The openocd configuration file is used to configure how to connect to the develo
 through the Debug interface. nuclei provides an example of the openocd configuration file, which can
 be modified based on the example.
 
+Here we take example using Nuclei HBird Debugger(FTDI based) as to explain this openocd configuration file.
+
+Here is an working example for openocd configuration file https://github.com/Nuclei-Software/nuclei-sdk/blob/master/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg
+
 .. rubric:: Modify debugger rate
 
 ``adapter_khz 1000`` or ``adapter speed 1000``
 
+.. rubric:: Select debugger interface
+
+.. code-block:: c
+
+    adapter driver ftdi
+    ftdi vid_pid 0x0403 0x6010
+
+    transport select jtag
+
+    ftdi layout_init 0x0008 0x001b
+    ftdi layout_signal nSRST -oe 0x0020 -data 0x0020
+    ftdi layout_signal TCK -data 0x0001
+    ftdi layout_signal TDI -data 0x0002
+    ftdi layout_signal TDO -input 0x0004
+    ftdi layout_signal TMS -data 0x0008
+    ftdi layout_signal JTAG_SEL -data 0x0100 -oe 0x0100
+
+The above code are used to select fdti debugger, the ftdi chip pid/vid must match selected id,
+transport is selected as JTAG, and ftdi layout is setup to match HBird Debugger hardware settings.
+
 .. rubric:: Modify debugger mode
 
-There are two debugging modes JTAG and cJATG.
+There are two debugging modes JTAG and cJTAG.
 
 * JTAG <-> ``ftdi nscan1_mode off``
 
@@ -182,7 +206,6 @@ There are two debugging modes JTAG and cJATG.
 * single core
 
 .. code-block:: c
-    :linenos:
 
     set _CHIPNAME0 riscv0
     jtag newtap $_CHIPNAME0 cpu -irlen 5 -expected-id 0x10900a6d
@@ -193,7 +216,6 @@ There are two debugging modes JTAG and cJATG.
 * smp system
 
 .. code-block:: c
-    :linenos:
 
     set _CHIPNAME0 riscv0
     jtag newtap $_CHIPNAME0 cpu -irlen 5 -expected-id 0x10900a6d
@@ -207,7 +229,6 @@ There are two debugging modes JTAG and cJATG.
 * amp system
 
 .. code-block:: c
-    :linenos:
 
     set _CHIPNAME0 riscv0
     jtag newtap $_CHIPNAME0 cpu -irlen 5 -expected-id 0x10900a6d
@@ -237,13 +258,12 @@ There are two debugging modes JTAG and cJATG.
 
 .. rubric:: Describe the workarea
 
-workarea is mainly used to speed up certain operations, such as reading and writing large 
+workarea is mainly used to speed up certain operations, such as reading and writing large
 chunks of memory, running small program fragments, reading and writing flash, and so on.
 
 .. code-block:: c
-    :linenos:
 
-    $_TARGETNAME0.0 configure -work-area-phys 0x08000000 -work-area-size 0x10000 -work-area-backup 1
+    $_TARGETNAME0 configure -work-area-phys 0x08000000 -work-area-size 0x10000 -work-area-backup 1
 
 .. note::
 
@@ -256,7 +276,6 @@ chunks of memory, running small program fragments, reading and writing flash, an
 .. rubric:: Describe the nor flash
 
 .. code-block:: c
-    :linenos:
 
     set _FLASHNAME0 $_CHIPNAME0.flash
     flash bank $_FLASHNAME0 nuspi 0x20000000 0 0 0 $_TARGETNAME0.0 0x10180000
@@ -271,22 +290,20 @@ chunks of memory, running small program fragments, reading and writing flash, an
 
 .. rubric:: Connect to the specified debugger
 
-When there is more than one debugger in a debugging environment, we need to connect to 
+When there is more than one debugger in a debugging environment, we need to connect to
 specify the debugger, in this case you can use the following command to specify.
 
 .. code-block:: c
-    :linenos:
 
     ftdi_serial FT4YR31I
 
 .. rubric:: How to set up gdb/telnet/tcl ports
 
-openocd provides three kinds of debugging service ports are gdb/telnet/tcl, choose 
-the appropriate service according to the situation, and set the port number of the 
+openocd provides three kinds of debugging service ports are gdb/telnet/tcl, choose
+the appropriate service according to the situation, and set the port number of the
 corresponding service by the following command.
 
 .. code-block:: c
-    :linenos:
 
     gdb_port 3333
     telnet_port 4444
@@ -294,8 +311,8 @@ corresponding service by the following command.
 
 .. note::
 
-    The above shows the default port number, you are free to change the port number 
-    if it is free. Of course we can also disable the port numbers we don't need, it's 
+    The above shows the default port number, you are free to change the port number
+    if it is free. Of course we can also disable the port numbers we don't need, it's
     easy just change the port number to `disable`.
 
 .. rubric:: semihosting
@@ -303,16 +320,16 @@ corresponding service by the following command.
 OpenOCD also supports the ARM semihosting feature, use the following command to enable it.
 
 .. code-block:: c
-    :linenos:
 
     arm semihosting enable
 
+
+For more detailed information about how to use openocd, please check the ``openocd.pdf`` distributed in openocd release.
 Frequently asked questions
 ==========================
 
 There are a few more FAQs please see: https://github.com/riscv-mcu/riscv-openocd/wiki
 
-And more detailed information about how to use openocd, please check the ``openocd.pdf`` distributed in openocd release.
 
 Low-cost debugger solution
 ==========================
