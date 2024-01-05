@@ -10,7 +10,7 @@ Welcome to Nuclei Tool User Guide!
    :numbered:
    :caption: Contents
 
-   overview/index.rst
+   overview/intro.rst
    ide/index.rst
    toolchain/index.rst
    openocd/index.rst
