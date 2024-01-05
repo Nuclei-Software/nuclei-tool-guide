@@ -1,11 +1,13 @@
 .. _toolchain_gnu_intro:
 
 About GNU Toolchain
--------------------
-    The official toolchain repository is located at https://github.com/riscv-collab/riscv-gnu-toolchain.git. Our Nuclei own toolchain is located at https://github.com/riscv-mcu/riscv-gnu-toolchain, and the branch is nuclei/2023, in which the submodule versions are: gcc13, binutils2.40, gdb13.2, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
+===================
+
+The official toolchain repository is located at https://github.com/riscv-collab/riscv-gnu-toolchain.git.
+Nuclei maintained toolchain repo is located at https://github.com/riscv-mcu/riscv-gnu-toolchain, and the branch is ``nuclei/2023``, in which the tools included versions are: gcc13, binutils2.40, gdb13.2, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
 
 Extensions Support
-------------------
+==================
 
 .. rubric:: Standard Extensions
 
@@ -65,11 +67,13 @@ Extensions Support
     xxlczpstinc, xxlczbmrk, xxlczbitop, xxlczslet, xxlczabs, xxlczmac, xxlczbri, xxlczbitrev, xxlczgp.
 
 .. note::
+
     Extensions starting with **x** are generally reserved for manufacturers to customize, and should be placed after extensions starting with **z** when used.
 
 
 General Options
----------------
+===============
+
 `-march=ISA-string`
 
     Generate code for given RISC-V ISA. ISA strings must be lower-case. Examples include ``rv64i``, ``rv32g``, ``rv32e``, and ``rv32imaf``. When ``-march=`` is not specified, use the setting from ``-mcpu``. If both ``-march`` and ``-mcpu=`` are not specified, the default for this argument is system dependent, users who want a specific architecture extensions should specify one explicitly.
@@ -108,18 +112,29 @@ General Options
 
     `-O2`
         Optimize even more. GCC performs nearly all supported optimizations that do not involve a space-speed tradeoff. As compared to -O, this option increases both compilation time and the performance of the generated code.
-    
+
     `-O3`
         This option turns on all options in -O2, as well as several other optimizations to improve the performance of the object code.
-    
+
     `-Os`
         This optimization option is often used to tell the compiler to reduce the size of the object code as much as possible while maintaining performance. It will remove some optimization strategies that increase the object code size from all options enabled by -O2.
-    
+
     `-Ofast`
         Disregard strict standards compliance. -Ofast enables all -O3 optimizations. It also enables optimizations that are not valid for all standard-compliant programs.
 
-Libraries Built into the Compiler
----------------------------------
+For more information about RISC-V Options used in GCC, please check https://gcc.gnu.org/onlinedocs/gcc-13.1.0/gcc/RISC-V-Options.html
+
+For RISC-V ELF psABI Document, please check https://github.com/riscv-non-isa/riscv-elf-psabi-doc
+
+
+Libraries
+=========
+
+.. note::
+
+   - ``glibc`` is used in Linux GNU Glibc toolchain used to compile linux kernel, opensbi, uboot, and linux applications.
+   - ``newlibc`` is used in Baremetal or RTOS toolchain, used to compile baremetal or rtos source code, which contains ``newlib``, ``newlib-nano`` and ``libncrt``
+
 `glibc`
 
     glibc stands for GNU C Library which is the standard system C library for all GNU systems. It provides the system API for all programs written in C and C-compatible languages such as C++ and Objective C; the runtime facilities of other programming languages use the C library to access the underlying operating system. This library is only supported on Nuclei linux toolchain, not on Nuclei bare-metal toolchain.
@@ -134,10 +149,10 @@ Libraries Built into the Compiler
 
 `libncrt`
 
-    After our modifications, emRun was released as a nuclei C runtime library, known as libncrt.
+    ``libncrt`` is short of Nuclei C Runtime Library, which currently support Nuclei RV32 processor, which is released by Nuclei to reduce c library code size, and improve math library speed, for details, please refer to the user guide located in ``gcc\share\pdf\Nuclei C Runtime Library Doc.pdf``
 
 Significant Changes Brought by GCC13 Compared to GCC10
-------------------------------------------------------
+======================================================
 
 - Instead of using single-letter ``bkp`` to enable these extensions as we did on gcc10, we split them all into corresponding sub-extensions, for example, ``_zba_zkr_zve32f``.
 
@@ -154,7 +169,7 @@ Significant Changes Brought by GCC13 Compared to GCC10
 - The version of the libncrt was changed from v1.0.0 to v3.0.0, and libncrt is now split into three parts, 'libncrt', 'heapops' and 'fileops'.
 
 Install and Setup
------------------
+=================
 
 .. rubric:: Build Toolchain
 

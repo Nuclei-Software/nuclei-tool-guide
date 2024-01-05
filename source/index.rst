@@ -10,12 +10,12 @@ Welcome to Nuclei Tool User Guide!
    :numbered:
    :caption: Contents
 
-   changelog.rst
    overview/index.rst
    ide/index.rst
    toolchain/index.rst
    openocd/index.rst
    qemu/index.rst
+   changelog.rst
    glossary.rst
    appendix.rst
 

@@ -1,11 +1,12 @@
 .. _toolchain_llvm_intro:
 
 About LLVM Toolchain
---------------------
-    The current llvm toolchain is developed based on the upstream V17.0, and only Nuclei custom CSR is supported.
+====================
+
+The current llvm toolchain is developed based on the upstream V17.0, and only Nuclei custom CSR is supported.
 
 Extensions Support
-------------------
+==================
 
 .. rubric:: Ratified Extensions
 
@@ -52,10 +53,12 @@ LLVM supports (to various degrees) a number of experimental extensions.  All exp
     smaia, ssaia, zacas, zfa, zfbfmin, zvfbfmin, zvfbfwma, zicond, zihintntl, ztso, zvbb, zvbc, zvkg, zvkn, zvknc, zvkned, zvkng, zvknha, zvknhb, zvks, zvksc, zvksed, zvksg, zvksh, zvkt.
 
 .. note::
+
     To use an experimental extension from `clang`, you must add ``-menable-experimental-extensions`` to the command line, and specify the exact version of the experimental extension you are using.  To use an experimental extension with LLVM's internal developer tools (e.g. `llc`, `llvm-objdump`, `llvm-mc`), you must prefix the extension name with ``experimental-``.
 
 General Options
----------------
+===============
+
 `-march=<cpu>`
 
     Specify that Clang should generate code for a specific processor family member and later. For example, if you specify -march=i486, the compiler is allowed to generate instructions that are valid on i486 and later processors, but which may not exist on earlier ones.
@@ -88,8 +91,9 @@ General Options
     `-Os`
         Like -O2 with extra optimizations to reduce code size.
 
+For more about RISC-V options used by LLVM toolchain, please check https://releases.llvm.org/17.0.1/docs/RISCVUsage.html
 
 Install and Setup
------------------
+=================
 
 More information on building and running LLVM, see https://llvm.org/docs/GettingStarted.html#getting-the-source-code-and-building-llvm
