@@ -41,7 +41,7 @@ build_doc:
 deploy_doc:
   stage: deploy
   interruptible: true
-  when: manual
+  #when: manual
   needs:
     - job: build_doc
   retry: 1
