@@ -44,8 +44,9 @@ jobs:
           FTPUSER: ${{ secrets.FTPUSER }}
           FTPPWD: ${{ secrets.FTPPWD }}
           FTPSERVER: ${{ secrets.FTPSERVER }}
-      run: |
+      un: |
         bash .github/ftp_deploy.sh $FTPUSER $FTPPWD $FTPSERVER build/html nuclei_tools
+        echo "Click https://doc.nucleisys.com/nuclei_tools to view the latest deployment!"
 
     - name: Upload Documentation
       uses: actions/upload-artifact@v3
