@@ -14,7 +14,9 @@ Design and Architecture
 Nuclei QEMU has several types of parameters that can be configured.
 You can enter qemu-system-riscv32 --help to view the parameters that can be configured in Nuclei QEMU. Here are some commonly used parameters:
 
-* ``qemu-system-riscv32`` or ``qemu-system-riscv64``: The main program for the QEMU RISC-V architecture is divided into qemu-system-riscv32 and qemu-system-riscv64. Specifically, qemu-system-riscv32 corresponds to 32-bit architecture CPUs such as N200, N300, N600, and others. On the other hand, qemu-system-riscv64 corresponds to 64-bit architecture CPUs like NX600, NX900, and similar series. U-series processors come with an MMU (Memory Management Unit) and are capable of running Linux.The following image displays the CPU types supported by Nuclei QEMU.
+* ``qemu-system-riscv32`` or ``qemu-system-riscv64``: The main program for the QEMU RISC-V architecture is divided into ``qemu-system-riscv32`` and ``qemu-system-riscv64``.
+
+  ``qemu-system-riscv32`` corresponds to 32-bit architecture CPUs such as N200, N300, N600, and others. On the other hand, ``qemu-system-riscv64`` corresponds to 64-bit architecture CPUs like NX600, NX900, and similar series. U-series processors come with an MMU (Memory Management Unit) and are capable of running Linux. The following image displays the CPU types supported by Nuclei QEMU.
 
 .. figure:: /asserts/images/qemu_nuclei_cpus_support.png
    :align: center
@@ -22,7 +24,7 @@ You can enter qemu-system-riscv32 --help to view the parameters that can be conf
 
 * ``-M nuclei_evalsoc,download=ilm``: ``-M`` represents ``machine``, which means selecting the type of machine. Currently, Nuclei QEMU has added "nuclei_demosoc" (which will be deprecated in future versions) and "nuclei_evalsoc" to the existing options. "download=" is used to choose the download mode, and currently, it supports four download modes: ``flashxip, flash, ilm, and ddr``.
 
-* ``-cpu nuclei-nx900fd,ext=_xxldsp``: Using the ``-cpu`` option, you can specify the type of Nuclei core.The way to enable different extensions is to add them inside it, for example, 'xxldsp' represents enabling the CoreXtend DSP extension. Currently, Nuclei QEMU supports the following common RISC-V instruction set extension types:
+* ``-cpu nuclei-nx900fd,ext=_xxldsp``: Using the ``-cpu`` option, you can specify the type of Nuclei core. The way to enable different extensions is to add them inside it, for example, 'xxldsp' represents enabling the CoreXtend DSP extension. Currently, Nuclei QEMU supports the following common RISC-V instruction set extension types:
 
 +--------------+-------------------------------------------------------------------------+
 | Extension Name       | Extension Functionality                                         |
