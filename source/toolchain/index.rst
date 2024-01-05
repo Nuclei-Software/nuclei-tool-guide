@@ -8,3 +8,4 @@ Nuclei Toolchain
    :maxdepth: 3
 
    gnu/index.rst
+   llvm/index.rst
