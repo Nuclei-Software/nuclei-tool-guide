@@ -23,7 +23,7 @@ Repository and Doc
 
 - gitee openflashloader: https://gitee.com/riscv-mcu/openflashloader
 
-**openocd doc path**: ``openocd\doc\pdf\openocd.pdf``
+**openocd doc path**: ``openocd/doc/pdf/openocd.pdf``
 
 How to Use
 ==========
@@ -104,6 +104,10 @@ Nuclei released openocd supports a number of nuclei customized CSRs, please chec
 
 .. rubric:: Nuclei embedded trace
 
+.. note::
+
+    Still in experiment stage, not for production usage.
+
 Some Nuclei cpus are equipped with trace support, which permits examination of the instruction activity. Trace 
 activity is controlled through an Embedded Trace(Etrace) Module on the core's scan chains. The following 
 commands are for etrace.
@@ -157,8 +161,8 @@ Enable or disable Nuclei CJTAG mode. Usage is the same as ftdi oscan1_mode.
 About the configuration file
 ============================
 
-The openocd configuration file is used to configure how to connect to the development board's window 
-through the Debug interface. nuclei provides an example of the openocd configuration file, which can 
+The openocd configuration file is used to configure how to connect to the development board's window
+through the Debug interface. nuclei provides an example of the openocd configuration file, which can
 be modified based on the example.
 
 .. rubric:: Modify debugger rate
@@ -308,7 +312,12 @@ Frequently asked questions
 
 There are a few more FAQs please see: https://github.com/riscv-mcu/riscv-openocd/wiki
 
+And more detailed information about how to use openocd, please check the ``openocd.pdf`` distributed in openocd release.
+
 Low-cost debugger solution
 ==========================
+
+We also provided a low cost mcu solution to debug RISC-V CPU, which support JTAG and cJTAG, please check the following
+repo to learn more about it.
 
 Nuclei Dlink: https://github.com/Nuclei-Software/nuclei-dlink

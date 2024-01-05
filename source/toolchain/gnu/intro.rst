@@ -15,7 +15,7 @@ Extensions Support
 
     i, m, a, f, d, c, h, q(Assembly only), zicsr, zifencei, zicond, zawrs, zfh, zfhmin, zmmul, svinval, svnapot.
 
-- Z*INX Extensions
+- Z*Inx Extensions
 
     zfinx, zdinx, zhinx, zhinxmin.
 
@@ -35,7 +35,7 @@ Extensions Support
 
     zve32x, zve32f, zve64x, zve64f, zve64d, zvfh, zvfhmin, v.
 
-- ZC Extensions
+- Zc Extensions
 
     zca, zcb, zce, zcf, zcd, zcmp, zcmt(Assembly only).
 
@@ -43,17 +43,17 @@ Extensions Support
     - f + zce =  zca + zcb + zcf + zcmp + zcmt
     - f + d + zce =  zca + zcb + zcf + zcd + zcmp + zcmt
 
-- ZVB Extensions
+- Zvb Extensions
 
     zvbb, zvbc
 
-- ZVK Extensions
+- Zvk Extensions
 
     zvkg, zvkned, zvknha, zvknhb, zvksed, zvksh, zvkn, zvknc, zvkng, zvks, zvksc, zvksg, zvkt.
 
 .. rubric:: Nuclei Custom Extensions
 
-- Packed SIMD Extensions
+- Packed SIMD Extension 0.5.4
 
     xxldsp, xxldspn1x, xxldspn2x, xxldspn3x.
 
@@ -62,7 +62,7 @@ Extensions Support
     - xxldspn2x: xxldsp + Nuclei Custom N1 & N2
     - xxldspn3x: xxldsp + Nuclei Custom N1 & N2 & N3
 
-- XLCZ Extensions
+- Xxlcz Extensions
 
     xxlczpstinc, xxlczbmrk, xxlczbitop, xxlczslet, xxlczabs, xxlczmac, xxlczbri, xxlczbitrev, xxlczgp.
 
@@ -154,19 +154,21 @@ Libraries
 Significant Changes Brought by GCC13 Compared to GCC10
 ======================================================
 
-- Instead of using single-letter ``bkp`` to enable these extensions as we did on gcc10, we split them all into corresponding sub-extensions, for example, ``_zba_zkr_zve32f``.
+- Instead of using single-letter ``bkp`` to enable these extensions as we did on gcc10, we split them all into corresponding sub-extensions, for example, ``_zba_zkr_zve32f``, please check https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#arch-ext to learn about how to adapt Nuclei SDK to support gcc13 upgraded from gcc10.
 
 - Implement new style of architecture extension test macros: each architecture extension has a corresponding feature test macro, which can be used to test its existence and version information. In addition, we add several custom macros, ``__riscv_dsp``, ``__riscv_bitmanip``.
 
-- Add new option ``-misa-spec=*`` to control ISA spec version. This controls the default version of each extensions. The official version is 20191213, but it defaults to 2.2 in Nuclei toolchain. The difference between them is that in 20191213 version, Zicsr and Zifenci are separated from the 'i' extension into two independent extensions, and using ``-misa-spec=2.2`` can avoid incompatible errors when the 'Zicsr' and 'Zifenci' are not passed to ``-march=``. See for details at https://github.com/riscv-collab/riscv-gnu-toolchain/issues/1315
+- Add new option ``-misa-spec=*`` to control ISA spec version. This controls the default version of each extensions. The official version is ``20191213``, but it is set to ``2.2`` when configuring nuclei toolchain.
+  The difference between them is that in ``20191213`` version, ``Zicsr`` and ``Zifencei`` are separated from the ``i`` extension into two independent extensions, and using ``-misa-spec=2.2`` can avoid incompatible errors when the ``Zicsr`` and ``Zifencei`` are not passed to ``-march=``. See for details at https://github.com/riscv-collab/riscv-gnu-toolchain/issues/1315
 
 - Support for vector intrinsics as specified in version 0.12 of the RISC-V vector intrinsic specification.
 
 - The toolchain component prefix is ``riscv-nuclei-elf-`` on gcc10, but is ``riscv64-unknown-elf-`` on gcc13.
 
-- On gcc10, RISCV intrinsic api heads contain ``riscv_vector.h``, ``riscv_vector_itr.h``, ``rvintrin.h``, ``rvp_intrinsic.h``, but they are ``riscv_vector.h``, ``rvp_intrinsic.h``, ``riscv_nuclei_xlcz.h`` on gcc13.
+- On gcc10, RISCV intrinsic api heads contain ``riscv_vector.h``, ``riscv_vector_itr.h``, ``rvintrin.h``, ``rvp_intrinsic.h``, but now only ``riscv_vector.h``, ``rvp_intrinsic.h``, ``riscv_nuclei_xlcz.h`` are provided in gcc13, if you want to find ``b`` or ``k`` intrinsic API, please check https://github.com/riscv/riscv-crypto/blob/main/benchmarks/share/rvintrin.h and https://github.com/riscv/riscv-crypto/blob/main/benchmarks/share/riscv-crypto-intrinsics.h , and for RVV intrinsic API, we
+  support 0.12 in gcc13 now, see https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0-rc0
 
-- The version of the libncrt was changed from v1.0.0 to v3.0.0, and libncrt is now split into three parts, 'libncrt', 'heapops' and 'fileops'.
+- The version of the libncrt was changed from v2.0.0 to v3.0.0, and libncrt is now split into three parts, 'libncrt', 'heapops' and 'fileops', click https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#stdclib to learn about how the newlib/libncrt are used in Nuclei SDK with gcc13.
 
 Install and Setup
 =================
@@ -181,9 +183,9 @@ The process of user compilation and development can see from https://github.com/
 
 .. rubric:: Examples
 
-1.If you choose a core of Nuclei N300FD, then the parameter you pass to 'march' should be ``rv32*fd*``, and 'mabi' should choose ``ilp32d``.
+1. If you choose a core of Nuclei N300FD, then the parameter you pass to 'march' should be ``rv32*fd*``, and 'mabi' should choose ``ilp32d``.
 
-2.If you want to bring the full ``B/K/P`` extension, then you also need to bring all the subsets of them in the 'march'. For example, for the ``B`` extension, the parameter you pass to 'march' is ``_zba_zbb_zbc_zbs``.
+2. If you want to bring the full ``B/K/P`` extension, then you also need to bring all the subsets of them in the 'march'. For example, for the ``B`` extension, the parameter you pass to 'march' is ``_zba_zbb_zbc_zbs``.
 
-3.When using a library, we can tell the linker which library we need to link by using the '-l', for example, ``-lc`` for newlib-full, ``-lc_nano`` for newlib-nano. For libncrt, you should pass ``--specs=libncrt_xxx.specs`` when using gcc. In addition, you need to link extra 'fileops' and 'heapops' static libraries during the linking phase by using the '-l', and for the 'fileops', you must select one of the three options: 'uart', 'semi' or 'rtt',
+3. When using a library, we can tell the linker which library we need to link by using the '-l', for example, ``-lc`` for newlib-full, ``-lc_nano`` for newlib-nano. For libncrt, you should pass ``--specs=libncrt_xxx.specs`` when using gcc. In addition, you need to link extra 'fileops' and 'heapops' static libraries during the linking phase by using the '-l', and for the 'fileops', you must select one of the three options: 'uart', 'semi' or 'rtt',
 and for the 'heapops', you must select one of the three options: 'basic', 'realtime' or 'minimal'.

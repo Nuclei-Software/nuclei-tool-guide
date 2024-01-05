@@ -14,7 +14,7 @@ Extensions Support
 
     i, m, a, f, d, c, h(Assembly only), zicsr, zifencei, zihintpause(Assembly only), zicond, zawrs(Assembly only), zfh, zfhmin, zmmul, svinval(Assembly only), svnapot(Assembly only), svpbmt.
 
-- Z*INX Extensions
+- Z*inx Extensions
 
     zfinx, zdinx, zhinx, zhinxmin.
 
@@ -34,15 +34,15 @@ Extensions Support
 
     zve32x, zve32f, zve64x, zve64f, zve64d, zvfh, zvfhmin, v.
 
-- ZC Extensions
+- Zc Extensions
 
     zca, zcb, zce, zcf, zcd, zcmp(Assembly only), zcmt(Assembly only).
 
-- ZVB Extensions
+- Zvb Extensions
 
     zvbb, zvbc
 
-- ZVK Extensions
+- Zvk Extensions
 
     zvkg, zvkned, zvknha, zvknhb, zvksed, zvksh, zvkn, zvknc, zvkng, zvks, zvksc, zvksg, zvkt.
 
