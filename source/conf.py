@@ -49,11 +49,14 @@ extensions = [
     'sphinx_markdown_tables',
     'sphinxcontrib.wavedrom',
     'sphinxcontrib.inkscapeconverter',
-    "sphinxcontrib.drawio",
+    'sphinxcontrib.drawio',
+    'sphinxcontrib.spelling',
     'sphinxcontrib.plantuml',
     'recommonmark'
 ]
 wavedrom_html_jsinline = False
+
+spelling_add_pypi_package_names = True
 
 drawio_headless=True
 drawio_no_sandbox=True
@@ -99,7 +102,16 @@ html_search_language = "en"
 
 html_theme_options = {
     'logo_only': True,
-    'navigation_depth': 6
+    'navigation_depth': 6,
+}
+
+# replace "view page source" with "edit on github" in Read The Docs theme
+#  * https://github.com/readthedocs/sphinx_rtd_theme/issues/529
+html_context = {
+	'display_github': True,
+	'github_user': 'Nuclei-Software',
+	'github_repo': 'nuclei-tool-guide',
+	'github_version': 'master/source/',
 }
 
 # -- Options for Breathe Project ---------------------------------------------
