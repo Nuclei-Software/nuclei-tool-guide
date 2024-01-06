@@ -6,7 +6,7 @@ Introduction
 This user guide mainly talked about how to use Nuclei Development Tools, including
 Nuclei Studio IDE, Nuclei RISC-V Toolchain, Nuclei OpenOCD and Nuclei QEMU.
 
-**Nuclei Studio IDE** is built on Eclipse Embdded CDT plugins, mainly optimized for
+**Nuclei Studio IDE** is built on Eclipse Embedded CDT plugins, mainly optimized for
 Nuclei RISC-V Processor to improve user experience in IDE.
 
 **Nuclei RISC-V Toolchain** is built on RISC-V GNU and LLVM toolchain(gcc/llvm/binutils/gdb/newlib) and
