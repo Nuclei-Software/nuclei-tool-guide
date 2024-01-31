@@ -325,6 +325,8 @@ OpenOCD also supports the ARM semihosting feature, use the following command to 
 
 
 For more detailed information about how to use openocd, please check the ``openocd.pdf`` distributed in openocd release.
+
+
 Frequently asked questions
 ==========================
 
