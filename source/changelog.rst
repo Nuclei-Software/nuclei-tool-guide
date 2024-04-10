@@ -6,6 +6,13 @@ ChangeLog
 Nuclei Tools official releases can be found in https://nucleisys.com/download.php#tools, you can download
 it from there.
 
+2024.02
+-------
+
+This release is a bugfix release for 2023.10, which fix many issues reported by 2023.10.
+
+See https://github.com/Nuclei-Software/nuclei-tool-guide/issues/1
+
 2023.10
 -------
 

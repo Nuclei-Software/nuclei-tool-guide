@@ -4,7 +4,7 @@ About GNU Toolchain
 ===================
 
 The official toolchain repository is located at https://github.com/riscv-collab/riscv-gnu-toolchain.git.
-Nuclei maintained toolchain repo is located at https://github.com/riscv-mcu/riscv-gnu-toolchain, and the branch is ``nuclei/2023``, in which the tools included versions are: gcc13, binutils2.40, gdb13.2, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
+Nuclei maintained toolchain repo is located at https://github.com/riscv-mcu/riscv-gnu-toolchain, and the branch is ``nuclei/2024``, in which the tools included versions are: gcc13, binutils2.40, gdb13.2, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
 
 Extensions Support
 ==================
@@ -175,11 +175,11 @@ Install and Setup
 
 .. rubric:: Build Toolchain
 
-For more information about how to build a toolchain, see https://github.com/riscv-mcu/riscv-gnu-toolchain/tree/nuclei/2023/scripts/toolchain. (Only for Nuclei internal use, no technical support is provided)
+For more information about how to build a toolchain, see https://github.com/riscv-mcu/riscv-gnu-toolchain/tree/nuclei/2024/scripts/toolchain. (Only for Nuclei internal use, no technical support is provided)
 
 .. rubric:: Development
 
-The process of user compilation and development can see from https://github.com/riscv-mcu/riscv-gnu-toolchain/blob/nuclei/2023/README.md. To get other  technical support, please send issues directly to the upstream repository https://github.com/riscv-collab/riscv-gnu-toolchain.
+The process of user compilation and development can see from https://github.com/riscv-mcu/riscv-gnu-toolchain/blob/nuclei/2024/README.md. To get other  technical support, please send issues directly to the upstream repository https://github.com/riscv-collab/riscv-gnu-toolchain.
 
 .. rubric:: Examples
 

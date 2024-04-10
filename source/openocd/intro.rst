@@ -8,9 +8,9 @@ Repository and Doc
 
 **openocd**
 
-- github riscv-openocd: https://github.com/riscv-mcu/riscv-openocd/tree/nuclei/2023.10
+- github riscv-openocd: https://github.com/riscv-mcu/riscv-openocd/tree/nuclei/2024
 
-- gitee riscv-openocd: https://gitee.com/riscv-mcu/riscv-openocd/tree/nuclei/2023.10
+- gitee riscv-openocd: https://gitee.com/riscv-mcu/riscv-openocd/tree/nuclei/2024
 
 **openflashloader**
 
@@ -100,7 +100,7 @@ openflashloader to achieve the desired results.
 
 .. rubric:: Nuclei Customized CSRs
 
-Nuclei released openocd supports a number of nuclei customized CSRs, please check here https://github.com/riscv-mcu/riscv-openocd/blob/nuclei/2023.10/src/target/riscv/encoding.h#L3109-L3223
+Nuclei released openocd supports a number of nuclei customized CSRs, please check here https://github.com/riscv-mcu/riscv-openocd/blob/nuclei/2024/src/target/riscv/encoding.h#L3109-L3223
 
 .. rubric:: Nuclei embedded trace
 

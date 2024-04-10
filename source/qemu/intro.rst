@@ -164,7 +164,7 @@ If you want to use QEMU on Nuclei-SDK, entry to the ``nuclei-sdk/application/bar
 Where **ARCH_EXT** can be used to pass the extension name.
 Under normal circumstances, you should see the final output ``NMSIS_TEST_PASS``, which indicates that all test cases have passed successfully.
 
-And Nuclei QEMU and Nuclei SDK are deeply integrated in Nuclei Studio, you can also use it in Nuclei Studio, see https://nucleisys.com/upload/files/doc/nucleistudio/Nuclei_Studio_User_Guide.202310.pdf
+And Nuclei QEMU and Nuclei SDK are deeply integrated in Nuclei Studio, you can also use it in Nuclei Studio, see https://nucleisys.com/upload/files/doc/nucleistudio/Nuclei_Studio_User_Guide.202402.pdf
 
 Use Nuclei QEMU in Nuclei Linux SDK
 ===================================
