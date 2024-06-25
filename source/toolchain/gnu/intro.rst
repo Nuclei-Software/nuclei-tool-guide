@@ -4,7 +4,7 @@ About GNU Toolchain
 ===================
 
 The official toolchain repository is located at https://github.com/riscv-collab/riscv-gnu-toolchain.git.
-Nuclei maintained toolchain repo is located at https://github.com/riscv-mcu/riscv-gnu-toolchain, and the branch is ``nuclei/2024``, in which the tools included versions are: gcc13, binutils2.40, gdb13.2, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
+Nuclei maintained toolchain repo is located at https://github.com/riscv-mcu/riscv-gnu-toolchain, and the branch is ``nuclei/2024-gcc13``, in which the tools included versions are: gcc13, binutils2.40, gdb13.2, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
 
 Extensions Support
 ==================
@@ -51,6 +51,14 @@ Extensions Support
 
     zvkg, zvkned, zvknha, zvknhb, zvksed, zvksh, zvkn, zvknc, zvkng, zvks, zvksc, zvksg, zvkt.
 
+- BFloat 16 Extensions
+
+    Zfbfmin, Zvfbfmin, Zvfbfwma
+
+- Zilsd Extensions
+
+    Zilsd, Zcmlsd
+
 .. rubric:: Nuclei Custom Extensions
 
 - Packed SIMD Extension 0.5.4
@@ -96,7 +104,7 @@ General Options
 
 `-mtune=processor-string`
 
-    Optimize the output for the given processor, specified by microarchitecture or particular CPU name. Permissible values for this option are: ``nuclei-300-series``, ``nuclei-600-series``, ``nuclei-900-series``, ``size``, and all valid options for ``-mcpu=``.
+    Optimize the output for the given processor, specified by microarchitecture or particular CPU name. Permissible values for this option are: ``nuclei-100-series``, ``nuclei-200-series``, ``nuclei-300-series``, ``nuclei-600-series``, ``nuclei-900-series``, ``nuclei-1000-series``, and all valid options for ``-mcpu=``.
 
     When ``-mtune=`` is not specified, use the setting from ``-mcpu``, the default is ``rocket`` if both are not specified.
 
@@ -175,11 +183,11 @@ Install and Setup
 
 .. rubric:: Build Toolchain
 
-For more information about how to build a toolchain, see https://github.com/riscv-mcu/riscv-gnu-toolchain/tree/nuclei/2024/scripts/toolchain. (Only for Nuclei internal use, no technical support is provided)
+For more information about how to build a toolchain, see https://github.com/riscv-mcu/riscv-gnu-toolchain/tree/nuclei/2024-gcc13/scripts/toolchain. (Only for Nuclei internal use, no technical support is provided)
 
 .. rubric:: Development
 
-The process of user compilation and development can see from https://github.com/riscv-mcu/riscv-gnu-toolchain/blob/nuclei/2024/README.md. To get other  technical support, please send issues directly to the upstream repository https://github.com/riscv-collab/riscv-gnu-toolchain.
+The process of user compilation and development can see from https://github.com/riscv-mcu/riscv-gnu-toolchain/blob/nuclei/2024-gcc13/README.md. To get other  technical support, please send issues directly to the upstream repository https://github.com/riscv-collab/riscv-gnu-toolchain.
 
 .. rubric:: Examples
 
