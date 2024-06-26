@@ -4,7 +4,7 @@ Introduction
 ============
 
 This user guide mainly talked about how to use Nuclei Development Tools, including
-Nuclei Studio IDE, Nuclei RISC-V Toolchain, Nuclei OpenOCD and Nuclei QEMU.
+Nuclei Studio IDE, Nuclei RISC-V Toolchain, Nuclei OpenOCD, Nuclei QEMU and Nuclei Model.
 
 **Nuclei Studio IDE** is built on Eclipse Embedded CDT plugins, mainly optimized for
 Nuclei RISC-V Processor to improve user experience in IDE.
@@ -18,6 +18,9 @@ customized csr support, nuclei openocd flashloader support.
 
 **Nuclei QEMU** is built on QEMU project, adding Nuclei N/NX/UX RISC-V processor support,
 which works with Nuclei SDK and Nuclei Linux SDK.
+
+**Nuclei Model** uses spike as the RISC-V ISA simulator and adds support for Nuclei's N/NX/UX RISC-V processors,
+it supports near cycle-level simulation and SystemC TLM 2.0 Nuclei EvalSoC modeling.
 
 .. note::
 
