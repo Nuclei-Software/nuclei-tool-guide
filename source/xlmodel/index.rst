@@ -1,7 +1,7 @@
-.. _model:
+.. _xlmodel:
 
 Nuclei Model
-===========
+============
 
 
 .. toctree::

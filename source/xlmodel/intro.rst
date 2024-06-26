@@ -1,8 +1,13 @@
-Nuclei Near Cycle Model
-==========================================
+.. _xlmodel_intro:
 
-The `Nuclei Near Cycle Model` is a co-simulation using **SystemC TLM-2 combined with xlspike**. xlspike will do instruction-level simulation, and SystemC will establish the TLM 2.0 interaction relationships among the components under **Nuclei EvalSoC**.
+About Nuclei Near Cycle Model
+=============================
 
+The `Nuclei Near Cycle Model` is a co-simulation using **SystemC TLM-2 combined with xlspike**. Xlspike uses spike as the RISC-V ISA simulator and adds support for Nuclei's N/NX/UX RISC-V processors.
+SystemC establishes the TLM 2.0 interaction relationships among the components under **Nuclei EvalSoC**.
+
+- The `Nuclei Near Cycle Model` can be obtained in **Nuclei IDE 2024.06**.
+- The `Nuclei Near Cycle Model` is only supported on Linux system.
 - The `Nuclei Near Cycle Model` is a **near cycle model** that can test the performance of firmware with different ISA configurations.
 - The `Nuclei Near Cycle Model` has SystemC built-in and uses version 2.3.4 by default.
 - The `Nuclei Near Cycle Model` has built-in **gprof** functionality, allowing for a more intuitive display of the function call stack, the cycle count proportion of each function within the test code.
@@ -10,7 +15,7 @@ The `Nuclei Near Cycle Model` is a co-simulation using **SystemC TLM-2 combined 
 - Xlspike supports RV32IMAFDCBPV and RV64IMAFDCBPV ISA.
 
 SystemC components
-------------------
+==================
 
 Brief description of the `Nuclei Near Cycle Model` SystemC components:
 
@@ -22,20 +27,21 @@ Brief description of the `Nuclei Near Cycle Model` SystemC components:
 * EvalUart: Nuclei EvalSoC uart
 * EvalQspi: Nuclei EvalSoC qspi
 
-Test
-----
+How to run
+==========
 
 When you want to use the model, you can select the `bin/xl_cpumodel` as the executable file.
 
 The default test codes are provided in the `tests` directory. You can import your own test code into this directory for testing.
 
-**normal test case**
+normal test case
+----------------
 
 You need to pass different parameters depending on the test code. In most cases, you only need to pass the path of the ELF file::
 
     ./xl_cpumodel ../tests/demotimer/demotimer_nx900.elf
 
-.. image:: asserts/images/model/demotimer.png
+.. image:: /asserts/images/xlmodel/demotimer.png
 
 The `Nuclei Near Cycle Model` can select different **BPU strategies** based on Nuclei core types, which will affect the cycle count of branch and jump instructions.
 
@@ -43,53 +49,56 @@ You can pass the parameter `--bpu=n300`, which is applicable to Nuclei cores up 
 
     ./xl_cpumodel ../tests/demotimer/demotimer_nx900.elf --bpu=n300
 
-.. image:: asserts/images/model/bpu.png
+.. image:: /asserts/images/xlmodel/bpu.png
 
 When testing an SMP system case, you need to pass the parameter `--smp=n`, specifying the number of cores, to the command line::
 
     ./xl_cpumodel ../tests/smphello_nx900/smphello_nx900.elf --smp=4
 
-.. image:: asserts/images/model/smphello.png
+.. image:: /asserts/images/xlmodel/smphello.png
 
 If you need to test Vector extension case and specify vlen or elen, you need to pass the parameter `--varch=vlen:n,elen:n`. Note that vlen and elen must comply with the RISC-V Vector specifications::
 
     ./xl_cpumodel ../tests/rvv_conv_f32/rvv_conv_f32.elf --varch=vlen:1024,elen:64
 
-.. image:: asserts/images/model/rvv_conv_f32.png
+.. image:: /asserts/images/xlmodel/rvv_conv_f32.png
 
-**test case with trace**
+test case with trace
+--------------------
 
 When you want to see the complete trace of the firmware elf, you need to pass the parameter `--trace=1` in the command line::
 
     ./xl_cpumodel ../tests/rvv_conv_f32/rvv_conv_f32.elf --varch=vlen:1024,elen:64 --trace=1
 
-You can obtain information such as the pc, opcode, disassembly, and others for each instruction in generated `<elf-name>.rvtrace` file::
+You can obtain information such as the pc, opcode, disassembly, and others for each instruction in generated `<elf-name>.rvtrace` file:
 
-.. image:: asserts/images/model/trace.png
+.. image:: /asserts/images/xlmodel/trace.png
 
-**test case with log**
+test case with log
+------------------
 
 The `Nuclei Near Cycle Model` has multiple log levels, listed from least to most detailed as `error`, `info`, `tlm`, `debug`. By default, it provides log information at the `info` level, which can be changed by passing `--log=xxx`.
 
-When `--log=tlm` is selected, logs related to all TLM memory reads and writes can be printed::
+When `--log=tlm` is selected, logs related to all TLM memory reads and writes can be printed:
 
-.. image:: asserts/images/model/logtlm.png
+.. image:: /asserts/images/xlmodel/logtlm.png
 
-When `--log=debug` is selected, TLM information and more detailed instruction trace information, including register updates, exceptions, and CSRs, will be printed::
+When `--log=debug` is selected, TLM information and more detailed instruction trace information, including register updates, exceptions, and CSRs, will be printed:
 
-.. image:: asserts/images/model/logdebug.png
+.. image:: /asserts/images/xlmodel/logdebug.png
 
-**test case with gprof**
+test case with gprof
+--------------------
 
-If you want to use the model's built-in **gprof** functionality, you need to pass `--gprof=1` to the command line::
+If you want to use the model's built-in **gprof** functionality, you need to pass `--gprof=1` to the command line:
 
-.. image:: asserts/images/model/gprof.png
+.. image:: /asserts/images/xlmodel/gprof.png
 
 You can obtain the `gprof<n>.gmon` and `gprof<n>.log` files, where n represents the hart ID. To use them further, you need to import them into the IDE, then you can refer to the model usage guide in the **Nuclei IDE** for detailed instructions on using **gprof**.
 
-NICE
-----
+NICE support
+============
 
-The current **NICE** example in `tests/demonice` demonstrates Nuclei's own implementations of **scalar NICE** and **vector NICE**.
+The current **NICE** example in `tests/demonice` demonstrates how to use Nuclei **NICE** feature.
 
-If you need to validate custom **NICE** instructions, you need to contact Nuclei Support to obtain usage method for **NICE**.
+If you need to validate custom **NICE** instructions, you need to contact Nuclei Support to obtain software package of model.
