@@ -15,6 +15,7 @@ Welcome to Nuclei Tool User Guide!
    toolchain/index.rst
    openocd/index.rst
    qemu/index.rst
+   xlmodel/index.rst
    changelog.rst
    glossary.rst
    appendix.rst
