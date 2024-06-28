@@ -277,6 +277,12 @@ You can enter qemu-system-riscv32 --help to view the parameters that can be conf
   | xxlcz        | Nuclei code size reduction extension                                    |
   +--------------+-------------------------------------------------------------------------+
 
+* ``-m 512M``: To set the DDR size in QEMU, if the DDR size is not passed with ``-m``, then the JSON config will be used to determine the size, and lastly, if neither is specified, it will initialize with 32MB.
+
+  .. note::
+
+        The following is the current default qemu memory size configuration, **xip: 32MB**, **ddr:64MB**, **ilm: 8MB**, **dlm: 8MB**, **sram: 512MB**. You can change the size of the DDR by using **-m size**. When **-m 128M** or no -m is passed, the default DDR size configured in the JSON or the size initialized by the program will be used. If the DDR size is configured too large and the computer does not have enough memory to allocate, an error such as **qemu-system-riscv32: cannot set up guest memory 'riscv.evalsoc.ram.sram'** may occur.
+
 Use Nuclei QEMU in Nuclei SDK
 =============================
 
