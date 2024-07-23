@@ -144,6 +144,20 @@ This command is used to clear the read and write pointers for Etrace.
 
 This command displays the current Etrace status.
 
+.. rubric:: Nuclei Debug Map Feature
+
+.. note::
+
+The debug map for each hart is automatically read and printed during OpenOCD startup, or you can read the 
+debug map at runtime with the examine_cpu_core command.
+
+``nuclei expose_cpu_core``
+
+Configure a list of index for `nuclei_examine_cpu_core` to expose in this must be executed before `init`.
+
+``nuclei examine_cpu_core``
+Return the 64-bit value read from dm-custom1 and dm-custom2 value = dm-custom2 << 32 + dm-custom1.
+
 .. rubric:: Init resethalt command
 
 In practice, usually encountered due to software problems caused by the CPU stuck, then the debugger will not
