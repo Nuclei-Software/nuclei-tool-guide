@@ -12,7 +12,11 @@ Design and Architecture
 =======================
 
 Nuclei QEMU has several types of parameters that can be configured.
-You can enter qemu-system-riscv32 --help to view the parameters that can be configured in Nuclei QEMU. Here are some commonly used parameters:
+You can enter qemu-system-riscv32 --help to view the parameters that can be configured in Nuclei QEMU. 
+
+This is an example of a fully functional parameter for nuclei qemu: ``qemu-system-riscv32 -M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json,debug=1 -cpu nuclei-n300fd,ext=_v_xxldsp,vlen=128 -m 512M -smp 1 -icount shift=0 -nodefaults -nographic -serial stdio -kernel dhrystone.elf``.
+
+Here are some commonly used parameters:
 
 * ``qemu-system-riscv32`` or ``qemu-system-riscv64``: The main program for the QEMU RISC-V architecture is divided into ``qemu-system-riscv32`` and ``qemu-system-riscv64``.
 
@@ -22,13 +26,13 @@ You can enter qemu-system-riscv32 --help to view the parameters that can be conf
      :align: center
      :alt: Nuclei QEMU CPUs Support
 
-* ``-M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json``:
+* ``-M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json,debug=1``:
 
   ``-M`` represents ``machine``, which means selecting the type of machine. Currently, Nuclei QEMU has added "nuclei_demosoc" (which will be deprecated in future versions) and "nuclei_evalsoc" to the existing options.
 
-  ``download=`` is used to choose the download mode, and currently, it supports four download modes: ``sram, flashxip, flash, ilm, and ddr``.
+  ``download=`` is used to choose the download mode, and currently, it supports four download modes: ``sram, flashxip, flash, ilm, and ddr``.If this parameter is not present, the default value is ``flashxip``.
 
-  ``soc-cfg=`` is an optional option to pass dynamic modifications to the initial configuration of the machine with a json file. Here is an example:
+  ``soc-cfg=`` is an optional option to pass dynamic modifications to the initial configuration of the machine with a json file. If this parameter is not set, the default value of qemu will be used .Here is an example:
 
   .. code-block:: json
 
@@ -145,9 +149,10 @@ You can enter qemu-system-riscv32 --help to view the parameters that can be conf
 
         In the **general_config** JSON configuration script, the **base** attribute must coexist with either **size** or **irq**, and the format requires **base** to be written first, followed by either **size** or **irq**.
 
+  ``debug=1`` list the start address of the current device's peripherals and memory distribution information for debugging purposes. It is generally not recommended to enable this feature under normal circumstances.
 
 
-* ``-cpu nuclei-nx900fd,ext=_xxldsp``: Using the ``-cpu`` option, you can specify the type of Nuclei core. The way to enable different extensions is to add them inside it, for example, 'xxldsp' represents enabling the CoreXtend DSP extension. Currently, Nuclei QEMU supports the following common RISC-V instruction set extension types:
+* ``-cpu nuclei-n300fd,ext=_v_xxldsp,vlen=128``: Using the ``-cpu`` option, you can specify the type of Nuclei core. The way to enable different extensions is to add them inside it, for example, ``xxldsp`` represents enable the nuclei DSP extension, ``v`` represents enable RISC-V V-Extension, When enabling multiple extensions, they are connected through ``_``. Currently, Nuclei QEMU supports the following common RISC-V instruction set extension types:
 
   +--------------+-------------------------------------------------------------------------+
   | Extension    | Functionality                                                           |
