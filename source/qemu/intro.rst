@@ -14,7 +14,7 @@ Design and Architecture
 Nuclei QEMU has several types of parameters that can be configured.
 You can enter qemu-system-riscv32 --help to view the parameters that can be configured in Nuclei QEMU. 
 
-This is an example of a fully functional parameter for nuclei qemu: ``qemu-system-riscv32 -M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json,debug=1 -cpu nuclei-n300fd,ext=_v_xxldsp,vlen=128 -m 512M -smp 1 -icount shift=0 -nodefaults -nographic -serial stdio -kernel dhrystone.elf``.
+This is an example of a fully functional parameter for nuclei qemu: ``qemu-system-riscv32 -M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json,debug=1 -cpu nuclei-n300fd,ext=_v_xxldsp,vlen=128,elen=64,s=true -m 512M -smp 1 -icount shift=0 -nodefaults -nographic -serial stdio -kernel dhrystone.elf``.
 
 Here are some commonly used parameters:
 
@@ -152,7 +152,7 @@ Here are some commonly used parameters:
   ``debug=1`` list the start address of the current device's peripherals and memory distribution information for debugging purposes. It is generally not recommended to enable this feature under normal circumstances.
 
 
-* ``-cpu nuclei-n300fd,ext=_v_xxldsp,vlen=128``: Using the ``-cpu`` option, you can specify the type of Nuclei core. The way to enable different extensions is to add them inside it, for example, ``xxldsp`` represents enable the nuclei DSP extension, ``v`` represents enable RISC-V V-Extension, When enabling multiple extensions, they are connected through ``_``. Currently, Nuclei QEMU supports the following common RISC-V instruction set extension types:
+* ``-cpu nuclei-n300fd,ext=_v_xxldsp,vlen=128,elen=64,s=true``: Using the ``-cpu`` option, you can specify the type of Nuclei core. The way to enable different extensions is to add them inside it, for example, ``xxldsp`` represents enable the nuclei DSP extension, ``v`` represents enable RISC-V V-Extension, When enabling multiple extensions, they are connected through ``_``. Currently, Nuclei QEMU supports the following common RISC-V instruction set extension types:
 
   +--------------+-------------------------------------------------------------------------+
   | Extension    | Functionality                                                           |
@@ -281,6 +281,10 @@ Here are some commonly used parameters:
   +--------------+-------------------------------------------------------------------------+
   | xxlcz        | Nuclei code size reduction extension                                    |
   +--------------+-------------------------------------------------------------------------+
+
+  **vlen=128,elen=64**: The VLEN and ELEN are only effective when the V extension instructions of RISC-V are enabled. The default value of VLEN is 128, and it must be a multiple of 2 when set, with a value range of [128, 1024]. The default value of ELEN is 64, and ELEN must also be a multiple of 2, with a value range of [8, 64].
+  
+  **s=true**: If you wish for RISC-V to support the S (supervisor) privilege mode, you can add s=true to the parameters to meet this requirement.
 
 * ``-m 512M``: To set the DDR size in QEMU, if the DDR size is not passed with ``-m``, then the JSON config will be used to determine the size, and lastly, if neither is specified, it will initialize with 32MB.
 
