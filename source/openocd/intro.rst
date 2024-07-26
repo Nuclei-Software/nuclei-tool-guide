@@ -85,7 +85,7 @@ This command is designed to solve this problem by automatically reading the CSRs
 
 ``nuclei cpuinfo``
 
-.. rubric:: Nuspi(nucle spi) driver
+.. rubric:: Nuspi(nuclei spi) driver
 
 Nuclei's SPI controller, used in Nuclei RISC-V fpga evaluation board and other boards.
 
@@ -111,6 +111,8 @@ Nuclei released openocd supports a number of nuclei customized CSRs, please chec
 Some Nuclei cpus are equipped with trace support, which permits examination of the instruction activity. Trace
 activity is controlled through an Embedded Trace(Etrace) Module on the core's scan chains. The following
 commands are for etrace.
+
+Currently, we only implemented RISC-V ETrace Instruction Trace in CPU, Data Trace not yet ready.
 
 ``nuclei etrace config etrace-addr buffer-addr buffer-size wrap``
 
@@ -144,19 +146,24 @@ This command is used to clear the read and write pointers for Etrace.
 
 This command displays the current Etrace status.
 
+You can also use ETrace feature in Nuclei Studio IDE, please check its documentation for more details.
+
 .. rubric:: Nuclei Debug Map Feature
 
 .. note::
 
 The debug map for each hart is automatically read and printed during OpenOCD startup, or you can read the 
-debug map at runtime with the examine_cpu_core command.
+debug map at runtime with the ``examine_cpu_core`` command.
+
+About the detailed nuclei debug map feature, please contact with our AE for more documentation.
 
 ``nuclei expose_cpu_core``
 
-Configure a list of index for `nuclei_examine_cpu_core` to expose in this must be executed before `init`.
+Configure a list of index for `nuclei_examine_cpu_core` to expose in this must be executed before ``init``.
 
 ``nuclei examine_cpu_core``
-Return the 64-bit value read from dm-custom1 and dm-custom2 value = dm-custom2 << 32 + dm-custom1.
+
+Return the 64-bit value read from ``dm-custom1`` and ``dm-custom2`` value = ``dm-custom2 << 32 + dm-custom1``.
 
 .. rubric:: Init resethalt command
 
@@ -166,9 +173,9 @@ flash, powering down the board will not solve the problem. resethalt is designed
 
 ``init resethalt``
 
-.. rubric:: Ftdi nscan1_mode command
+.. rubric:: FTDI nscan1_mode command
 
-Enable or disable Nuclei CJTAG mode. Usage is the same as ftdi oscan1_mode.
+Enable or disable Nuclei CJTAG mode. Usage is the same as ``ftdi oscan1_mode``.
 
 ``ftdi nscan1_mode on|off``
 
@@ -344,13 +351,15 @@ For more detailed information about how to use openocd, please check the ``openo
 Frequently asked questions
 ==========================
 
-There are a few more FAQs please see: https://github.com/riscv-mcu/riscv-openocd/wiki
+There are a few more FAQs please see: 
 
+- Github: https://github.com/riscv-mcu/riscv-openocd/wiki
+- Gitee: https://gitee.com/riscv-mcu/riscv-openocd/wikis
 
 Low-cost debugger solution
 ==========================
 
 We also provided a low cost mcu solution to debug RISC-V CPU, which support JTAG and cJTAG, please check the following
-repo to learn more about it.
+repo to learn more about it, and it is also supported in Nuclei Studio.
 
 Nuclei Dlink: https://github.com/Nuclei-Software/nuclei-dlink
