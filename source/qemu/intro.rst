@@ -301,7 +301,7 @@ Let's describe the meaning of this complete command:
 
   .. note::
 
-        The following is the current default qemu memory size configuration, **xip: 32MB**, **ddr:64MB**, **ilm: 8MB**, **dlm: 8MB**, **sram: 512MB**. You can change the size of the DDR by using **-m size**. When **-m 128M** or no -m is passed, the default DDR size configured in the JSON or the size initialized by the program will be used. If the DDR size is configured too large and the computer does not have enough memory to allocate, an error such as **qemu-system-riscv32: cannot set up guest memory 'riscv.evalsoc.ram.sram'** may occur.
+        The following is the current default qemu memory size configuration, **xip: 32MB**, **ddr:64MB**, **ilm: 8MB**, **dlm: 8MB**, **sram: 512MB**. You can change the size of the DDR by using **-m size**. When **-m 128M** or no ``-m`` is passed, the default DDR size configured in the JSON or the size initialized by the program will be used. If the DDR size is configured too large and the computer does not have enough memory to allocate, an error such as ``qemu-system-riscv32: cannot set up guest memory 'riscv.evalsoc.ram.sram'`` may occur.
 
 * ``-smp 1``: Nuclei Qemu currently supports up to 16 CPUs. If this parameter is not set, the uses 1 CPU.
 
@@ -313,7 +313,7 @@ Let's describe the meaning of this complete command:
 
 * ``-serial stdio``: Direct standard output to the console.
 
-* ``-kernel or -bios``: Choose the boot mode for the firmware. By default, programs on nuclei-sdk load using the -kernel mode, while on Linux, they load using the -bios mode. In the design of Nuclei Qemu, -kernel enables the use of eclic. For bare metal or RTOS, -kernel is used to transfer ELF file, while -bios is used to enable PLIC+CLINT timers, which are more suitable for Linux applications.
+* ``-kernel or -bios``: Choose the boot mode for the firmware. By default, programs on nuclei-sdk load using the ``-kernel`` mode, while on Linux, they load using the ``-bios`` mode. In the design of Nuclei Qemu, ``-kernel`` enables the use of **ECLIC**. For bare metal or RTOS, ``-kernel`` is used to transfer ELF file, while ``-bios`` is used to enable **PLIC+CLINT** timers, which are more suitable for Linux applications.
 
 Use Nuclei QEMU in Nuclei SDK
 =============================
@@ -332,7 +332,7 @@ Use Nuclei QEMU in Nuclei SDK
 
 If you want to use QEMU on Nuclei-SDK.The example here uses the CPU of the nx900fd, but other CPU types can also be used for testing. The example is xxdsp.
 
-First, you need to configure the toolchain, nuclei-sdk, and qemu environments according to the documentation, https://doc.nucleisys.com/nuclei_sdk/quickstart.html#
+First, you need to configure the toolchain, nuclei-sdk, and qemu environments according to the documentation, https://doc.nucleisys.com/nuclei_sdk/quickstart.html
 
 .. code-block:: c
    
@@ -354,13 +354,13 @@ Use Nuclei QEMU in Nuclei Linux SDK
 ===================================
 
 Nuclei QEMU can also used to boot and test RISC-V Linux Kernel using emulated Nuclei EvalSoC, please check documentation
-here https://github.com/Nuclei-Software/nuclei-linux-sdk#booting-linux-on-nuclei-qemu.
+here https://github.com/Nuclei-Software/nuclei-linux-sdk#booting-linux-on-nuclei-qemu .
 
 An example of a typical Nuclei QEMU running Nuclei Linux SDK is as follows:
 
 .. code-block:: c
 
-   qemu-system-riscv64 -M nuclei_evalsoc,download=flashxip,soc-cfg=app.cfg -cpu nuclei-ux900fd,ext= -smp 8 -m 2G -bios freeloader_qemu.elf -nographic -drive file=disk.img,if=sd,format=raw
+   qemu-system-riscv64 -M nuclei_evalsoc,download=flashxip,soc-cfg=soc.json -cpu nuclei-ux900fd,ext= -smp 8 -m 2G -bios freeloader_qemu.elf -nographic -drive file=disk.img,if=sd,format=raw
 
 This command sets up QEMU to emulate a Nuclei processor and environment specifically for the Nuclei Linux SDK. Here's a breakdown of the parameters:
 
@@ -370,11 +370,11 @@ This command sets up QEMU to emulate a Nuclei processor and environment specific
 
 * ``download=flashxip``: The download mode of firmware, which is an optional parameter. If not set, the default download mode is flashxip.
 
-* ``soc-cfg=evalsoc.cfg``: Additional configuration scripts can customize the interrupt information and memory address information of peripherals. For details, see Description of Parameters.
+* ``soc-cfg=evalsoc.json``: optional, additional configuration scripts can customize the interrupt information and memory address information of peripherals. For details, see Description of Parameters.
 
 * ``-cpu nuclei-ux900fd``: Selects the Nuclei UX900FD CPU model for emulation.
 
-* ``-ext=``: You can pass the extensions supported by riscv, and connect multiple extensions with _.
+* ``-ext=``: You can pass the extensions supported by riscv, and connect multiple extensions with ``_``, eg. ``_zba_zbb_zbc_zbs_zicond``.
 
 * ``-smp 8``: Enables Symmetric Multi-Processing (SMP) with 8 CPU cores.
 
@@ -384,5 +384,5 @@ This command sets up QEMU to emulate a Nuclei processor and environment specific
 
 * ``-nographic``: Disables graphical output, making QEMU run in a text-only mode.
 
-* ``-drive file=disk.img,if=sd,format=raw``: Attaches a virtual disk image named disk.img to the virtual machine, using the SD card interface (if=sd) and a raw file format (format=raw). This disk image likely contains the Nuclei Linux SDK filesystem.
+* ``-drive file=disk.img,if=sd,format=raw``: Attaches a virtual disk image named ``disk.img`` to the virtual machine, using the SD card interface (if=sd) and a raw file format (format=raw). This disk image likely contains the Nuclei Linux SDK filesystem.
 
