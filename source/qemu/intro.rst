@@ -12,23 +12,35 @@ Design and Architecture
 =======================
 
 Nuclei QEMU has several types of parameters that can be configured.
-You can enter qemu-system-riscv32 --help to view the parameters that can be configured in Nuclei QEMU. Here are some commonly used parameters:
+You can enter ``qemu-system-riscv32 --help`` to view the parameters that can be configured in Nuclei QEMU. 
 
-* ``qemu-system-riscv32`` or ``qemu-system-riscv64``: The main program for the QEMU RISC-V architecture is divided into ``qemu-system-riscv32`` and ``qemu-system-riscv64``.
+Nuclei QEMU supports two main programs: ``qemu-system-riscv32`` and ``qemu-system-riscv64. qemu-system-riscv32`` is used to support 32-bit programs, while ``qemu-system-riscv64`` supports 64-bit programs.
 
-  ``qemu-system-riscv32`` corresponds to 32-bit architecture CPUs such as N200, N300, N600, and others. On the other hand, ``qemu-system-riscv64`` corresponds to 64-bit architecture CPUs like NX600, NX900, and similar series. U-series processors come with an MMU (Memory Management Unit) and are capable of running Linux. The following image displays the CPU types supported by Nuclei QEMU.
+Nuclei QEMU supports two machine types: ``nuclei_evalsoc`` and ``nuclei_demosoc``. Among them, ``nuclei_demosoc`` will be deprecated in future versions, and currently only ``nuclei_evalsoc`` is supported.
+
+The following image shows the relevant information of the Nuclei CPU types supported by Nuclei QEMU.
 
   .. figure:: /asserts/images/qemu_nuclei_cpus_support.png
      :align: center
      :alt: Nuclei QEMU CPUs Support
 
-* ``-M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json``:
 
-  ``-M`` represents ``machine``, which means selecting the type of machine. Currently, Nuclei QEMU has added "nuclei_demosoc" (which will be deprecated in future versions) and "nuclei_evalsoc" to the existing options.
+Description of Parameters
+=========================
 
-  ``download=`` is used to choose the download mode, and currently, it supports four download modes: ``sram, flashxip, flash, ilm, and ddr``.
+Nuclei QEMU adds some custom features and functionalities based on the original capabilities of qemu. If you want to learn more about the usage of qemu, you can refer to the documentation at https://www.qemu.org/docs/master/.
 
-  ``soc-cfg=`` is an optional option to pass dynamic modifications to the initial configuration of the machine with a json file. Here is an example:
+This is an example of a fully functional parameter for Nuclei QEMU: ``qemu-system-riscv32 -M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json,debug=1 -cpu nuclei-n300fd,ext=_v_xxldsp,vlen=128,elen=64,s=true -m 512M -smp 1 -icount shift=0 -nodefaults -nographic -serial stdio -kernel dhrystone.elf``.
+
+Let's describe the meaning of this complete command:
+
+* ``-M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json,debug=1``:
+
+  ``-M`` represents ``machine``, which means selecting the type of machine. Currently, Nuclei QEMU has added ``nuclei_demosoc`` (which will be deprecated in future versions) and ``nuclei_evalsoc`` to the existing options. This option must exist.
+
+  ``download=`` is used to choose the download mode, and currently, it supports four download modes: ``sram, flashxip, flash, ilm, and ddr``.If this parameter is not present, the default value is ``flashxip``.
+
+  ``soc-cfg=`` is an optional option to pass dynamic modifications to the initial configuration of the machine with a json file. If this parameter is not set, the default value of qemu will be used .Here is an example:
 
   .. code-block:: json
 
@@ -145,9 +157,13 @@ You can enter qemu-system-riscv32 --help to view the parameters that can be conf
 
         In the **general_config** JSON configuration script, the **base** attribute must coexist with either **size** or **irq**, and the format requires **base** to be written first, followed by either **size** or **irq**.
 
+  ``debug=1`` list the start address of the current device's peripherals and memory distribution information or irq info for debugging purposes. It is generally not recommended to enable this feature under normal circumstances.
 
+* ``-cpu nuclei-n300fd,ext=_v_xxldsp,vlen=128,elen=64,s=true``: 
 
-* ``-cpu nuclei-nx900fd,ext=_xxldsp``: Using the ``-cpu`` option, you can specify the type of Nuclei core. The way to enable different extensions is to add them inside it, for example, 'xxldsp' represents enabling the CoreXtend DSP extension. Currently, Nuclei QEMU supports the following common RISC-V instruction set extension types:
+  Using the ``-cpu`` option, ``nuclei-n300fd`` represents the selectable CPU type for Nuclei, and the complete list of types can be referred to in the diagrams within the ``Design and Architecture`` section. This operation is necessary.
+  
+  ``ext=`` This parameter is optional, used to pass different riscv extension, The way to enable different extensions is to add them inside it, for example, ``xxldsp`` represents enable the nuclei DSP extension, ``v`` represents enable RISC-V V-Extension, When enabling multiple extensions, they are connected through ``_``. Currently, Nuclei QEMU supports the following common RISC-V instruction set extension types:
 
   +--------------+-------------------------------------------------------------------------+
   | Extension    | Functionality                                                           |
@@ -277,11 +293,27 @@ You can enter qemu-system-riscv32 --help to view the parameters that can be conf
   | xxlcz        | Nuclei code size reduction extension                                    |
   +--------------+-------------------------------------------------------------------------+
 
+  **vlen=128,elen=64**: The VLEN and ELEN are only effective when the V extension instructions of RISC-V are enabled. The default value of VLEN is 128, and it must be a multiple of 2 when set, with a value range of [128, 1024]. The default value of ELEN is 64, and ELEN must also be a multiple of 2, with a value range of [8, 64].
+  
+  **s=true**: This parameter is optional, If you wish for RISC-V to support the S (supervisor) privilege mode, you can add s=true to the parameters to meet this requirement. Nuclei QEMU currently only supports interrupt handling in M-privilege mode.
+
 * ``-m 512M``: To set the DDR size in QEMU, if the DDR size is not passed with ``-m``, then the JSON config will be used to determine the size, and lastly, if neither is specified, it will initialize with 32MB.
 
   .. note::
 
         The following is the current default qemu memory size configuration, **xip: 32MB**, **ddr:64MB**, **ilm: 8MB**, **dlm: 8MB**, **sram: 512MB**. You can change the size of the DDR by using **-m size**. When **-m 128M** or no -m is passed, the default DDR size configured in the JSON or the size initialized by the program will be used. If the DDR size is configured too large and the computer does not have enough memory to allocate, an error such as **qemu-system-riscv32: cannot set up guest memory 'riscv.evalsoc.ram.sram'** may occur.
+
+* ``-smp 1``: Nuclei Qemu currently supports up to 16 CPUs. If this parameter is not set, the uses 1 CPU.
+
+* ``-icount shift=0``: This parameter is optional, Qemu TCG Instruction Counting. By enabling this option, you can enable qemu's instruction count. For more detailed information, refer to https://www.qemu.org/docs/master/devel/tcg-icount.html
+
+* ``-nodefaults``: QEMU is used to disable all default devices and configurations, and some custom parameters and commands can be passed.
+
+* ``-nographic``: Disable qemu's graphical interface and redirect standard output to the console.
+
+* ``-serial stdio``: Direct standard output to the console.
+
+* ``-kernel or -bios``: Choose the boot mode for the firmware. By default, programs on nuclei-sdk load using the -kernel mode, while on Linux, they load using the -bios mode. In the design of Nuclei Qemu, -kernel enables the use of eclic. For bare metal or RTOS, -kernel is used to transfer ELF file, while -bios is used to enable PLIC+CLINT timers, which are more suitable for Linux applications.
 
 Use Nuclei QEMU in Nuclei SDK
 =============================
@@ -292,20 +324,65 @@ Use Nuclei QEMU in Nuclei SDK
 
 2. Download RISC-V GNU Toolchain form `Nuclei Download Center <https://nucleisys.com/download.php>`_.
 
-3. Set up the system environment variables to ensure that the directories containing ``riscv64-unknown-elf-gcc`` and ``qemu-system-riscv32`` are included in the global system variable environment.
+3. Download Nuclei Qemu form `Nuclei Download Center <https://nucleisys.com/download.php>`_.
+
+4. Set up the system environment variables to ensure that the directories containing ``riscv64-unknown-elf-gcc`` and ``qemu-system-riscv32`` are included in the global system variable environment.
 
 **Example**
 
-If you want to use QEMU on Nuclei-SDK, entry to the ``nuclei-sdk/application/baremetal/demo_dsp/`` and run ``make CORE=nx900fd SOC=evalsoc DOWNLOAD=ilm ARCH_EXT=_xxldsp clean dasm run_qemu``.
+If you want to use QEMU on Nuclei-SDK.The example here uses the CPU of the nx900fd, but other CPU types can also be used for testing. The example is xxdsp.
+
+First, you need to configure the toolchain, nuclei-sdk, and qemu environments according to the documentation, https://doc.nucleisys.com/nuclei_sdk/quickstart.html#
+
+.. code-block:: c
+   
+   # Enter the example folder of xxldsp
+   cd nuclei-sdk/application/baremetal/demo_dsp/
+   # Clear the compilation cache
+   make clean
+   # Compile the program for the nx900fd, set the download mode to ILM, and enable the xxldsp extension
+   make CORE=nx900fd SOC=evalsoc DOWNLOAD=ilm ARCH_EXT=_xxldsp dasm
+   # Automatically generate qemu running commands and execute the program
+   make CORE=nx900fd SOC=evalsoc DOWNLOAD=ilm ARCH_EXT=_xxldsp run_qemu
 
 Where **ARCH_EXT** can be used to pass the extension name.
 Under normal circumstances, you should see the final output ``NMSIS_TEST_PASS``, which indicates that all test cases have passed successfully.
 
-And Nuclei QEMU and Nuclei SDK are deeply integrated in Nuclei Studio, you can also use it in Nuclei Studio, see https://nucleisys.com/upload/files/doc/nucleistudio/Nuclei_Studio_User_Guide.202402.pdf
+And Nuclei QEMU and Nuclei SDK are deeply integrated in Nuclei Studio, you can also use it in Nuclei Studio, see https://nucleisys.com/upload/files/doc/nucleistudio/Nuclei_Studio_User_Guide.202406.pdf
 
 Use Nuclei QEMU in Nuclei Linux SDK
 ===================================
 
 Nuclei QEMU can also used to boot and test RISC-V Linux Kernel using emulated Nuclei EvalSoC, please check documentation
-here https://github.com/Nuclei-Software/nuclei-linux-sdk#booting-linux-on-nuclei-qemu
+here https://github.com/Nuclei-Software/nuclei-linux-sdk#booting-linux-on-nuclei-qemu.
+
+An example of a typical Nuclei QEMU running Nuclei Linux SDK is as follows:
+
+.. code-block:: c
+
+   qemu-system-riscv64 -M nuclei_evalsoc,download=flashxip,soc-cfg=app.cfg -cpu nuclei-ux900fd,ext= -smp 8 -m 2G -bios freeloader_qemu.elf -nographic -drive file=disk.img,if=sd,format=raw
+
+This command sets up QEMU to emulate a Nuclei processor and environment specifically for the Nuclei Linux SDK. Here's a breakdown of the parameters:
+
+* ``qemu-system-riscv64``: This is the QEMU emulator for the RISC-V 64-bit architecture.
+
+* ``-M nuclei_evalsoc``: Specifies the machine type for nuclei_evalsoc, nuclei_demosoc will be deprecated in future versions.
+
+* ``download=flashxip``: The download mode of firmware, which is an optional parameter. If not set, the default download mode is flashxip.
+
+* ``soc-cfg=evalsoc.cfg``: Additional configuration scripts can customize the interrupt information and memory address information of peripherals. For details, see Description of Parameters.
+
+* ``-cpu nuclei-ux900fd``: Selects the Nuclei UX900FD CPU model for emulation.
+
+* ``-ext=``: You can pass the extensions supported by riscv, and connect multiple extensions with _.
+
+* ``-smp 8``: Enables Symmetric Multi-Processing (SMP) with 8 CPU cores.
+
+* ``-m 2G``: Allocates 2GB of RAM to the virtual machine.
+
+* ``-bios freeloader_qemu.elf``: Specifies the BIOS or bootloader to use, in this case a freeloader named freeloader_qemu.elf specifically for QEMU.
+
+* ``-nographic``: Disables graphical output, making QEMU run in a text-only mode.
+
+* ``-drive file=disk.img,if=sd,format=raw``: Attaches a virtual disk image named disk.img to the virtual machine, using the SD card interface (if=sd) and a raw file format (format=raw). This disk image likely contains the Nuclei Linux SDK filesystem.
 
