@@ -5,12 +5,15 @@ Nuclei Studio IDE
 
 
 .. toctree::
-   :maxdepth: 3
-
+   :maxdepth: 2
+   
    intro.rst
-   window.rst
+   npkoverview.rst
+   npkmanage.rst
    npk.rst
-   project.rst
-   debug.rst
+   projectnew.rst
+   projectbuild.rst
+   projectrun.rst
+   advanceeusage.rst
    update.rst
    faq.rst
