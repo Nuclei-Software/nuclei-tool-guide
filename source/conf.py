@@ -137,6 +137,7 @@ latex_elements = {
     'inputenc': '',
     'babel': '',
     'preamble': r'''
+    \usepackage{hyperref}
     \usepackage{xeCJK}
     \usepackage{indentfirst}
     \setlength{\parindent}{2em}
@@ -145,6 +146,7 @@ latex_elements = {
     \XeTeXlinebreaklocale "zh"
     \XeTeXlinebreakskip = 0pt plus 1pt
     ''',
+    'extraclassoptions': ',bookmarksnumbered',
 }
 
 rst_prolog = """
