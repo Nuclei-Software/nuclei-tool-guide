@@ -121,11 +121,31 @@ breathe_default_project = ""
 breathe_show_define_initializer = True
 
 # -- Options for Latex output -------------------------------------------------
+latex_engine = "xelatex"
 latex_logo = 'asserts/logo/logo.png'
 latex_show_pagerefs = True
 latex_toplevel_sectioning = 'chapter'
 latex_show_urls = 'footnote'
 latex_documents = [("index", "%s.tex"%(pdfname), project, author, "manual", False) ]
+
+# refer https://github.com/StephenPCG/docker-sphinx-cjk-pdf
+# https://www.sphinx-doc.org/en/master/latex.html#module-latex
+# See available font: fc-list :lang=zh
+latex_elements = {
+    'papersize': 'a4paper',
+    'utf8extra': '',
+    'inputenc': '',
+    'babel': '',
+    'preamble': r'''
+    \usepackage{xeCJK}
+    \usepackage{indentfirst}
+    \setlength{\parindent}{2em}
+    \setCJKmainfont{AR PL KaitiM GB}
+    \setCJKmonofont{AR PL KaitiM GB}
+    \XeTeXlinebreaklocale "zh"
+    \XeTeXlinebreakskip = 0pt plus 1pt
+    ''',
+}
 
 rst_prolog = """
 .. |nuclei_contact| replace:: support@nucleisys.com
