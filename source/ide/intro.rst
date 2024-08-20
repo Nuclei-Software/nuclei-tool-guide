@@ -3,12 +3,16 @@
 Nuclei Studio IDE 简介
 =======================
 
-一款高效易用的集成开发环境（Integrated Development
-Environment，IDE）对于任何MCU都显得非常重要，软件开发人员需要借助IDE进行实际的项目开发与调试。ARM的商业IDE软件Keil，在中国大陆很多嵌入式软件工程师均对其非常熟悉。但是商业IDE软件（譬如Keil）存在着授权以及收费的问题，各大MCU厂商也会推出自己的免费IDE供用户使用，譬如瑞萨的e2studio和NXP的LPCXpresso等，这些IDE均是基于开源的Eclipse框架，Eclipse几乎成了开源免费MCU
-IDE的主流选择。Nuclei Studio IDE正是芯来公司，基于Eclipse
-IDE开发的一款针对芯来公司处理器核产品的集成开发环境工具。
+一款高效易用的集成开发环境（Integrated Development Environment，IDE）对于任何MCU都显得非常重要，软件开发人员需要借助IDE进行实际的项目开发与调试。
+ARM的商业IDE软件Keil，在中国大陆很多嵌入式软件工程师均对其非常熟悉。但是商业IDE软件（譬如Keil）存在着授权以及收费的问题，各大MCU厂商也会推出自己
+的免费IDE供用户使用，譬如瑞萨的e2studio和NXP的LPCXpresso等，这些IDE均是基于开源的Eclipse框架，Eclipse几乎成了开源免费MCU IDE的主流选择。
 
-Eclipse平台采用开放式源代码模式运作，并提供公共许可证（提供免费源代码）以及全球发布权利。Eclipse本身只是一个框架平台，除了Eclipse平台的运行时内核之外，其所有功能均位于不同的插件中。开发人员既可通过Eclipse项目的不同插件来扩展平台功能，也可利用其他开发人员提供的插件。一个插件可以插入另一个插件，从而实现最大程度的集成。
+Nuclei Studio IDE正是芯来公司，基于Eclipse IDE开发的一款针对芯来RISC-V处理器IP核产品的集成开发环境工具。
+
+Eclipse平台采用开放式源代码模式运作，并提供公共许可证（提供免费源代码）以及全球发布权利。
+Eclipse本身只是一个框架平台，除了Eclipse平台的运行时内核之外，其所有功能均位于不同的插件中。
+开发人员既可通过Eclipse项目的不同插件来扩展平台功能，也可利用其他开发人员提供的插件。
+一个插件可以插入另一个插件，从而实现最大程度的集成。
 
 由于Eclipse IDE已经在社区被大量使用，一些常见的使用方法在Eclipse
 IDE里面，如果没有和硬件或者CPU绑定，一般情况下是可以借鉴其他人写的关于Eclipse
@@ -22,35 +26,58 @@ IDE的使用教程，这里推荐几个常用的教程网站：
 
 Eclipse IDE平台具备以下几方面的优势。
 
--  社区规模大
+-  **社区规模大**
 
-..
-   Eclipse自2001年推出以来，已形成大规模社区，这为设计人员提供了许多资源，包括图书、教程和网站等，以帮助他们利用Eclipse平台与工具提高工作效率。Eclipse平台和相关项目、插件等都能直接从eclipse.org网站下载获得。
+   Eclipse自2001年推出以来，已形成大规模社区，这为设计人员提供了许多资源，包括图书、教程和网站等，
+   以帮助他们利用Eclipse平台与工具提高工作效率。Eclipse平台和相关项目、插件等都能直接从eclipse.org网站下载获得。
 
--  持续改进
+-  **持续改进**
 
-..
    Eclipse的开放式源代码平台帮助开发人员持续充分发挥大规模资源的优势。Eclipse在以下多个项目上不断改进。
 
-    -  平台项目——侧重于Eclipse本身。
+   -  平台项目 —— 侧重于Eclipse本身。
 
-    -  CDT项目——侧重于C/C++开发工具。
+   -  CDT项目  —— 侧重于C/C++开发工具。
 
-    -  PDE项目——侧重于插件开发环境。
+   -  PDE项目  —— 侧重于插件开发环境。
 
--  源码开源
+-  **源码开源**
 
    设计人员始终能获得源代码，总能修正工具的错误，它能帮助设计人员节省时间，自主控制开发工作。
 
--  兼容性
+-  **兼容性**
 
    Eclipse平台采用Java语言编写，可在Windows与Linux等多种开发工作站上使用。开放式源代码工具支持多种语言、多种平台以及多种厂商环境。
 
--  可扩展性
+-  **可扩展性**
 
    Eclipse采用开放式、可扩展架构，它能够与ClearCase、SlickEdit、Rational Rose以及其他统一建模语言（UML）套件等第三方扩展协同工作。此外，它还能与各种图形用户接口（GUI）编辑器协同工作，并支持各种插件。
 
-Nuclei Studio已经充分与Nuclei SDK整合，完全满足SDK的需要，可以方便快捷地新建模板工程，快速修改工程设置选项。内置Nuclei SDK源代码，可根据模板需求自动添加。
+
+Nuclei Studio IDE充分利用上述Eclipse IDE优势，结合社区成熟的Eclipse embedded CDT, Linux Tools等插件，并研发自有插件满足RISC-V嵌入式开发的日常需求:
+
+- 工程创建，管理，编译和调试
+
+- 支持多种调试方案，例如OpenOCD，JLink，Nuclei DLink，Nuclei Qemu等
+
+- 支持扩展调试方案，方便扩展支持更多调试器
+
+- 支持多种编译器，包括gcc, clang, zcc
+
+- 提供快捷的工程常用设置工具 **Nuclei Settings**
+
+- 支持基于Nuclei ETrace软硬件方案的Onchip Trace
+
+- 支持基于gprof、gcov的大幅增强profiling和code coverage方案
+
+- 支持Nuclei PacKage(NPK)软件包方案，可以便捷的扩展支持软件开发包和Nuclei Studio解耦，
+  实现 **软件包导入** -> **Project Wizard** 的便捷方案, 这种方案已经得到广泛的应用，例如
+  芯来科技自有的 **Nuclei SDK**.
+
+- 更快捷的工程和工作空间的打开方式
+
+- 更好用的Launchbar功能
+
 
 Nuclei Studio 更新说明
 =======================
@@ -68,11 +95,11 @@ Nuclei Studio 更新说明
 升级RISC-V Toolchain、OpenOCD、QEMU版本
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2024.06版本中集成了Nuclei RISC-V Toolchain 2024.06版，具体信息可以查看：\ https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2024.06。
+在Nuclei Studio 2024.06版本中集成了Nuclei RISC-V Toolchain 2024.06版，具体信息可以查看：https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2024.06 。
 
-在Nuclei Studio 2024.06版本中集成了OpenOCD 2024.06版，具体信息可以查看：\ https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2024.06。
+在Nuclei Studio 2024.06版本中集成了OpenOCD 2024.06版，具体信息可以查看：https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2024.06 。
 
-在Nuclei Studio 2024.06版本中集成了Nuclei Qemu 2024.06版，具体信息可以查看：\ https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2024.06。
+在Nuclei Studio 2024.06版本中集成了Nuclei Qemu 2024.06版，具体信息可以查看：https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2024.06 。
 
 新增对U600和UX1000的支持
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -84,7 +111,8 @@ Nuclei Studio 更新说明
 
 优化Nuclei Package Management中对NPK包依赖的管理，使其更易使用；优化了部分NPK包安装的提示信息及日志，提高NPK包管理的使用体验。具体参见 :ref:`NPK软件包管理 <ide_npk_package_management>` 。
 
-.. note:: 
+.. note::
+
    注意：本次版本升级，变更了NPK包管理的配置，在2024.02版及之前版本中安装的NPK包在2024.06版NucleiStudio无法识别，用户需重新下载安装NPK包。
 
 增加和优化部分编译选项
@@ -208,21 +236,21 @@ RISC-V指令扩展使用变更
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 因gcc和clang的变更，在扩展的使用上，有了较大的变化。原来的bpkv扩展与新的规则对应关系如下，更详细的说明，请参阅\ https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#arch-ext
- 
 
--  b -> \_zba_zbb_zbc_zbs
 
--  p -> rv64: \_xxldsp, rv32: \_xxldspn3x for n300, \_xxldspn1x for n900
+-  ``b`` -> ``_zba_zbb_zbc_zbs``
 
--  k -> \_zk_zks
+-  ``p`` -> rv64: ``_xxldsp``, rv32: ``_xxldspn3x`` for n300, ``_xxldspn1x`` for n900
 
--  v -> rv32f/d : \_zve32f, rv64f: \_zve64f, rv64fd:
+-  ``k`` -> ``_zk_zks``
 
-以N307FD + B + V + Nuclei DSP with N1 extension为例，创建一个使用扩展的应用，在创建工程的引导中，需要Nuclei ARCH Extensions中填入对的扩展字段，如需要使用bpv扩展，根据以上规则，需要填入 ``_zba_zbb_zbc_zbs_zve32f_xxldspn1x`` 。 
+-  ``v`` -> rv32f/d : ``_zve32f``, rv64f: ``_zve64f``, rv64fd: ``v``
+
+以N307FD + B + V + Nuclei DSP with N1 extension为例，创建一个使用扩展的应用，在创建工程的引导中，需要Nuclei ARCH Extensions中填入对的扩展字段，如需要使用bpv扩展，根据以上规则，需要填入 ``_zba_zbb_zbc_zbs_zve32f_xxldspn1x`` 。
 
 |image5|
 
-生成的工程中，可以看到在工程的\ **Nuclei Settings**\ 。
+生成的工程中，可以看到在工程的 **Nuclei Settings** 。
 
 |image7|
 

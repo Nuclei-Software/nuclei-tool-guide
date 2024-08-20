@@ -1,4 +1,4 @@
-.. _npkoverview: 
+.. _npkoverview:
 
 Nuclei Studio NPK 介绍
 ======================
@@ -7,13 +7,13 @@ Nuclei Studio NPK 介绍
 
 组件包主要由以下文件组成：
 
-- 组件描述文件(基于YAML语言)： ``npk.yml`` 
+- 组件描述文件(基于YAML语言)： ``npk.yml``
 
 - 组件相关代码以及说明文档
 
 组件包会以zip包形式存在，组件包在导入使用时，需要被IDE或者其他工具进行包完整性以及可用性检查，才予以导入。
 
-.. note:: 
+.. note::
    组件包后期会提供签名机制，在发布前先签名，然后导入软件包会验证签名，确保导入的开发包是合法身份发布，不导入不可信的开发包。
 
 组件描述文件(npk.yml)
@@ -27,7 +27,7 @@ Nuclei Studio NPK 介绍
 - osp: RTOS Support Package， 例如各类RTOS支持包
 - app: Application Package，例如各类上层应用
 - mwp: Middleware Package，各类第三方中间件，例如语音识别，算法库之类的
-- tpp: Template Package, 模板类型，可以用于创建csp/ssp/bsp/osp/app/mwp/sdk的模板工程,该类型比较特殊，描述文件名称为 **npk_template.yml** 
+- tpp: Template Package, 模板类型，可以用于创建csp/ssp/bsp/osp/app/mwp/sdk的模板工程,该类型比较特殊，描述文件名称为 **npk_template.yml**
 - sdk: Software Development Kit，一组预设定好的软件开发包，一般情况下里面会包含了CSP, SSP, BSP, APP类型的包，OSP和MWP类型的包可选加入
 - tool: Tool Package，各类工具组件包，可放入其他需要引用或参考的文件
 
@@ -280,17 +280,17 @@ Nuclei Studio NPK 介绍
              value: ${nuclei_core.abi}
            - key: machine   # QEMU Machine
              value: gd32vf103v_rvstar
-             
-    ##Extended variable 
-    ## Only works on tool类型  
-    ## 每个包存在一个包路径，引用为npk名称-版本号，例如${tool-cmlink-1.0.0}， 
+
+    ##Extended variable
+    ## Only works on tool类型
+    ## 每个包存在一个包路径，引用为npk名称-版本号，例如${tool-cmlink-1.0.0}，
     ## 其他变量的引用为npk名称-版本号-变量名，例如 ${tool-cmlink-1.0.0-proxy}
     environment:            # 扩展变量
       - key: proxy            # 变量名,
         value: bin/cmlink_gdbserver.exe        # 实际引用结果为 npk文件父路径+value，例如C:\Users\jj\nuclei-pack-npk\NPKs\XinShengTech\Tool_Package\tool-cmlink\1.0.0\cmlink\bin\cmlink_gdbserver.exe
         description: proxy location
         system: true    # 默认为fasle，当system为true时，该变量引用时直接使用变量名，例如${proxy}
-        
+
     ## Template File Management
     ## Only works on tpp类型，该类型比较特殊，描述文件为npk_template.yml，是基于npk.yml做的扩展
     templatemanage:
@@ -356,7 +356,7 @@ zip包内容规范
     * sdk > ssp > bsp > osp > mwp >  csp > app
     * 如果判定出包的类型存在多个相同的npk，则该包不合法，不允许导入，并提示
 * 该类型的包不允许存在多个该类型的npk文件
-* 如果是`sdk`类型的包，则必须包含至少一个`ssp`和依赖于该`ssp`的`bsp`文件，以及至少一个`app`类型的文件，允许存在其他类型的包
+* 如果是``sdk``类型的包，则必须包含至少一个``ssp``和依赖于该``ssp``的``bsp``文件，以及至少一个``app``类型的文件，允许存在其他类型的包
 * 如果是其他类型的包，则里面包含的其他npk，必须显式依赖于该包
 
 包依赖关系处理
@@ -378,7 +378,7 @@ ssp SoC Support Package依赖
 
 ssp类型的包是SoC或者芯片的支持的软件包，例如gd32vf103, demosoc这样SoC的支持软件包。
 
-ssp软件包仅可以依赖csp/mwp/osp这样的软件包，如果依赖了这三种类型的软件包，则表示在工程创建的时候或者是代码引入的时候，这三类软件包需要导入代码。 **而如果依赖sdk类型的软件包，则表示该ssp类型的包属于依赖的sdk类型的软件包的环境。** 
+ssp软件包仅可以依赖csp/mwp/osp这样的软件包，如果依赖了这三种类型的软件包，则表示在工程创建的时候或者是代码引入的时候，这三类软件包需要导入代码。 **而如果依赖sdk类型的软件包，则表示该ssp类型的包属于依赖的sdk类型的软件包的环境。**
 
 理论上用户可以创建一个ssp软件包，不依赖任何csp/mwp/rtos的软件包，也不属于sdk类型的软件包。 **osp** 类型软件包仅可以依赖一个。
 
@@ -387,7 +387,7 @@ bsp Board Support Package依赖
 
 bsp类型的包是针对基于某款SoC/芯片做的开发板而推出的软件支持包，例如gd32vf103-rvstar这款开发板的bsp软件包。
 
-bsp软件包仅可以依赖ssp/csp/mwp/osp这样的软件包, 如果依赖了这几种类型的软件包，则表示在工程创建的时候或者是代码引入的时候，这类软件包需要导入代码。 **而如果依赖sdk类型的软件包，则表示该ssp类型的包属于依赖的sdk类型的软件包的环境。** 
+bsp软件包仅可以依赖ssp/csp/mwp/osp这样的软件包, 如果依赖了这几种类型的软件包，则表示在工程创建的时候或者是代码引入的时候，这类软件包需要导入代码。 **而如果依赖sdk类型的软件包，则表示该ssp类型的包属于依赖的sdk类型的软件包的环境。**
 
 理论上用户可以创建一个bsp软件包，不依赖任何软件包。 **osp** 类型软件包仅可以依赖一个。
 
@@ -396,7 +396,7 @@ osp OS Support Package依赖
 
 osp类型的包是指特定的RTOS的软件支持包，例如freertos，ucosii之类的。
 
-osp类型的包仅可以依赖ssp/csp/mwp类型的软件包，如果依赖了这几种类型的软件包，则表示在工程创建的时候或者是代码引入的时候，这类软件包需要导入代码。 **而如果依赖sdk类型的软件包，则表示该ssp类型的包属于依赖的sdk类型的软件包的环境。** 
+osp类型的包仅可以依赖ssp/csp/mwp类型的软件包，如果依赖了这几种类型的软件包，则表示在工程创建的时候或者是代码引入的时候，这类软件包需要导入代码。 **而如果依赖sdk类型的软件包，则表示该ssp类型的包属于依赖的sdk类型的软件包的环境。**
 
 mwp Middleware Support Package依赖
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -429,7 +429,7 @@ Package Base Information
 
 这一块分信息，是NPK的基础的信息，很多关键的信息在这部分内容中需要描述清楚。其中着重说明几个字段。
 
-* name 
+* name
 
 必填，NPK的名称ID，不要有空格，符合C语言命名规范，英文名称，是唯一名称ID。
 
@@ -495,7 +495,7 @@ Package Configurations
 
 对该变量的说明信息，如值的示例等，主要用于UI的hints事件。
 
-* description 
+* description
 
 此变量的NPK中的说明描述。
 
@@ -526,7 +526,7 @@ Source Code Management
 
 - 针对ssp类型的package,会被安装到 ``<sdk_installdir>/SoC/<ssp_installdir>/Common`` 下面
 
-- 针对bsp类型的package,会被安装到 ``<sdk_installdir>/SoC/<ssp_installdir>/Board/<bsp_installdir>`` 下面，如果不依赖于任何ssp类型，则安装到 ``<sdk_installdir>/BSP/<bsp_installdir>`` 
+- 针对bsp类型的package,会被安装到 ``<sdk_installdir>/SoC/<ssp_installdir>/Board/<bsp_installdir>`` 下面，如果不依赖于任何ssp类型，则安装到 ``<sdk_installdir>/BSP/<bsp_installdir>``
 
 - 针对osp类型的package,会被安装到 ``<sdk_installdir>/OS/<osp_installdir>`` 下面
 
@@ -539,11 +539,11 @@ Source Code Management
     2023.05.26 新增 copyfiles/incdirs/libdirs 均支持 ../../ 这样的相对上级目录，但是安装或者设置路径的时候，均设置到 <installdir>下面
 
     例如: path: ["../common/"] 就拷贝上一级目录的common, 并放在<installdir>/common下面，
-    
-    如果下面有common这个目录，则创建 R1L_common, 如果是 ../../common, 则创建 R2L_common， 
-    
-    这种方案不考虑了，直接创建同名目录，同名文件直接覆盖，建议采用 `srcroot: ..` 来解决问题对应的incdirs/libdirs 
-    
+
+    如果下面有common这个目录，则创建 R1L_common, 如果是 ../../common, 则创建 R2L_common，
+
+    这种方案不考虑了，直接创建同名目录，同名文件直接覆盖，建议采用 `srcroot: ..` 来解决问题对应的incdirs/libdirs
+
     如果遇到这种相对路径，也需要以最终安装到路径以及文件名为准
 
 
@@ -577,7 +577,7 @@ Set Configuration for other packages
 
 该变量名不唯一，可以通过条件进行判定生效，也遵循覆盖规则app > mwp  > osp > bsp > ssp > csp，进行自动覆盖。
 
-* value 
+* value
 
 变量的值
 
@@ -657,13 +657,13 @@ CXX的宏定义，留空表示没有任何选项。
 * prebuild_steps
 
     * command
-    
+
     编译前执行的命令，留空表示没有任何选项。
 
     * description
-    
+
     编译前执行的命令的说明，留空表示没有任何选项。
-    
+
 * postbuild_steps
 
     * command
@@ -671,7 +671,7 @@ CXX的宏定义，留空表示没有任何选项。
     编译后执行的命令，留空表示没有任何选项。
 
     * description
-    
+
     编译后执行的命令的说明，留空表示没有任何选项。
 
 Debug Configuration
@@ -707,7 +707,7 @@ GDB Custom的Debug参数
 .. _table_ips_1:
 
 .. table:: Arguments of GDB Custom Debug
-  
+
   +--------------------------------------+-------------------------------------+------------------------------------------------+
   | Name                                 | Reset Value                         | Description                                    |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
@@ -725,7 +725,7 @@ GDB Custom的Debug参数
   +--------------------------------------+-------------------------------------+------------------------------------------------+
   | gdbServerExecutable                  |                                     | gdb Server Executable                          |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
-  | serverCheckFlag                      | Started by GNU MCU Eclipse          | server Check Flag                              | 
+  | serverCheckFlag                      | Started by GNU MCU Eclipse          | server Check Flag                              |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
   | gdbServerGdbPortNumber               | 3333                                | gdb Server Gdb Port Number                     |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
@@ -1129,7 +1129,7 @@ Nulcei RVProf的参数
   +-------------------------------------------+---------------------------------------------+------------------------------------------------+
   | doRVProfAllocateTelnetConsole             | false                                       |                                                |
   +-------------------------------------------+---------------------------------------------+------------------------------------------------+
-  
+
 
 Extended variable
 ~~~~~~~~~~~~~~~~~~
@@ -1137,17 +1137,17 @@ Extended variable
 
 .. note::
 
-    - 每个包存在一个包路径，引用为npk名称-版本号，例如 ``${tool-cyclemodel-1.0.0}`` 
+    - 每个包存在一个包路径，引用为npk名称-版本号，例如 ``${tool-cyclemodel-1.0.0}``
 
-    - 其他变量的引用为npk名称-版本号-变量名，例如 ``${tool-cyclemodel-1.0.0-cycelmodel_path}`` , ``${tool-cyclemodel-1.0.0-cycelmodel_executable}`` 
+    - 其他变量的引用为npk名称-版本号-变量名，例如 ``${tool-cyclemodel-1.0.0-cycelmodel_path}`` , ``${tool-cyclemodel-1.0.0-cycelmodel_executable}``
 
-    - 当变量的system值为true时，额外新增一个不带版本号的变量，取最高版本的该变量，例如 ``${tool-cyclemodel-cycelmodel_executable}`` 
+    - 当变量的system值为true时，额外新增一个不带版本号的变量，取最高版本的该变量，例如 ``${tool-cyclemodel-cycelmodel_executable}``
 
 .. code-block:: yaml
 
     name: tool-cyclemodel
     owner: nuclei
-    os: 
+    os:
     version: 1.0.0
     description: Nuclei Tools cyclemodel
     details: Nuclei Tools cyclemodel
@@ -1156,7 +1156,7 @@ Extended variable
       - tool
       - cyclemodel
     license: Apache-2.0
-    homepage: 
+    homepage:
 
     ## 扩展变量  tool-cyclemodel-1.0.0与 tool-cyclemodel-1.0.0-proxy
     environment:
@@ -1168,8 +1168,8 @@ Extended variable
         value: bin/n300_best_config_cymodel_latest
         description: cyclemodel location
         system: true
-    
-    
+
+
     ## 这是另一个NPK中的代码，演示了如何使用tool-cyclemodel
     debugconfig:
       - type: rvprof
@@ -1189,56 +1189,57 @@ NPK中的UI组件
 --------------
 
 
-
 NPK中提供了丰富的UI组件，这些组件的字段里面都会有default, description, global这些子字段，这些字段均具备含义。
 
 default表示默认值，description表示该选项的含义，global表示这个选项是否在工程创建时显示(true)，或者仅仅内部传参使用(false)。
 
 * Choice 单项选择框
 
-.. code-block:: yaml
-    choice_test:s
-    default_value: ground 
-    type: choice
-    description: choice_test
-    choices:                 
-      - name: ground          
-        description: Ground Rules  
-        info:            
-          - name: app_commonflags
-            value: >-
-              -O3 -flto -fno-inline -funroll-loops -Wno-implicit -mexplicit-relocs
-              -fno-builtin-printf -fno-common -falign-functions=4 -falign-jumps=4 -falign-loops=4
-      - name: inline
-        description: Inline
-        info:
-          - name: app_commonflags
-            value: >-
-              -O3 -flto -finline -funroll-loops -Wno-implicit -mexplicit-relocs -fno-builtin-printf
-              -fno-common -falign-functions=4 -falign-jumps=4 -falign-loops=4 -finline-functions
-      - name: best
-        description: Best Effort
-        info:
-          - name: app_commonflags
-            value: >-
-              -Ofast -flto -fwhole-program -finline -funroll-loops -Wno-implicit -mexplicit-relocs
-              -fno-builtin-printf -fno-common -falign-functions=4 -falign-jumps=4 -falign-loops=4
-              -finline-functions
+.. code-block:: yaml
 
-.. _figure_about_project_1:
+    choice_test:
+      default_value: ground
+      type: choice
+      description: choice_test
+      choices:
+        - name: ground
+          description: Ground Rules
+          info:
+            - name: app_commonflags
+              value: >-
+                -O3 -flto -fno-inline -funroll-loops -Wno-implicit -mexplicit-relocs
+                -fno-builtin-printf -fno-common -falign-functions=4 -falign-jumps=4 -falign-loops=4
+        - name: inline
+          description: Inline
+          info:
+            - name: app_commonflags
+              value: >-
+                -O3 -flto -finline -funroll-loops -Wno-implicit -mexplicit-relocs -fno-builtin-printf
+                -fno-common -falign-functions=4 -falign-jumps=4 -falign-loops=4 -finline-functions
+        - name: best
+          description: Best Effort
+          info:
+            - name: app_commonflags
+              value: >-
+                -Ofast -flto -fwhole-program -finline -funroll-loops -Wno-implicit -mexplicit-relocs
+                -fno-builtin-printf -fno-common -falign-functions=4 -falign-jumps=4 -falign-loops=4
+                -finline-functions
+
+.. _figure_about_project_1:
 
 .. figure:: /asserts/nucleistudio/npk/image.png
 
 * list 单项选择框
 
-.. code-block:: yaml
+.. code-block:: yaml
+
     list_test:
-    default_value: rv32imac
-    type: list          
-    global: true
-    description: list_test
-    value: >-               
-      [rv32imac,rv32imafc,rv32imafdc,rv32imacb,rv32imafcb,rv32imafdcb]
+      default_value: rv32imac
+      type: list
+      global: true
+      description: list_test
+      value: >-
+        [rv32imac,rv32imafc,rv32imafdc,rv32imacb,rv32imafcb,rv32imafdcb]
 
 .. _figure_about_project_1_1:
 
@@ -1246,65 +1247,69 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 * checkbox 单项勾选框
 
-.. code-block:: yaml
-    checkbox_test:                
-    default_value: 0 
-    type: checkbox  
-    global: true  
-    description: checkbox_test
+.. code-block:: yaml
 
-
+    checkbox_test:
+      default_value: 0
+      type: checkbox
+      global: true
+      description: checkbox_test
+
+
 .. _figure_about_project_1_2:
 
 .. figure:: /asserts/nucleistudio/npk/image-2.png
 
-* multicheckbox 穿梭选择框  
+* multicheckbox 穿梭选择框
   下面提供2种写法
 
-.. code-block:: yaml
-  multicheckbox_old:
-    default_value: []
-    type: multicheckbox
-    global: true
-    description: multicheckbox_old
-    choices:
-      - name: b
-        description: Bitmanip Extension
-      - name: p
-        description: Packed SIMD Extension
-      - name: v
-        description: Vector Extension
+.. code-block:: yaml
+
+    multicheckbox_old:
+      default_value: []
+      type: multicheckbox
+      global: true
+      description: multicheckbox_old
+      choices:
+        - name: b
+          description: Bitmanip Extension
+        - name: p
+          description: Packed SIMD Extension
+        - name: v
+          description: Vector Extension
 
 .. _figure_about_project_1_3:
 
 .. figure:: /asserts/nucleistudio/npk/image-3.png
 
-.. code-block:: yaml
-  multicheckbox_new:
-    default_value: rv32imac 
-    type: multicheckbox
-    global: true
-    description: multicheckbox_new
-    param: 
-      name: ["rv32imac","rv32imafc","rv32imafdc"]
-      description: ["${name} description","${name} description","${name} description"] 
+.. code-block:: yaml
 
-
+    multicheckbox_new:
+      default_value: rv32imac
+      type: multicheckbox
+      global: true
+      description: multicheckbox_new
+      param:
+        name: ["rv32imac","rv32imafc","rv32imafdc"]
+        description: ["${name} description","${name} description","${name} description"]
+
+
 .. _figure_about_project_1_4:
 
 .. figure:: /asserts/nucleistudio/npk/image-4.png
 
 * text 单行文本框
 
-.. code-block:: yaml
+.. code-block:: yaml
+
     text_test:
-    value: >-    
-      -O2 -funroll-all-loops -finline-limit=600 -ftree-dominator-opts
-      -fno-if-conversion2 -fselective-scheduling -fno-code-hoisting
-      -fno-common -funroll-loops -finline-functions -falign-functions=4
-      -falign-jumps=4 -falign-loops=4
-    type: text    
-    description: text_test
+      value: >-
+        -O2 -funroll-all-loops -finline-limit=600 -ftree-dominator-opts
+        -fno-if-conversion2 -fselective-scheduling -fno-code-hoisting
+        -fno-common -funroll-loops -finline-functions -falign-functions=4
+        -falign-jumps=4 -falign-loops=4
+      type: text
+      description: text_test
 
 .. _figure_about_project_1_5:
 
@@ -1312,105 +1317,111 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 * multitext 多行文本框
 
-.. code-block:: yaml
-    multitext_test:       
-    value: >-
-      -O2 -funroll-all-loops -finline-limit=600 -ftree-dominator-opts
-      -fno-if-conversion2 -fselective-scheduling -fno-code-hoisting
-      -fno-common -funroll-loops -finline-functions -falign-functions=4
-      -falign-jumps=4 -falign-loops=4
-    type: multitext  
-    description: multitext_test 
+.. code-block:: yaml
 
-
+    multitext_test:
+      value: >-
+        -O2 -funroll-all-loops -finline-limit=600 -ftree-dominator-opts
+        -fno-if-conversion2 -fselective-scheduling -fno-code-hoisting
+        -fno-common -funroll-loops -finline-functions -falign-functions=4
+        -falign-jumps=4 -falign-loops=4
+      type: multitext
+      description: multitext_test
+
+
 .. _figure_about_project_1_6:
 
 .. figure:: /asserts/nucleistudio/npk/image-6.png
 
-* multichoice 多选下拉框  
-  下面提供2种写法  
+* multichoice 多选下拉框
+  下面提供2种写法
 
-.. code-block:: yaml
+.. code-block:: yaml
+
     multichoice_test1:
-    default_value: []
-    type: multichoice  
-    global: true
-    description: multichoice_test1
-    param:       
-      name: ["rv32imac","rv32imafc","rv32imafdc"]  
-      description: ["${name} description","${name} description","${name} description"] 
+      default_value: []
+      type: multichoice
+      global: true
+      description: multichoice_test1
+      param:
+        name: ["rv32imac","rv32imafc","rv32imafdc"]
+        description: ["${name} description","${name} description","${name} description"]
 
 .. _figure_about_project_1_7:
 
 .. figure:: /asserts/nucleistudio/npk/image-7.png
 
-.. code-block:: yaml
-    multichoice_test2:
-    default_value: >-   
-     [rv32imac,rv32imafdc]
-    type: multichoice      
-    global: true
-    description: multichoice_test2
-    choices:               
-      - name: rv32imac      #
-        description: ${name} description   
-      - name: rv32imafc
-        description: ${name} description
-      - name: rv32imafdc
-        description: ${name} description
+.. code-block:: yaml
 
-
+    multichoice_test2:
+      default_value: >-
+       [rv32imac,rv32imafdc]
+      type: multichoice
+      global: true
+      description: multichoice_test2
+      choices:
+        - name: rv32imac      #
+          description: ${name} description
+        - name: rv32imafc
+          description: ${name} description
+        - name: rv32imafdc
+          description: ${name} description
+
+
 .. _figure_about_project_1_8:
 
 .. figure:: /asserts/nucleistudio/npk/image-8.png
 
 * cascaderchoice 级联选择框
 
-.. code-block:: yaml
+.. code-block:: yaml
+
     cascaderchoice_test:
-    default_value: >-
-     [hubei,jingzhou,shashi]
-    type: cascaderchoice  
-    global: true
-    description: cascaderchoice test
-    cascader_param:   
-      - hubei:
-          - wuhan
-          - jingzhou: 
-              - shashi
-              - jianli
-      - hunan: 
-          - changsha
-          - guangdong  
+      default_value: >-
+       [hubei,jingzhou,shashi]
+      type: cascaderchoice
+      global: true
+      description: cascaderchoice test
+      cascader_param:
+        - hubei:
+            - wuhan
+            - jingzhou:
+                - shashi
+                - jianli
+        - hunan:
+            - changsha
+            - guangdong
 
 .. _figure_about_project_1_9:
 
 .. figure:: /asserts/nucleistudio/npk/image-9.png
-    
+
 * switchbutton 开关
 
-.. code-block:: yaml
-  switchbutton_test:
-    default_value: 0 
-    type: switchbutton  
-    global: true
-    description: switchbutton test  
+.. code-block:: yaml
 
-
+    switchbutton_test:
+      default_value: 0
+      type: switchbutton
+      global: true
+      description: switchbutton test
+
+
 .. _figure_about_project_1_10:
 
 .. figure:: /asserts/nucleistudio/npk/image-10.png
 
 * slider 数字选择框
 
-.. code-block:: yaml
+.. code-block:: yaml
+
     slider_test:
-    default_value: 0   
-    type: slider    
-    description: slider_test
-    param: 
-      range: >-
-       [0,100,1]
+      default_value: 0
+      type: slider
+      description: slider_test
+      param:
+        range: >-
+         [0,100,1]
 
 .. _figure_about_project_1_11:
 
@@ -1418,111 +1429,116 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 * spinner 数字选择框
 
-.. code-block:: yaml
-    spinner_test:
-    default_value: 10   
-    type: spinner      
-    description: spinner_test
-    param: 
-      range: >-
-       [-100,100,2]
+.. code-block:: yaml
 
-
+    spinner_test:
+      default_value: 10
+      type: spinner
+      description: spinner_test
+      param:
+        range: >-
+         [-100,100,2]
+
+
 .. _figure_about_project_1_12:
 
 .. figure:: /asserts/nucleistudio/npk/image-12.png
 
 * multispinner 多数字选择框
 
-.. code-block:: yaml
+.. code-block:: yaml
+
     multispinner_test:
-    default_value: >-    
-     [3,4,6,4,6,4,6,4,6,7]
-    type: multispinner      
-    global: true
-    description: multispinner_test
-    param: 
-      range: >-
-       [-100,100,1],[-100,100,2],[-100,100,3],[-100,100,3],[-100,100,3],[-100,100,3],[-100,100,3],[-100,100,3],[-100,100,3],[-100,100,4]
+      default_value: >-
+       [3,4,6,4,6,4,6,4,6,7]
+      type: multispinner
+      global: true
+      description: multispinner_test
+      param:
+        range: >-
+         [-100,100,1],[-100,100,2],[-100,100,3],[-100,100,3],[-100,100,3],[-100,100,3],[-100,100,3],[-100,100,3],[-100,100,3],[-100,100,4]
 
 .. _figure_about_project_1_13:
 
 .. figure:: /asserts/nucleistudio/npk/image-13.png
-    
-* multicheckbox_v2 多项勾选框  
+
+* multicheckbox_v2 多项勾选框
+
   下面提供2种写法
 
-.. code-block:: yaml
+.. code-block:: yaml
+
     multicheckbox_v2_test1:
-    default_value: >-   
-     [rv32imac] 
+    default_value: >-
+     [rv32imac]
     type: multicheckbox_v2
     global: true
     description: multicheckbox_v2 test1
-    param:                  
+    param:
       name: ["rv32imac","rv32imafc","rv32imafdc"]
-      description: ["${name} description","${name} description","${name} description"] 
+      description: ["${name} description","${name} description","${name} description"]
 
 .. _figure_about_project_1_14:
 
 .. figure:: /asserts/nucleistudio/npk/image-14.png
 
-.. code-block:: yaml
+.. code-block:: yaml
+
     multicheckbox_v2_test2:
-    default_value: >-
-     [rv32imac] 
-    type: multicheckbox_v2
-    global: true
-    description: multicheckbox_v2 test2
-    choices: 
-      - name: rv32imac
-        description: rv32imac 
-      - name: rv32imafc
-        description: rv32imafc2
-      - name: rv32imafdc
-        description: rv32imafdc
+      default_value: >-
+       [rv32imac]
+      type: multicheckbox_v2
+      global: true
+      description: multicheckbox_v2 test2
+      choices:
+        - name: rv32imac
+          description: rv32imac
+        - name: rv32imafc
+          description: rv32imafc2
+        - name: rv32imafdc
+          description: rv32imafdc
 
 .. _figure_about_project_1_15:
 
 .. figure:: /asserts/nucleistudio/npk/image-15.png
-      
-* multiradio 单选框  
+
+* multiradio 单选框
+
   下面提供2种写法
 
-.. code-block:: yaml
+.. code-block:: yaml
+
     multiradio_test1:
-    default_value: rv32imac
-    type: multiradio  
-    global: true
-    description: multiradio test1
-    param: 
-      name: ["rv32imac","rv32imafc","rv32imafdc"]
-      description: ["${name} description","${name} description","${name} description"]
+      default_value: rv32imac
+      type: multiradio
+      global: true
+      description: multiradio test1
+      param:
+        name: ["rv32imac","rv32imafc","rv32imafdc"]
+        description: ["${name} description","${name} description","${name} description"]
 
 .. _figure_about_project_1_16:
 
 .. figure:: /asserts/nucleistudio/npk/image-16.png
 
-.. code-block:: yaml
-  multiradio_test2:
-    default_value: rv32imac
-    type: multiradio
-    global: true
-    description: multiradio test2
-    choices: 
-      - name: rv32imac
-        description: rv32imac 
-      - name: rv32imafc
-        description: rv32imafc2
-      - name: rv32imafdc
-        description: rv32imafdc
+.. code-block:: yaml
+
+    multiradio_test2:
+      default_value: rv32imac
+      type: multiradio
+      global: true
+      description: multiradio test2
+      choices:
+        - name: rv32imac
+          description: rv32imac
+        - name: rv32imafc
+          description: rv32imafc2
+        - name: rv32imafdc
+          description: rv32imafdc
 
 .. _figure_about_project_1_17:
 
 .. figure:: /asserts/nucleistudio/npk/image-17.png
-
-
-
 
 NPK的语法
 ---------
@@ -1540,7 +1556,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
 .. note::
 
     - 例子NPK中定义了一个变量app_commonflags，在与该NPK有依赖关系的任意npk.yml文件内的任意位置，我们可以通过 ``${app_commonflags}`` 来使用app_commonflags的值。
-    
+
     - 例子NPK中定义了一个list对象nuclei_core,在与该NPK有依赖关系的任意npk.yml文件内的任意位置，我们可以通过 ``${nuclei_core.arch}`` 来使用nuclei_core对象中的arch值；通过 ``${nuclei_core.abi}`` 来使用nuclei_core对象中的abi值；通过 ``${nuclei_core.tune}`` 来使用nuclei_core对象中的tune值。
 
 .. code-block:: yaml
@@ -1572,7 +1588,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
     ## Set Configuration for other packages
     setconfig:
       - config: nmsislibarch
-        value: ${nuclei_core.arch}    
+        value: ${nuclei_core.arch}
     ## Build Configuration
     buildconfig:
       - type: gcc
@@ -1591,9 +1607,9 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
 
 .. code-block:: yaml
 
-    ldflags:                                        
+    ldflags:
       - flags: --specs=nosys.specs
-        condition: $( ${stdclib} == "newlib_full" ) 
+        condition: $( ${stdclib} == "newlib_full" )
       - flags: --specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
         condition: $( ${stdclib} == "newlib_fast" )
       - flags: --specs=nano.specs --specs=nosys.specs -u _printf_float
@@ -1602,16 +1618,18 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
         condition: $( ${stdclib} == "newlib_nano" )
       - flags: --specs=${stdclib}.specs
         condition: $( startswith(${stdclib}, "libncrt") )
-    
+
     # 上述描术中flags的值，由condition决定，当在不同的场景时，flags的值会不同，
     # 又因为flags是一个数组类型，所以上述例子中flags会有多个值，最终使用是，是flags的值拼接成的字符串。
 
 * dependencies
 
-**dependencies** 在npk.yml中，用来描述NPK的依赖关系，在很多的时候，NPK需要依赖特定owner的某个name，某个version版本的包，查找规则为 owner/name:version, 如果owner未定义，则默认为该npk文件中定义的owner，如果 **version** 未定义，则优先在同组件包查找，否则取最新的包。如果所依赖的包找不到，则该NPK将无法使用。
+**dependencies** 在npk.yml中，用来描述NPK的依赖关系。
+
+在很多的时候，NPK需要依赖特定owner的某个name，某个version版本的包，查找规则为 ``owner/name:version``, 如果owner未定义，则默认为该npk文件中定义的owner，如果 **version** 未定义，则优先在同组件包查找，否则取最新的包。如果所依赖的包找不到，则该NPK将无法使用。
 
 .. note::
-   
+
     例子中NPK依赖了三个npk，如下：
 
     - sdk-nuclei_sdk owner、 ``version`` 未定义，则优先在同组件包查找，否则取最新的包
@@ -1619,16 +1637,16 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
     - tool-testmodel 明确了owner和version
 
     - tool-rvprof 明确了owner和version
-    
 
-    
+
+
 .. code-block:: yaml
 
     ## Package Dependency
     dependencies:
       - name: sdk-nuclei_sdk
         version:
-        owner: 
+        owner:
       - name: tool-testmodel
         version: 1.0.0
         owner: nuclei
@@ -1646,25 +1664,25 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
 
 将字符串变大写
 
-.. code-block:: yaml
+.. code-block:: shell
 
     ${linker_script} = "test"
-    $(lower("${linker_script}CD")) => TESTCD
-    
+    $(upper("${linker_script}CD")) => TESTCD
+
 * lower
 
 将字符串变小写
 
-.. code-block:: yaml
+.. code-block:: shell
 
     ${linker_script} = "test"
-    $(lower("${linker_script}CD")) => testcd
+    $(lower("${linker_script}cd")) => testcd
 
 * contains
 
 判断字符串中是否包含另一个字符串
 
-.. code-block:: yaml
+.. code-block:: shell
 
     ${linker_script} = "test"
     $(contains(${linker_script}, nmsis) ) => false
@@ -1673,7 +1691,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
 
 将字符串连接数组
 
-.. code-block:: yaml
+.. code-block:: shell
 
     $(join([a,b,c,v], '') => abcv
 
@@ -1681,49 +1699,49 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
 
 连接字符串成为新一字符串
 
-.. code-block:: yaml
+.. code-block:: shell
 
     ${linker_script} = "test"
-    $(concat(${linker_script}, v) =>testv
+    $(concat(${linker_script}, v) => testv
 
-    
+
 * strip
 
 去掉字符串两端空格
 
-.. code-block:: yaml
+.. code-block:: shell
 
     ${linker_script} = "   test  "
-     $( strip(${linker_script})) =>test
+    $(strip(${linker_script})) => test
 
-    
+
 * startswith
 
 判断字符串是否以xxx开头
 
-.. code-block:: yaml
+.. code-block:: shell
 
     ${linker_script} = "testabcd"
-    $(startswith(${linker_script}, test)) =>true
-    
+    $(startswith(${linker_script}, test)) => true
+
 * endswith
 
 判断字符串是否以xxx结尾
 
-.. code-block:: yaml
+.. code-block:: shell
 
     ${linker_script} = "testabcd"
-    $(endswith(${linker_script}, test))  =>false
+    $(endswith(${linker_script}, test))  => false
 
 * arithop
 
 数学运算符,支持+、- 、* 、/、% 、?(三元运算)等常用运算符，不支持++、--
 
-.. code-block:: yaml
+.. code-block:: shell
 
-    $(arithop(${linker_script}+22) > 1000)   
+    $(arithop(${linker_script}+22) > 1000)
     $(arithop(${linker_script}+22))
-    $(arithop(${linker_script}>22?1:0))   
+    $(arithop(${linker_script}>22?1:0))
 
 * npack/npack_installdir
 
@@ -1731,7 +1749,7 @@ npack是否包含指定的npk
 
 npack_installdir 包含的npk的路径
 
-.. code-block:: yaml
+.. code-block:: shell
 
     # a.yml
         name: mwp-a
@@ -1759,8 +1777,8 @@ npack_installdir 包含的npk的路径
 
 获取数组元素中指定脚标的值
 
-.. code-block:: yaml
-    
+.. code-block:: shell
+
     ${nuclei_cache}=[ic,dc,ccm]
     $(list_get(${nuclei_cache},0)) -> ic
 
@@ -1768,59 +1786,59 @@ npack_installdir 包含的npk的路径
 
 修改数组元素中指定脚标的值
 
-.. code-block:: yaml
-    
+.. code-block:: shell
+
     ${nuclei_cache}=[ic,dc,ccm]
-    $(list_set(${nuclei_cache},1,aa)) -> [ic,aa,ccm]  
-    
+    $(list_set(${nuclei_cache},1,aa)) -> [ic,aa,ccm]
+
 * list_del
 
 删除数组元素中指定脚标的值
 
-.. code-block:: yaml
-    
+.. code-block:: shell
+
     ${nuclei_cache}=[ic,dc,ccm]
     $(list_del(${nuclei_cache},1)) -> [ic,ccm]
-    
+
 
 * list_add
 
 在数组元素指定脚标插入值
 
-.. code-block:: yaml
-    
+.. code-block:: shell
+
     ${nuclei_cache}=[ic,dc,ccm]
-    $(list_add(${nuclei_cache},2,aa)) -> [ic,dc,aa,ccm]  
-    
-* list_size  
+    $(list_add(${nuclei_cache},2,aa)) -> [ic,dc,aa,ccm]
+
+* list_size
 
 获取数组元素list的长度
 
-.. code-block:: yaml
-    
+.. code-block:: shell
+
     ${nuclei_cache}=[ic,dc,ccm]
-    $(list_size(${nuclei_cache})) -> 3  
-    
-* list_sub  
+    $(list_size(${nuclei_cache})) -> 3
+
+* list_sub
 
 从list中指定的位置开始，截取指定长度的list
 
-.. code-block:: yaml
+.. code-block:: shell
 
     ${nuclei_cache}=[ic,dc,ccm]
-    $(list_sub(${nuclei_cache},1,2)) -> [dc]  
-    $(list_sub(${nuclei_cache},0,2)) -> [ic,dc]  
-    $(list_sub(${nuclei_cache},1,)) -> [dc,ccm]  
+    $(list_sub(${nuclei_cache},1,2)) -> [dc]
+    $(list_sub(${nuclei_cache},0,2)) -> [ic,dc]
+    $(list_sub(${nuclei_cache},1,)) -> [dc,ccm]
     $(list_sub(${nuclei_cache},,2)) -> [ic,dc]
 
 
-* subst  
+* subst
 
 对字符串内部的指定字符串进行替换，第三个参数可为空
 
-.. code-block:: yaml
+.. code-block:: shell
 
-    subst(libncrt_small,lib,) ==>ncrt_small
-    subst(libncrt_small,lib,ext) ==>extncrt_small
+    subst(libncrt_small,lib,) ==> ncrt_small
+    subst(libncrt_small,lib,ext) ==> extncrt_small
 
 
