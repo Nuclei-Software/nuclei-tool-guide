@@ -14,7 +14,10 @@ Nuclei Studio NPK 介绍
 组件包会以zip包形式存在，组件包在导入使用时，需要被IDE或者其他工具进行包完整性以及可用性检查，才予以导入。
 
 .. note::
-   组件包后期会提供签名机制，在发布前先签名，然后导入软件包会验证签名，确保导入的开发包是合法身份发布，不导入不可信的开发包。
+
+   - 我们提供了一个开源的NPK软件包检查工具，参见 https://github.com/Nuclei-Software/npk-checker
+   - 最好的NPK软件包参考项目可以参见 Nuclei SDK 以及其他线上的软件包(搜索 npk.yml 文件) https://www.rvmcu.com/nucleistudio-npk.html
+   - 组件包后期会提供签名机制，在发布前先签名，然后导入软件包会验证签名，确保导入的开发包是合法身份发布，不导入不可信的开发包。
 
 组件描述文件(npk.yml)
 ----------------------
@@ -27,9 +30,13 @@ Nuclei Studio NPK 介绍
 - osp: RTOS Support Package， 例如各类RTOS支持包
 - app: Application Package，例如各类上层应用
 - mwp: Middleware Package，各类第三方中间件，例如语音识别，算法库之类的
-- tpp: Template Package, 模板类型，可以用于创建csp/ssp/bsp/osp/app/mwp/sdk的模板工程,该类型比较特殊，描述文件名称为 **npk_template.yml**
 - sdk: Software Development Kit，一组预设定好的软件开发包，一般情况下里面会包含了CSP, SSP, BSP, APP类型的包，OSP和MWP类型的包可选加入
+- bdp: Bundle Package, 一组package，目前仅对app有效
+
+以下类似是比较特殊的类型，主要用于工具包和模版包
+
 - tool: Tool Package，各类工具组件包，可放入其他需要引用或参考的文件
+- tpp: Template Package, 模板类型，可以用于创建csp/ssp/bsp/osp/app/mwp/sdk的模板工程,该类型比较特殊，描述文件名称为 **npk_template.yml**
 
 描述文件通用定义
 ~~~~~~~~~~~~~~~~~~~~~
@@ -233,15 +240,27 @@ Nuclei Studio NPK 介绍
           - script: "Source/GCC/gcc_demosoc_${.download}.ld"
               condition: $(check pattern)        # <OPTIONAL> 进行条件判断
         cflags:                                  # <OPTIONAL> C编译选项，留空表示没有任何选项
+          - flags: -O3
         asmflags:                                # <OPTIONAL> ASM编译选项，留空表示没有任何选项
+          - flags: -O2
         cxxflags:                                # <OPTIONAL> CXX编译选项，留空表示没有任何选项
+          - flags: -O1
         common_defines:                          # <OPTIONAL> 通用的宏定义
           - defines: __RISCV_FEATURE_DSP=1
             condition: $(${dsp_present} == 1)
           - defines: DOWNLOAD_MODE_STRING=\"flashxip\"
         cdefines:                                # <OPTIONAL> C的宏定义
+          - defines: __RISCV_FEATURE_DSP=1
+            condition: $(${dsp_present} == 1)
+          - defines: DOWNLOAD_MODE_STRING=\"flashxip\"
         asmdefines:                              # <OPTIONAL> ASM的宏定义
+          - defines: __RISCV_FEATURE_DSP=1
+            condition: $(${dsp_present} == 1)
+          - defines: DOWNLOAD_MODE_STRING=\"flashxip\"
         cxxdefines:                              # <OPTIONAL> CXX的宏定义
+          - defines: __RISCV_FEATURE_DSP=1
+            condition: $(${dsp_present} == 1)
+          - defines: DOWNLOAD_MODE_STRING=\"flashxip\"
         prebuild_steps:                          # <OPTIONAL> 编译前执行的命令
           command:                               # <OPTIONAL> 执行的命令行
           description:                           # <OPTIONAL> 执行的命令的描述
