@@ -33,7 +33,7 @@ Nuclei Studio NPK 介绍
 - sdk: Software Development Kit，一组预设定好的软件开发包，一般情况下里面会包含了CSP, SSP, BSP, APP类型的包，OSP和MWP类型的包可选加入
 - bdp: Bundle Package, 一组package，目前仅对app有效
 
-以下类似是比较特殊的类型，主要用于工具包和模版包
+以下是比较特殊的类型，主要用于工具包和模版包
 
 - tool: Tool Package，各类工具组件包，可放入其他需要引用或参考的文件
 - tpp: Template Package, 模板类型，可以用于创建csp/ssp/bsp/osp/app/mwp/sdk的模板工程,该类型比较特殊，描述文件名称为 **npk_template.yml**
