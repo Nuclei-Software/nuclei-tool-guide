@@ -47,9 +47,9 @@ Nuclei Studio 创建工程
 
    -  Project name：项目命名。这里设置为 ``1_helloworld`` 
 
-   -  Project Example：选Helloworld。
+   -  Project Example：选 ``Helloworld`` 。
 
-   -  Toolchains：我们使用Nuclei GUN Toolchain。
+   -  Toolchains：我们使用 ``Nuclei GUN Toolchain`` 。
 
 .. note::
 
@@ -59,15 +59,15 @@ Nuclei Studio 创建工程
 
 蜂鸟开发板支持三种下载模式，以下为每种下载模式的简介，这里我们选择ILM模式。
 
-**ILM**
+* **ILM**
 
 ILM下载模式程序将被直接下载在MCU的ILM中，并从ILM开始执行。ILM由SRAM组成，会掉电丢失。
 
-**FLASH**
+* **FLASH**
 
 FLASH下载模式程序代码段的物理地址约束Flash区间，将代码段的逻辑地址约束在ILM的地址区间，意味着程序将被直接下载在MCU的Flash中，但是上电后要通过引导程序将代码段搬运到ILM中，然后从ILM中开始执行。程序被烧写在Flash中，不会掉电丢失。
 
-**FLASHXIP**
+* **FLASHXIP**
 
 FLASHXIP下载模式程序代码段约束Flash区间，意味着程序将被直接下载在MCU的Flash中，并直接从Flash开始执行。程序被烧写在Flash中，不会掉电丢失。
 
@@ -87,7 +87,7 @@ FLASHXIP下载模式程序代码段约束Flash区间，意味着程序将被直�
 
 |image7|
 
-用于调试使用的配置文件 ``Hello World_Debug_OpenOCD`` 已经自动生成。关于使用芯来蜂鸟调试器结合OpenOCD进行下载和调试的方法，可以查看第7章进行详细了解。
+用于调试使用的配置文件 ``Hello World_Debug_OpenOCD`` 已经自动生成。关于使用芯来蜂鸟调试器结合OpenOCD进行下载和调试的方法，可以查看 :ref:`使用蜂鸟调试器结合OpenOCD调试运行项目 <ide_projectrun_3>` 进行详细了解。
 
 |image8|
 
@@ -101,18 +101,18 @@ FLASHXIP下载模式程序代码段约束Flash区间，意味着程序将被直�
 将Nuclei Studio IDE写入到注册表
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-下载Nuclei Studio IDE 2022.12版，在安装包中多了两个文件install.bat/install.sh,在windows系统下，双击install.bat,因为这里需要写入注册表，所以需要一个用户授权,授权后安装成功；在linux系统下，需要在shell命令下执行install.sh文件。
+下载Nuclei Studio IDE 2022.12版，在安装包中多了两个文件 ``install.bat/install.sh`` ,在windows系统下，双击 ``install.bat`` ,因为这里需要写入注册表，所以需要一个用户授权,授权后安装成功；在linux系统下，需要在shell命令下执行 ``install.sh`` 文件。
 
 |image9|
 
-install.sh文件在运行后，有一个用户授权的界面，同意授权。
+``install.sh`` 文件在运行后，有一个用户授权的界面，同意授权。
 
 |image10|
 
 通过应用关联文件导入工程
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nuclei Studio IDE 2022.12版创建工程test，在工程中会有一应用关联文件test.nuproject，如果ide的启动路径已写入注册表，双点test.nuproject文件，系统会自动启动Nuclei Studio IDE并将test工程导入到IDE中。
+Nuclei Studio IDE 2022.12版创建工程 ``test`` ，在工程中会有一应用关联文件 ``test.nuproject`` ，如果ide的启动路径已写入注册表，双点 ``test.nuproject`` 文件，系统会自动启动Nuclei Studio IDE并将test工程导入到IDE中。
 
 |image11|
 
@@ -122,7 +122,7 @@ Nuclei Studio IDE 2022.12版创建工程test，在工程中会有一应用关联
 
 本节将介绍如何使用IDE从已有项目直接导入创建新项目，本文以N307的项目包为例进行导入，项目包存放在（\ https://github.com/riscv-mcu/Nuclei-Studio_IDE-Project-Package\ ）。如需其它项目包请与芯来科技联系。
 
-在基于Windows的Nuclei Studio IDE开发环境中，如果用户使用 ``无模板手动创建工程`` ，也需要加载此项目包中的nuclei-sdk文件夹，相关内容会在下一节中具体介绍。
+在基于Windows的Nuclei Studio IDE开发环境中，如果用户使用 ``无模板手动创建工程`` ，也需要加载此项目包中的nuclei-sdk文件夹，相关内容会在 :ref:`无模板手动创建项目 <ide_projectnew_16>` 中具体介绍。
 
 |image12|
 
@@ -163,6 +163,8 @@ Nuclei Studio IDE 2022.12版创建工程test，在工程中会有一应用关联
 -  在IDE的项目资源管理器中显示导入项目的目录结构如下图所示。已有项目默认为N307的编译选项，Nuclei SDK仅包含helloworld使用到的文件。需要更多的Nuclei SDK源码请访问Github（https://github.com/riscv-mcu/hbird-sdk）获取源码。
 
 |image17|
+
+.. _ide_projectnew_16:
 
 无模板手动创建项目
 ------------------
@@ -222,25 +224,25 @@ Board，内核为N307。该方法除了创建项目之外，还需要手动设�
 SDK源码（这里以0.3.9版本为例），链接如下：\ https://github.com/Nuclei-Software/nuclei-sdk/releases
 。本节仅介绍将nuclei_sdk中helloworld需要的文件加入到项目的步骤，如果使用新版本的SDK，对应的目录结构可能有所调整，请自行解决，具体步骤如下：
 
-进入Nuclei Studio的2_helloworld项目，按照如下步骤添加nuclei_sdk源文件。
+进入Nuclei Studio的 ``2_helloworld`` 项目，按照如下步骤添加nuclei_sdk源文件。
 
-在Project Explorer栏中选中2_helloworld项目，单击鼠标右键，选择 ``Properties`` 打开工程设置页面。
-
-|image26|
-
-在弹出的窗口中单击 ``Resource`` ，在右侧的Location栏目中单击其最右侧的箭头图标\ |image25|\ ，则会弹出文件窗口进入2_helloworld项目的文件夹位置。
+在Project Explorer栏中选中 ``2_helloworld`` 项目，单击鼠标右键，选择 ``Properties`` 打开工程设置页面。
 
 |image26|
 
-将nuclei-eclipse_demo.rar压缩包中的nuclei_sdk文件夹复制放于2_helloworld项目的目录下。
+在弹出的窗口中单击 ``Resource`` ，在右侧的Location栏目中单击其最右侧的箭头图标\ |image25|\ ，则会弹出文件窗口进入 ``2_helloworld`` 项目的文件夹位置。
+
+|image26|
+
+将nuclei-eclipse_demo.rar压缩包中的nuclei_sdk文件夹复制放于 ``2_helloworld`` 项目的目录下。
 
 |image27|
 
-回到Nuclei Studio，在Project Explorer栏中选中2_helloworld项目，单击鼠标右键，选择 ``Refresh`` 。
+回到Nuclei Studio，在Project Explorer栏中选中 ``2_helloworld`` 项目，单击鼠标右键，选择 ``Refresh`` 。
 
 |image29|
 
-Refresh之后2_helloworld项目的下便可以看到nuclei_sdk文件夹，至此便完成了nuclei_sdk源文件的导入。
+Refresh之后 ``2_helloworld`` 项目的下便可以看到nuclei_sdk文件夹，至此便完成了nuclei_sdk源文件的导入。
 
 |image30|
 
@@ -260,7 +262,7 @@ Refresh之后2_helloworld项目的下便可以看到nuclei_sdk文件夹，至此
 
 选中Target Processor，我们的内核是N307，因此需要按照图所示勾选配置选项，分别如下。
 
-   -  Architecture：选择RV32I。
+   -  Architecture：选择 ``RV32I`` 。
 
    -  Multiply extension（RVM）：需勾选。
 
@@ -270,7 +272,7 @@ Refresh之后2_helloworld项目的下便可以看到nuclei_sdk文件夹，至此
 
    -  Integer API：选择 ``ILP32`` 。
 
-   -  Floting Point ABI：选择single precision
+   -  Floting Point ABI：选择 ``single precision`` 
 
    -  Code model：选择 ``Medium Any`` 。
 
@@ -281,10 +283,10 @@ Refresh之后2_helloworld项目的下便可以看到nuclei_sdk文件夹，至此
 
 选中 ``Optimization`` ，按照图所示勾选配置选项。
 
-   -  Optimization Level：选择Optimization Most (-O2)。
+   -  Optimization Level：选择 ``Optimization Most (-O2)`` 。
 
 .. note::
-    注意：在NucleiStudio 2024.06版本中新增了-Oz，用来优化编译后程序的尺寸。
+    注意：在NucleiStudio 2024.06版本中新增了 ``-Oz``，用来优化编译后程序的尺寸。
 
 依次勾选：
 
@@ -304,7 +306,7 @@ Refresh之后2_helloworld项目的下便可以看到nuclei_sdk文件夹，至此
 
 选中Debugging，按照图中所示勾选配置选项，分别为：
 
-   -  Debug Level：选择Default (-g)。
+   -  Debug Level：选择 ``Default (-g)`` 。
 
    -  单击右下角的 ``Apply`` 按钮。
 
@@ -318,16 +320,16 @@ Refresh之后2_helloworld项目的下便可以看到nuclei_sdk文件夹，至此
 
   -  在弹出的窗口中单击 ``Workspace`` 按钮。
 
-  -  这里我们使用HummingBird评估板，所以可以选择ILM下载模式对应的gcc_hbird_ilm.ld文件。在弹出的窗口中选择Nuclei Studio文件包中的nuclei_sdk/SoC/hbird/Board/hbird_eval/Source/GCC文件夹下gcc_hbird_ilm.ld文件。其他下载模式切换此处文件，各文件详细介绍如下，可根据自己的实际情况选择。
+  -  这里我们使用HummingBird评估板，所以可以选择ILM下载模式对应的 ``gcc_hbird_ilm.ld`` 文件。在弹出的窗口中选择Nuclei Studio文件包中的 ``nuclei_sdk/SoC/hbird/Board/hbird_eval/Source/GCC`` 文件夹下 ``gcc_hbird_ilm.ld`` 文件。其他下载模式切换此处文件，各文件详细介绍如下，可根据自己的实际情况选择。
 
-     -  gcc_hbird_ilm.ld脚本将程序代码段约束在ILM的地址区间，意味着程序将被直接下载在MCU的ILM中，并从ILM开始执行。ILM由SRAM组成，会掉电丢失。
+     -  ``gcc_hbird_ilm.ld`` 脚本将程序代码段约束在ILM的地址区间，意味着程序将被直接下载在MCU的ILM中，并从ILM开始执行。ILM由SRAM组成，会掉电丢失。
 
-     -  gcc_hbird_flash.ld脚本程序代码段的物理地址约束Flash区间，将代码段的逻辑地址约束在ILM的地址区间，意味着程序将被直接下载在MCU的Flash中，但是上电后要通过引导程序将代码段搬运到ILM中，然后从ILM中开始执行。
+     -  ``gcc_hbird_flash.ld`` 脚本程序代码段的物理地址约束Flash区间，将代码段的逻辑地址约束在ILM的地址区间，意味着程序将被直接下载在MCU的Flash中，但是上电后要通过引导程序将代码段搬运到ILM中，然后从ILM中开始执行。
 
-     -  gcc_hbird_flashxip.ld
+     -  ``gcc_hbird_flashxip.ld`` 
         脚本程序代码段约束Flash区间，意味着程序将被直接下载在MCU的Flash中，并直接从Flash开始执行。程序被烧写在Flash中，不会掉电丢失。
 
-     -  用户可以按照自己的需求选择合适的链接脚本。本节示例选择gcc_hbird_ilm.ld作为演示。
+     -  用户可以按照自己的需求选择合适的链接脚本。本节示例选择 ``gcc_hbird_ilm.ld`` 作为演示。
 
   -  设置完毕请单击右下角的 ``Apply`` 按钮。
 
@@ -383,7 +385,7 @@ Refresh之后2_helloworld项目的下便可以看到nuclei_sdk文件夹，至此
 
    -  在右下角单击 ``Apply`` 完成配置。
 
-采用上述方法，依次添加nuclei_sdk目录下的SoC>hbird>Board>hbird_eval>Include，SoC>hbird>Common>Include和SoC>hbird>Common>Source>Stubs文件夹作为包含路径，并采用同样的方法为GNU RISC-V Cross C  Compiler的Includes栏目设置包含路径。设置完成后的界面如下图所示。
+采用上述方法，依次添加nuclei_sdk目录下的 ``SoC>hbird>Board>hbird_eval>Include`` ， ``SoC>hbird>Common>Include`` 和 ``SoC>hbird>Common>Source>Stubs`` 文件夹作为包含路径，并采用同样的方法为 ``GNU RISC-V Cross C  Compiler`` 的 ``Includes`` 栏目设置包含路径。设置完成后的界面如下图所示。
 
 |image39|
 
@@ -419,138 +421,138 @@ Evaluation Board，所以SoC和Board都不必修改，如果使用其他开发�
 
 |image44|
 
-.. |image1| image:: /asserts/nucleistudio/projectnew/media/image2.png
+.. |image1| image:: /asserts/nucleistudio/projectnew/image2.png
 
 
-.. |image2| image:: /asserts/nucleistudio/projectnew/media/image3.png
+.. |image2| image:: /asserts/nucleistudio/projectnew/image3.png
 
 
-.. |image3| image:: /asserts/nucleistudio/projectnew/media/image4.png
+.. |image3| image:: /asserts/nucleistudio/projectnew/image4.png
 
 
-.. |image4| image:: /asserts/nucleistudio/projectnew/media/image5.png
+.. |image4| image:: /asserts/nucleistudio/projectnew/image5.png
 
 
-.. |image5| image:: /asserts/nucleistudio/projectnew/media/image6.png
+.. |image5| image:: /asserts/nucleistudio/projectnew/image6.png
 
 
-.. |image51| image:: /asserts/nucleistudio/projectnew/media/image7.png
+.. |image51| image:: /asserts/nucleistudio/projectnew/image7.png
 
 
-.. |image6| image:: /asserts/nucleistudio/projectnew/media/image8.png
+.. |image6| image:: /asserts/nucleistudio/projectnew/image8.png
 
 
-.. |image7| image:: /asserts/nucleistudio/projectnew/media/image9.png
+.. |image7| image:: /asserts/nucleistudio/projectnew/image9.png
 
 
-.. |image8| image:: /asserts/nucleistudio/projectnew/media/image10.png
+.. |image8| image:: /asserts/nucleistudio/projectnew/image10.png
 
 
-.. |image9| image:: /asserts/nucleistudio/projectnew/media/image11.png
+.. |image9| image:: /asserts/nucleistudio/projectnew/image11.png
 
 
-.. |image10| image:: /asserts/nucleistudio/projectnew/media/image12.png
+.. |image10| image:: /asserts/nucleistudio/projectnew/image12.png
 
 
-.. |image11| image:: /asserts/nucleistudio/projectnew/media/image13.png
+.. |image11| image:: /asserts/nucleistudio/projectnew/image13.png
 
 
-.. |image12| image:: /asserts/nucleistudio/projectnew/media/image14.png
+.. |image12| image:: /asserts/nucleistudio/projectnew/image14.png
 
 
-.. |image13| image:: /asserts/nucleistudio/projectnew/media/image15.png
+.. |image13| image:: /asserts/nucleistudio/projectnew/image15.png
 
 
-.. |image14| image:: /asserts/nucleistudio/projectnew/media/image16.png
+.. |image14| image:: /asserts/nucleistudio/projectnew/image16.png
 
 
-.. |image15| image:: /asserts/nucleistudio/projectnew/media/image17.png
+.. |image15| image:: /asserts/nucleistudio/projectnew/image17.png
 
 
-.. |image16| image:: /asserts/nucleistudio/projectnew/media/image18.png
+.. |image16| image:: /asserts/nucleistudio/projectnew/image18.png
 
 
-.. |image17| image:: /asserts/nucleistudio/projectnew/media/image19.png
+.. |image17| image:: /asserts/nucleistudio/projectnew/image19.png
 
 
-.. |image18| image:: /asserts/nucleistudio/projectnew/media/image20.png
+.. |image18| image:: /asserts/nucleistudio/projectnew/image20.png
 
 
-.. |image19| image:: /asserts/nucleistudio/projectnew/media/image21.png
+.. |image19| image:: /asserts/nucleistudio/projectnew/image21.png
 
 
-.. |image20| image:: /asserts/nucleistudio/projectnew/media/image22.png
+.. |image20| image:: /asserts/nucleistudio/projectnew/image22.png
 
 
-.. |image21| image:: /asserts/nucleistudio/projectnew/media/image23.png
+.. |image21| image:: /asserts/nucleistudio/projectnew/image23.png
 
 
-.. |image22| image:: /asserts/nucleistudio/projectnew/media/image24.png
+.. |image22| image:: /asserts/nucleistudio/projectnew/image24.png
 
 
-.. |image23| image:: /asserts/nucleistudio/projectnew/media/image25.png
+.. |image23| image:: /asserts/nucleistudio/projectnew/image25.png
 
 
-.. |image24| image:: /asserts/nucleistudio/projectnew/media/image26.png
+.. |image24| image:: /asserts/nucleistudio/projectnew/image26.png
 
 
-.. |image25| image:: /asserts/nucleistudio/projectnew/media/image27.png
+.. |image25| image:: /asserts/nucleistudio/projectnew/image27.png
 
 
-.. |image26| image:: /asserts/nucleistudio/projectnew/media/image28.png
+.. |image26| image:: /asserts/nucleistudio/projectnew/image28.png
 
 
-.. |image27| image:: /asserts/nucleistudio/projectnew/media/image29.png
+.. |image27| image:: /asserts/nucleistudio/projectnew/image29.png
 
 
-.. |image28| image:: /asserts/nucleistudio/projectnew/media/image30.png
+.. |image28| image:: /asserts/nucleistudio/projectnew/image30.png
 
 
-.. |image29| image:: /asserts/nucleistudio/projectnew/media/image31.png
+.. |image29| image:: /asserts/nucleistudio/projectnew/image31.png
 
 
-.. |image30| image:: /asserts/nucleistudio/projectnew/media/image32.png
+.. |image30| image:: /asserts/nucleistudio/projectnew/image32.png
 
 
-.. |image31| image:: /asserts/nucleistudio/projectnew/media/image33.png
+.. |image31| image:: /asserts/nucleistudio/projectnew/image33.png
 
 
-.. |image32| image:: /asserts/nucleistudio/projectnew/media/image34.png
+.. |image32| image:: /asserts/nucleistudio/projectnew/image34.png
 
 
-.. |image33| image:: /asserts/nucleistudio/projectnew/media/image35.png
+.. |image33| image:: /asserts/nucleistudio/projectnew/image35.png
 
 
-.. |image34| image:: /asserts/nucleistudio/projectnew/media/image36.png
+.. |image34| image:: /asserts/nucleistudio/projectnew/image36.png
 
 
-.. |image35| image:: /asserts/nucleistudio/projectnew/media/image37.png
+.. |image35| image:: /asserts/nucleistudio/projectnew/image37.png
 
 
-.. |image36| image:: /asserts/nucleistudio/projectnew/media/image38.png
+.. |image36| image:: /asserts/nucleistudio/projectnew/image38.png
 
 
-.. |image37| image:: /asserts/nucleistudio/projectnew/media/image39.png
+.. |image37| image:: /asserts/nucleistudio/projectnew/image39.png
 
 
-.. |image38| image:: /asserts/nucleistudio/projectnew/media/image40.png
+.. |image38| image:: /asserts/nucleistudio/projectnew/image40.png
 
 
-.. |image39| image:: /asserts/nucleistudio/projectnew/media/image41.png
+.. |image39| image:: /asserts/nucleistudio/projectnew/image41.png
 
 
-.. |image40| image:: /asserts/nucleistudio/projectnew/media/image42.png
+.. |image40| image:: /asserts/nucleistudio/projectnew/image42.png
 
 
-.. |image41| image:: /asserts/nucleistudio/projectnew/media/image43.png
+.. |image41| image:: /asserts/nucleistudio/projectnew/image43.png
 
 
-.. |image42| image:: /asserts/nucleistudio/projectnew/media/image44.png
+.. |image42| image:: /asserts/nucleistudio/projectnew/image44.png
 
 
-.. |image43| image:: /asserts/nucleistudio/projectnew/media/image45.png
+.. |image43| image:: /asserts/nucleistudio/projectnew/image45.png
 
 
-.. |image44| image:: /asserts/nucleistudio/projectnew/media/image46.png
+.. |image44| image:: /asserts/nucleistudio/projectnew/image46.png
 
 

@@ -8,22 +8,23 @@ Nuclei Studio 调试运行工程
 调试模式管理
 ------------
 
-在NucleiStudio中，使用Launch Bar管理不同的调试器，默认情况下，NucleiStudio会为OpenOCD、Jlink、Qemu生成对应的\*.launch调试文件，NucleiStudio识别到\*.launch文件后，会将其加入到Launch Bar中进行管理，用户可以通过以下三种方式来使用指定的调试模式。
+在NucleiStudio中，使用Launch Bar管理不同的调试器，默认情况下，NucleiStudio会为OpenOCD、Jlink、Qemu生成对应的 ``*.launch`` 调试文件，NucleiStudio识别到 ``*.launch`` 文件后，会将其加入到Launch Bar中进行管理，用户可以通过以下三种方式来使用指定的调试模式。
 
 |image1|
 
-通过点击工程中的\*.launch文件切换不同的调试模式,当用户单击工程中的某一个\*.launch文件时，NucleiStudio会将该文件设置为Launch Bar中的选中文件，然后就可以通过Launch Bar执行Run/Debug操作。
+通过点击工程中的 ``*.launch`` 文件切换不同的调试模式,当用户单击工程中的某一个 ``*.launch`` 文件时，NucleiStudio会将该文件设置为Launch Bar中的选中文件，然后就可以通过Launch Bar执行Run/Debug操作。
 
 |image2|
 
-在工程展开文件，找到\*.launch文件并在\*.launch文件上点击鼠标右键，在弹出菜单中选中Debug As/Run As,在下一级菜单中点对应的模式开始Run/Debug操作。
+在工程展开文件，找到 ``*.launch`` 文件并在 ``*.launch`` 文件上点击鼠标右键，在弹出菜单中选中 ``Debug As/Run As`` ,在下一级菜单中点对应的模式开始 ``Run/Debug`` 操作。
 
 |image3|
 
-用户可以通过Launch Bar中的下接框，来切换成不同的调试模式，在Launch Bar中点击展开按钮，然后选中对应的调试模式，并执行Run/Debug操作。
+用户可以通过Launch Bar中的下接框，来切换成不同的调试模式，在Launch Bar中点击展开按钮，然后选中对应的调试模式，并执行 ``Run/Debug`` 操作。
 
 |image4|
 
+.. _ide_projectrun_3:
 
 使用蜂鸟调试器结合OpenOCD调试运行项目
 -------------------------------------
@@ -79,23 +80,30 @@ Nuclei Studio 调试运行工程
 
 -  4：断开调试器再重新连接到Linux系统中。
 
--  5：使用ls /dev/ttyUSB*命令查看ttyUSB信息，参考输出如下：/dev/ttyUSB0
-   /dev/ttyUSB1
+-  5：使用 ``ls /dev/ttyUSB*`` 命令查看 ``ttyUSB`` 信息，参考输出如下：
 
--  6：使用ls -l /dev/ttyUSB1命令查看分组信息，参考输出如下: crw-rw-r-- 1
-   root plugdev 188, 1 Nov 28 12:53 /dev/ttyUSB1
+   .. code-block:: shell
+      
+      /dev/ttyUSB0
+      
+      /dev/ttyUSB1
+
+-  6：使用ls -l /dev/ttyUSB1命令查看分组信息，参考输出如下: 
+
+   .. code-block:: shell
+
+       crw-rw-r-- 1 root plugdev 188, 1 Nov 28 12:53 /dev/ttyUSB1
 
 ..
 
-   可以看到ttyUSB1已经加入plugdev组，接下来我们要将自己添加到plugdev组（不同环境可能名字不同，请根据实际情况修改）。使用whoami命令查看当前用户名，我们将其记录为<
-   your_user_name >。
+   可以看到ttyUSB1已经加入 ``plugdev`` 组，接下来我们要将自己添加到plugdev组（不同环境可能名字不同，请根据实际情况修改）。使用whoami命令查看当前用户名，我们将其记录为 ``<
+   your_user_name >`` 。
 
--  7：使用sudo usermod -a -G plugdev
-   <your_user_name>命令将自己添加进plugdev组。加入以后一定要重启或者注销操作系统。
+-  7：使用 ``sudo usermod -a -G plugdev <your_user_name>`` 命令将自己添加进plugdev组。加入以后一定要重启或者注销操作系统。
 
--  8：再次确认当前用户名已属于plugdev组，使用groups命令，可以看到打印信息中有plugdev即成功将当前用户添加至plugdev组。如果没有可以尝试重启。
+-  8：再次确认当前用户名已属于 ``plugdev`` 组，使用 ``groups`` 命令，可以看到打印信息中有 ``plugdev`` 即成功将当前用户添加至plugdev组。如果没有可以尝试重启。
 
--  9：查看gcc的依赖是否完整,如果有依赖需要安装，可以执行sudo apt install libncursesw5libtinfo5进行安装
+-  9：查看gcc的依赖是否完整,如果有依赖需要安装，可以执行 ``sudo apt install libncursesw5libtinfo5`` 进行安装
 
 .. code-block:: shell
 
@@ -103,7 +111,7 @@ Nuclei Studio 调试运行工程
 
    ldd ./riscv-nuclei-elf-gdb
 
-   |image7|
+|image7|
 
 Debug Configuration
 ~~~~~~~~~~~~~~~~~~~
@@ -115,7 +123,7 @@ Debug Configuration
 
 |image8|
 
-用户可以展开工程，选中对应的test_debug_openocd.launch文件，在右键菜单中，可以Run as/Debug as->test_debug_openocd,就可以按照对应的Debug Configurations操作工程程了。
+用户可以展开工程，选中对应的 ``test_debug_openocd.launch`` 文件，在右键菜单中，可以 ``Run as/Debug as->test_debug_openocd`` ,就可以按照对应的Debug Configurations操作工程程了。
 
 |image9|
 
@@ -144,9 +152,9 @@ Debug Configuration
 
 选择调试项目 ``hello_world_demo Debug`` 的Debugger菜单，在Config options栏目中填入 ``-f "nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg"`` ，以确保OpenOCD使用正确的配置文件。这里的配置文件(*nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg*)根据实际工程中openocd的配置文件路径而定。例如：如果使用makefile方式导入工程，修改此处的内容为 ``-f "SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg"`` 。
 
-如果当前内核是RISC-V 32位内核，请确保Commands内容包含\ *set arch riscv:rv32*
+如果当前内核是RISC-V 32位内核，请确保Commands内容包含 ``set arch riscv:rv32`` 
 
-如果当前内核为64位，应确保替换为\ *set arch riscv:rv64*
+如果当前内核为64位，应确保替换为 ``set arch riscv:rv64`` 
 
 |image14|
 
@@ -176,7 +184,7 @@ Debug Configuration
 
 使用Linux系统打开串口方法如下：
 
-打开Nuclei Studio自带的Terminal终端，选择 ``Window>Show View>Terminal`` ，点击显示器图标打开串口设置选项。choose terminal选择Local Terminal，点击OK打开Terminal终端。
+打开Nuclei Studio自带的Terminal终端，选择 ``Window>Show View>Terminal`` ，点击显示器图标打开串口设置选项。choose terminal选择 ``Local Terminal`` ，点击OK打开Terminal终端。
 
 |image19|
 
@@ -290,7 +298,7 @@ Debug Configuration
 
 |image35|
 
-用户可以展开工程，选中对应的test_debug_jlink.launch文件，在右键菜单中，可以Run as/Debug as->test_debug_jlink,就可以按照对应的Debug Configurations操作工程程了，
+用户可以展开工程，选中对应的 ``test_debug_jlink.launch`` 文件，在右键菜单中，可以 ``Run as/Debug as->test_debug_jlink`` ,就可以按照对应的Debug Configurations操作工程程了，
 
 |image36|
 
@@ -346,13 +354,12 @@ Debug Configuration
 
 |image43|
 
-其中VTref连接到板子上V3.3的接口，其他部分连接到JTAG接口，各引脚的丝印就在旁边，一一对应连接即可，最后实物连接如下图。
+其中VTref连接到板子上 ``V3.3`` 的接口，其他部分连接到JTAG接口，各引脚的丝印就在旁边，一一对应连接即可，最后实物连接如下图。
 
 |image431|
 
 
-在开发板上调试之前，如果使用串口打印，需要连接JTAG上的串口引脚到自己的主机上，再打开串口以便观察Printf函数打印信息。如果使用RTT打印，需要打开J-Link
-RTT Viewer查看printf打印信息。按照图中内容设置，选择USB方式连接。Specify Target Device根据使用的内核来修改，这里以N307为例。Target Interface & Speed 设置为1000kHz，可根据实际使用情况来修改。RTT Control Block选择Auto Detection。
+在开发板上调试之前，如果使用串口打印，需要连接JTAG上的串口引脚到自己的主机上，再打开串口以便观察Printf函数打印信息。如果使用RTT打印，需要打开 ``J-Link RTT Viewer`` 查看printf打印信息。按照图中内容设置，选择USB方式连接。Specify Target Device根据使用的内核来修改，这里以N307为例。Target Interface & Speed 设置为 ``1000kHz`` ，可根据实际使用情况来修改。RTT Control Block选择 ``Auto Detection`` 。
 
 |image44|
 
@@ -442,18 +449,23 @@ DLink是芯来科技基于RV Link，并在其基础上做功能迭代升级后�
 
 -  4：断开调试器再重新连接到Linux系统中。
 
--  5：使用 ``ls /dev/ttyACM*`` 命令查看ttyACM信息，参考输出如下： ``/dev/ttyACM0 /dev/ttyACM1`` 
+-  5：使用 ``ls /dev/ttyACM*`` 命令查看ttyACM信息，参考输出如下：
 
--  6：使用 ``ls -l /dev/ttyACM0`` 命令查看分组信息，参考输出如下: ``crw-rw-r-- 1 root dialout 166, 0 6月 28 15:25 /dev/ttyACM0`` 
+.. code-block:: shell
+   
+   /dev/ttyACM0 /dev/ttyACM1 
 
-   可以看到ttyACM0已经被加入到dialout组，接下来我们要将自己添加到dialout组（不同环境可能名字不同，请根据实际情况修改）。使用whoami命令查看当前用户名，我们将其记录为<
-   your_user_name >。
+-  6：使用 ``ls -l /dev/ttyACM0`` 命令查看分组信息，参考输出如下, 可以看到ttyACM0已经被加入到dialout组，接下来我们要将自己添加到 ``dialout`` 组（不同环境可能名字不同，请根据实际情况修改）。使用whoami命令查看当前用户名，我们将其记录为 ``< your_user_name >`` 。
+
+.. code-block:: 
+   
+   shell crw-rw-r-- 1 root dialout 166, 0 6月 28 15:25 /dev/ttyACM0
 
 -  7：使用 ``sudo usermod -a -G dialout <your_user_name>`` 命令将自己添加进dialout组。加入以后一定要重启或者注销操作系统。
 
 -  8：再次确认当前用户名已属于dialout组，使用groups命令，可以看到打印信息中有dialout即成功将当前用户添加至dialout组。如果没有可以尝试重启。
 
-然后在Debugger选项卡内配置内容如下，因为在Custom Debugging中支持多种Mode，我们现在需要使用Dlink，所以选中Dlink；Server check flag是在NucleiStudio中用以确认服务是否正常启动，在Custom GDB Server中如果服务正常启动，会输出一段字符串，NucleiStudio通过判断该字符串以确认Custom GDB Server正常启动，在使用Dlink时这里可以为空；在Config options中需要配置对应的链接文件 ``dlink_gdbserver.cfg`` ，参考配置文件可以在 ``<NucleiStudio>/toolchain/dlink`` 目录下找到。
+然后在Debugger选项卡内配置内容如下，因为在Custom Debugging中支持多种Mode，我们现在需要使用Dlink，所以选中Dlink； ``Server check flag`` 是在NucleiStudio中用以确认服务是否正常启动，在Custom GDB Server中如果服务正常启动，会输出一段字符串，NucleiStudio通过判断该字符串以确认Custom GDB Server正常启动，在使用Dlink时这里可以为空；在Config options中需要配置对应的链接文件 ``dlink_gdbserver.cfg`` ，参考配置文件可以在 ``<NucleiStudio>/toolchain/dlink`` 目录下找到。
 
 |image53|
 
@@ -479,183 +491,183 @@ Dlink连接后，在串口工具下，可以看到两个COM口，一个COM串用
 
 |image59|
 
-.. |image1| image:: /asserts/nucleistudio/projectrun/media/image2.png
+.. |image1| image:: /asserts/nucleistudio/projectrun/image2.png
 
 
-.. |image2| image:: /asserts/nucleistudio/projectrun/media/image3.png
+.. |image2| image:: /asserts/nucleistudio/projectrun/image3.png
 
 
-.. |image3| image:: /asserts/nucleistudio/projectrun/media/image4.png
+.. |image3| image:: /asserts/nucleistudio/projectrun/image4.png
 
 
-.. |image4| image:: /asserts/nucleistudio/projectrun/media/image5.png
+.. |image4| image:: /asserts/nucleistudio/projectrun/image5.png
 
 
-.. |image5| image:: /asserts/nucleistudio/projectrun/media/image6.png
+.. |image5| image:: /asserts/nucleistudio/projectrun/image6.png
 
 
-.. |image6| image:: /asserts/nucleistudio/projectrun/media/image7.png
+.. |image6| image:: /asserts/nucleistudio/projectrun/image7.png
 
 
-.. |image7| image:: /asserts/nucleistudio/projectrun/media/image8.png
+.. |image7| image:: /asserts/nucleistudio/projectrun/image8.png
 
 
-.. |image8| image:: /asserts/nucleistudio/projectrun/media/image9.png
+.. |image8| image:: /asserts/nucleistudio/projectrun/image9.png
 
 
-.. |image9| image:: /asserts/nucleistudio/projectrun/media/image10.png
+.. |image9| image:: /asserts/nucleistudio/projectrun/image10.png
 
 
-.. |image10| image:: /asserts/nucleistudio/projectrun/media/image11.png
+.. |image10| image:: /asserts/nucleistudio/projectrun/image11.png
 
 
-.. |image11| image:: /asserts/nucleistudio/projectrun/media/image12.png
+.. |image11| image:: /asserts/nucleistudio/projectrun/image12.png
 
 
-.. |image12| image:: /asserts/nucleistudio/projectrun/media/image13.png
+.. |image12| image:: /asserts/nucleistudio/projectrun/image13.png
 
 
-.. |image13| image:: /asserts/nucleistudio/projectrun/media/image14.png
+.. |image13| image:: /asserts/nucleistudio/projectrun/image14.png
 
 
-.. |image14| image:: /asserts/nucleistudio/projectrun/media/image15.png
+.. |image14| image:: /asserts/nucleistudio/projectrun/image15.png
 
 
-.. |image15| image:: /asserts/nucleistudio/projectrun/media/image16.png
+.. |image15| image:: /asserts/nucleistudio/projectrun/image16.png
 
 
-.. |image16| image:: /asserts/nucleistudio/projectrun/media/image17.png
+.. |image16| image:: /asserts/nucleistudio/projectrun/image17.png
 
 
-.. |image17| image:: /asserts/nucleistudio/projectrun/media/image18.png
+.. |image17| image:: /asserts/nucleistudio/projectrun/image18.png
 
 
-.. |image18| image:: /asserts/nucleistudio/projectrun/media/image19.png
+.. |image18| image:: /asserts/nucleistudio/projectrun/image19.png
 
 
-.. |image19| image:: /asserts/nucleistudio/projectrun/media/image20.png
+.. |image19| image:: /asserts/nucleistudio/projectrun/image20.png
 
 
-.. |image20| image:: /asserts/nucleistudio/projectrun/media/image21.png
+.. |image20| image:: /asserts/nucleistudio/projectrun/image21.png
 
 
-.. |image21| image:: /asserts/nucleistudio/projectrun/media/image22.png
+.. |image21| image:: /asserts/nucleistudio/projectrun/image22.png
 
 
-.. |image22| image:: /asserts/nucleistudio/projectrun/media/image23.png
+.. |image22| image:: /asserts/nucleistudio/projectrun/image23.png
 
 
-.. |image23| image:: /asserts/nucleistudio/projectrun/media/image24.png
+.. |image23| image:: /asserts/nucleistudio/projectrun/image24.png
 
 
-.. |image24| image:: /asserts/nucleistudio/projectrun/media/image25.png
+.. |image24| image:: /asserts/nucleistudio/projectrun/image25.png
 
 
-.. |image25| image:: /asserts/nucleistudio/projectrun/media/image26.png
+.. |image25| image:: /asserts/nucleistudio/projectrun/image26.png
 
 
-.. |image26| image:: /asserts/nucleistudio/projectrun/media/image27.png
+.. |image26| image:: /asserts/nucleistudio/projectrun/image27.png
 
 
-.. |image27| image:: /asserts/nucleistudio/projectrun/media/image28.png
+.. |image27| image:: /asserts/nucleistudio/projectrun/image28.png
 
 
-.. |image28| image:: /asserts/nucleistudio/projectrun/media/image29.png
+.. |image28| image:: /asserts/nucleistudio/projectrun/image29.png
 
 
-.. |image29| image:: /asserts/nucleistudio/projectrun/media/image30.png
+.. |image29| image:: /asserts/nucleistudio/projectrun/image30.png
 
 
-.. |image30| image:: /asserts/nucleistudio/projectrun/media/image31.png
+.. |image30| image:: /asserts/nucleistudio/projectrun/image31.png
 
 
-.. |image31| image:: /asserts/nucleistudio/projectrun/media/image32.png
+.. |image31| image:: /asserts/nucleistudio/projectrun/image32.png
 
 
-.. |image32| image:: /asserts/nucleistudio/projectrun/media/image33.png
+.. |image32| image:: /asserts/nucleistudio/projectrun/image33.png
 
 
-.. |image33| image:: /asserts/nucleistudio/projectrun/media/image34.png
+.. |image33| image:: /asserts/nucleistudio/projectrun/image34.png
 
 
-.. |image34| image:: /asserts/nucleistudio/projectrun/media/image35.png
+.. |image34| image:: /asserts/nucleistudio/projectrun/image35.png
 
 
-.. |image35| image:: /asserts/nucleistudio/projectrun/media/image36.png
+.. |image35| image:: /asserts/nucleistudio/projectrun/image36.png
 
 
-.. |image36| image:: /asserts/nucleistudio/projectrun/media/image37.png
+.. |image36| image:: /asserts/nucleistudio/projectrun/image37.png
 
 
-.. |image37| image:: /asserts/nucleistudio/projectrun/media/image38.png
+.. |image37| image:: /asserts/nucleistudio/projectrun/image38.png
 
 
-.. |image38| image:: /asserts/nucleistudio/projectrun/media/image39.png
+.. |image38| image:: /asserts/nucleistudio/projectrun/image39.png
 
 
-.. |image39| image:: /asserts/nucleistudio/projectrun/media/image40.png
+.. |image39| image:: /asserts/nucleistudio/projectrun/image40.png
 
 
-.. |image40| image:: /asserts/nucleistudio/projectrun/media/image41.png
+.. |image40| image:: /asserts/nucleistudio/projectrun/image41.png
 
 
-.. |image41| image:: /asserts/nucleistudio/projectrun/media/image42.png
+.. |image41| image:: /asserts/nucleistudio/projectrun/image42.png
 
 
-.. |image42| image:: /asserts/nucleistudio/projectrun/media/image43.png
+.. |image42| image:: /asserts/nucleistudio/projectrun/image43.png
 
 
-.. |image43| image:: /asserts/nucleistudio/projectrun/media/image44.png
+.. |image43| image:: /asserts/nucleistudio/projectrun/image44.png
 
 
-.. |image431| image:: /asserts/nucleistudio/projectrun/media/image45.png
+.. |image431| image:: /asserts/nucleistudio/projectrun/image45.png
 
 
-.. |image44| image:: /asserts/nucleistudio/projectrun/media/image46.png
+.. |image44| image:: /asserts/nucleistudio/projectrun/image46.png
 
 
-.. |image45| image:: /asserts/nucleistudio/projectrun/media/image47.png
+.. |image45| image:: /asserts/nucleistudio/projectrun/image47.png
 
 
-.. |image46| image:: /asserts/nucleistudio/projectrun/media/image24.png
+.. |image46| image:: /asserts/nucleistudio/projectrun/image24.png
 
 
-.. |image47| image:: /asserts/nucleistudio/projectrun/media/image48.png
+.. |image47| image:: /asserts/nucleistudio/projectrun/image48.png
 
 
-.. |image48| image:: /asserts/nucleistudio/projectrun/media/image49.png
+.. |image48| image:: /asserts/nucleistudio/projectrun/image49.png
 
 
-.. |image49| image:: /asserts/nucleistudio/projectrun/media/image50.png
+.. |image49| image:: /asserts/nucleistudio/projectrun/image50.png
 
 
-.. |image50| image:: /asserts/nucleistudio/projectrun/media/image51.png
+.. |image50| image:: /asserts/nucleistudio/projectrun/image51.png
 
 
-.. |image51| image:: /asserts/nucleistudio/projectrun/media/image52.png
+.. |image51| image:: /asserts/nucleistudio/projectrun/image52.png
 
 
-.. |image52| image:: /asserts/nucleistudio/projectrun/media/image53.png
+.. |image52| image:: /asserts/nucleistudio/projectrun/image53.png
 
 
-.. |image53| image:: /asserts/nucleistudio/projectrun/media/image54.png
+.. |image53| image:: /asserts/nucleistudio/projectrun/image54.png
 
 
-.. |image54| image:: /asserts/nucleistudio/projectrun/media/image55.png
+.. |image54| image:: /asserts/nucleistudio/projectrun/image55.png
 
 
-.. |image55| image:: /asserts/nucleistudio/projectrun/media/image56.png
+.. |image55| image:: /asserts/nucleistudio/projectrun/image56.png
 
 
-.. |image56| image:: /asserts/nucleistudio/projectrun/media/image57.png
+.. |image56| image:: /asserts/nucleistudio/projectrun/image57.png
 
 
-.. |image57| image:: /asserts/nucleistudio/projectrun/media/image58.png
+.. |image57| image:: /asserts/nucleistudio/projectrun/image58.png
 
 
-.. |image58| image:: /asserts/nucleistudio/projectrun/media/image59.png
+.. |image58| image:: /asserts/nucleistudio/projectrun/image59.png
 
 
-.. |image59| image:: /asserts/nucleistudio/projectrun/media/image60.png
+.. |image59| image:: /asserts/nucleistudio/projectrun/image60.png
 
 

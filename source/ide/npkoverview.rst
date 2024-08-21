@@ -7,7 +7,7 @@ Nuclei Studio NPK 介绍
 
 组件包主要由以下文件组成：
 
-- 组件描述文件(基于YAML语言)： ``npk.yml``
+- 组件描述文件(基于YAML语言)： ``npk.yml`` 
 
 - 组件相关代码以及说明文档
 
@@ -24,19 +24,19 @@ Nuclei Studio NPK 介绍
 
 组件主要分为以下几大类型，分别是：
 
-- csp: Core Support Package, 例如NMSIS
-- ssp: SoC Support Package, 例如gd32vf103的SoC的支持包
-- bsp: Board Support Package，例如rvstar开发板板级支持的代码包
-- osp: RTOS Support Package， 例如各类RTOS支持包
-- app: Application Package，例如各类上层应用
-- mwp: Middleware Package，各类第三方中间件，例如语音识别，算法库之类的
-- sdk: Software Development Kit，一组预设定好的软件开发包，一般情况下里面会包含了CSP, SSP, BSP, APP类型的包，OSP和MWP类型的包可选加入
-- bdp: Bundle Package, 一组package，目前仅对app有效
+- **csp:** Core Support Package, 例如NMSIS
+- **ssp:** SoC Support Package, 例如gd32vf103的SoC的支持包
+- **bsp:** Board Support Package，例如rvstar开发板板级支持的代码包
+- **osp:** RTOS Support Package， 例如各类RTOS支持包
+- **app:** Application Package，例如各类上层应用
+- **mwp:** Middleware Package，各类第三方中间件，例如语音识别，算法库之类的
+- **sdk:** Software Development Kit，一组预设定好的软件开发包，一般情况下里面会包含了CSP, SSP, BSP, APP类型的包，OSP和MWP类型的包可选加入
+- **bdp:** Bundle Package, 一组package，目前仅对app有效
 
 以下是比较特殊的类型，主要用于工具包和模版包
 
-- tool: Tool Package，各类工具组件包，可放入其他需要引用或参考的文件
-- tpp: Template Package, 模板类型，可以用于创建csp/ssp/bsp/osp/app/mwp/sdk的模板工程,该类型比较特殊，描述文件名称为 **npk_template.yml**
+- **tool:** Tool Package，各类工具组件包，可放入其他需要引用或参考的文件
+- **tpp:** Template Package, 模板类型，可以用于创建csp/ssp/bsp/osp/app/mwp/sdk的模板工程,该类型比较特殊，描述文件名称为 **npk_template.yml**
 
 描述文件通用定义
 ~~~~~~~~~~~~~~~~~~~~~
@@ -340,7 +340,7 @@ Nuclei Studio NPK 介绍
 内容约定
 ~~~~~~~~~~~~~~
 
-为了保证 `npk.yml`文件的可读性与简约性，对 ``npk.yml`` 文件的存储制定如下约定：
+为了保证 ``npk.yml`` 文件的可读性与简约性，对 ``npk.yml`` 文件的存储制定如下约定：
 
 * 各字段的存储顺序请保持与模板一致，数据与DICT 按读入时顺序保存
 * 各字段建议适当加上注释，尤其是那种需要解释的地方
@@ -375,7 +375,7 @@ zip包内容规范
     * sdk > ssp > bsp > osp > mwp >  csp > app
     * 如果判定出包的类型存在多个相同的npk，则该包不合法，不允许导入，并提示
 * 该类型的包不允许存在多个该类型的npk文件
-* 如果是``sdk``类型的包，则必须包含至少一个``ssp``和依赖于该``ssp``的``bsp``文件，以及至少一个``app``类型的文件，允许存在其他类型的包
+* 如果是 ``sdk`` 类型的包，则必须包含至少一个 ``ssp`` 和依赖于该 ``ssp`` 的 ``bsp`` 文件，以及至少一个 ``app`` 类型的文件，允许存在其他类型的包
 * 如果是其他类型的包，则里面包含的其他npk，必须显式依赖于该包
 
 包依赖关系处理
@@ -383,30 +383,30 @@ zip包内容规范
 
 包依赖关系的处理涉及到如何能够将包拆分并形成合理的依赖关系，便于包的独立维护。这里对不同类型的包的依赖处理进行详细的分析。
 
-依赖通过 ``dependencies`` 字段下的依赖列表来控制，支持依赖特定owner的某个name，某个version版本的包， 查找规则为 ``owner/name:version`` ，如果owner未定义，则默认为该npk文件中定义的owner，如果 ``version`` 未定义，则优先在同组件包查找，否则取最新的包。
+依赖通过 ``dependencies`` 字段下的依赖列表来控制，支持依赖特定owner的某个name，某个version版本的包，查找规则为 ``owner/name:version`` ，如果owner未定义，则默认为该npk文件中定义的owner，如果 ``version`` 未定义，则优先在同组件包查找，否则取最新的包。
 
 csp Core Support Package依赖
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 csp类型的包是处理器内核CORE支持的软件包，目前针对Nuclei RISC-V内核，我们主要推广NMSIS这样的开源软件支持包。
 
-一般情况下，csp类型的包是非常底层的包，这里不支持依赖ssp/bsp/mwp/rtos/app这样的类型的包。但是可以依赖sdk类型的包，表示该包属于依赖的sdk包的环境中。
+一般情况下，csp类型的包是非常底层的包，这里不支持依赖 ``ssp/bsp/mwp/rtos/app`` 这样的类型的包。但是可以依赖sdk类型的包，表示该包属于依赖的sdk包的环境中。
 
 ssp SoC Support Package依赖
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-ssp类型的包是SoC或者芯片的支持的软件包，例如gd32vf103, demosoc这样SoC的支持软件包。
+ssp类型的包是SoC或者芯片的支持的软件包，例如 ``gd32vf103`` , ``demosoc`` 这样SoC的支持软件包。
 
-ssp软件包仅可以依赖csp/mwp/osp这样的软件包，如果依赖了这三种类型的软件包，则表示在工程创建的时候或者是代码引入的时候，这三类软件包需要导入代码。 **而如果依赖sdk类型的软件包，则表示该ssp类型的包属于依赖的sdk类型的软件包的环境。**
+ssp软件包仅可以依赖 ``csp/mwp/osp`` 这样的软件包，如果依赖了这三种类型的软件包，则表示在工程创建的时候或者是代码引入的时候，这三类软件包需要导入代码。 **而如果依赖sdk类型的软件包，则表示该ssp类型的包属于依赖的sdk类型的软件包的环境。**
 
-理论上用户可以创建一个ssp软件包，不依赖任何csp/mwp/rtos的软件包，也不属于sdk类型的软件包。 **osp** 类型软件包仅可以依赖一个。
+理论上用户可以创建一个ssp软件包，不依赖任何 ``csp/mwp/rtos`` 的软件包，也不属于sdk类型的软件包。 **osp** 类型软件包仅可以依赖一个。
 
 bsp Board Support Package依赖
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-bsp类型的包是针对基于某款SoC/芯片做的开发板而推出的软件支持包，例如gd32vf103-rvstar这款开发板的bsp软件包。
+bsp类型的包是针对基于某款SoC/芯片做的开发板而推出的软件支持包，例如 ``gd32vf103-rvstar`` 这款开发板的bsp软件包。
 
-bsp软件包仅可以依赖ssp/csp/mwp/osp这样的软件包, 如果依赖了这几种类型的软件包，则表示在工程创建的时候或者是代码引入的时候，这类软件包需要导入代码。 **而如果依赖sdk类型的软件包，则表示该ssp类型的包属于依赖的sdk类型的软件包的环境。**
+bsp软件包仅可以依赖 ``ssp/csp/mwp/osp`` 这样的软件包, 如果依赖了这几种类型的软件包，则表示在工程创建的时候或者是代码引入的时候，这类软件包需要导入代码。 **而如果依赖sdk类型的软件包，则表示该ssp类型的包属于依赖的sdk类型的软件包的环境。**
 
 理论上用户可以创建一个bsp软件包，不依赖任何软件包。 **osp** 类型软件包仅可以依赖一个。
 
@@ -415,14 +415,14 @@ osp OS Support Package依赖
 
 osp类型的包是指特定的RTOS的软件支持包，例如freertos，ucosii之类的。
 
-osp类型的包仅可以依赖ssp/csp/mwp类型的软件包，如果依赖了这几种类型的软件包，则表示在工程创建的时候或者是代码引入的时候，这类软件包需要导入代码。 **而如果依赖sdk类型的软件包，则表示该ssp类型的包属于依赖的sdk类型的软件包的环境。**
+osp类型的包仅可以依赖 ``ssp/csp/mwp`` 类型的软件包，如果依赖了这几种类型的软件包，则表示在工程创建的时候或者是代码引入的时候，这类软件包需要导入代码。 **而如果依赖sdk类型的软件包，则表示该ssp类型的包属于依赖的sdk类型的软件包的环境。**
 
 mwp Middleware Support Package依赖
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-mwp类型的软件包是指中间件类型的软件包，例如某个语音算法的库，某种物联网连接库如mqtt, coap之类。
+mwp类型的软件包是指中间件类型的软件包，例如某个语音算法的库，某种物联网连接库如 ``mqtt`` , ``coap`` 之类。
 
-mwp类型的包仅可以依赖bsp/ssp/csp/mwp/osp类型的软件包，但是不建议直接依赖bsp/ssp，在创建middleware的时候尽量保证其通用性，可以很好被集成到其他的软件中。
+mwp类型的包仅可以依赖 ``bsp/ssp/csp/mwp/osp`` 类型的软件包，但是不建议直接依赖 ``bsp/ssp`` ，在创建middleware的时候尽量保证其通用性，可以很好被集成到其他的软件中。
 
 sdk Software Development Kit Package依赖
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -441,31 +441,31 @@ sdk类型的软件包是一类非常特殊的软件包，本身并不会有额�
 模块说明
 -----------
 
-从上述描述文件中可以看出，一个标准的npk.yml实际是上由几个大块组成的，而在实现应用中，我们并不一定会完全用到，一个合规的npk.yml文件，只要拥有基本的信息，就是可以正常给Nuclei Studio使用。
+从上述描述文件中可以看出，一个标准的 ``npk.yml`` 实际是上由几个大块组成的，而在实现应用中，我们并不一定会完全用到，一个合规的 ``npk.yml`` 文件，只要拥有基本的信息，就是可以正常给Nuclei Studio使用。
 
 Package Base Information
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 这一块分信息，是NPK的基础的信息，很多关键的信息在这部分内容中需要描述清楚。其中着重说明几个字段。
 
-* name
+* **name** 
 
 必填，NPK的名称ID，不要有空格，符合C语言命名规范，英文名称，是唯一名称ID。
 
-* version
+* **version** 
 
 选填，如不填，默认为空，建议采用SEMVER2.0版本号管理，只能数字打头, 例如1.2.3
 
-* type
+* **type** 
 
 必填， 可选类型值有csp, ssp, bsp, osp, app, mwp, sdk, tpp, tool
 
-* os
+* **os** 
 
 选填，标明该NPK适用于什么类型的Nuclei Studio，目前我们发行的Nuclei Studio有win64和lin64两个版本。OS类型可以填win32、win64、lin64、lin32,但目前组件包上传页面只支持win64和lin64,该字段只存在tool类型package
 
 
-* owner
+* **owner** 
 
 必填，组件包的拥有者，该ID一般为认证开发者ID，便于后期进行权限查找匹配。如果该NPK仅作本地测试，可以随意。
 
@@ -490,35 +490,35 @@ Package Configurations
 
 **Configuration** 对象组会包含多个对象，而每个对象有固定的结构。
 
-* XXX(变量名)
+* **XXX(变量名)** 
 
 变量名可以随意，简合c++的命名规范即可。在后面部分会以${XXX}或${XXX.XX}的方式引用。
 
-* default
+* **default** 
 
 默认值，可选项。
 
-* type
+* **type** 
 
 这个变量的类型，为了支持更丰富的UI体验，我们在NPK中定义了很多的UI组件类型，具体请参看后面章节。
 
-* global
+* **global** 
 
 标明此字段是否在工程创建时显示在引导页面中。
 
-* tips
+* **tips** 
 
 对该变量的说明信息，主要用于UI的tips事件。
 
-* hints
+* **hints** 
 
 对该变量的说明信息，如值的示例等，主要用于UI的hints事件。
 
-* description
+* **description** 
 
 此变量的NPK中的说明描述。
 
-* UI组件信息
+* **UI组件信息** 
 
 支持的类型有choice, list, checkbox, multicheckbox, text等，具体信息参见
 
@@ -527,15 +527,15 @@ Source Code Management
 
 **codemanage** 描述的是跟模板工程有关的内容，大多的时候，我们的NPK会包括很多复杂的功能，需要创建某个一个具体的工程的时候，我们又只需要一些具体的文件，同时需要配置这些文件的信息。**codemanage** 就是将这些信息描述出来，它包含以下关键字：
 
-* custom
+* **custom** 
 
 默认为false, 当为true时，这个installdir就表示直接安装的目录
 
-* srcroot
+* **srcroot** 
 
 默认为 ``.`` ， 表示当前 ``npk.yml`` 所在目录，可以是相对路径, 例如 ``../`` ， ``../bsp`` 等；需要注意的是，设置了这个以后，对应的copyfiles/incdirs/libdirs的路径的根目录均受到影响，就会使用新设置的和这个路径
 
-* installdir
+* **installdir** 
 
 希望代码安装的目录名称，仅限英文，满足C语言命名格式
 
@@ -555,30 +555,30 @@ Source Code Management
 
 .. note::
 
-    2023.05.26 新增 copyfiles/incdirs/libdirs 均支持 ../../ 这样的相对上级目录，但是安装或者设置路径的时候，均设置到 <installdir>下面
+    2023.05.26 新增 ``copyfiles/incdirs/libdirs`` 均支持 ``../../`` 这样的相对上级目录，但是安装或者设置路径的时候，均设置到 ``<installdir>`` 下面
 
-    例如: path: ["../common/"] 就拷贝上一级目录的common, 并放在<installdir>/common下面，
+    例如: ``path: ["../common/"]`` 就拷贝上一级目录的 ``common`` , 并放在 ``<installdir>/common`` 下面，
 
-    如果下面有common这个目录，则创建 R1L_common, 如果是 ../../common, 则创建 R2L_common，
+    如果下面有 ``common`` 这个目录，则创建 ``R1L_common`` , 如果是 ``../../common`` , 则创建 ``R2L_common`` ，
 
-    这种方案不考虑了，直接创建同名目录，同名文件直接覆盖，建议采用 `srcroot: ..` 来解决问题对应的incdirs/libdirs
+    这种方案不考虑了，直接创建同名目录，同名文件直接覆盖，建议采用 ``srcroot: ..`` 来解决问题对应的 ``incdirs/libdirs`` 
 
     如果遇到这种相对路径，也需要以最终安装到路径以及文件名为准
 
 
-* copyfiles
+* **copyfiles** 
 
 待拷贝的文件或者文件夹，这里是指所有的目录或者文件，支持 ``../`` 、 ``*`` 、 ``*.*`` ，给结合srcroot一起使用，
 
-* incdirs
+* **incdirs** 
 
 必填，加入头文件目录列表，Nuclei Studio会进行补全，最终的路径是相对于工程根目录的路径。
 
-* libdirs
+* **libdirs** 
 
 可选，lib库所在目录，Nuclei Studio会进行补全，最终的路径是相对于工程根目录的路径。
 
-* ldlibs
+* **ldlibs** 
 
 可选的需要链接的库，Nuclei Studio会进行补全，最终的路径是相对于工程根目录的路径。
 
@@ -590,17 +590,17 @@ Set Configuration for other packages
 
 **setconfig** 是一个对象组，可以无限扩展，每个对象中有三个字段来描述一个对象。
 
-* config
+* **config** 
 
 变量名，遵循C++命名规范，一般变量XXX,在其它部分以${XXX}的方式引用
 
 该变量名不唯一，可以通过条件进行判定生效，也遵循覆盖规则app > mwp  > osp > bsp > ssp > csp，进行自动覆盖。
 
-* value
+* **value** 
 
 变量的值
 
-* condition
+* **condition** 
 
 变量的条件，只有条件生效时，该变量的该值才会生效
 
@@ -609,87 +609,87 @@ Build Configuration
 
 设置工程的编译工具和编译选项的配置，它的关键字包含以下几个固定字段。
 
-* type
+* **type** 
 
 支持的编译工具的类型，值一般为gcc、clang、common。目前只支持gcc、clang两种，因为编译选项的配置有一些是相同的，为了提高代码的复用性，我们又添加common类型。
 
-* description
+* **description** 
 
 对此编译工具的说明。
 
-* toolchain_name
+* **toolchain_name** 
 
 重要字段，编译工具名字。
 
-* cross_prefix
+* **cross_prefix** 
 
 重要字段，编译工具的前缀。
 
-* unflags
+* **unflags** 
 
 在buildconfig section中的 ``common_flags/cflags/asmflags/ldflags/cxxflags`` 中生效，用于删掉之前已经定义的flags。
 
-* undefines
+* **undefines** 
 
 在buildconfig section中的 ``common_defines/cdefines/asmdefines/cxxdefines`` 中生效，用于删掉之前已经定义的defines。（字符串完全匹配，则生效）
 
-* common_flags
+* **common_flags** 
 
 用的编译选项，将会添加到cflags, asmflags, cxxflags上，留空表示没有任何选项。
 
-* ldflags
+* **ldflags** 
 
 链接选项列表，留空表示没有任何选项。
 
-* linkscript
+* **linkscript** 
 
 链接脚本的定义，必须在bsp/ssp中定义，留空表示没有任何选项。
 
-* cflags
+* **cflags** 
 
 C编译选项，留空表示没有任何选项。
 
-* asmflags
+* **asmflags** 
 
 ASM编译选项，留空表示没有任何选项。
 
-* cxxflags
+* **cxxflags** 
 
 CXX编译选项，留空表示没有任何选项。
 
-* common_defines
+* **common_defines** 
 
 通用的宏定义，留空表示没有任何选项。
 
-* cdefines
+* **cdefines** 
 
 C的宏定义，留空表示没有任何选项。
 
-* asmdefines
+* **asmdefines** 
 
 ASM的宏定义，留空表示没有任何选项。
 
-* cxxdefines
+* **cxxdefines** 
 
 CXX的宏定义，留空表示没有任何选项。
 
-* prebuild_steps
+* **prebuild_steps** 
 
-    * command
+    * **command** 
 
     编译前执行的命令，留空表示没有任何选项。
 
-    * description
+    * **description** 
 
     编译前执行的命令的说明，留空表示没有任何选项。
 
-* postbuild_steps
+* **postbuild_steps** 
 
-    * command
+    * **command** 
 
     编译后执行的命令，留空表示没有任何选项。
 
-    * description
+    * **description** 
 
     编译后执行的命令的说明，留空表示没有任何选项。
 
@@ -698,15 +698,15 @@ Debug Configuration
 
 设置工程的Debug类型及相关参数的配置，它的关键字包含以下几个固定字段，可以不用配，如果配置了，在工程生成的时候，Nuclei Studio会根据这里面的内容，生成了个launch文件，同时可以根据相关内容进行工程的Debug。
 
-* type
+* **type** 
 
 Debug类型,目前支持GDB Custom 、GDB SEGGER J-Link、 GDB OpenOCD、 GDB Nuclei QEMU、 Nuclei RVProf
 
-* description
+* **description** 
 
 对支持的Custom Jlink OpenOCD Qemu RVProf的说明
 
-* configs
+* **configs** 
 
 对应的Debug类型的参数，所有的参数，都是以key-value的方式出现，因为每中Debug类型所需参数不同，对应的情况也不同，更详细的说明如下。
 
@@ -1212,7 +1212,7 @@ NPK中提供了丰富的UI组件，这些组件的字段里面都会有default, 
 
 default表示默认值，description表示该选项的含义，global表示这个选项是否在工程创建时显示(true)，或者仅仅内部传参使用(false)。
 
-* Choice 单项选择框
+* **Choice 单项选择框** 
 
 .. code-block:: yaml
 
@@ -1248,7 +1248,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npk/image.png
 
-* list 单项选择框
+* **list 单项选择框** 
 
 .. code-block:: yaml
 
@@ -1264,7 +1264,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npk/image-1.png
 
-* checkbox 单项勾选框
+* **checkbox 单项勾选框** 
 
 .. code-block:: yaml
 
@@ -1279,7 +1279,8 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npk/image-2.png
 
-* multicheckbox 穿梭选择框
+* **multicheckbox 穿梭选择框** 
+
   下面提供2种写法
 
 .. code-block:: yaml
@@ -1317,7 +1318,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npk/image-4.png
 
-* text 单行文本框
+* **text 单行文本框** 
 
 .. code-block:: yaml
 
@@ -1334,7 +1335,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npk/image-5.png
 
-* multitext 多行文本框
+* **multitext 多行文本框** 
 
 .. code-block:: yaml
 
@@ -1352,7 +1353,8 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npk/image-6.png
 
-* multichoice 多选下拉框
+* **multichoice 多选下拉框** 
+
   下面提供2种写法
 
 .. code-block:: yaml
@@ -1391,7 +1393,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npk/image-8.png
 
-* cascaderchoice 级联选择框
+* **cascaderchoice 级联选择框** 
 
 .. code-block:: yaml
 
@@ -1415,7 +1417,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npk/image-9.png
 
-* switchbutton 开关
+* **switchbutton 开关** 
 
 .. code-block:: yaml
 
@@ -1430,7 +1432,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npk/image-10.png
 
-* slider 数字选择框
+* **slider 数字选择框** 
 
 .. code-block:: yaml
 
@@ -1446,7 +1448,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npk/image-11.png
 
-* spinner 数字选择框
+* **spinner 数字选择框** 
 
 .. code-block:: yaml
 
@@ -1463,7 +1465,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npk/image-12.png
 
-* multispinner 多数字选择框
+* **multispinner 多数字选择框** 
 
 .. code-block:: yaml
 
@@ -1481,7 +1483,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npk/image-13.png
 
-* multicheckbox_v2 多项勾选框
+* **multicheckbox_v2 多项勾选框** 
 
   下面提供2种写法
 
@@ -1521,7 +1523,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npk/image-15.png
 
-* multiradio 单选框
+* **multiradio 单选框** 
 
   下面提供2种写法
 
@@ -1620,7 +1622,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
 
 为了更好的描述NPK，我们定义了一些字段，以描述出各种关系，其中大部分字段如其字面意义，这里重点介绍以下几个关键字。
 
-* condition
+* **condition** 
 
 **condition** 在npk.yml中，使用很频繁，是自定义的一个关键字，用来处理逻辑关系，类似 **if** ，具体的使用如下。
 
@@ -1641,7 +1643,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
     # 上述描术中flags的值，由condition决定，当在不同的场景时，flags的值会不同，
     # 又因为flags是一个数组类型，所以上述例子中flags会有多个值，最终使用是，是flags的值拼接成的字符串。
 
-* dependencies
+* **dependencies** 
 
 **dependencies** 在npk.yml中，用来描述NPK的依赖关系。
 
@@ -1679,7 +1681,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
 
 在NPK（npk.yml）中，为了更好地满足各种不同的需求，我们特意定义了一些常用的函数。
 
-* upper
+* **upper** 
 
 将字符串变大写
 
@@ -1688,7 +1690,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
     ${linker_script} = "test"
     $(upper("${linker_script}CD")) => TESTCD
 
-* lower
+* **lower** 
 
 将字符串变小写
 
@@ -1697,7 +1699,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
     ${linker_script} = "test"
     $(lower("${linker_script}cd")) => testcd
 
-* contains
+* **contains** 
 
 判断字符串中是否包含另一个字符串
 
@@ -1706,7 +1708,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
     ${linker_script} = "test"
     $(contains(${linker_script}, nmsis) ) => false
 
-* join
+* **join** 
 
 将字符串连接数组
 
@@ -1714,7 +1716,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
 
     $(join([a,b,c,v], '') => abcv
 
-* concat
+* **concat** 
 
 连接字符串成为新一字符串
 
@@ -1724,7 +1726,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
     $(concat(${linker_script}, v) => testv
 
 
-* strip
+* **strip** 
 
 去掉字符串两端空格
 
@@ -1734,7 +1736,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
     $(strip(${linker_script})) => test
 
 
-* startswith
+* **startswith** 
 
 判断字符串是否以xxx开头
 
@@ -1743,7 +1745,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
     ${linker_script} = "testabcd"
     $(startswith(${linker_script}, test)) => true
 
-* endswith
+* **endswith** 
 
 判断字符串是否以xxx结尾
 
@@ -1752,7 +1754,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
     ${linker_script} = "testabcd"
     $(endswith(${linker_script}, test))  => false
 
-* arithop
+* **arithop** 
 
 数学运算符,支持+、- 、* 、/、% 、?(三元运算)等常用运算符，不支持++、--
 
@@ -1762,7 +1764,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
     $(arithop(${linker_script}+22))
     $(arithop(${linker_script}>22?1:0))
 
-* npack/npack_installdir
+* **npack/npack_installdir** 
 
 npack是否包含指定的npk
 
@@ -1792,7 +1794,7 @@ npack_installdir 包含的npk的路径
 
     # 这段描述，是当b.yml如果依赖a.yml时，就可以将config的值，设置为a.yml的目录下的/src/openocd.cfg
 
-* list_get
+* **list_get** 
 
 获取数组元素中指定脚标的值
 
@@ -1801,7 +1803,7 @@ npack_installdir 包含的npk的路径
     ${nuclei_cache}=[ic,dc,ccm]
     $(list_get(${nuclei_cache},0)) -> ic
 
-* list_set
+* **list_set** 
 
 修改数组元素中指定脚标的值
 
@@ -1810,7 +1812,7 @@ npack_installdir 包含的npk的路径
     ${nuclei_cache}=[ic,dc,ccm]
     $(list_set(${nuclei_cache},1,aa)) -> [ic,aa,ccm]
 
-* list_del
+* **list_del** 
 
 删除数组元素中指定脚标的值
 
@@ -1820,7 +1822,7 @@ npack_installdir 包含的npk的路径
     $(list_del(${nuclei_cache},1)) -> [ic,ccm]
 
 
-* list_add
+* **list_add** 
 
 在数组元素指定脚标插入值
 
@@ -1829,7 +1831,7 @@ npack_installdir 包含的npk的路径
     ${nuclei_cache}=[ic,dc,ccm]
     $(list_add(${nuclei_cache},2,aa)) -> [ic,dc,aa,ccm]
 
-* list_size
+* **list_size** 
 
 获取数组元素list的长度
 
@@ -1838,7 +1840,7 @@ npack_installdir 包含的npk的路径
     ${nuclei_cache}=[ic,dc,ccm]
     $(list_size(${nuclei_cache})) -> 3
 
-* list_sub
+* **list_sub** 
 
 从list中指定的位置开始，截取指定长度的list
 
@@ -1851,7 +1853,7 @@ npack_installdir 包含的npk的路径
     $(list_sub(${nuclei_cache},,2)) -> [ic,dc]
 
 
-* subst
+* **subst** 
 
 对字符串内部的指定字符串进行替换，第三个参数可为空
 
