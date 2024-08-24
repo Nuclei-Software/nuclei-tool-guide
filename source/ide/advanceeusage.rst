@@ -32,10 +32,10 @@ Nuclei Studio 2023.10版导导入旧工程
 
 .. _ide_advanceeusage_3:
 
-通过工具将工程转换成支持gcc 13的工程
+通过工具将工程转换成支持GCC 13的工程
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-为了方便用户导入旧的工程，并能正常使用Nuclei Studio 2023.10特性，我们提供了快速转换工具“Convert GCC 10 Project to GCC 13”，选中工程点击鼠标右键，在弹出的菜单中找到“Convert GCC 10 Project to GCC 13”并点击。
+为了方便用户导入旧的工程，并能正常使用Nuclei Studio 2023.10特性，我们提供了快速转换工具 ``Convert GCC 10 Project to GCC 13`` ，选中工程点击鼠标右键，在弹出的菜单中找到 ``Convert GCC 10 Project to GCC 13`` 并点击。
 
 |image3|
 
@@ -45,10 +45,10 @@ Nuclei Studio 2023.10版导导入旧工程
 
 .. _ide_advanceeusage_4:
 
-批量将工程转换成支持gcc 13的工程
+批量将工程转换成支持GCC 13的工程
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-为了方便用户导入旧的工程，并能正常使用Nuclei Studio 2023.10以上版本的特性，批量将工程转换成支持gcc 13的工程。
+为了方便用户导入旧的工程，并能正常使用Nuclei Studio 2023.10以上版本的特性，批量将工程转换成支持GCC 13的工程。
 
 |image5|
 
@@ -105,7 +105,7 @@ LST View
 
 在Nuclei Studio 2024.06版本中，集成了LST View工具，LST View可以单独使用，也可以在Trace工具或GProf工具中被呼起，主要功能，是帮助用户方便的查看LST文件，并实现LST文件与源码的联动。
 
-在Nuclei Studio中依次Window -> Show View -> Other，在弹出的Show View中搜索 ``LST View`` 。
+在Nuclei Studio中依次 ``Window -> Show View -> Other`` ，在弹出的Show View中搜索 ``LST View`` 。
 
 |image13|
 
@@ -194,7 +194,7 @@ Nuclei Studio中的Profiling功能是借助于gcc编译器和binutils中的gprof
 
 Call Graph（调用图）是一个强大的工具，它允许开发人员直观地理解程序中函数或方法之间的调用关系。通过Call Graph，开发人员可以迅速识别出哪些函数被频繁调用，哪些函数是关键的入口点，以及函数之间的依赖关系。Nuclei Studio中Call Graph主要是通过分析Profiling的数据，来获取到程序的调用关系。
 
-在NucleiStudio中依次 ``Window -> Show View -> Other`` ，在弹出的Show View中搜索 ``Call Graph`` ，打开 ``Call Graph``工具。 ``Call Graph`` 工具中提供了多处视图，其中常用到的视图有以下几个。
+在NucleiStudio中依次 ``Window -> Show View -> Other`` ，在弹出的Show View中搜索 ``Call Graph`` ，打开 ``Call Graph`` 工具。 ``Call Graph`` 工具中提供了多处视图，其中常用到的视图有以下几个。
 
 Radial View
 ^^^^^^^^^^^
@@ -290,14 +290,14 @@ Gprof工具会启动，就可以看到对应用程序的分析结果，显示了
 
 |image34|
 
-打开Gprof的同时，NucleiStudio会根据gmon.out文件解析出程序的Call Graph并生成callgraph.out文件。双击callgraph.out文件，也可以点击Gprof工具的菜单栏中Open Call Graph View按钮，来启动Call Graph工具。关于Call Graph的具体使用，可以参考 :ref:`关于Call Graph功能 <ide_advanceeusage_18>` 。
+打开Gprof的同时，NucleiStudio会根据gmon.out文件解析出程序的Call Graph并生成 ``callgraph.out`` 文件。双击 ``callgraph.out`` 文件，也可以点击Gprof工具的菜单栏中 ``Open Call Graph View`` 按钮，来启动Call Graph工具。关于Call Graph的具体使用，可以参考 :ref:`关于Call Graph功能 <ide_advanceeusage_18>` 。
 
 |image35|
 
 通过Semihosting使用
 ^^^^^^^^^^^^^^^^^^^
 
-NucleiSudio安装了nuclei_sdk 0.6.0后，可以创建一个 ``Profiling demo to show how to use gprof and gcov`` 的测试工程，此时需要选中Enable Semihosting。
+NucleiSudio安装了nuclei_sdk 0.6.0后，可以创建一个 ``Profiling demo to show how to use gprof and gcov`` 的测试工程，此时需要选中 ``Enable Semihosting`` 。
 
 |image36|
 
@@ -415,23 +415,23 @@ trace的配置信息，在这里配置Trace ATB2AXI Config Addr、Trace Buffer B
 
 Trace记录表格，是Nuclei Studio将dump到的trace文件进行解密之后，生成的记录进行展示，并且当用户点击某条记录时，会自动定位到对应的源代码和反汇编代码的行数。
 
-- **Record：**\ 记录id
+- **Record：** 记录id
 
-- **CoreId：**\ Coreid，主要是在多核时可以用于区分不同的Core
+- **CoreId：** Coreid，主要是在多核时可以用于区分不同的Core
 
-- **Addr：**\ 指令地址
+- **Addr：** 指令地址
 
-- **CPU Clock：**\ 时钟Cycle计数
+- **CPU Clock：** 时钟Cycle计数
 
-- **Clock Diff：**\ 时钟Cycle差
+- **Clock Diff：** 时钟Cycle差
 
-- **Instruction Code：**\ 十六进制表示的指令码
+- **Instruction Code：** 十六进制表示的指令码
 
-- **Instruction：**\ 指令码
+- **Instruction：** 指令码
 
-- **File：**\ 指令码对应的源码所在的文件
+- **File：** 指令码对应的源码所在的文件
 
-- **File Line：**\ 指令码对应的源码所在的文件的行数
+- **File Line：** 指令码对应的源码所在的文件的行数
 
 .. rubric:: Trace Configuration
 
@@ -441,13 +441,13 @@ Trace记录表格，是Nuclei Studio将dump到的trace文件进行解密之后�
 
 - **Trace need to be configured:** 如果需要配置Trace模块就勾选，如果其他地方已经配置过了，就千万不要勾选了，例如多核SMP/AMP的情况下，SoC上只有一个Trace模块，假设其中一个核心已经勾选配置了，其他的核心就不能勾选了，或者是配置是在C代码中或者其他地方做了，也千万不要勾选。
 
-- **Trace ATB2AXI Config Addr：**\ ATB2AXI模块控制器的基地址。
+- **Trace ATB2AXI Config Addr：** ATB2AXI模块控制器的基地址。
 
-- **Trace Buffer Base Addr：**\ 存放trace记录的开始地址，例如：针对某个SoC, 举例如下在flashxip模式，使用ilm（0x1c000000）作为缓存buffer；在sramxip模式，使用dlm（0x08010000）作为缓存buffer。
+- **Trace Buffer Base Addr：** 存放trace记录的开始地址，例如：针对某个SoC, 举例如下在flashxip模式，使用ilm（0x1c000000）作为缓存buffer；在sramxip模式，使用dlm（0x08010000）作为缓存buffer。
 
-- **Trace Buffer Size in Bytes：**\ 存放trace记录的Buffer大小，单位为字节。
+- **Trace Buffer Size in Bytes：** 存放trace记录的Buffer大小，单位为字节。
 
-- **Trace Wrap：**\ 是否允许自动复盖，允许则在Buffer满时，将再次从头开始覆盖记录。
+- **Trace Wrap：** 是否允许自动复盖，允许则在Buffer满时，将再次从头开始覆盖记录。
 
 .. rubric:: Trace Decoder Configuration
 
@@ -455,17 +455,17 @@ Set Current Debug hart Configuration弹框中，用户可以自定义trace decod
 
 |image46|
 
-- **ELF File Path：**\ trace生产时执行的elf文件的地址。
+- **ELF File Path：** trace生产时执行的elf文件的地址。
 
-- **Trace File Path：**\ 需要解析的trace文件的地址。
+- **Trace File Path：** 需要解析的trace文件的地址。
 
-- **Objdump Path：**\ trace decode过程中，需要用到objdump工具，所以这里需要指定所使用到的objdump工具的地址。
+- **Objdump Path：** trace decode过程中，需要用到objdump工具，所以这里需要指定所使用到的objdump工具的地址。
 
-- **HartID：**\ trace decode时需要指定当前需要查看的trace对应的HartID，单核工程默认HartID=0。
+- **HartID：** trace decode时需要指定当前需要查看的trace对应的HartID，单核工程默认HartID=0。
 
-- **Trace Data Align Size：**\ 跟踪数据对齐大小，一般与硬件的trace输出位宽对齐，默认有8、32、64。
+- **Trace Data Align Size：** 跟踪数据对齐大小，一般与硬件的trace输出位宽对齐，默认有8、32、64。
 
-- **Display Address Bits：**\ trace decode后显示地址的位数，一般是32、64、128位。
+- **Display Address Bits：** trace decode后显示地址的位数，一般是32、64、128位。
 
 Trace的使用
 ~~~~~~~~~~~
@@ -491,9 +491,9 @@ Trace的使用
 
 |image49|
 
-Trace配置完毕后，可以设置两个断点，一个断点用于Trace开始点，一个断点用于Trace结束点，在开始点断点停下后就可以点击start trace按钮，就可以继续debug操作(如单步或者运行等)了，在结束点断电停下后，就可以点击stop trace按钮来结束Trace。
+Trace配置完毕后，可以设置两个断点，一个断点用于Trace开始点，一个断点用于Trace结束点，在开始点断点停下后就可以点击 ``start trace`` 按钮，就可以继续debug操作(如单步或者运行等)了，在结束点断电停下后，就可以点击 ``stop trace`` 按钮来结束Trace。
 上面只是Start/Stop
-Trace的一种使用示例，也可以更灵活一些，请根据自己需要进行使用。当trace结束时（多核情况下请确保每个CPU的Trace都结束了），就可以点Dump trace file按钮，将trace文件从硬件上下载到本地，默认下载的trace文件存在工程目下的debug目录下，有一个“工程名.trace”的文件。
+Trace的一种使用示例，也可以更灵活一些，请根据自己需要进行使用。当trace结束时（多核情况下请确保每个CPU的Trace都结束了），就可以点 ``Dump trace file`` 按钮，将trace文件从硬件上下载到本地，默认下载的trace文件存在工程目下的debug目录下，有一个 ``工程名.trace`` 的文件。
 
 |image50|
 
@@ -512,46 +512,46 @@ Trace文件下载完后，Nuclei Studio会弹出一个 ``Set current debug hart 
 在SMP多核应用中使用Trace
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-在SMP多核应用中使用trace与单核大体相似，差别在于SMP多核在Debug时，不同的thread共用一个Trace Configuration， 且需要通过选择不同的Thread来对不同的CPU Hart核心单独start trace/stop trace。在Debug视图中，点击任意一个Thread,然后点击Trace工具栏中的 trace setting来设置Trace Configuration。
+在SMP多核应用中使用trace与单核大体相似，差别在于SMP多核在Debug时，不同的thread共用一个Trace Configuration， 且需要通过选择不同的Thread来对不同的CPU Hart核心单独 ``start trace/stop trace`` 。在Debug视图中，点击任意一个Thread,然后点击Trace工具栏中的 ``trace setting`` 来设置Trace Configuration。
 
 |image54|
 
 在Debug视图中，可以通过点击不同的Thread,来切换不同的Core,如下图点击Thread #1或者Thread #1下对应的函数名来选中对应的是SMP多核应用中的Core 0,可以对Core
-0开启或者关闭Trace，在SMP多核应用中，只要有一个Core在完成start trace操作时,Trace Configuration中的信息就会在硬件中设置好，其他的core在start trace操作时，就不会重复设置trace Configuration。
+0开启或者关闭Trace，在SMP多核应用中，只要有一个Core在完成start trace操作时,Trace Configuration中的信息就会在硬件中设置好，其他的core在 ``start trace`` 操作时，就不会重复设置trace Configuration。
 
 |image55|
 
-同理，在Debug视图中点击Thread #2或者Thread #2下对应的函数名，来切换到Core 1上进行start trace/stop trace的操作。
+同理，在Debug视图中点击Thread #2或者Thread #2下对应的函数名，来切换到Core 1上进行 ``start trace/stop trace`` 的操作。
 
 |image56|
 
-在dump trace file操作时，在SMP多核应用中，只有当所有的Core都stop trace，才可以执行dump trace file的指令并成功下载Trace文件。Trace文件的下载，在SMP多核应用中，只需要下载一份，在对trace文件进行decoder时，注意设置Hart ID，就可以解析出不同的trace记录表，如下图，当HardID=0时，就可以查看到Core 0对应的Trace记录。
+在 ``dump trace file`` 操作时，在SMP多核应用中，只有当所有的Core都 ``stop trace`` ，才可以执行 ``dump trace file`` 的指令并成功下载Trace文件。Trace文件的下载，在SMP多核应用中，只需要下载一份，在对trace文件进行decode时，注意设置Hart ID，就可以解析出不同的trace记录表，如下图，当 ``HardID=0`` 时，就可以查看到Core 0对应的Trace记录。
 
 |image57|
 
-同理当HardID=1时，就可以查看到Core 1对应的Trace记录。
+同理当 ``HardID=1`` 时，就可以查看到Core 1对应的Trace记录。
 
 |image58|
 
 在AMP多核应用中使用Trace
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-在AMP多核应用中使用trace也类似，trace配置也是共享。不同的thread共用一个trace configuration，但可以通过不同的thread，对不同的核单独start trace/stop trace。如下图，在Debug视图，点击Thread #1或者Thread #1下的函数名，切换到AMP多核应用中Core 0，然后点击Trace工具栏中的 trace setting来设置Core 0对应的Trace Configuration。
+在AMP多核应用中使用trace也类似，trace配置也是共享。不同的thread共用一个trace configuration，但可以通过不同的thread，对不同的核单独 ``start trace/stop trace`` 。如下图，在Debug视图，点击 ``Thread #1`` 或者 ``Thread #1`` 下的函数名，切换到AMP多核应用中 ``Core 0`` ，然后点击Trace工具栏中的 ``trace setting`` 来设置Core 0对应的Trace Configuration。
 
 |image59|
 
-在Debug视图，点击Thread #2或者Thread #2下的函数名，切换到AMP多核应用中Core 1，然后点击Trace工具栏中的 trace setting来设置Core 1对应的Trace Configuration，因为在AMP多核应用中trace配置是共用，所以此处设置需要将 Trace need to be configured的勾去掉，表示可以使用trace功能，但不需要有任何设置。
+在Debug视图，点击 ``Thread #2`` 或者 ``Thread #2`` 下的函数名，切换到AMP多核应用中 ``Core 1`` ，然后点击Trace工具栏中的 ``trace setting`` 来设置 ``Core 1`` 对应的Trace Configuration，因为在AMP多核应用中trace配置是共用，所以此处设置需要将 ``Trace need to be configured`` 的勾去掉，表示可以使用trace功能，但不需要有任何设置。
 
 |image60|
 
-Trace Configuration设置完成后，同样的通过Debug视图的Thread来切换不同的Core，进行start trace/stop trace/dump trace file操作,注意，设置了Trace Configuration的Core需要优先于其它Core开始start trace，并将Trace Configuration的信息设置好，其他的Core才可以正常的start trace/stop trace/dump trace file操作。
+Trace Configuration设置完成后，同样的通过Debug视图的Thread来切换不同的Core，进行 ``start trace/stop trace/dump trace file`` 操作,注意，设置了Trace Configuration的Core需要优先于其它Core开始 ``start trace`` ，并将Trace Configuration的信息设置好，其他的Core才可以正常的 ``start trace/stop trace/dump trace file`` 操作。
 
-在dump trace file操作时，在AMP多核应用中，请确定所有的Core都stop trace，才执行dump trace file的指令，否则可能在某一下Core在dump trace file，其他的Core还在记录trace，最后得到的Trace文件并与预期不符。Trace文件下载，在AMP多核应用中，需要每一个工程应用单独dump一份trace文件，其实dump到的trace文件内容是一样的，在对trace文件进行decoder时，同样需要注意设置Core Hart ID，就可以解析出对应的trace记录表。其他操作与上文内容中所述类似。
+在 ``dump trace file`` 操作时，在AMP多核应用中，请确定所有的Core都 ``stop trace`` ，才执行 ``dump trace file`` 的指令，否则可能在某一下Core在 ``dump trace file`` ，其他的Core还在记录trace，最后得到的Trace文件并与预期不符。Trace文件下载，在AMP多核应用中，需要每一个工程应用单独dump一份trace文件，其实dump到的trace文件内容是一样的，在对trace文件进行decoder时，同样需要注意设置 ``Core Hart ID`` ，就可以解析出对应的trace记录表。其他操作与上文内容中所述类似。
 
 查看脱机Trace
 ^^^^^^^^^^^^^
 
-在某些场景下，用户可能通过命令行或其他方式，得到了一个trace文件，这时只需打开Set Current Debug hart Configuration，并按要求配置好参数，即可通过NucleiStudio的trace工具解析这个trace文件了。
+在某些场景下，用户可能通过命令行或其他方式，得到了一个trace文件，这时只需打开 ``Set Current Debug hart Configuration``，并按要求配置好参数，即可通过NucleiStudio的trace工具解析这个trace文件了。
 
 |image61|
 
@@ -560,7 +560,7 @@ Trace Configuration设置完成后，同样的通过Debug视图的Thread来切�
 RVProf功能的使用
 ----------------
 
-RVProf是芯来科技针对cpu cycle model开发的性能分析工具，Nuclei Studio在2024.02.dev版本中，完成对RVProf的支持。在实际使用中，RVProf功能分三步完成，首先通过Cycle model工具，运行代码，产生.trace文件，然后RVProf工具，将 ``.trace`` 解析成对应的 ``.json`` 文件，最后通过google的开源工具Perfetto Trace Viewer对 ``.json`` 文件进行解析并展示。因为cpu cycle model当前仅提供了linux版本，所以本文档均是在linux环境下演示此功能。
+RVProf是芯来科技针对cpu cycle model开发的性能分析工具，Nuclei Studio在2024.02.dev版本中，完成对RVProf的支持。在实际使用中，RVProf功能分三步完成，首先通过Cycle model工具，运行代码，产生 ``.rvtrace`` 文件，然后RVProf工具，将 ``.rvtrace`` 解析成对应的 ``.json`` 文件，最后通过google的开源工具Perfetto Trace Viewer对 ``.json`` 文件进行解析并展示。因为cpu cycle model当前仅提供了linux版本，所以本文档均是在linux环境下演示此功能。
 
 测试环境 
 ~~~~~~~~~
@@ -595,14 +595,14 @@ cpu cycle model在运行过程中，对硬件环境的性能要求较高，在�
 
 |image65|
 
-在创建的test工程中，可以看到多了一个test_debug_rvprof.launch文件，rvprof相关的配置在此文件中，可以查看内容如下。其中Cycle Model的time out时间，用来设置Cycle Model超时时间，因为Cycle Model运行时比较耗时，如果工程比较简单，可以设置一个较短的起时时间，到时间后，可以及时中断Cycle Model的运行；RVProf中的超时时间的功能也是类似。
+在创建的test工程中，可以看到多了一个 ``test_debug_rvprof.launch`` 文件，rvprof相关的配置在此文件中，可以查看内容如下。其中Cycle Model的time out时间，用来设置Cycle Model超时时间，因为Cycle Model运行时比较耗时，如果工程比较简单，可以设置一个较短的起时时间，到时间后，可以及时中断Cycle Model的运行；RVProf中的超时时间的功能也是类似。
 
 |image66|
 
 查看rvprof的结果 
 ~~~~~~~~~~~~~~~~~
 
-创建完工程后，在Nuclei Studio的launch bar上，选中test_debug_rvprof.launch，并点击工具栏中的运行按钮，Nuclei Studio依次完成以下任务，并将最终的结果在在Perfetto Trace Viewer中展示。
+创建完工程后，在Nuclei Studio的launch bar上，选中 ``test_debug_rvprof.launch`` ，并点击工具栏中的运行按钮，Nuclei Studio依次完成以下任务，并将最终的结果在在Perfetto Trace Viewer中展示。
 
 -  编译工程代码
 
@@ -630,7 +630,7 @@ Nuclei Studio会在本地启一个web服务，同时打开Perfetto Trace Viewer�
 
 |image70|
 
-些时，在Perfetto Trace Viewer就可以查看到rvprof trace结果展示了，用户可以通过键盘的W/A/S/D按键查看更详细的信息。
+些时，在Perfetto Trace Viewer就可以查看到rvprof trace结果展示了，用户可以通过键盘的 ``W/A/S/D`` 按键查看更详细的信息。
 
 |image71|
 
@@ -658,7 +658,7 @@ Nuclei Near Cycle Model采用Nuclei Studio中的RVProf运行配置来进行�
 
 |image74|
 
-其中在Config options中需要配置 ``--trace=1 --gprof=1 --logdir=Debug`` ,--trace=1表示开启rvtrace，--gprof=1表示开启gprof功能，--logdir=Debug则表示最终生成的 ``.rvtrace`` 文件、 ``.gmon`` 文件存存放的路径为当前工程下的Debug目录。
+其中在Config options中需要配置 ``--trace=1 --gprof=1 --logdir=Debug`` , ``--trace=1`` 表示开启rvtrace， ``--gprof=1`` 表示开启gprof功能， ``--logdir=Debug`` 则表示最终生成的 ``.rvtrace`` 文件、 ``.gmon`` 文件存存放的路径为当前工程下的Debug目录。
 
 |image75|
 
@@ -683,7 +683,7 @@ Nuclei Studio会在本地启一个web服务，同时打开Perfetto Trace Viewer�
 
 |image79|
 
-Nuclei Near Cycle Model中支持通过gprof来分析程序，所以当我们配置了“--gprof”，在程序运行时，也会在Debug目录（“--logdir=XX”所配置的目录）下同步产生一个 ``.gmon`` 文件，双击 ``.gmon`` 文件，将调用gprof工具来分析程序执行所消耗的cycle数及调用关系；同时也会产生对应的callgraph.out文件，双击 ``callgraph.out`` 文件，调用Call Graph查看程序的调用关系。
+Nuclei Near Cycle Model中支持通过gprof来分析程序，所以当我们配置了 ``--gprof`` ，在程序运行时，也会在Debug目录（ ``--logdir=XX`` 所配置的目录）下同步产生一个 ``.gmon`` 文件，双击 ``.gmon`` 文件，将调用gprof工具来分析程序执行所消耗的cycle数及调用关系；同时也会产生对应的 ``callgraph.ou`` t文件，双击 ``callgraph.out`` 文件，调用Call Graph查看程序的调用关系。
 
 调用gprof工具，可以查看生成的 ``.gmon`` 文件中的内容。
 
@@ -694,202 +694,202 @@ gprof工具在查看 ``.gmon`` 文件的同时，会根据其内容，解析出�
 |image81|
 
 
-.. |image1| image:: /asserts/nucleistudio/advanceeusage/media/image2.png
+.. |image1| image:: /asserts/nucleistudio/advanceeusage/image2.png
 
-.. |image2| image:: /asserts/nucleistudio/advanceeusage/media/image3.png
+.. |image2| image:: /asserts/nucleistudio/advanceeusage/image3.png
 
-.. |image3| image:: /asserts/nucleistudio/advanceeusage/media/image4.png
+.. |image3| image:: /asserts/nucleistudio/advanceeusage/image4.png
 
-.. |image4| image:: /asserts/nucleistudio/advanceeusage/media/image5.png
+.. |image4| image:: /asserts/nucleistudio/advanceeusage/image5.png
 
-.. |image5| image:: /asserts/nucleistudio/advanceeusage/media/image6.png
+.. |image5| image:: /asserts/nucleistudio/advanceeusage/image6.png
 
-.. |image6| image:: /asserts/nucleistudio/advanceeusage/media/image7.png
+.. |image6| image:: /asserts/nucleistudio/advanceeusage/image7.png
 
-.. |image7| image:: /asserts/nucleistudio/advanceeusage/media/image8.png
+.. |image7| image:: /asserts/nucleistudio/advanceeusage/image8.png
 
-.. |image8| image:: /asserts/nucleistudio/advanceeusage/media/image9.png
+.. |image8| image:: /asserts/nucleistudio/advanceeusage/image9.png
 
-.. |image9| image:: /asserts/nucleistudio/advanceeusage/media/image10.png
+.. |image9| image:: /asserts/nucleistudio/advanceeusage/image10.png
 
-.. |image10| image:: /asserts/nucleistudio/advanceeusage/media/image11.png
+.. |image10| image:: /asserts/nucleistudio/advanceeusage/image11.png
 
-.. |image11| image:: /asserts/nucleistudio/advanceeusage/media/image12.png
+.. |image11| image:: /asserts/nucleistudio/advanceeusage/image12.png
 
-.. |image12| image:: /asserts/nucleistudio/advanceeusage/media/image13.png
+.. |image12| image:: /asserts/nucleistudio/advanceeusage/image13.png
 
-.. |image13| image:: /asserts/nucleistudio/advanceeusage/media/image14.png
+.. |image13| image:: /asserts/nucleistudio/advanceeusage/image14.png
 
-.. |image14| image:: /asserts/nucleistudio/advanceeusage/media/image15.png
+.. |image14| image:: /asserts/nucleistudio/advanceeusage/image15.png
 
-.. |image15| image:: /asserts/nucleistudio/advanceeusage/media/image16.png
+.. |image15| image:: /asserts/nucleistudio/advanceeusage/image16.png
 
-.. |image16| image:: /asserts/nucleistudio/advanceeusage/media/image17.png
+.. |image16| image:: /asserts/nucleistudio/advanceeusage/image17.png
 
-.. |image17| image:: /asserts/nucleistudio/advanceeusage/media/image18.png
+.. |image17| image:: /asserts/nucleistudio/advanceeusage/image18.png
 
-.. |image18| image:: /asserts/nucleistudio/advanceeusage/media/image19.png
+.. |image18| image:: /asserts/nucleistudio/advanceeusage/image19.png
 
-.. |image19| image:: /asserts/nucleistudio/advanceeusage/media/image20.png
+.. |image19| image:: /asserts/nucleistudio/advanceeusage/image20.png
 
-.. |image20| image:: /asserts/nucleistudio/advanceeusage/media/image21.png
+.. |image20| image:: /asserts/nucleistudio/advanceeusage/image21.png
 
-.. |image21| image:: /asserts/nucleistudio/advanceeusage/media/image22.png
+.. |image21| image:: /asserts/nucleistudio/advanceeusage/image22.png
 
-.. |image22| image:: /asserts/nucleistudio/advanceeusage/media/image23.png
+.. |image22| image:: /asserts/nucleistudio/advanceeusage/image23.png
 
-.. |profiling_options_in_ide| image:: /asserts/nucleistudio/advanceeusage/media/image24.png
+.. |profiling_options_in_ide| image:: /asserts/nucleistudio/advanceeusage/image24.png
 
-.. |image23| image:: /asserts/nucleistudio/advanceeusage/media/image25.png
+.. |image23| image:: /asserts/nucleistudio/advanceeusage/image25.png
 
-.. |image24| image:: /asserts/nucleistudio/advanceeusage/media/image26.png
+.. |image24| image:: /asserts/nucleistudio/advanceeusage/image26.png
 
-.. |image25| image:: /asserts/nucleistudio/advanceeusage/media/image27.png
+.. |image25| image:: /asserts/nucleistudio/advanceeusage/image27.png
 
-.. |image26| image:: /asserts/nucleistudio/advanceeusage/media/image28.png
+.. |image26| image:: /asserts/nucleistudio/advanceeusage/image28.png
 
-.. |image27| image:: /asserts/nucleistudio/advanceeusage/media/image29.png
+.. |image27| image:: /asserts/nucleistudio/advanceeusage/image29.png
 
-.. |image28| image:: /asserts/nucleistudio/advanceeusage/media/image30.png
+.. |image28| image:: /asserts/nucleistudio/advanceeusage/image30.png
 
-.. |image29| image:: /asserts/nucleistudio/advanceeusage/media/image31.png
+.. |image29| image:: /asserts/nucleistudio/advanceeusage/image31.png
 
-.. |image30| image:: /asserts/nucleistudio/advanceeusage/media/image32.png
+.. |image30| image:: /asserts/nucleistudio/advanceeusage/image32.png
 
-.. |image31| image:: /asserts/nucleistudio/advanceeusage/media/image33.png
+.. |image31| image:: /asserts/nucleistudio/advanceeusage/image33.png
 
-.. |image32| image:: /asserts/nucleistudio/advanceeusage/media/image34.png
+.. |image32| image:: /asserts/nucleistudio/advanceeusage/image34.png
 
-.. |image33| image:: /asserts/nucleistudio/advanceeusage/media/image35.png
+.. |image33| image:: /asserts/nucleistudio/advanceeusage/image35.png
 
-.. |image34| image:: /asserts/nucleistudio/advanceeusage/media/image36.png
+.. |image34| image:: /asserts/nucleistudio/advanceeusage/image36.png
 
-.. |image35| image:: /asserts/nucleistudio/advanceeusage/media/image37.png
+.. |image35| image:: /asserts/nucleistudio/advanceeusage/image37.png
 
-.. |image36| image:: /asserts/nucleistudio/advanceeusage/media/image38.png
+.. |image36| image:: /asserts/nucleistudio/advanceeusage/image38.png
 
-.. |image37| image:: /asserts/nucleistudio/advanceeusage/media/image39.png
+.. |image37| image:: /asserts/nucleistudio/advanceeusage/image39.png
 
-.. |image38| image:: /asserts/nucleistudio/advanceeusage/media/image25.png
+.. |image38| image:: /asserts/nucleistudio/advanceeusage/image25.png
 
-.. |image39| image:: /asserts/nucleistudio/advanceeusage/media/image40.png
+.. |image39| image:: /asserts/nucleistudio/advanceeusage/image40.png
 
-.. |image40| image:: /asserts/nucleistudio/advanceeusage/media/image41.png
+.. |image40| image:: /asserts/nucleistudio/advanceeusage/image41.png
 
-.. |image41| image:: /asserts/nucleistudio/advanceeusage/media/image42.png
+.. |image41| image:: /asserts/nucleistudio/advanceeusage/image42.png
 
-.. |image42| image:: /asserts/nucleistudio/advanceeusage/media/image43.png
+.. |image42| image:: /asserts/nucleistudio/advanceeusage/image43.png
 
-.. |image43| image:: /asserts/nucleistudio/advanceeusage/media/image44.png
+.. |image43| image:: /asserts/nucleistudio/advanceeusage/image44.png
 
-.. |image44| image:: /asserts/nucleistudio/advanceeusage/media/image45.png
+.. |image44| image:: /asserts/nucleistudio/advanceeusage/image45.png
 
-.. |image45| image:: /asserts/nucleistudio/advanceeusage/media/image46.png
+.. |image45| image:: /asserts/nucleistudio/advanceeusage/image46.png
 
-.. |image46| image:: /asserts/nucleistudio/advanceeusage/media/image47.png
+.. |image46| image:: /asserts/nucleistudio/advanceeusage/image47.png
 
-.. |image47| image:: /asserts/nucleistudio/advanceeusage/media/image48.png
+.. |image47| image:: /asserts/nucleistudio/advanceeusage/image48.png
 
 
-.. |image48| image:: /asserts/nucleistudio/advanceeusage/media/image49.png
+.. |image48| image:: /asserts/nucleistudio/advanceeusage/image49.png
 
 
-.. |image49| image:: /asserts/nucleistudio/advanceeusage/media/image50.png
+.. |image49| image:: /asserts/nucleistudio/advanceeusage/image50.png
 
 
-.. |image50| image:: /asserts/nucleistudio/advanceeusage/media/image51.png
+.. |image50| image:: /asserts/nucleistudio/advanceeusage/image51.png
 
 
-.. |image51| image:: /asserts/nucleistudio/advanceeusage/media/image52.png
+.. |image51| image:: /asserts/nucleistudio/advanceeusage/image52.png
 
 
-.. |image52| image:: /asserts/nucleistudio/advanceeusage/media/image53.png
+.. |image52| image:: /asserts/nucleistudio/advanceeusage/image53.png
 
 
-.. |image53| image:: /asserts/nucleistudio/advanceeusage/media/image54.png
+.. |image53| image:: /asserts/nucleistudio/advanceeusage/image54.png
 
 
-.. |image54| image:: /asserts/nucleistudio/advanceeusage/media/image55.png
+.. |image54| image:: /asserts/nucleistudio/advanceeusage/image55.png
 
 
-.. |image55| image:: /asserts/nucleistudio/advanceeusage/media/image56.png
+.. |image55| image:: /asserts/nucleistudio/advanceeusage/image56.png
 
 
-.. |image56| image:: /asserts/nucleistudio/advanceeusage/media/image57.png
+.. |image56| image:: /asserts/nucleistudio/advanceeusage/image57.png
 
 
-.. |image57| image:: /asserts/nucleistudio/advanceeusage/media/image58.png
+.. |image57| image:: /asserts/nucleistudio/advanceeusage/image58.png
 
 
-.. |image58| image:: /asserts/nucleistudio/advanceeusage/media/image59.png
+.. |image58| image:: /asserts/nucleistudio/advanceeusage/image59.png
 
 
-.. |image59| image:: /asserts/nucleistudio/advanceeusage/media/image60.png
+.. |image59| image:: /asserts/nucleistudio/advanceeusage/image60.png
 
 
-.. |image60| image:: /asserts/nucleistudio/advanceeusage/media/image61.png
+.. |image60| image:: /asserts/nucleistudio/advanceeusage/image61.png
 
 
-.. |image61| image:: /asserts/nucleistudio/advanceeusage/media/image47.png
+.. |image61| image:: /asserts/nucleistudio/advanceeusage/image47.png
 
 
-.. |image62| image:: /asserts/nucleistudio/advanceeusage/media/image62.png
+.. |image62| image:: /asserts/nucleistudio/advanceeusage/image62.png
 
 
-.. |image63| image:: /asserts/nucleistudio/advanceeusage/media/image63.png
+.. |image63| image:: /asserts/nucleistudio/advanceeusage/image63.png
 
 
-.. |image64| image:: /asserts/nucleistudio/advanceeusage/media/image64.png
+.. |image64| image:: /asserts/nucleistudio/advanceeusage/image64.png
 
 
-.. |image65| image:: /asserts/nucleistudio/advanceeusage/media/image65.png
+.. |image65| image:: /asserts/nucleistudio/advanceeusage/image65.png
 
 
-.. |image66| image:: /asserts/nucleistudio/advanceeusage/media/image66.png
+.. |image66| image:: /asserts/nucleistudio/advanceeusage/image66.png
 
 
-.. |image67| image:: /asserts/nucleistudio/advanceeusage/media/image67.png
+.. |image67| image:: /asserts/nucleistudio/advanceeusage/image67.png
 
 
-.. |image68| image:: /asserts/nucleistudio/advanceeusage/media/image68.png
+.. |image68| image:: /asserts/nucleistudio/advanceeusage/image68.png
 
 
-.. |image69| image:: /asserts/nucleistudio/advanceeusage/media/image69.png
+.. |image69| image:: /asserts/nucleistudio/advanceeusage/image69.png
 
 
-.. |image70| image:: /asserts/nucleistudio/advanceeusage/media/image70.png
+.. |image70| image:: /asserts/nucleistudio/advanceeusage/image70.png
 
 
-.. |image71| image:: /asserts/nucleistudio/advanceeusage/media/image71.png
+.. |image71| image:: /asserts/nucleistudio/advanceeusage/image71.png
 
 
-.. |image72| image:: /asserts/nucleistudio/advanceeusage/media/image72.png
+.. |image72| image:: /asserts/nucleistudio/advanceeusage/image72.png
 
 
-.. |image73| image:: /asserts/nucleistudio/advanceeusage/media/image73.png
+.. |image73| image:: /asserts/nucleistudio/advanceeusage/image73.png
 
 
-.. |image74| image:: /asserts/nucleistudio/advanceeusage/media/image74.png
+.. |image74| image:: /asserts/nucleistudio/advanceeusage/image74.png
 
 
-.. |image75| image:: /asserts/nucleistudio/advanceeusage/media/image75.png
+.. |image75| image:: /asserts/nucleistudio/advanceeusage/image75.png
 
 
-.. |image76| image:: /asserts/nucleistudio/advanceeusage/media/image76.png
+.. |image76| image:: /asserts/nucleistudio/advanceeusage/image76.png
 
 
-.. |image77| image:: /asserts/nucleistudio/advanceeusage/media/image77.png
+.. |image77| image:: /asserts/nucleistudio/advanceeusage/image77.png
 
 
-.. |image78| image:: /asserts/nucleistudio/advanceeusage/media/image78.png
+.. |image78| image:: /asserts/nucleistudio/advanceeusage/image78.png
 
 
-.. |image79| image:: /asserts/nucleistudio/advanceeusage/media/image79.png
+.. |image79| image:: /asserts/nucleistudio/advanceeusage/image79.png
 
 
-.. |image80| image:: /asserts/nucleistudio/advanceeusage/media/image80.png
+.. |image80| image:: /asserts/nucleistudio/advanceeusage/image80.png
 
 
-.. |image81| image:: /asserts/nucleistudio/advanceeusage/media/image81.png
+.. |image81| image:: /asserts/nucleistudio/advanceeusage/image81.png
 
 

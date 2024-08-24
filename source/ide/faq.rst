@@ -276,129 +276,129 @@ Debug时报错Error: Couldn't find an available hardware trigger.
 如本文档中有疏漏的地方，请关注 `https://www.rvmcu.com/NucleiStudio-faq.html <https://www.rvmcu.com/nucleistudio-faq.html>`__
 这里将列出不同版本后续遇到的常见问题。
 
-.. |image1| image:: /asserts/nucleistudio/faq/media/image2.png
+.. |image1| image:: /asserts/nucleistudio/faq/image2.png
 
 
-.. |image2| image:: /asserts/nucleistudio/faq/media/image3.png
+.. |image2| image:: /asserts/nucleistudio/faq/image3.png
 
 
-.. |image3| image:: /asserts/nucleistudio/faq/media/image4.png
+.. |image3| image:: /asserts/nucleistudio/faq/image4.png
 
 
-.. |image4| image:: /asserts/nucleistudio/faq/media/image5.png
+.. |image4| image:: /asserts/nucleistudio/faq/image5.png
 
 
-.. |image5| image:: /asserts/nucleistudio/faq/media/image6.png
+.. |image5| image:: /asserts/nucleistudio/faq/image6.png
 
 
-.. |image6| image:: /asserts/nucleistudio/faq/media/image7.png
+.. |image6| image:: /asserts/nucleistudio/faq/image7.png
 
 
-.. |image7| image:: /asserts/nucleistudio/faq/media/image8.png
+.. |image7| image:: /asserts/nucleistudio/faq/image8.png
 
 
-.. |image8| image:: /asserts/nucleistudio/faq/media/image9.png
+.. |image8| image:: /asserts/nucleistudio/faq/image9.png
 
 
-.. |image9| image:: /asserts/nucleistudio/faq/media/image10.png
+.. |image9| image:: /asserts/nucleistudio/faq/image10.png
 
 
-.. |image10| image:: /asserts/nucleistudio/faq/media/image11.png
+.. |image10| image:: /asserts/nucleistudio/faq/image11.png
 
 
-.. |image11| image:: /asserts/nucleistudio/faq/media/image12.png
+.. |image11| image:: /asserts/nucleistudio/faq/image12.png
 
 
-.. |image12| image:: /asserts/nucleistudio/faq/media/image13.png
+.. |image12| image:: /asserts/nucleistudio/faq/image13.png
 
 
-.. |image13| image:: /asserts/nucleistudio/faq/media/image14.png
+.. |image13| image:: /asserts/nucleistudio/faq/image14.png
 
 
-.. |image14| image:: /asserts/nucleistudio/faq/media/image15.png
+.. |image14| image:: /asserts/nucleistudio/faq/image15.png
 
 
-.. |image15| image:: /asserts/nucleistudio/faq/media/image16.png
+.. |image15| image:: /asserts/nucleistudio/faq/image16.png
 
 
-.. |image16| image:: /asserts/nucleistudio/faq/media/image17.png
+.. |image16| image:: /asserts/nucleistudio/faq/image17.png
 
 
-.. |image17| image:: /asserts/nucleistudio/faq/media/image18.png
+.. |image17| image:: /asserts/nucleistudio/faq/image18.png
 
 
-.. |image18| image:: /asserts/nucleistudio/faq/media/image19.png
+.. |image18| image:: /asserts/nucleistudio/faq/image19.png
 
 
-.. |image19| image:: /asserts/nucleistudio/faq/media/image20.png
+.. |image19| image:: /asserts/nucleistudio/faq/image20.png
 
 
-.. |image20| image:: /asserts/nucleistudio/faq/media/image21.png
+.. |image20| image:: /asserts/nucleistudio/faq/image21.png
 
 
-.. |image21| image:: /asserts/nucleistudio/faq/media/image22.png
+.. |image21| image:: /asserts/nucleistudio/faq/image22.png
 
 
-.. |image22| image:: /asserts/nucleistudio/faq/media/image23.png
+.. |image22| image:: /asserts/nucleistudio/faq/image23.png
 
 
-.. |image23| image:: /asserts/nucleistudio/faq/media/image24.png
+.. |image23| image:: /asserts/nucleistudio/faq/image24.png
 
 
-.. |image24| image:: /asserts/nucleistudio/faq/media/image25.png
+.. |image24| image:: /asserts/nucleistudio/faq/image25.png
 
 
-.. |image25| image:: /asserts/nucleistudio/faq/media/image26.png
+.. |image25| image:: /asserts/nucleistudio/faq/image26.png
 
 
-.. |image26| image:: /asserts/nucleistudio/faq/media/image27.png
+.. |image26| image:: /asserts/nucleistudio/faq/image27.png
 
 
-.. |image27| image:: /asserts/nucleistudio/faq/media/image28.png
+.. |image27| image:: /asserts/nucleistudio/faq/image28.png
 
 
-.. |image28| image:: /asserts/nucleistudio/faq/media/image29.png
+.. |image28| image:: /asserts/nucleistudio/faq/image29.png
 
 
-.. |image29| image:: /asserts/nucleistudio/faq/media/image30.png
+.. |image29| image:: /asserts/nucleistudio/faq/image30.png
 
 
-.. |image30| image:: /asserts/nucleistudio/faq/media/image31.png
+.. |image30| image:: /asserts/nucleistudio/faq/image31.png
 
 
-.. |image31| image:: /asserts/nucleistudio/faq/media/image32.png
+.. |image31| image:: /asserts/nucleistudio/faq/image32.png
 
 
-.. |image32| image:: /asserts/nucleistudio/faq/media/image33.png
+.. |image32| image:: /asserts/nucleistudio/faq/image33.png
 
 
-.. |image33| image:: /asserts/nucleistudio/faq/media/image34.png
+.. |image33| image:: /asserts/nucleistudio/faq/image34.png
 
 
-.. |image34| image:: /asserts/nucleistudio/faq/media/image35.png
+.. |image34| image:: /asserts/nucleistudio/faq/image35.png
 
 
-.. |image35| image:: /asserts/nucleistudio/faq/media/image36.png
+.. |image35| image:: /asserts/nucleistudio/faq/image36.png
 
 
-.. |image36| image:: /asserts/nucleistudio/faq/media/image37.png
+.. |image36| image:: /asserts/nucleistudio/faq/image37.png
 
 
-.. |image37| image:: /asserts/nucleistudio/faq/media/image38.png
+.. |image37| image:: /asserts/nucleistudio/faq/image38.png
 
 
-.. |image38| image:: /asserts/nucleistudio/faq/media/image39.png
+.. |image38| image:: /asserts/nucleistudio/faq/image39.png
 
 
-.. |image39| image:: /asserts/nucleistudio/faq/media/image40.png
+.. |image39| image:: /asserts/nucleistudio/faq/image40.png
 
 
-.. |image40| image:: /asserts/nucleistudio/faq/media/image41.png
+.. |image40| image:: /asserts/nucleistudio/faq/image41.png
 
 
-.. |image41| image:: /asserts/nucleistudio/faq/media/image42.png
+.. |image41| image:: /asserts/nucleistudio/faq/image42.png
 
 
-.. |image43| image:: /asserts/nucleistudio/faq/media/image43.png
+.. |image43| image:: /asserts/nucleistudio/faq/image43.png
 
 

@@ -265,7 +265,7 @@ RISC-V指令扩展使用变更
 NPK包的使用变更
 ~~~~~~~~~~~~~~~
 
-为了支持GCC 13和Clang 17，Nuclei SDK包升级到了0.5.0版本，使用SDK包创建工程时，用户可以根据需要，选择创建一个GCC 13或者Clang 17的工程。因为版本变动较大，0.5.0之前的sdk可能有部分功能在Nuclei Studio 2023.10版中使用异常，所我们提供了工具帮助您快速进行工程迁移和升级，\ **请自行备份老版本的工程**\ ，具体可能参考 :ref:`导入旧版本Nuclei Studio创建的工程 <ide_advanceeusage_0>` 。
+为了支持GCC 13和Clang 17，Nuclei SDK包升级到了0.5.0版本，使用SDK包创建工程时，用户可以根据需要，选择创建一个GCC 13或者Clang 17的工程。因为版本变动较大，0.5.0之前的sdk可能有部分功能在Nuclei Studio 2023.10版中使用异常，所我们提供了工具帮助您快速进行工程迁移和升级， **请自行备份老版本的工程** ，具体可能参考 :ref:`导入旧版本Nuclei Studio创建的工程 <ide_advanceeusage_0>` 。
 
 |image9|
 
@@ -290,7 +290,7 @@ OpenOCD版本升级至2023.10版，增加了一些额外的调试特性，例如
 新增了elf文件查看器
 ~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2023.10新增elf文件编辑器，方便用户查看编译后产生.elf、.o文件。
+在Nuclei Studio 2023.10新增elf文件编辑器，方便用户查看编译后产生 ``.elf`` 、 ``.o`` 文件。
 
 |image12|
 
@@ -304,7 +304,7 @@ OpenOCD版本升级至2023.10版，增加了一些额外的调试特性，例如
 新增trace功能
 ~~~~~~~~~~~~~
 
-在Nuclei Studio 2023.10\ **实验性**\ 新增了trace功能，因使用此功能需要带有Nuclei Trace IP的CPU，如需体验此功能，请与我们联系。
+在Nuclei Studio 2023.10 **实验性** 新增了trace功能，因使用此功能需要带有Nuclei Trace IP的CPU，如需体验此功能，请与我们联系。
 
 Nuclei Settings功能优化 
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -315,7 +315,7 @@ Nuclei Studio 2023.10去掉了原来的B/P/K/V的单选框，换成Other Extens
 
 |image14|
 
-Nuclei Studio 2023.10去掉了原来的Select C Runtime Library单选框，在项目中如果需要使用，可能过项目配置传入的“--specs=”选项，或者Libraries选项,来实现。
+Nuclei Studio 2023.10去掉了原来的Select C Runtime Library单选框，在项目中如果需要使用，可能过项目配置传入的 ``--specs=`` 选项，或者Libraries选项,来实现。
 
 |image15|
 
@@ -328,11 +328,9 @@ Nuclei Settings增强了其通用性，使它不仅仅能对Nuclei的工程进�
 新增指定工作空间快速打开 
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-类似双击项目下的\ **\*.nuproject**\ 文件可快速打开Nuclei Studio并导入该项目，现在Nuclei Studio会在使用过的工作空间目录下创建\ **work.nuworkspace**\ 文件，双击该文件可以直接打开Nuclei Studio，但该功能暂时只支持windows版本。这个功能需要解压IDE后，在windows上执行\ **install.bat**\ 来设置文件关联。
+类似双击项目下的 ``*.nuproject`` 文件可快速打开Nuclei Studio并导入该项目，现在Nuclei Studio会在使用过的工作空间目录下创建 ``work.nuworkspace`` 文件，双击该文件可以直接打开Nuclei Studio，但该功能暂时只支持windows版本。这个功能需要解压IDE后，在windows上执行 ``install.bat`` 来设置文件关联。
 
 |image18|
-
-.. _版更新说明-2:
 
 2022.12版更新说明
 -----------------
@@ -364,7 +362,7 @@ Nuclei Studio IDE 安装
 
 -  HBird_Driver.exe（2021.02版本起不再提供）
 
-   -  **仅Windows版提供，**\ 此文件为芯来蜂鸟调试器的USB驱动安装文件。
+   -  **仅Windows版提供，** 此文件为芯来蜂鸟调试器的USB驱动安装文件。
 
    -  当在Windows环境下，使用该调试器时，需要安装此驱动使该USB设备能够被系统识别。
 
@@ -372,7 +370,7 @@ Nuclei Studio IDE 安装
 
 -  SerialDebugging_Tool（2021.02版本起不再提供）
 
-   -  **仅Windows版提供**\ ，此文件为“串口调试助手”软件。此软件可以用于后续软件示例调试时通过串口打印信息。
+   -  **仅Windows版提供** ，此文件为“串口调试助手”软件。此软件可以用于后续软件示例调试时通过串口打印信息。
 
 |image20|
 
@@ -399,75 +397,75 @@ Nuclei Studio IDE 启动
 
 
 
-.. |image1| image:: /asserts/nucleistudio/intro/media/image2.png
+.. |image1| image:: /asserts/nucleistudio/intro/image2.png
    :alt: workspace弹出不兼容的警告 
 
-.. |IMG_256| image:: /asserts/nucleistudio/intro/media/image3.png
+.. |IMG_256| image:: /asserts/nucleistudio/intro/image3.png
    :alt: build-tools更新到4.4版
    
-.. |image2| image:: /asserts/nucleistudio/intro/media/image4.png
+.. |image2| image:: /asserts/nucleistudio/intro/image4.png
    :alt: GCC和Clang的目录结构
    
-.. |image3| image:: /asserts/nucleistudio/intro/media/image5.png
+.. |image3| image:: /asserts/nucleistudio/intro/image5.png
    :alt: 工程对GCC 13的支持
 
-.. |image4| image:: /asserts/nucleistudio/intro/media/image6.png
+.. |image4| image:: /asserts/nucleistudio/intro/image6.png
    :alt: 项目对Clang 17的支持
    
-.. |image5| image:: /asserts/nucleistudio/intro/media/image7.png
+.. |image5| image:: /asserts/nucleistudio/intro/image7.png
    :alt: 创建工程时使用RISC-V扩展
    
-.. |image6| image:: /asserts/nucleistudio/intro/media/image8.png
+.. |image6| image:: /asserts/nucleistudio/intro/image8.png
    :alt: 项目中对RISC-V扩展的支持
    
-.. |image7| image:: /asserts/nucleistudio/intro/media/image9.png
+.. |image7| image:: /asserts/nucleistudio/intro/image9.png
    :alt: Nuclei Settings中对RISC-V扩展的支持
    
-.. |image8| image:: /asserts/nucleistudio/intro/media/image10.png
+.. |image8| image:: /asserts/nucleistudio/intro/image10.png
    :alt: QEMU中对RISC-V扩展的支持
    
-.. |image9| image:: /asserts/nucleistudio/intro/media/image11.png
+.. |image9| image:: /asserts/nucleistudio/intro/image11.png
    :alt: 创建工程时选择合适的工具链
    
-.. |image10| image:: /asserts/nucleistudio/intro/media/image12.png
+.. |image10| image:: /asserts/nucleistudio/intro/image12.png
    :alt: 组件包所适配的Nuclei Studio版本号 
    
-.. |image11| image:: /asserts/nucleistudio/intro/media/image13.png
+.. |image11| image:: /asserts/nucleistudio/intro/image13.png
    :alt: QEMU 8.0所在的目录  
    
-.. |image12| image:: /asserts/nucleistudio/intro/media/image14.png
+.. |image12| image:: /asserts/nucleistudio/intro/image14.png
    :alt: elf文件编辑器查看.elf文件 
    
-.. |image13| image:: /asserts/nucleistudio/intro/media/image15.png
+.. |image13| image:: /asserts/nucleistudio/intro/image15.png
    :alt: elf文件编辑器查看.o文件
    
-.. |image14| image:: /asserts/nucleistudio/intro/media/image16.png
+.. |image14| image:: /asserts/nucleistudio/intro/image16.png
    :alt: Nuceli Settings页面修改 
    
-.. |image15| image:: /asserts/nucleistudio/intro/media/image17.png
+.. |image15| image:: /asserts/nucleistudio/intro/image17.png
    :alt: Select C Runtime Library在新版IDE中已不存在
    
-.. |image16| image:: /asserts/nucleistudio/intro/media/image18.png
+.. |image16| image:: /asserts/nucleistudio/intro/image18.png
    :alt: Shared 项目Nuclei Settings(Arm)
    
-.. |image17| image:: /asserts/nucleistudio/intro/media/image19.png
+.. |image17| image:: /asserts/nucleistudio/intro/image19.png
    :alt: Shared 项目Nuclei Settings(Riscv)
    
-.. |image18| image:: /asserts/nucleistudio/intro/media/image20.png
+.. |image18| image:: /asserts/nucleistudio/intro/image20.png
    :alt: work.nuworkspace文件
    
-.. |image19| image:: /asserts/nucleistudio/intro/media/image21.png
+.. |image19| image:: /asserts/nucleistudio/intro/image21.png
    :alt: Nuclei Studio IDE软件包的下载界面
    
-.. |image20| image:: /asserts/nucleistudio/intro/media/image22.png
+.. |image20| image:: /asserts/nucleistudio/intro/image22.png
    :alt: Nuclei Studio IDE压缩包文件内容
    
-.. |image21| image:: /asserts/nucleistudio/intro/media/image23.png
+.. |image21| image:: /asserts/nucleistudio/intro/image23.png
    :alt: 双击“Nuclei Studio.exe”启动Nuclei Studio
    
-.. |image22| image:: /asserts/nucleistudio/intro/media/image24.png
+.. |image22| image:: /asserts/nucleistudio/intro/image24.png
    :alt: 公司Logo  
    
-.. |image23| image:: /asserts/nucleistudio/intro/media/image25.png
+.. |image23| image:: /asserts/nucleistudio/intro/image25.png
    :alt: 第一次启动Nuclei Studio界面
    

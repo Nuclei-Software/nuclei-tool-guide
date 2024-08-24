@@ -16,7 +16,9 @@ Nuclei Studio已经把工具链集成在IDE内部，工具链存放在Nuclei Stu
 
 -  将GCC或者OpenOCD的内容复制到对应的文件夹下，即可完成IDE工具链的更新，IDE自带的工具链的版本号记录在ReadMe.txt中。
 
-   ..note:: 注意：要保证gcc所在的这一级目录文件夹名字不变，替换后保证bin文件夹所在层级是图中文件夹的子目录，中间不要有其他文件夹。
+.. note::
+
+   注意：要保证gcc所在的这一级目录文件夹名字不变，替换后保证bin文件夹所在层级是图中文件夹的子目录，中间不要有其他文件夹。
 
 |image1|
 
@@ -38,15 +40,15 @@ Nuclei Studio支持IDE内在线升级，步骤如下。
 
 |image4|
 
-.. |image1| image:: /asserts/nucleistudio/update/media/image2.png
+.. |image1| image:: /asserts/nucleistudio/update/image2.png
 
 
-.. |image2| image:: /asserts/nucleistudio/update/media/image3.png
+.. |image2| image:: /asserts/nucleistudio/update/image3.png
 
 
-.. |image3| image:: /asserts/nucleistudio/update/media/image4.png
+.. |image3| image:: /asserts/nucleistudio/update/image4.png
 
 
-.. |image4| image:: /asserts/nucleistudio/update/media/image5.png
+.. |image4| image:: /asserts/nucleistudio/update/image5.png
 
 

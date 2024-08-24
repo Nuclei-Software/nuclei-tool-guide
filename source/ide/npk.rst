@@ -127,57 +127,57 @@ NPK包除了可以导入SDK,还可以方便的导入各种工具包，来扩展N
 |image18|
 
 
-.. |image1| image:: /asserts/nucleistudio/npk/media/image2.png
+.. |image1| image:: /asserts/nucleistudio/npk/image2.png
 
 
-.. |image2| image:: /asserts/nucleistudio/npk/media/image3.png
+.. |image2| image:: /asserts/nucleistudio/npk/image3.png
 
 
-.. |image3| image:: /asserts/nucleistudio/npk/media/image4.png
+.. |image3| image:: /asserts/nucleistudio/npk/image4.png
 
 
-.. |image4| image:: /asserts/nucleistudio/npk/media/image5.png
+.. |image4| image:: /asserts/nucleistudio/npk/image5.png
 
 
-.. |image5| image:: /asserts/nucleistudio/npk/media/image6.png
+.. |image5| image:: /asserts/nucleistudio/npk/image6.png
 
 
-.. |image6| image:: /asserts/nucleistudio/npk/media/image7.png
+.. |image6| image:: /asserts/nucleistudio/npk/image7.png
 
 
-.. |image7| image:: /asserts/nucleistudio/npk/media/image8.png
+.. |image7| image:: /asserts/nucleistudio/npk/image8.png
 
 
-.. |image8| image:: /asserts/nucleistudio/npk/media/image9.png
+.. |image8| image:: /asserts/nucleistudio/npk/image9.png
 
 
-.. |image9| image:: /asserts/nucleistudio/npk/media/image10.png
+.. |image9| image:: /asserts/nucleistudio/npk/image10.png
 
 
-.. |image10| image:: /asserts/nucleistudio/npk/media/image11.png
+.. |image10| image:: /asserts/nucleistudio/npk/image11.png
 
 
-.. |image11| image:: /asserts/nucleistudio/npk/media/image12.png
+.. |image11| image:: /asserts/nucleistudio/npk/image12.png
 
 
-.. |image12| image:: /asserts/nucleistudio/npk/media/image13.png
+.. |image12| image:: /asserts/nucleistudio/npk/image13.png
 
 
-.. |image13| image:: /asserts/nucleistudio/npk/media/image14.png
+.. |image13| image:: /asserts/nucleistudio/npk/image14.png
 
 
-.. |image14| image:: /asserts/nucleistudio/npk/media/image15.png
+.. |image14| image:: /asserts/nucleistudio/npk/image15.png
 
 
-.. |image15| image:: /asserts/nucleistudio/npk/media/image16.png
+.. |image15| image:: /asserts/nucleistudio/npk/image16.png
 
 
-.. |image16| image:: /asserts/nucleistudio/npk/media/image17.png
+.. |image16| image:: /asserts/nucleistudio/npk/image17.png
 
 
-.. |image17| image:: /asserts/nucleistudio/npk/media/image18.png
+.. |image17| image:: /asserts/nucleistudio/npk/image18.png
 
 
-.. |image18| image:: /asserts/nucleistudio/npk/media/image19.png
+.. |image18| image:: /asserts/nucleistudio/npk/image19.png
 
 
