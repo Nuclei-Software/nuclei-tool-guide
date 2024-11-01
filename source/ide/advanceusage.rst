@@ -1,9 +1,9 @@
-.. _advanceeusage: 
+.. _advanceusage: 
 
 Nuclei Studio 其它功能
 ======================
 
-.. _ide_advanceeusage_0:
+.. _ide_advanceusage_0:
 
 导入旧版本Nuclei Studio创建的工程
 ---------------------------------
@@ -13,7 +13,7 @@ Nuclei Studio 2023.10版导导入旧工程
 
 在Nuclei Studio 2023.10版本中，因为工具链、sdk等增均做了较大的修改，如果用户在新的Nuclei Studio中想要使用旧版的Nuclei Studio创建的工程，或者使用旧的sdk，需要参考本章节内容进行操作。
 
-将旧的Nuclei Studio中的工程导入到Nuclei Studio 2023.10中时（具体导入工程的方法，可以阅读 :ref:`Nuclei Studio 2022.12之后版本导入旧工程 <ide_advanceeusage_7>` ），或者使用旧的sdk（旧的sdk指的是在Nuclei Studio 2023.10发布之前所发布的sdk）所创建的工程，因为工程配置使用使用的是gcc 10，当找不到对应的工具链，会出现编译报错等问题，导致工程无法正常使用。
+将旧的Nuclei Studio中的工程导入到Nuclei Studio 2023.10中时（具体导入工程的方法，可以阅读 :ref:`Nuclei Studio 2022.12之后版本导入旧工程 <ide_advanceusage_7>` ），或者使用旧的sdk（旧的sdk指的是在Nuclei Studio 2023.10发布之前所发布的sdk）所创建的工程，因为工程配置使用使用的是gcc 10，当找不到对应的工具链，会出现编译报错等问题，导致工程无法正常使用。
 
 |image1|
 
@@ -30,7 +30,7 @@ Nuclei Studio 2023.10版导导入旧工程
 
 |image2|
 
-.. _ide_advanceeusage_3:
+.. _ide_advanceusage_3:
 
 通过工具将工程转换成支持GCC 13的工程
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -43,7 +43,7 @@ Nuclei Studio 2023.10版导导入旧工程
 
 |image4|
 
-.. _ide_advanceeusage_4:
+.. _ide_advanceusage_4:
 
 批量将工程转换成支持GCC 13的工程
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -60,7 +60,7 @@ Nuclei Studio 2023.10版导导入旧工程
 
 |image7|
 
-.. _ide_advanceeusage_7:
+.. _ide_advanceusage_7:
 
 Nuclei Studio 2022.12之后版本导入旧工程
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -92,13 +92,13 @@ Nuclei Studio从2020.08版本开始，官方工具链从 ``RISC-V Nuclei GCC (ri
 
 -  导入201909版本生成的helloworld工程，详细的导入方式请参考5.2节，这里不做赘述。
 
--  导入工程后右击选择 ``Properties`` 打开设置页面，选择 ``C/C++ Build 🡪 Settings`` ，打开Toolchains栏目然后修改Name下拉选项为 ``RISC-V Nuclei GCC (riscv-nuclei-elf-gcc)`` 。修改后点击Apply保存修改。
+-  导入工程后右击选择 ``Properties`` 打开设置页面，选择 ``C/C++ Build ?? Settings`` ，打开Toolchains栏目然后修改Name下拉选项为 ``RISC-V Nuclei GCC (riscv-nuclei-elf-gcc)`` 。修改后点击Apply保存修改。
 
 |image12|
 
 -  修改后右击工程选择 ``Clean Project`` 再选择 ``Build Project`` 即可。
 
-.. _ide_advanceeusage_13:
+.. _ide_advanceusage_13:
 
 LST View
 --------
@@ -125,7 +125,7 @@ Open File菜单，在弹出的文件选择器中，找到我们想要查看的ls
 
 |image17|
 
-.. _ide_advanceeusage_17:
+.. _ide_advanceusage_17:
 
 Code Coverage和Profiling功能
 ----------------------------
@@ -146,7 +146,10 @@ Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/
 
 Nuclei Studio中的Code Coverage功能是借助于gcc编译器提供gcov工具来查看指定源码文件的代码覆盖率，可以帮助开发人员确定他们的测试用例是否足够充分，是否覆盖了被测代码的所有分支和路径。
 
-在Nuclei Studio中，通过带特定 ``--coverage`` 编译选项编译指定源码文件，在实际开发板上运行，并配合semihost功能则可以收集需要的coverage文件(gcda/gcno文件)，则可以在gcov工具的配合下，以图形化的方式展示。
+在Nuclei Studio中，通过给工程中的文件或者文件夹添加 ``--coverage`` 编译选项编译，在实际开发板上运行时，可以配合semihost功能实现文件读写到主机电脑上，就可以收集到需要的coverage文件(gcda/gcno文件)，或者通过Nuclei SDK提供的profiling库来实现将coverage数据打印到串口上，然后通过IDE来解析并保存到主机上。
+
+.. note::
+   注意：此处只需要将编译选项 ``--coverage`` 加到特定的应用目录或者源码文件上，而不能加到整个工程，否则在程序运行时将会消耗大量内存，导致运行失败。
 
 -  ``.gcno`` 文件是在使用 GCC 编译器的 ``-ftest-coverage`` 选项编译源代码时生成的。它包含了重构基本块图和为块分配源代码行号的信息。
 
@@ -175,7 +178,10 @@ Nuclei Studio中的Code Coverage功能是借助于gcc编译器提供gcov工具�
 
 Nuclei Studio中的Profiling功能是借助于gcc编译器和binutils中的gprof工具，来查看指定文件中函数的运行时间和调用次数，以及调用关系。gprof可以用来确定程序的瓶颈，以便进行性能优化。gprof通过在程序运行时收集数据来工作，然后生成一个报告，该报告显示每个函数在程序中占用CPU时间的百分比以及函数之间的调用关系。
 
-在Nuclei Studio中，通过带特定的编译选项--pg编译指定源码文件，在实际开发板上运行，并配合semihost功能则可以收集需要的 ``gmon.out`` 文件，在IDE上以图形化的方式展示。
+在Nuclei Studio中，通过带特定的编译选项 ``-pg`` 编译指定源码文件，在实际开发板上运行时，可以配合semihost功能实现文件读写到主机电脑上，就可以收集到需要的coverage文件(gcda/gcno文件)，或者通过Nuclei SDK提供的profiling库来实现将coverage数据打印到串口上，然后通过IDE来解析并保存到主机上。
+
+.. note::
+   注意：此处只需要将编译选项 ``-pg`` 加到特定的应用目录或者源码文件上，而不能加到整个工程，否则在程序运行时将会消耗大量内存，导致运行失败。
 
 产生这个 ``gmon.out`` 文件需要配合编译器并且实际上板运行，并且运行环境支持文件的读写，才可以进行有效的Profiling功能。
 
@@ -187,7 +193,7 @@ Nuclei Studio中的Profiling功能是借助于gcc编译器和binutils中的gprof
 -  `Using GNU Profiling (gprof) With ARM Cortex-M -
    DZone <https://dzone.com/articles/using-gnu-profiling-gprof-with-arm-cortex-m>`__
 
-.. _ide_advanceeusage_18:
+.. _ide_advanceusage_18:
 
 关于Call Graph功能
 ~~~~~~~~~~~~~~~~~~
@@ -237,6 +243,9 @@ nuclei_sdk 0.6.0及以上版本的nulclei_sdk中，包含一个 ``Profiling demo
 |image22|
 
 工程创建后，需要对想要进行代码分析的文件或文件夹设置一个 ``-pg``  ``--coverage`` 的编译选项，然后编译工程。
+
+.. note::
+   注意：此处只需要将编译选项  ``-pg``  ``--coverage``  加到特定的应用目录或者源码文件上，而不能加到整个工程，否则在程序运行时将会消耗大量内存，导致运行失败。
 
 |profiling_options_in_ide|
 
@@ -290,7 +299,7 @@ Gprof工具会启动，就可以看到对应用程序的分析结果，显示了
 
 |image34|
 
-打开Gprof的同时，NucleiStudio会根据gmon.out文件解析出程序的Call Graph并生成 ``callgraph.out`` 文件。双击 ``callgraph.out`` 文件，也可以点击Gprof工具的菜单栏中 ``Open Call Graph View`` 按钮，来启动Call Graph工具。关于Call Graph的具体使用，可以参考 :ref:`关于Call Graph功能 <ide_advanceeusage_18>` 。
+打开Gprof的同时，NucleiStudio会根据gmon.out文件解析出程序的Call Graph并生成 ``callgraph.out`` 文件。双击 ``callgraph.out`` 文件，也可以点击Gprof工具的菜单栏中 ``Open Call Graph View`` 按钮，来启动Call Graph工具。关于Call Graph的具体使用，可以参考 :ref:`关于Call Graph功能 <ide_advanceusage_18>` 。
 
 |image35|
 
@@ -333,7 +342,7 @@ NucleiSudio安装了nuclei_sdk 0.6.0后，可以创建一个 ``Profiling demo to
 
 |image43|
 
-.. _ide_advanceeusage_43:
+.. _ide_advanceusage_43:
 
 Trace功能的使用
 ---------------
@@ -555,7 +564,7 @@ Trace Configuration设置完成后，同样的通过Debug视图的Thread来切�
 
 |image61|
 
-.. _ide_advanceeusage_61:
+.. _ide_advanceusage_61:
 
 RVProf功能的使用
 ----------------
@@ -634,7 +643,7 @@ Nuclei Studio会在本地启一个web服务，同时打开Perfetto Trace Viewer�
 
 |image71|
 
-.. _ide_advanceeusage_71:
+.. _ide_advanceusage_71:
 
 使用Nuclei Near Cycle Model仿真性能分析
 ---------------------------------------
@@ -694,202 +703,202 @@ gprof工具在查看 ``.gmon`` 文件的同时，会根据其内容，解析出�
 |image81|
 
 
-.. |image1| image:: /asserts/nucleistudio/advanceeusage/image2.png
+.. |image1| image:: /asserts/nucleistudio/advanceusage/image2.png
 
-.. |image2| image:: /asserts/nucleistudio/advanceeusage/image3.png
+.. |image2| image:: /asserts/nucleistudio/advanceusage/image3.png
 
-.. |image3| image:: /asserts/nucleistudio/advanceeusage/image4.png
+.. |image3| image:: /asserts/nucleistudio/advanceusage/image4.png
 
-.. |image4| image:: /asserts/nucleistudio/advanceeusage/image5.png
+.. |image4| image:: /asserts/nucleistudio/advanceusage/image5.png
 
-.. |image5| image:: /asserts/nucleistudio/advanceeusage/image6.png
+.. |image5| image:: /asserts/nucleistudio/advanceusage/image6.png
 
-.. |image6| image:: /asserts/nucleistudio/advanceeusage/image7.png
+.. |image6| image:: /asserts/nucleistudio/advanceusage/image7.png
 
-.. |image7| image:: /asserts/nucleistudio/advanceeusage/image8.png
+.. |image7| image:: /asserts/nucleistudio/advanceusage/image8.png
 
-.. |image8| image:: /asserts/nucleistudio/advanceeusage/image9.png
+.. |image8| image:: /asserts/nucleistudio/advanceusage/image9.png
 
-.. |image9| image:: /asserts/nucleistudio/advanceeusage/image10.png
+.. |image9| image:: /asserts/nucleistudio/advanceusage/image10.png
 
-.. |image10| image:: /asserts/nucleistudio/advanceeusage/image11.png
+.. |image10| image:: /asserts/nucleistudio/advanceusage/image11.png
 
-.. |image11| image:: /asserts/nucleistudio/advanceeusage/image12.png
+.. |image11| image:: /asserts/nucleistudio/advanceusage/image12.png
 
-.. |image12| image:: /asserts/nucleistudio/advanceeusage/image13.png
+.. |image12| image:: /asserts/nucleistudio/advanceusage/image13.png
 
-.. |image13| image:: /asserts/nucleistudio/advanceeusage/image14.png
+.. |image13| image:: /asserts/nucleistudio/advanceusage/image14.png
 
-.. |image14| image:: /asserts/nucleistudio/advanceeusage/image15.png
+.. |image14| image:: /asserts/nucleistudio/advanceusage/image15.png
 
-.. |image15| image:: /asserts/nucleistudio/advanceeusage/image16.png
+.. |image15| image:: /asserts/nucleistudio/advanceusage/image16.png
 
-.. |image16| image:: /asserts/nucleistudio/advanceeusage/image17.png
+.. |image16| image:: /asserts/nucleistudio/advanceusage/image17.png
 
-.. |image17| image:: /asserts/nucleistudio/advanceeusage/image18.png
+.. |image17| image:: /asserts/nucleistudio/advanceusage/image18.png
 
-.. |image18| image:: /asserts/nucleistudio/advanceeusage/image19.png
+.. |image18| image:: /asserts/nucleistudio/advanceusage/image19.png
 
-.. |image19| image:: /asserts/nucleistudio/advanceeusage/image20.png
+.. |image19| image:: /asserts/nucleistudio/advanceusage/image20.png
 
-.. |image20| image:: /asserts/nucleistudio/advanceeusage/image21.png
+.. |image20| image:: /asserts/nucleistudio/advanceusage/image21.png
 
-.. |image21| image:: /asserts/nucleistudio/advanceeusage/image22.png
+.. |image21| image:: /asserts/nucleistudio/advanceusage/image22.png
 
-.. |image22| image:: /asserts/nucleistudio/advanceeusage/image23.png
+.. |image22| image:: /asserts/nucleistudio/advanceusage/image23.png
 
-.. |profiling_options_in_ide| image:: /asserts/nucleistudio/advanceeusage/image24.png
+.. |profiling_options_in_ide| image:: /asserts/nucleistudio/advanceusage/image24.png
 
-.. |image23| image:: /asserts/nucleistudio/advanceeusage/image25.png
+.. |image23| image:: /asserts/nucleistudio/advanceusage/image25.png
 
-.. |image24| image:: /asserts/nucleistudio/advanceeusage/image26.png
+.. |image24| image:: /asserts/nucleistudio/advanceusage/image26.png
 
-.. |image25| image:: /asserts/nucleistudio/advanceeusage/image27.png
+.. |image25| image:: /asserts/nucleistudio/advanceusage/image27.png
 
-.. |image26| image:: /asserts/nucleistudio/advanceeusage/image28.png
+.. |image26| image:: /asserts/nucleistudio/advanceusage/image28.png
 
-.. |image27| image:: /asserts/nucleistudio/advanceeusage/image29.png
+.. |image27| image:: /asserts/nucleistudio/advanceusage/image29.png
 
-.. |image28| image:: /asserts/nucleistudio/advanceeusage/image30.png
+.. |image28| image:: /asserts/nucleistudio/advanceusage/image30.png
 
-.. |image29| image:: /asserts/nucleistudio/advanceeusage/image31.png
+.. |image29| image:: /asserts/nucleistudio/advanceusage/image31.png
 
-.. |image30| image:: /asserts/nucleistudio/advanceeusage/image32.png
+.. |image30| image:: /asserts/nucleistudio/advanceusage/image32.png
 
-.. |image31| image:: /asserts/nucleistudio/advanceeusage/image33.png
+.. |image31| image:: /asserts/nucleistudio/advanceusage/image33.png
 
-.. |image32| image:: /asserts/nucleistudio/advanceeusage/image34.png
+.. |image32| image:: /asserts/nucleistudio/advanceusage/image34.png
 
-.. |image33| image:: /asserts/nucleistudio/advanceeusage/image35.png
+.. |image33| image:: /asserts/nucleistudio/advanceusage/image35.png
 
-.. |image34| image:: /asserts/nucleistudio/advanceeusage/image36.png
+.. |image34| image:: /asserts/nucleistudio/advanceusage/image36.png
 
-.. |image35| image:: /asserts/nucleistudio/advanceeusage/image37.png
+.. |image35| image:: /asserts/nucleistudio/advanceusage/image37.png
 
-.. |image36| image:: /asserts/nucleistudio/advanceeusage/image38.png
+.. |image36| image:: /asserts/nucleistudio/advanceusage/image38.png
 
-.. |image37| image:: /asserts/nucleistudio/advanceeusage/image39.png
+.. |image37| image:: /asserts/nucleistudio/advanceusage/image39.png
 
-.. |image38| image:: /asserts/nucleistudio/advanceeusage/image25.png
+.. |image38| image:: /asserts/nucleistudio/advanceusage/image25.png
 
-.. |image39| image:: /asserts/nucleistudio/advanceeusage/image40.png
+.. |image39| image:: /asserts/nucleistudio/advanceusage/image40.png
 
-.. |image40| image:: /asserts/nucleistudio/advanceeusage/image41.png
+.. |image40| image:: /asserts/nucleistudio/advanceusage/image41.png
 
-.. |image41| image:: /asserts/nucleistudio/advanceeusage/image42.png
+.. |image41| image:: /asserts/nucleistudio/advanceusage/image42.png
 
-.. |image42| image:: /asserts/nucleistudio/advanceeusage/image43.png
+.. |image42| image:: /asserts/nucleistudio/advanceusage/image43.png
 
-.. |image43| image:: /asserts/nucleistudio/advanceeusage/image44.png
+.. |image43| image:: /asserts/nucleistudio/advanceusage/image44.png
 
-.. |image44| image:: /asserts/nucleistudio/advanceeusage/image45.png
+.. |image44| image:: /asserts/nucleistudio/advanceusage/image45.png
 
-.. |image45| image:: /asserts/nucleistudio/advanceeusage/image46.png
+.. |image45| image:: /asserts/nucleistudio/advanceusage/image46.png
 
-.. |image46| image:: /asserts/nucleistudio/advanceeusage/image47.png
+.. |image46| image:: /asserts/nucleistudio/advanceusage/image47.png
 
-.. |image47| image:: /asserts/nucleistudio/advanceeusage/image48.png
+.. |image47| image:: /asserts/nucleistudio/advanceusage/image48.png
 
 
-.. |image48| image:: /asserts/nucleistudio/advanceeusage/image49.png
+.. |image48| image:: /asserts/nucleistudio/advanceusage/image49.png
 
 
-.. |image49| image:: /asserts/nucleistudio/advanceeusage/image50.png
+.. |image49| image:: /asserts/nucleistudio/advanceusage/image50.png
 
 
-.. |image50| image:: /asserts/nucleistudio/advanceeusage/image51.png
+.. |image50| image:: /asserts/nucleistudio/advanceusage/image51.png
 
 
-.. |image51| image:: /asserts/nucleistudio/advanceeusage/image52.png
+.. |image51| image:: /asserts/nucleistudio/advanceusage/image52.png
 
 
-.. |image52| image:: /asserts/nucleistudio/advanceeusage/image53.png
+.. |image52| image:: /asserts/nucleistudio/advanceusage/image53.png
 
 
-.. |image53| image:: /asserts/nucleistudio/advanceeusage/image54.png
+.. |image53| image:: /asserts/nucleistudio/advanceusage/image54.png
 
 
-.. |image54| image:: /asserts/nucleistudio/advanceeusage/image55.png
+.. |image54| image:: /asserts/nucleistudio/advanceusage/image55.png
 
 
-.. |image55| image:: /asserts/nucleistudio/advanceeusage/image56.png
+.. |image55| image:: /asserts/nucleistudio/advanceusage/image56.png
 
 
-.. |image56| image:: /asserts/nucleistudio/advanceeusage/image57.png
+.. |image56| image:: /asserts/nucleistudio/advanceusage/image57.png
 
 
-.. |image57| image:: /asserts/nucleistudio/advanceeusage/image58.png
+.. |image57| image:: /asserts/nucleistudio/advanceusage/image58.png
 
 
-.. |image58| image:: /asserts/nucleistudio/advanceeusage/image59.png
+.. |image58| image:: /asserts/nucleistudio/advanceusage/image59.png
 
 
-.. |image59| image:: /asserts/nucleistudio/advanceeusage/image60.png
+.. |image59| image:: /asserts/nucleistudio/advanceusage/image60.png
 
 
-.. |image60| image:: /asserts/nucleistudio/advanceeusage/image61.png
+.. |image60| image:: /asserts/nucleistudio/advanceusage/image61.png
 
 
-.. |image61| image:: /asserts/nucleistudio/advanceeusage/image47.png
+.. |image61| image:: /asserts/nucleistudio/advanceusage/image47.png
 
 
-.. |image62| image:: /asserts/nucleistudio/advanceeusage/image62.png
+.. |image62| image:: /asserts/nucleistudio/advanceusage/image62.png
 
 
-.. |image63| image:: /asserts/nucleistudio/advanceeusage/image63.png
+.. |image63| image:: /asserts/nucleistudio/advanceusage/image63.png
 
 
-.. |image64| image:: /asserts/nucleistudio/advanceeusage/image64.png
+.. |image64| image:: /asserts/nucleistudio/advanceusage/image64.png
 
 
-.. |image65| image:: /asserts/nucleistudio/advanceeusage/image65.png
+.. |image65| image:: /asserts/nucleistudio/advanceusage/image65.png
 
 
-.. |image66| image:: /asserts/nucleistudio/advanceeusage/image66.png
+.. |image66| image:: /asserts/nucleistudio/advanceusage/image66.png
 
 
-.. |image67| image:: /asserts/nucleistudio/advanceeusage/image67.png
+.. |image67| image:: /asserts/nucleistudio/advanceusage/image67.png
 
 
-.. |image68| image:: /asserts/nucleistudio/advanceeusage/image68.png
+.. |image68| image:: /asserts/nucleistudio/advanceusage/image68.png
 
 
-.. |image69| image:: /asserts/nucleistudio/advanceeusage/image69.png
+.. |image69| image:: /asserts/nucleistudio/advanceusage/image69.png
 
 
-.. |image70| image:: /asserts/nucleistudio/advanceeusage/image70.png
+.. |image70| image:: /asserts/nucleistudio/advanceusage/image70.png
 
 
-.. |image71| image:: /asserts/nucleistudio/advanceeusage/image71.png
+.. |image71| image:: /asserts/nucleistudio/advanceusage/image71.png
 
 
-.. |image72| image:: /asserts/nucleistudio/advanceeusage/image72.png
+.. |image72| image:: /asserts/nucleistudio/advanceusage/image72.png
 
 
-.. |image73| image:: /asserts/nucleistudio/advanceeusage/image73.png
+.. |image73| image:: /asserts/nucleistudio/advanceusage/image73.png
 
 
-.. |image74| image:: /asserts/nucleistudio/advanceeusage/image74.png
+.. |image74| image:: /asserts/nucleistudio/advanceusage/image74.png
 
 
-.. |image75| image:: /asserts/nucleistudio/advanceeusage/image75.png
+.. |image75| image:: /asserts/nucleistudio/advanceusage/image75.png
 
 
-.. |image76| image:: /asserts/nucleistudio/advanceeusage/image76.png
+.. |image76| image:: /asserts/nucleistudio/advanceusage/image76.png
 
 
-.. |image77| image:: /asserts/nucleistudio/advanceeusage/image77.png
+.. |image77| image:: /asserts/nucleistudio/advanceusage/image77.png
 
 
-.. |image78| image:: /asserts/nucleistudio/advanceeusage/image78.png
+.. |image78| image:: /asserts/nucleistudio/advanceusage/image78.png
 
 
-.. |image79| image:: /asserts/nucleistudio/advanceeusage/image79.png
+.. |image79| image:: /asserts/nucleistudio/advanceusage/image79.png
 
 
-.. |image80| image:: /asserts/nucleistudio/advanceeusage/image80.png
+.. |image80| image:: /asserts/nucleistudio/advanceusage/image80.png
 
 
-.. |image81| image:: /asserts/nucleistudio/advanceeusage/image81.png
+.. |image81| image:: /asserts/nucleistudio/advanceusage/image81.png
 
 

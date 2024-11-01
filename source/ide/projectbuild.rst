@@ -31,7 +31,7 @@ Nuclei GNU Toolchain
 
 GNU Toolchain 是由 GNU 项目提供的一套完整的软件开发工具链，它包括了编译器、调试器、链接器、库文件等一系列用于软件开发和构建的必需工具。GNU Toolchain 以其开源、跨平台、高度可定制和强大的功能特性，成为了全球开发者社区广泛使用的开发工具集。Nuclei Studio 2023.10之前的版本中集成了 ``GCC 10`` ；Nuclei Studio 2023.10及之后的版本中，集成了 ``GCC 13`` 。
 
-在nuclei_sdk 0.5.0之后的版中，在创建工程时，用户可以选择Toolchain为 ``RISC-V GCC/Newlib（riscv64-unknown-elf-gcc）`` 则可以创建一个支持 ``GCC 13`` 编译的工程，NucleiStudio将默认将相对应的编译选项配置好。关于 ``GCC 10`` 与 ``GCC 13`` 工程的问题，可以参阅 :ref:`通过工具将工程转换成支持gcc 13的工程 <ide_advanceeusage_3>` 。
+在nuclei_sdk 0.5.0之后的版中，在创建工程时，用户可以选择Toolchain为 ``RISC-V GCC/Newlib（riscv64-unknown-elf-gcc）`` 则可以创建一个支持 ``GCC 13`` 编译的工程，NucleiStudio将默认将相对应的编译选项配置好。关于 ``GCC 10`` 与 ``GCC 13`` 工程的问题，可以参阅 :ref:`通过工具将工程转换成支持gcc 13的工程 <ide_advanceusage_3>` 。
 
 |image2|
 

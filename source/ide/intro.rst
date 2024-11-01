@@ -138,27 +138,27 @@ Terapines ZCC是兆松科技研发的高性能RISC-V编译器。Nuclei Studio 2
 新增LST View工具 
 ~~~~~~~~~~~~~~~~~
 
-LST View 是一个lst文件查看器，可以方便用户查看lst格式的文件，并实现\*.lst文件与源代码的联动，具体请参见 :ref:`LST View <ide_advanceeusage_13>` 。
+LST View 是一个lst文件查看器，可以方便用户查看lst格式的文件，并实现\*.lst文件与源代码的联动，具体请参见 :ref:`LST View <ide_advanceusage_13>` 。
 
 优化和完善Gprof功能
 ~~~~~~~~~~~~~~~~~~~
 
-Gprof是一个强大的性能分析工具，可以帮助开发者理解C/C++程序的运行情况，通过Gprof可以获取到程序中各个函数的调用信息、调用次数、执行时间等，对优化程序、提升程序运行效率具有重要的意义。具体请参见 :ref:`Code Coverage和Profiling功能 <ide_advanceeusage_17>` 。
+Gprof是一个强大的性能分析工具，可以帮助开发者理解C/C++程序的运行情况，通过Gprof可以获取到程序中各个函数的调用信息、调用次数、执行时间等，对优化程序、提升程序运行效率具有重要的意义。具体请参见 :ref:`Code Coverage和Profiling功能 <ide_advanceusage_17>` 。
 
 优化和完善Gcov功能
 ~~~~~~~~~~~~~~~~~~
 
-Gcov是一个测试C/C++代码覆盖率的工具，伴随GCC发布，配合GCC共同实现对C/C++文件的语句覆盖、功能函数覆盖和分支覆盖测试。具体请参见 :ref:`Code Coverage和Profiling功能 <ide_advanceeusage_17>` 。
+Gcov是一个测试C/C++代码覆盖率的工具，伴随GCC发布，配合GCC共同实现对C/C++文件的语句覆盖、功能函数覆盖和分支覆盖测试。具体请参见 :ref:`Code Coverage和Profiling功能 <ide_advanceusage_17>` 。
 
 新增Call Graph功能
 ~~~~~~~~~~~~~~~~~~
 
-Call Graph是分析函数调用关系图的工具，结合Gprof使用，便于开发者快速了解程序执行的过程及调用关系。具体请参见 :ref:`Code Coverage和Profiling功能 <ide_advanceeusage_17>` 。
+Call Graph是分析函数调用关系图的工具，结合Gprof使用，便于开发者快速了解程序执行的过程及调用关系。具体请参见 :ref:`Code Coverage和Profiling功能 <ide_advanceusage_17>` 。
 
 新增Nuclei Near Cycle Model支持
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nuclei Near Cycle Model，它是由芯来科技自主研发的仿真测试和性能分析工具，可以帮助研发人员在项目初期进行一些必要的仿真测试和程序性能分析，具体请参见 :ref:`使用Nuclei Near Cycle Model仿真性能分析 <ide_advanceeusage_71>` 。
+Nuclei Near Cycle Model，它是由芯来科技自主研发的仿真测试和性能分析工具，可以帮助研发人员在项目初期进行一些必要的仿真测试和程序性能分析，具体请参见 :ref:`使用Nuclei Near Cycle Model仿真性能分析 <ide_advanceusage_71>` 。
 
 2024.02.dev版更新说明
 ---------------------
@@ -178,17 +178,17 @@ Nuclei Near Cycle Model，它是由芯来科技自主研发的仿真测试和
 新增批量转换Gcc13工程工具
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在2023.10版Nuclei Studio中，升级GCC 13后，当有大量工程需要转换时，单个转换效率低，为方便开发者，提供了一个批量转换GCC 13工具。具体内容参见 :ref:`批量将工程转换成支持gcc 13的工程 <ide_advanceeusage_4>` 。
+在2023.10版Nuclei Studio中，升级GCC 13后，当有大量工程需要转换时，单个转换效率低，为方便开发者，提供了一个批量转换GCC 13工具。具体内容参见 :ref:`批量将工程转换成支持gcc 13的工程 <ide_advanceusage_4>` 。
 
 优化和完善Trace功能
 ~~~~~~~~~~~~~~~~~~~
 
-Nuclei Studio中Trace功能升级，实现了在OpenOCD模式下对单核应用、SMP多核应用、AMP多核应用的支持，具体内容参见 :ref:`Trace功能的使用 <ide_advanceeusage_43>` ；在Dlink模式下，仅对单核应用支持。Trace功能需要有对应CPU IP的支持，如需体验此功能，请与我们联系。
+Nuclei Studio中Trace功能升级，实现了在OpenOCD模式下对单核应用、SMP多核应用、AMP多核应用的支持，具体内容参见 :ref:`Trace功能的使用 <ide_advanceusage_43>` ；在Dlink模式下，仅对单核应用支持。Trace功能需要有对应CPU IP的支持，如需体验此功能，请与我们联系。
 
 优化和完善RVProf功能
 ~~~~~~~~~~~~~~~~~~~~
 
-RVProf是芯来科技基于CPU cycle model开发的性能分析工具，具体内容参见第 :ref:`RVProf功能的使用 <ide_advanceeusage_61>` 。此功能需要有相应的NPK软件包支持，如需体验此功能，请与我们联系。
+RVProf是芯来科技基于CPU cycle model开发的性能分析工具，具体内容参见第 :ref:`RVProf功能的使用 <ide_advanceusage_61>` 。此功能需要有相应的NPK软件包支持，如需体验此功能，请与我们联系。
 
 新增对DLlink Debug的支持
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -222,7 +222,7 @@ Dlink是芯来自主研发的调试解决方案，在本次版本中得到支持
 支持GCC 13和Clang 17
 ~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2023.10版本中实现了对GCC 13的支持，相对于之前的gcc10版本GCC 13在对RISC-V指令扩展的支持更加完备，且在我们维护的版本中，支持完整的RVV Intrinsic API v0.12版本。同时Nuclei Studio 2023.10版本中也实现了对Clang 17的支持（参考地址：\ https://releases.llvm.org/17.0.1/docs/RISCVUsage.html\ ）。当然，如果有用户依然想使用GCC 10时行项目开发，我们也保留了相关的配置，但是工具链并没有集成到IDE中，用户需要自行下载并放置在gcc10目录中，参见里面的README.txt，并且我们也提供了老版本采用gcc10的Nuclei Studio创建的工程升级到gcc13工具链上，具体使用可以参考 :ref:`导入旧版本Nuclei Studio创建的工程 <ide_advanceeusage_0>` 。Nuclei RISC-V Toolchain 2023.10更详细的说明，请参阅: https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2023.10
+在Nuclei Studio 2023.10版本中实现了对GCC 13的支持，相对于之前的gcc10版本GCC 13在对RISC-V指令扩展的支持更加完备，且在我们维护的版本中，支持完整的RVV Intrinsic API v0.12版本。同时Nuclei Studio 2023.10版本中也实现了对Clang 17的支持（参考地址：\ https://releases.llvm.org/17.0.1/docs/RISCVUsage.html\ ）。当然，如果有用户依然想使用GCC 10时行项目开发，我们也保留了相关的配置，但是工具链并没有集成到IDE中，用户需要自行下载并放置在gcc10目录中，参见里面的README.txt，并且我们也提供了老版本采用gcc10的Nuclei Studio创建的工程升级到gcc13工具链上，具体使用可以参考 :ref:`导入旧版本Nuclei Studio创建的工程 <ide_advanceusage_0>` 。Nuclei RISC-V Toolchain 2023.10更详细的说明，请参阅: https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2023.10
 
 |image2|
 
@@ -265,7 +265,7 @@ RISC-V指令扩展使用变更
 NPK包的使用变更
 ~~~~~~~~~~~~~~~
 
-为了支持GCC 13和Clang 17，Nuclei SDK包升级到了0.5.0版本，使用SDK包创建工程时，用户可以根据需要，选择创建一个GCC 13或者Clang 17的工程。因为版本变动较大，0.5.0之前的sdk可能有部分功能在Nuclei Studio 2023.10版中使用异常，所我们提供了工具帮助您快速进行工程迁移和升级， **请自行备份老版本的工程** ，具体可能参考 :ref:`导入旧版本Nuclei Studio创建的工程 <ide_advanceeusage_0>` 。
+为了支持GCC 13和Clang 17，Nuclei SDK包升级到了0.5.0版本，使用SDK包创建工程时，用户可以根据需要，选择创建一个GCC 13或者Clang 17的工程。因为版本变动较大，0.5.0之前的sdk可能有部分功能在Nuclei Studio 2023.10版中使用异常，所我们提供了工具帮助您快速进行工程迁移和升级， **请自行备份老版本的工程** ，具体可能参考 :ref:`导入旧版本Nuclei Studio创建的工程 <ide_advanceusage_0>` 。
 
 |image9|
 
@@ -299,7 +299,7 @@ OpenOCD版本升级至2023.10版，增加了一些额外的调试特性，例如
 新增Code Coverage和Profiling功能
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2023.10新增了对Code Coverage和Profiling功能的支持，具体参考 :ref:`Code Coverage和Profiling功能 <ide_advanceeusage_17>` 。
+在Nuclei Studio 2023.10新增了对Code Coverage和Profiling功能的支持，具体参考 :ref:`Code Coverage和Profiling功能 <ide_advanceusage_17>` 。
 
 新增trace功能
 ~~~~~~~~~~~~~
