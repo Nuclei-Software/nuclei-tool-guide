@@ -1,4 +1,4 @@
-.. _npk: 
+.. _npk:
 
 Nuclei Studio NPK 应用
 =======================
@@ -7,8 +7,12 @@ Nuclei Studio 中内建了对Nuclei Package（NPK）功能的完整支持，方�
 
 开发者要使用Nuclei Studio进行工程的创建，需先将对应的SDK NPK Zip包安装到IDE中，方可根据不同的开发板快速新建不同的模板工程，并根据不同的模板添加需要的SDK源码，根据选项生成不同的编译链接选项设置。
 
+.. _npk_package_management:
+
 NPK软件包管理
 -------------
+
+.. _npk_import_local_package:
 
 导入本地NPK软件包
 ~~~~~~~~~~~~~~~~~
@@ -60,11 +64,12 @@ NPK软件包管理
 |image28|
 
 
+.. _npk_download_cloud_package:
 
 下载云端NPK软件包
 ~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio中最大的更新，就是将npk云端化，用户直接在Nuclei Studio中就可以下查看到所有的npk并自行安装，在菜单栏选择 ``RV-Tools-->Nuclei Package Management`` 在弹出的Nuclei Package Management管理页进行npk管理。
+在Nuclei Studio中最大的更新，就是将npk云端化，用户直接在Nuclei Studio中就可以下查看到所有的npk并自行安装，在菜单栏选择 ``RV-Tools-->Nuclei Package Management`` 在弹出的**Nuclei Package Management**管理页进行npk管理。
 
 |image1|
 
@@ -97,7 +102,7 @@ NPK软件包管理
 
 本章将在RVSTAR开发板上，以新建和修改GD32VF103的工程为例快速介绍Nuclei Studio功能，RVSTAR开发板开发需要使用nuclei_sdk的npk包，详细的流程请参考之后的章节。
 
-.. _ide_npk_package_management:
+.. _npk_create_project:
 
 创建NPK示例工程
 ~~~~~~~~~~~~~~~
@@ -124,6 +129,8 @@ NPK软件包管理
 Nuclei Studio可以根据不同的工程模板添加不同的SDK源码，例如FreeRTOS模板工程会添加对应的OS内容，Demo_dsp模板工程可以添加NMSIS库文件。关于NMSIS详细信息请参考（\ https://doc.nucleisys.com/nmsis/index.html\ ）。这里以Demo_dsp为例， ``Project Example`` 选择 ``Nuclei NMSIS DSP Library Demo`` 。因为使用dsp工程，需要添加NMSIS库，所以 ``Libraries`` 选择 ``NMSIS DSP Library`` 。
 
 Nuclei Studio可以根据新建工程时的选项自动设置工程的选项。这里选择使用浮点打印，所以 ``NEWLIB`` 选择 ``newlib nano with printf float`` 。之后一直选择 ``Next`` 直到 ``Finish`` 。
+
+.. _npk_sdk_config_tool:
 
 SDK Configuration Tools更改工程配置
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -155,19 +162,20 @@ Tools将直接打开这个Nuclei Settings界面。
 
 |image15|
 
+.. _npk_import_tool_package:
 
 通过NPK导入工具
 ---------------
 
 NPK包除了可以导入SDK,还可以方便的导入各种工具包，来扩展Nuclei Studio的能力，2022.08版本的Nuclei Studio增加NPK Tools的支持，为增加组件包的可扩展性，以及在编译和调试上使用更便捷，增加类型为tool的npk组件包。tool组件包可包含gcc,qemu,cmlink-gdb等内容，以zip包的形式导入到IDE去使用。
 
-以tool-cmlink包为例，一个工具包中有该工具的执行文件及npk.yml，开发者在npk.yml文件中对该工具做了一些简单的描述，如工具包的开发者、版本、支持的操作系统、可执行文件的路径等，包结构和npk.yml内容如下示例。然后将工具包压缩成一个zip文件，可以参考4.1.章的内容，将npk tools导入到ide中，或共享到\ `www.rvmcu.com <http://www.rvmcu.com>`__\ 网站上。
+以tool-cmlink包为例，一个工具包中有该工具的执行文件及npk.yml，开发者在npk.yml文件中对该工具做了一些简单的描述，如工具包的开发者、版本、支持的操作系统、可执行文件的路径等，包结构和npk.yml内容如下示例。然后将工具包压缩成一个zip文件，可以参考 :ref:`npk_import_local_package` 的内容，将npk tools导入到ide中，或共享到\ `www.rvmcu.com <http://www.rvmcu.com>`__\ 网站上。
 
--  -bin
+- ``bin``
 
--  -bin\\cmlink_gdbserver.exe
+- ``bin\cmlink_gdbserver.exe``
 
--  -npk.yml
+- ``npk.yml``
 
 |image16|
 

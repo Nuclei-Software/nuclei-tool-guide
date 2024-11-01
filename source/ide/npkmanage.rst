@@ -1,12 +1,16 @@
-.. _npkmanage: 
+.. _npkmanage:
 
 Nuclei Studio NPK 创建与共享
 ============================
 
 Nuclei Studio 2022.04版中，提供了一个非常重要的功能，该功能主要通过提供的各种初始模板，方便开发者去创建自己的NPK组件包，并可以通过平台将自己的NPK组件包贡献出来，供其他开发者使用。
 
-创建NPK组件包
+.. _npkmanage_develop_package:
+
+开发NPK组件包
 ---------------
+
+.. _npkmanage_auth_developer:
 
 认证开发者
 ~~~~~~~~~~~
@@ -19,7 +23,7 @@ Nuclei Studio 2022.04版中，提供了一个非常重要的功能，该功能�
 
 .. |image1| image:: /asserts/nucleistudio/developer/authenticate.png
 
-   
+
 或者直接访问 `认证地址 <https://www.rvmcu.com/nucleistudio-developer.html>`__ ，按提示分别填写相关信息，其中 **开发者** 对应的开发者空间地址的后辍将会是您的owner ID。
 
 |image2|
@@ -32,6 +36,7 @@ Nuclei Studio 2022.04版中，提供了一个非常重要的功能，该功能�
 
 .. |image3| image:: /asserts/nucleistudio/developer/authenticate3.png
 
+.. _npkmanage_create_package:
 
 创建NPK组件包
 ~~~~~~~~~~~~~~
@@ -57,32 +62,32 @@ Nuclei Studio 2022.04版中，提供了一个非常重要的功能，该功能�
 .. |image6| image:: /asserts/nucleistudio/developer/image143.png
 
 
-选择Type时，无对应模板时，会跳出对应提示，点击确定，进入Nuclei Package Management页面，根据需要下载Template Package的对应模板，或点击下图右下角Import自行导入。 
+选择Type时，无对应模板时，会跳出对应提示，点击确定，进入Nuclei Package Management页面，根据需要下载Template Package的对应模板，或点击下图右下角Import自行导入。
 
 下面以ssp类型模板为例,假设你的公司名称为GreenTech, 你的SoC名称为 gt25nv, 适配的开发板为gt25nv_devkit, 采用了我们的n307FD处理器(rv32imafdc)配置, 并且配置了dsp特性， 并且提供了ilm, flash,flashxip三种下载方式。
-  
-Type选择ssp： ``Soc Support Package`` 
-  
+
+Type选择ssp: ``Soc Support Package``
+
 |image7|
 
 .. |image7| image:: /asserts/nucleistudio/developer/image147.png
 
 其次进入缺少对应模板，进入Nuclei Package Management页面，选择 ``tpl-nsdk-soc-demosoc`` ，点击 ``Download`` 下载，下载完成后关闭该页面
-  
+
 |image8|
 
 .. |image8| image:: /asserts/nucleistudio/developer/image148.png
 
 
 点击Next，在 ``Select a Template`` 中选择刚才下载的模板 ``tpl-nsdk-soc-demosoc`` ，左侧为模板描述和相关的文件预览，右侧为模板中部分可自定义的内容。
-  
+
 |image9|
 
 .. |image9| image:: /asserts/nucleistudio/developer/image145.png
 
-  
-我们这里举例，公司名称为 ``GreenTech`` ，SoC名称为 ``gt25nv`` ，适配的开发板为 ``gt25nv_devkit`` ，采用了我们的n307FD处理器( ``rv32imafdc`` )配置，并且配置了dsp特性，并且提供了ilm，flash，flashxip三种下载方式。然后Nuclei RISC-V Core选择为 ``NX600`` ，经过修改后如图。     
-  
+
+我们这里举例，公司名称为 ``GreenTech`` ，SoC名称为 ``gt25nv`` ，适配的开发板为 ``gt25nv_devkit`` ，采用了我们的n307FD处理器( ``rv32imafdc`` )配置，并且配置了dsp特性，并且提供了ilm，flash，flashxip三种下载方式。然后Nuclei RISC-V Core选择为 ``NX600`` ，经过修改后如图。
+
 |image10|
 
 .. |image10| image:: /asserts/nucleistudio/developer/image149.png
@@ -101,7 +106,7 @@ Type选择ssp： ``Soc Support Package``
 
 .. |image12| image:: /asserts/nucleistudio/developer/image151.png
 
-  
+
 |image13|
 
 .. |image13| image:: /asserts/nucleistudio/developer/image150.png
@@ -112,8 +117,12 @@ Type选择ssp： ``Soc Support Package``
 
 .. |image14| image:: /asserts/nucleistudio/developer/image152.png
 
+.. _npkmanage_test_package:
+
 测试NPK组件包
 --------------
+
+.. _npkmanage_create_test_project:
 
 创建测试项目
 ~~~~~~~~~~~~~~
@@ -136,6 +145,7 @@ Type选择ssp： ``Soc Support Package``
 
 .. |image17| image:: /asserts/nucleistudio/developer/image155.png
 
+.. _npkmanage_workwith_test_project:
 
 编译调试测试工程
 ~~~~~~~~~~~~~~~~~~
@@ -149,8 +159,12 @@ Type选择ssp： ``Soc Support Package``
 .. |image18| image:: /asserts/nucleistudio/developer/image156.png
 
 
+.. _npkmanage_share_package:
+
 共享NPK组件包
 ---------------
+
+.. _npkmanage_share_npk:
 
 NPK组件包共享
 ~~~~~~~~~~~~~~
@@ -194,6 +208,8 @@ NPK组件包共享
 .. |image24| image:: /asserts/nucleistudio/developer/image164.png
 
 
+.. _npkmanage_update_npk:
+
 NPK组件包升级
 ~~~~~~~~~~~~~~
 
@@ -207,11 +223,13 @@ NPK组件包升级
 
 .. |image26| image:: /asserts/nucleistudio/developer/image166.png
 
-   
+
 |image27|
 
 .. |image27| image:: /asserts/nucleistudio/developer/image167.png
 
+
+.. _npkmanage_using_npk_in_ide:
 
 NPK组件包在Nuclei Studio中的使用
 ---------------------------------
