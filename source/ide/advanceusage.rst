@@ -138,6 +138,8 @@ Studio工程使用Code Coverage和Profiling相关功能。在Nuclei Studio
 2024.06版本中对\ `Eclipse Linux
 Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__\ 的功能做了进一步的优化和升级，使其更容使用。
 
+关于Coverage、Profiling和Call Graph的使用请查看 :ref:`Coverage、Profiling和Call Graph使用教程 <_ide_advanceusage_21>` 内容。
+
 关于Eclipse Linux Tools的详细参见
 `Eclipse Linux Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__\ 
 
@@ -236,6 +238,8 @@ Aggregate View
 
 |image21|
 
+.. _ide_advanceusage_21:
+
 Coverage、Profiling和Call Graph使用
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -320,7 +324,7 @@ NucleiSudio安装了nuclei_sdk 0.6.0后，可以创建一个 ``Profiling demo to
 
 |profiling_options_in_ide|
 
-同时，需要修改程序中 `` gprof_collect(2);`` 为 ``gprof_collect(1);`` 、 ``gcov_collect(2);`` 为 ``gcov_collect(1);`` （测试工程中在main函数的最后），则在运行过程中，将会通过Semihosting将结果输出为文件。
+同时，需要修改程序中 ``gprof_collect(2);`` 为 ``gprof_collect(1);`` 、 ``gcov_collect(2);`` 为 ``gcov_collect(1);`` （测试工程中在main函数的最后），则在运行过程中，将会通过Semihosting将结果输出为文件。
 
 |image37|
 
