@@ -14,6 +14,6 @@ Nuclei Studio IDE
    projectnew.rst
    projectbuild.rst
    projectrun.rst
-   advanceeusage.rst
+   advanceusage.rst
    update.rst
    faq.rst
