@@ -1246,7 +1246,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1:
 
-.. figure:: /asserts/nucleistudio/npk/image.png
+.. figure:: /asserts/nucleistudio/npkoverview/image.png
 
 * **list 单项选择框** 
 
@@ -1262,7 +1262,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_1:
 
-.. figure:: /asserts/nucleistudio/npk/image-1.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-1.png
 
 * **checkbox 单项勾选框** 
 
@@ -1277,7 +1277,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_2:
 
-.. figure:: /asserts/nucleistudio/npk/image-2.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-2.png
 
 * **multicheckbox 穿梭选择框** 
 
@@ -1300,7 +1300,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_3:
 
-.. figure:: /asserts/nucleistudio/npk/image-3.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-3.png
 
 .. code-block:: yaml
 
@@ -1316,7 +1316,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_4:
 
-.. figure:: /asserts/nucleistudio/npk/image-4.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-4.png
 
 * **text 单行文本框** 
 
@@ -1333,7 +1333,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_5:
 
-.. figure:: /asserts/nucleistudio/npk/image-5.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-5.png
 
 * **multitext 多行文本框** 
 
@@ -1351,7 +1351,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_6:
 
-.. figure:: /asserts/nucleistudio/npk/image-6.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-6.png
 
 * **multichoice 多选下拉框** 
 
@@ -1370,7 +1370,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_7:
 
-.. figure:: /asserts/nucleistudio/npk/image-7.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-7.png
 
 .. code-block:: yaml
 
@@ -1391,7 +1391,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_8:
 
-.. figure:: /asserts/nucleistudio/npk/image-8.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-8.png
 
 * **cascaderchoice 级联选择框** 
 
@@ -1415,7 +1415,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_9:
 
-.. figure:: /asserts/nucleistudio/npk/image-9.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-9.png
 
 * **switchbutton 开关** 
 
@@ -1430,7 +1430,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_10:
 
-.. figure:: /asserts/nucleistudio/npk/image-10.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-10.png
 
 * **slider 数字选择框** 
 
@@ -1446,7 +1446,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_11:
 
-.. figure:: /asserts/nucleistudio/npk/image-11.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-11.png
 
 * **spinner 数字选择框** 
 
@@ -1463,7 +1463,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_12:
 
-.. figure:: /asserts/nucleistudio/npk/image-12.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-12.png
 
 * **multispinner 多数字选择框** 
 
@@ -1481,7 +1481,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_13:
 
-.. figure:: /asserts/nucleistudio/npk/image-13.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-13.png
 
 * **multicheckbox_v2 多项勾选框** 
 
@@ -1501,7 +1501,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_14:
 
-.. figure:: /asserts/nucleistudio/npk/image-14.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-14.png
 
 .. code-block:: yaml
 
@@ -1521,7 +1521,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_15:
 
-.. figure:: /asserts/nucleistudio/npk/image-15.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-15.png
 
 * **multiradio 单选框** 
 
@@ -1540,7 +1540,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_16:
 
-.. figure:: /asserts/nucleistudio/npk/image-16.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-16.png
 
 .. code-block:: yaml
 
@@ -1559,7 +1559,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. _figure_about_project_1_17:
 
-.. figure:: /asserts/nucleistudio/npk/image-17.png
+.. figure:: /asserts/nucleistudio/npkoverview/image-17.png
 
 NPK的语法
 ---------

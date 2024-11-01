@@ -139,14 +139,20 @@ Studio工程使用Code Coverage和Profiling相关功能。在Nuclei Studio
 Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__\ 的功能做了进一步的优化和升级，使其更容使用。
 
 关于Eclipse Linux Tools的详细参见
-`Eclipse Linux Tools:  <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__\ 
+`Eclipse Linux Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__\ 
+
+在使用过程，如有问题，可以查看 `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__  相关内容，也可以向我们提交相关issue。
+
+.. note::
+   
+   在 **芯来科技视频号** 中有 **如何在Nuclei Studio中使用Code Coverage和Profiling功能** 的视频，您可以在微信中搜索 **芯来科技视频号** 点击查看相关内容。
 
 关于Code Coverage功能
 ~~~~~~~~~~~~~~~~~~~~~
 
 Nuclei Studio中的Code Coverage功能是借助于gcc编译器提供gcov工具来查看指定源码文件的代码覆盖率，可以帮助开发人员确定他们的测试用例是否足够充分，是否覆盖了被测代码的所有分支和路径。
 
-在Nuclei Studio中，通过给工程中的文件或者文件夹添加 ``--coverage`` 编译选项编译，在实际开发板上运行时，可以配合semihost功能实现文件读写到主机电脑上，就可以收集到需要的coverage文件(gcda/gcno文件)，或者通过Nuclei SDK提供的profiling库来实现将coverage数据打印到串口上，然后通过IDE来解析并保存到主机上。
+在Nuclei Studio中，通过给工程中的文件或者文件夹添加 ``--coverage`` 编译选项编译，在实际开发板上运行时，可以配合semihost功能实现文件读写到主机电脑上，就可以收集到需要的coverage文件(gcda/gcno文件)，或者通过 `Nuclei SDK提供的profiling库 <https://github.com/Nuclei-Software/nuclei-sdk/tree/master/Components/profiling>`__ 来实现将coverage数据打印到串口上，然后通过IDE来解析并保存到主机上。
 
 .. note::
    注意：此处只需要将编译选项 ``--coverage`` 加到特定的应用目录或者源码文件上，而不能加到整个工程，否则在程序运行时将会消耗大量内存，导致运行失败。
@@ -178,7 +184,7 @@ Nuclei Studio中的Code Coverage功能是借助于gcc编译器提供gcov工具�
 
 Nuclei Studio中的Profiling功能是借助于gcc编译器和binutils中的gprof工具，来查看指定文件中函数的运行时间和调用次数，以及调用关系。gprof可以用来确定程序的瓶颈，以便进行性能优化。gprof通过在程序运行时收集数据来工作，然后生成一个报告，该报告显示每个函数在程序中占用CPU时间的百分比以及函数之间的调用关系。
 
-在Nuclei Studio中，通过带特定的编译选项 ``-pg`` 编译指定源码文件，在实际开发板上运行时，可以配合semihost功能实现文件读写到主机电脑上，就可以收集到需要的coverage文件(gcda/gcno文件)，或者通过Nuclei SDK提供的profiling库来实现将coverage数据打印到串口上，然后通过IDE来解析并保存到主机上。
+在Nuclei Studio中，通过带特定的编译选项 ``-pg`` 编译指定源码文件，在实际开发板上运行时，可以配合semihost功能实现文件读写到主机电脑上，就可以收集到需要的coverage文件(gcda/gcno文件)，或者通过 `Nuclei SDK提供的profiling库 <https://github.com/Nuclei-Software/nuclei-sdk/tree/master/Components/profiling>`__ 来实现将coverage数据打印到串口上，然后通过IDE来解析并保存到主机上。
 
 .. note::
    注意：此处只需要将编译选项 ``-pg`` 加到特定的应用目录或者源码文件上，而不能加到整个工程，否则在程序运行时将会消耗大量内存，导致运行失败。
@@ -238,7 +244,7 @@ Coverage、Profiling和Call Graph使用
 通过串口使用
 ^^^^^^^^^^^^
 
-nuclei_sdk 0.6.0及以上版本的nulclei_sdk中，包含一个 ``Profiling demo to show how to use gprof and gcov`` 测试工程，在NucleiSudio安装了nuclei_sdk 0.6.0后，可以创建此测试工程。
+nuclei_sdk 0.6.0及以上版本的nulclei_sdk中，包含一个 ``Profiling demo to show how to use gprof and gcov`` 测试工程，在NucleiSudio安装了nuclei_sdk 0.6.0后，可以创建此测试工程。关于 ``Profiling demo to show how to use gprof and gcov`` 测试工程,可参考 `demo_profiling <https://doc.nucleisys.com/nuclei_sdk/design/app.html#demo-profiling>`__ 。
 
 |image22|
 
@@ -306,7 +312,7 @@ Gprof工具会启动，就可以看到对应用程序的分析结果，显示了
 通过Semihosting使用
 ^^^^^^^^^^^^^^^^^^^
 
-NucleiSudio安装了nuclei_sdk 0.6.0后，可以创建一个 ``Profiling demo to show how to use gprof and gcov`` 的测试工程，此时需要选中 ``Enable Semihosting`` 。
+NucleiSudio安装了nuclei_sdk 0.6.0后，可以创建一个 ``Profiling demo to show how to use gprof and gcov`` 的测试工程，此时需要选中 ``Enable Semihosting`` 。关于 ``Profiling demo to show how to use gprof and gcov`` 测试工程,可参考 `demo_profiling <https://doc.nucleisys.com/nuclei_sdk/design/app.html#demo-profiling>`__ 。
 
 |image36|
 
@@ -353,7 +359,13 @@ Nuclei Studio集成了Trace工具，结合相对应的硬件和Nuclei OpenOCD，
 
 .. note::
    
+   在 **芯来科技视频号** 中有 **如何在Nuclei Studio中使用Trace功能** 的视频，您可以在微信中搜索 **芯来科技视频号** 点击查看相关内容。
+
+.. note::
+   
    关于OpenOCD的Nuclei ETrace的一些命令，请参加OpenOCD下的openocd.pdf手册。
+   
+在使用过程，如有问题，可以查看 `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__  相关内容，也可以向我们提交相关issue。
 
 Trace界面介绍
 ~~~~~~~~~~~~~
@@ -571,6 +583,8 @@ RVProf功能的使用
 
 RVProf是芯来科技针对cpu cycle model开发的性能分析工具，Nuclei Studio在2024.02.dev版本中，完成对RVProf的支持。在实际使用中，RVProf功能分三步完成，首先通过Cycle model工具，运行代码，产生 ``.rvtrace`` 文件，然后RVProf工具，将 ``.rvtrace`` 解析成对应的 ``.json`` 文件，最后通过google的开源工具Perfetto Trace Viewer对 ``.json`` 文件进行解析并展示。因为cpu cycle model当前仅提供了linux版本，所以本文档均是在linux环境下演示此功能。
 
+在使用过程，如有问题，可以查看 `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__  相关内容，也可以向我们提交相关issue。
+
 测试环境 
 ~~~~~~~~~
 
@@ -651,6 +665,8 @@ Nuclei Studio会在本地启一个web服务，同时打开Perfetto Trace Viewer�
 在Nuclei Studio 2024.06版中，集成了Nuclei Near Cycle Model，它是由芯来科技自主研发的仿真测试和性能分析工具，可以帮助研发人员在项目初期进行一些必要的仿真测试和程序性能分析。
 
 Nuclei Near Cycle Model当前只有Linux版本，其具体介绍和命令行上使用参见 （https://doc.nucleisys.com/nuclei_tools/xlmodel/intro.html ） ，下面将在Nuclei Studio上演示如何使用Nuclei Near Cycle Model进行仿真和性能分析。
+
+在使用过程，如有问题，可以查看 `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__  相关内容，也可以向我们提交相关issue。
 
 创建测试工程
 ~~~~~~~~~~~~
