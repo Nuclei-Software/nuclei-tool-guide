@@ -9,6 +9,8 @@ Nuclei Studio 中内建了对Nuclei Package（NPK）功能的完整支持，方�
 
 .. _npk_package_management:
 
+.. _ide_npk_package_management:
+
 NPK软件包管理
 -------------
 
@@ -243,22 +245,22 @@ NPK包除了可以导入SDK,还可以方便的导入各种工具包，来扩展N
 
 .. |image18| image:: /asserts/nucleistudio/npk/image19.png
 
-.. |image19| image:: /asserts/nucleistudio/npk/media/image20.png
+.. |image19| image:: /asserts/nucleistudio/npk/image20.png
 
-.. |image20| image:: /asserts/nucleistudio/npk/media/image21.png
+.. |image20| image:: /asserts/nucleistudio/npk/image21.png
 
-.. |image21| image:: /asserts/nucleistudio/npk/media/image22.png
+.. |image21| image:: /asserts/nucleistudio/npk/image22.png
 
-.. |image22| image:: /asserts/nucleistudio/npk/media/image23.png
+.. |image22| image:: /asserts/nucleistudio/npk/image23.png
 
-.. |image23| image:: /asserts/nucleistudio/npk/media/image24.png
+.. |image23| image:: /asserts/nucleistudio/npk/image24.png
 
-.. |image24| image:: /asserts/nucleistudio/npk/media/image25.png
+.. |image24| image:: /asserts/nucleistudio/npk/image25.png
 
-.. |image25| image:: /asserts/nucleistudio/npk/media/image26.png
+.. |image25| image:: /asserts/nucleistudio/npk/image26.png
 
-.. |image26| image:: /asserts/nucleistudio/npk/media/image27.png
+.. |image26| image:: /asserts/nucleistudio/npk/image27.png
 
-.. |image27| image:: /asserts/nucleistudio/npk/media/image28.png
+.. |image27| image:: /asserts/nucleistudio/npk/image28.png
 
-.. |image28| image:: /asserts/nucleistudio/npk/media/image29.png
+.. |image28| image:: /asserts/nucleistudio/npk/image29.png
