@@ -410,6 +410,10 @@ Debug Configuration
 
 DLink是芯来科技基于RV Link，并在其基础上做功能迭代升级后，所研发的RISC-V调试器，使之更适应于Nuclei Studio的应用场景。目前Dlink仅针对单核RISC-V工程实现调试运行，且已实现量产，具体实物如下,具体关于Dlink固件下载参见 https://github.com/Nuclei-Software/nuclei-dlink/wiki/upload-dlink-firmware。
 
+.. note::
+   
+   在 **芯来科技视频号** 中有 **如何在Nuclei Studio中通过Dlink调试程** 的视频，您可以在微信中搜索 **芯来科技视频号** 点击查看相关内容。
+
 |image50|
 
 如需使用Dlink进行调试，可以在NucleiStudio菜单中 ``Run -> Run Configurations`` 打开Run Configurations的配置页面，并配置一个Dlink Debug Configuration，双击GDB Custom Debugging新建一个配置项，并在Main选项卡中配置内容如下：

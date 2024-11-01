@@ -57,11 +57,9 @@ NPK软件包管理
 
 |image26|
 
-导入过程中，会自动打开Package Management页面。
-
 |image27|
 
-待导入完成后，你应该能够在Nuclei Studio IDE的Package Management页面中看到新导入的软件包。
+导入过程中，会自动打开Package Management页面。待导入完成后，你应该能够在Nuclei Studio IDE的Package Management页面中看到新导入的软件包。
 
 |image28|
 
@@ -124,7 +122,7 @@ NPK软件包管理
     
 |image10|
 
-进入具体的项目配置页如图4-8所示，因为RVSTAR的内核是固定的N205，其对应的arch和abi分别是rv32imac和ilp32，所以Core选项不能修改。同样，RVSTAR开发板仅支持一种FLASHXIP下载模式，所以DOWNLOAD这一选项也不能修改。点击 ``Finish`` 完成工程创建。在2023.10版本，增加了对Arm项目的支持。
+进入具体的项目配置页如图所示，因为RVSTAR的内核是固定的N205，其对应的arch和abi分别是rv32imac和ilp32，所以Core选项不能修改。同样，RVSTAR开发板仅支持一种FLASHXIP下载模式，所以DOWNLOAD这一选项也不能修改。点击 ``Finish`` 完成工程创建。在2023.10版本，增加了对Arm项目的支持。
 
 |image11|
 
