@@ -138,7 +138,7 @@ Studio工程使用Code Coverage和Profiling相关功能。在Nuclei Studio
 2024.06版本中对\ `Eclipse Linux
 Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__\ 的功能做了进一步的优化和升级，使其更容使用。
 
-关于Coverage、Profiling和Call Graph的使用请查看 :ref:`Coverage、Profiling和Call Graph使用教程 <_ide_advanceusage_21>` 内容。
+关于Coverage、Profiling和Call Graph的使用教程请查看 :ref:`Coverage、Profiling和Call Graph使用 <ide_advanceusage_21>` 。 
 
 关于Eclipse Linux Tools的详细参见
 `Eclipse Linux Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__\ 
