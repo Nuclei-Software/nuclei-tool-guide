@@ -129,7 +129,7 @@ NPK组件包的检测和问题处理
 
 创建完成的软件包，在导入之前，可以先使用检查工具检测npk组件包的合法性，避免导入失败。其核心功能聚焦于代码风格、变量命名、函数结构以及依赖关系的合规性检查，确保代码质量。
 
-关于该工具的内容请参见: `软件包检查工具  <https://gito.corp.nucleisys.com/software/ide/npk-checker>`__ ，
+关于该工具的内容请参见: `软件包检查工具  <https://gito.corp.nucleisys.com/software/ide/npk-checker>`__ 
 
 
 .. _npkmanage_install_err_project:
