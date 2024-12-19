@@ -663,12 +663,106 @@ Nuclei Studio会在本地启一个web服务，同时打开Perfetto Trace Viewer�
 
 .. _ide_advanceusage_71:
 
+
+Nuclei NICE Wizard  
+---------------------
+
+Nuclei NICE Wizard 是一个集成在 Nuclei Studio 上的工具，旨在简化和加速 NICE (自定义指令扩展) 和 VNICE (向量化自定义指令扩展) 指令的创建过程。它允许用户通过图形界面快速配置并生成自定义指令所需的代码框架，从而实现对特定应用算法的硬件加速。具体来说：
+
+- 简化开发流程：减少从构思到实现自定义指令的时间。
+
+- 提高效率：通过生成优化后的指令代码，提高应用程序的执行效率。
+
+- 易于集成：生成的代码可以直接整合到现有项目中，减少了额外的工作量。
+
+
+创建.nice文件，打开Nuclei NICE Wizard
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+在 Nuclei Studio 中打开目标工程，并在项目根目录下创建一个*.nice 文件（例如 aicc.nice），双击打开Nuclei NICE Wizard。
+
+|image-nice-1|
+
+|image-nice-2|
+
+新增指令  
+~~~~~~~~
+点击Add...,根据需要修改指令内容后，点击右上角save即可。
+
+这里举例先创建两条指令，同时左侧被选中的指令会变灰，对应内容显示在右侧。
+
+|image-nice-3|
+
+删除指令
+~~~~~~~~~
+
+左侧选择对应指令，点击Remove，确认后删除对应指令。
+
+|image-nice-4|
+
+修改指令
+~~~~~~~~
+
+左侧选择对应指令，修改指令内容后，右上save和discard按钮变红，可保存修改或放弃修改。
+
+|image-nice-5|
+
+文件生成 
+~~~~~~~~
+
+可定义insn.h（包含内嵌汇编头文件）和 nice.cc（包含指令实现逻辑）文件的保存地址，点击Save and Generate File，会生成对应文件。
+
+|image-nice-6|
+
+|image-nice-7|
+
+|image-nice-8|
+
+NlCE指令模板说明
+~~~~~~~~~~~~~~~~
+
+|image-nice-1|
+
+单个指令模板如上图所示，
+ * opcode: 可选custome-0,custome-1,custome-2,custome-3   
+ * funct3: 3位功能字段，通常用来区分不同类型的指令。  
+ * funct7: 7 位功能字段，可以用来进一步细分指令类型或提供额外的功能选项。  
+ * rd: 返回值寄存器或类型（例如 void, int, vint8m8_t 等）。  
+ * rs1, rs2: 输入源寄存器或类型。  
+
+指令内容编辑说明
+~~~~~~~~~~~~~~~~
+
+|image-nice-10|
+
+如上图，Instruction content显示默认内容。
+
+  * Instruction name: 指令名称，具体定义规范如下
+    * 字母和数字:函数名可以包含字母(A-Z，a-z)和数字(0-9)，但是不能以数字开头。
+    * 下划线:函数名中可以使用下划线(_)来提高可读性，尤其是在多单词组合的情况下。例如，get_user_name 是一个有效的函数名，<，>，，…，?，/都不允许出现在函数名中
+    * 特殊字符:除了下划线以外，其他特殊字符如 !,@，#，$，%，^,&,*,(,),{,},[,],,\，:，;,
+    * 关键字:函数名不能是C语言的关键字或保留字，比如int，char，float，double，if，else，while，for,return 等等。
+  * Function name: 函数名称，在不勾选的情况下生成的对应函数名为指令名称，命名规范与Instruction name相同
+  * funct7: 对应模板的funct7，可通过勾选Binary对应项设置
+  * funct3: 对应模板的funct3，可通过勾选Binary对应项设置
+  * Return Value Type: 对应模板的rd，可点击Edit Type进行设置，如果rd为void,
+  * Number of Function Parameters: 参数个数，可设置传入参数rs1、rs2以及rs3（rs3既为参数也为返回值）的对应类型
+    * 参数为0时，Edit Type不可设置，rs1和rs2可在下方指定寄存器，如rd为void类型，rd也可在下方指定寄存器
+    * 参数为1时，Edit Type可设置rs1类型，rs2可在下方指定寄存器，如rd为void类型，rd也可在下方指定寄存器
+    * 参数为2时，Edit Type可设置rs1、rs2类型，如rd为void类型，rd也可在下方指定寄存器
+    * 参数为3时，Edit Type可设置rs1、rs2、rs3类型
+
+
+
 使用Nuclei Near Cycle Model仿真性能分析
 ---------------------------------------
 
 在Nuclei Studio 2024.06版中，集成了Nuclei Near Cycle Model，它是由芯来科技自主研发的仿真测试和性能分析工具，可以帮助研发人员在项目初期进行一些必要的仿真测试和程序性能分析。
 
-Nuclei Near Cycle Model当前只有Linux版本，其具体介绍和命令行上使用参见 （https://doc.nucleisys.com/nuclei_tools/xlmodel/intro.html ） ，下面将在Nuclei Studio上演示如何使用Nuclei Near Cycle Model进行仿真和性能分析。
+Nuclei Near Cycle Modeld在Nuclei Studio 2024.06版中只有Linux版本，从2024.12版开始，已实现对Windows的支持。其具体介绍和命令行上使用参见 （https://doc.nucleisys.com/nuclei_tools/xlmodel/intro.html ） ，下面将在Nuclei Studio上演示如何使用Nuclei Near Cycle Model进行仿真和性能分析。
+
+.. note::
+   
+   Nuclei Near Cycle Model 已支持 Windows/Linux 版本，此文档测试都是基于 Nuclei Studio IDE 2024.12的 Windows 版本完成的。
 
 在使用过程，如有问题，可以查看 `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__  相关内容，也可以向我们提交相关issue。
 
@@ -679,11 +773,11 @@ Nuclei Near Cycle Model对芯来全类型的Core都有支持，可以创建�
 
 |image72|
 
-Nuclei Near Cycle Model采用Nuclei Studio中的RVProf运行配置来进行运行测试，选中编译好的测试工程，然后打开NucleiStudio的Run Configurations。
+Nuclei Near Cycle Model采用Nuclei Studio中的Model运行配置来进行运行测试，选中编译好的测试工程，然后打开NucleiStudio的Run Configurations。
 
 |image73|
 
-并创建一个RVProf的配置，具体的配置及参数说明如下。
+并创建一个Model的配置，具体的配置及参数说明如下。
 
 |image74|
 
@@ -707,10 +801,6 @@ Nuclei Near Cycle Model采用Nuclei Studio中的RVProf运行配置来进行�
 在工程的Debug目录中可以查看到已经生成 ``.rvtrace`` 文件、 ``.json`` 文件、 ``.gmon`` 文件。
 
 |image78|
-
-Nuclei Studio会在本地启一个web服务，同时打开Perfetto Trace Viewer。通过Perfetto Trace Viewer,可以查看 ``.json`` 文件。
-
-|image79|
 
 Nuclei Near Cycle Model中支持通过gprof来分析程序，所以当我们配置了 ``--gprof`` ，在程序运行时，也会在Debug目录（ ``--logdir=XX`` 所配置的目录）下同步产生一个 ``.gmon`` 文件，双击 ``.gmon`` 文件，将调用gprof工具来分析程序执行所消耗的cycle数及调用关系；同时也会产生对应的 ``callgraph.ou`` t文件，双击 ``callgraph.out`` 文件，调用Call Graph查看程序的调用关系。
 
@@ -918,7 +1008,27 @@ gprof工具在查看 ``.gmon`` 文件的同时，会根据其内容，解析出�
 
 .. |image80| image:: /asserts/nucleistudio/advanceusage/image80.png
 
-
 .. |image81| image:: /asserts/nucleistudio/advanceusage/image81.png
+
+.. |image-nice-1| image:: /asserts/nucleistudio/advanceusage/nice-1.png
+
+.. |image-nice-2| image:: /asserts/nucleistudio/advanceusage/nice-2.png
+
+.. |image-nice-3| image:: /asserts/nucleistudio/advanceusage/nice-3.png
+
+.. |image-nice-4| image:: /asserts/nucleistudio/advanceusage/nice-4.png
+
+.. |image-nice-5| image:: /asserts/nucleistudio/advanceusage/nice-5.png
+
+.. |image-nice-6| image:: /asserts/nucleistudio/advanceusage/nice-6.png
+
+.. |image-nice-7| image:: /asserts/nucleistudio/advanceusage/nice-7.png
+
+.. |image-nice-8| image:: /asserts/nucleistudio/advanceusage/nice-8.png
+
+.. |image-nice-9| image:: /asserts/nucleistudio/advanceusage/nice-9.png
+
+.. |image-nice-10| image:: /asserts/nucleistudio/advanceusage/nice-10.png
+
 
 
