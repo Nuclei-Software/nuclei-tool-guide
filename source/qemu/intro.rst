@@ -3,7 +3,7 @@
 About Nuclei QEMU
 ===================
 
-Nuclei QEMU is developed based on QEMU version 8.0, supporting the machine features of Nuclei Demosoc and Evalsoc. In terms of extensions, it supports RVV 1.0, Nuclei DSP extension, ZC extension (RISC-V Code Size Reduction), Nuclei Xlcz extension, as well as features like the B extension, K extension, and Nuclei Nice instructions.
+Nuclei QEMU is now developed based on QEMU version 9.0, supporting the machine features of Nuclei Evalsoc. In terms of extensions, it supports RVV 1.0, Nuclei Xxldsp extension, ZC extension (RISC-V Code Size Reduction), Zilsd & Zclsd extensions, Nuclei Xxlcz extension, Nuclei xxlvqmacc extension, as well as features like the B extension, K extension, and Nuclei Nice & Vnice instructions.
 
 If you want to access the code of Nuclei QEMU, you can visit our opensource `Nuclei QEMU Github Repository <https://github.com/riscv-mcu/qemu/tree/nuclei/8.0>`_.
 
@@ -11,12 +11,10 @@ If you want to access the code of Nuclei QEMU, you can visit our opensource `Nuc
 Design and Architecture
 =======================
 
-Nuclei QEMU has several types of parameters that can be configured.
-You can enter ``qemu-system-riscv32 --help`` to view the parameters that can be configured in Nuclei QEMU. 
+Previously, Nuclei QEMU supports two machine types: ``nuclei_evalsoc`` and ``nuclei_demosoc``, but now, ``nuclei_demosoc`` has been abandoned on Nuclie QEMU 2024.12 and later versions.
 
-Nuclei QEMU supports two main programs: ``qemu-system-riscv32`` and ``qemu-system-riscv64. qemu-system-riscv32`` is used to support 32-bit programs, while ``qemu-system-riscv64`` supports 64-bit programs.
-
-Nuclei QEMU supports two machine types: ``nuclei_evalsoc`` and ``nuclei_demosoc``. Among them, ``nuclei_demosoc`` will be deprecated in future versions, and currently only ``nuclei_evalsoc`` is supported.
+Nuclei CPU Types Supported on QEMU
+----------------------------------
 
 The following image shows the relevant information of the Nuclei CPU types supported by Nuclei QEMU.
 
@@ -24,11 +22,112 @@ The following image shows the relevant information of the Nuclei CPU types suppo
      :align: center
      :alt: Nuclei QEMU CPUs Support
 
+**Address Allocation of Evalsoc on QEMU**
+-----------------------------------------
+
+For the sake of generality, all Nuclei IPs have been mapped and implemented on QEMU, some with fixed addresses and some dynamically initialized based on iregion information, as shown in the table below.
+
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | Component             | Base Address          | Size                  | Description                           |
+  +=====================+=======================+=======================+=======================+=======================================+
+  | Memory Resource     | XIP                   | 0x20000000            | 0x02000000            | XIP address space.                    +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | DDR                   | 0x80000000            | 0x04000000            | DDR address space.                    +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | ILM                   | 0x80000000            | 0x00800000            | ILM address space.                    +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | DLM                   | 0x90000000            | 0x00800000            | DLM address space.                    +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | SRAM                  | 0xA0000000            | 0x20000000            | SRAM address space.                   +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  | Peripherals (Fixed) | IINFO                 | 0                     | 0x1000                | IINFO address space.                  +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | MROM                  | 0x1000                | 0xf000                | MROM address space.                   +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | TEST                  | 0x100000              | 0x10000               | Space for Eval_SoC exit mechanism.    +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | GPIO                  | 0x10012000            | 0x1000                | GPIO address space.                   +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | UART0                 | 0x10013000            | 0x1000                | UART0 address space.                  +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | UART1                 | 0x10023000            | 0x1000                | UART1 address space.                  +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | QSPI0                 | 0x10014000            | 0x1000                | QSPI0 address space.                  +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | QSPI1                 | 0x10024000            | 0x1000                | QSPI1 address space.                  +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | QSPI2                 | 0x10034000            | 0x1000                | QSPI2 address space.                  +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  | Peripherals (Offset)| DEBUG                 | 0x10000               | 0x1000                | DEBUG address space.                  +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | ECLIC                 | 0x20000               | 0x10000               | ECLIC address space.                  +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | TIMER                 | 0x30000               | 0x10000               | TIMER address space.                  +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | SMP                   | 0x40000               | 0x1000                | SMP address space.                    +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | CIDU                  | 0x50000               | 0x10000               | CIDU address space.                   +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | PLIC                  | 0x4000000             | 0x4000000             | PLIC address space.                   +
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | PPI                   | 0xB0000000            | /                     | Used to view CPU info, not implemented+
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | FIO                   | 0xC0000000            | /                     | Used to view CPU info, not implemented+
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+
+**Nuclei CPU Features Supported on QEMU**
+-----------------------------------------
+
+The following is the support status of Nuclei CPU features on qemu.
+
+  +---------------------+-------------------------------+
+  | CPU Features        | Status on QEMU                |
+  +=====================+===============================+
+  |NMI                  | Not supported                 |
+  +---------------------+-------------------------------+
+  |TIMER                | Supported                     |
+  +---------------------+-------------------------------+
+  |PLIC                 | Supported                     |
+  +---------------------+-------------------------------+
+  |ECLIC                | Supported                     |
+  +---------------------+-------------------------------+
+  |CLINT                | Supported                     |
+  +---------------------+-------------------------------+
+  |CIDU                 | Supported                     |
+  +---------------------+-------------------------------+
+  |PMP                  | Supported                     |
+  +---------------------+-------------------------------+
+  |TEE                  | Not supported                 |
+  +---------------------+-------------------------------+
+  |WFI/WFE              | Supported                     |
+  +---------------------+-------------------------------+
+  |ECC                  | Not supported                 |
+  +---------------------+-------------------------------+
+  |CCM                  | Supported                     |
+  +---------------------+-------------------------------+
+  |SPMP                 | Not supported                 |
+  +---------------------+-------------------------------+
+  |SMP&CLUSTER CACHE    | Supported                     |
+  +---------------------+-------------------------------+
+  |UART                 | Supported                     |
+  +---------------------+-------------------------------+
+  |GPIO                 | Supported                     |
+  +---------------------+-------------------------------+
+  |QSPI                 | Supported                     |
+  +---------------------+-------------------------------+
+  |TEST FINISHER        | Supported                     |
+  +---------------------+-------------------------------+
+
 
 Description of Parameters
 =========================
 
 Nuclei QEMU adds some custom features and functionalities based on the original capabilities of qemu. If you want to learn more about the usage of qemu, you can refer to the documentation at https://www.qemu.org/docs/master/.
+
+Nuclei QEMU has several types of parameters that can be configured.
+You can enter ``qemu-system-riscv32 --help`` to view the parameters that can be configured in Nuclei QEMU. 
+
+Nuclei QEMU supports two main programs: ``qemu-system-riscv32`` and ``qemu-system-riscv64. qemu-system-riscv32`` is used to support 32-bit programs, while ``qemu-system-riscv64`` supports 64-bit programs.
 
 This is an example of a fully functional parameter for Nuclei QEMU: ``qemu-system-riscv32 -M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json,debug=1 -cpu nuclei-n300fd,ext=_v_xxldsp,vlen=128,elen=64,s=true -m 512M -smp 1 -icount shift=0 -nodefaults -nographic -serial stdio -kernel dhrystone.elf``.
 
@@ -118,19 +217,29 @@ Let's describe the meaning of this complete command:
 
   **download**: firmware startup address
 
-  The irq peripheral interrupt id is equal to hardware interrupt wire connect number plus one, users should follow this rule when configuring irq.
+  The following is a list of interrupt id for all interrupts implemented in qemu in both PLIC and ECLIC, users should follow this rule when configuring irq.
 
-  +-----------+-------------------+--------+
-  | IRQ_HW_ID | PLIC Interrupt ID | Source |
-  +===========+===================+========+
-  | 32        | 33                | uart0  |
-  +-----------+-------------------+--------+
-  | 34        | 35                | qspi0  |
-  +-----------+-------------------+--------+
-  | 35        | 36                | qspi1  |
-  +-----------+-------------------+--------+
-  | 36        | 37                | qspi2  |
-  +-----------+-------------------+--------+
+  +---------------------+-----------------------+-----------------------+-----------------------+
+  |                     | Source                | PLIC Interrupt ID     | ECLIC Interrupt ID    |
+  +=====================+=======================+=======================+=======================+
+  | Internal Interrupt  | TIMER SW              | /                     | 3                     |
+  +---------------------+-----------------------+-----------------------+-----------------------+
+  |                     | TIMER                 | /                     | 7                     |
+  +---------------------+-----------------------+-----------------------+-----------------------+
+  |                     | CIDU ICI              | /                     | 16                    |
+  +---------------------+-----------------------+-----------------------+-----------------------+
+  | Internal Interrupt  | GPIO 0 ~ 31           | 1 ~ 32                | 19 ~ 50               |
+  +---------------------+-----------------------+-----------------------+-----------------------+
+  |                     | UART0                 | 33                    | 51                    |
+  +---------------------+-----------------------+-----------------------+-----------------------+
+  |                     | UART1                 | 34                    | 52                    |
+  +---------------------+-----------------------+-----------------------+-----------------------+
+  |                     | QSPI0                 | 35                    | 53                    |
+  +---------------------+-----------------------+-----------------------+-----------------------+
+  |                     | QSPI1                 | 36                    | 54                    |
+  +---------------------+-----------------------+-----------------------+-----------------------+
+  |                     | QSPI2                 | 37                    | 55                    |
+  +---------------------+-----------------------+-----------------------+-----------------------+
 
   In the above script, if there is no **download startaddr** information, the program entry will be the start address of the address range relative to the download mode. For example, when ``download=ilm``, if the following configuration is not in the script,
 
@@ -186,7 +295,7 @@ Let's describe the meaning of this complete command:
   +--------------+-------------------------------------------------------------------------+
   | zilsd        | Zilsd extension (RV32 ONLY)                                             |
   +--------------+-------------------------------------------------------------------------+
-  | zcmlsd       | Zcmlsd extension (RV32 ONLY)                                            |
+  | zclsd        | Zclsd extension (RV32 ONLY)                                             |
   +--------------+-------------------------------------------------------------------------+
   | zawrs        | Zawrs extension                                                         |
   +--------------+-------------------------------------------------------------------------+
@@ -292,6 +401,8 @@ Let's describe the meaning of this complete command:
   +--------------+-------------------------------------------------------------------------+
   | xxlcz        | Nuclei code size reduction extension                                    |
   +--------------+-------------------------------------------------------------------------+
+  | xxlvqmacc    | Nuclei custom vpu extension                                             |
+  +--------------+-------------------------------------------------------------------------+
 
   **vlen=128,elen=64**: The VLEN and ELEN are only effective when the V extension instructions of RISC-V are enabled. The default value of VLEN is 128, and it must be a multiple of 2 when set, with a value range of [128, 1024]. The default value of ELEN is 64, and ELEN must also be a multiple of 2, with a value range of [8, 64].
   
@@ -303,7 +414,7 @@ Let's describe the meaning of this complete command:
 
         The following is the current default qemu memory size configuration, **xip: 32MB**, **ddr:64MB**, **ilm: 8MB**, **dlm: 8MB**, **sram: 512MB**. You can change the size of the DDR by using **-m size**. When **-m 128M** or no ``-m`` is passed, the default DDR size configured in the JSON or the size initialized by the program will be used. If the DDR size is configured too large and the computer does not have enough memory to allocate, an error such as ``qemu-system-riscv32: cannot set up guest memory 'riscv.evalsoc.ram.sram'`` may occur.
 
-* ``-smp 1``: Nuclei Qemu currently supports up to 16 CPUs. If this parameter is not set, the uses 1 CPU.
+* ``-smp 1``: Nuclei Qemu currently supports up to 64 CPUs. If this parameter is not set, it defaults to 1.
 
 * ``-icount shift=0``: This parameter is optional, Qemu TCG Instruction Counting. By enabling this option, you can enable qemu's instruction count. For more detailed information, refer to https://www.qemu.org/docs/master/devel/tcg-icount.html
 
@@ -330,7 +441,7 @@ Use Nuclei QEMU in Nuclei SDK
 
 **Example**
 
-If you want to use QEMU on Nuclei-SDK.The example here uses the CPU of the nx900fd, but other CPU types can also be used for testing. The example is xxdsp.
+If you want to use QEMU on Nuclei-SDK.The example here uses the CPU of the nx900fd, but other CPU types can also be used for testing. The example is xxldsp.
 
 First, you need to configure the toolchain, nuclei-sdk, and qemu environments according to the documentation, https://doc.nucleisys.com/nuclei_sdk/quickstart.html
 
@@ -347,6 +458,74 @@ First, you need to configure the toolchain, nuclei-sdk, and qemu environments ac
 
 Where **ARCH_EXT** can be used to pass the extension name.
 Under normal circumstances, you should see the final output ``NMSIS_TEST_PASS``, which indicates that all test cases have passed successfully.
+
+**Support for Nuclei SDK Cases on QEMU**
+
+  ``Y`` - Successfully run and consistent with hardware
+
+  ``N`` - Successfully run but inconsistent with hardware
+
+  ``F`` - Failed
+
++-----------------------+---------------+---------------+-----------------------------------------------+
+| Cases                 | SMP=1         | SMP=4         | Description                                   |
++=======================+===============+===============+===============================================+
+| benchmark/coremark    | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| benchmark/dhrystone   | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| benchmark/whetstone   | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| cpuinfo/              | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| demo_cache/           | F             |               | QEMU does not support cache emulation.        |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| demo_cidu/            |               | Y             |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| demo_clint_timer/     | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| demo_dsp/             | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| demo_eclic/           | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| demo_nice/            | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| demo_plic/            | Y             | Y             |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| demo_pmp/             | N             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| demo_profiling/       | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| demo_smode_eclic/     | F             |               | Eclic does not yet support S mode.            |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| demo_smpu/            | F             |               | SPMU has not yet been implemented in qemu.    |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| demo_spmp/            | F             |               | SPMP has not yet been implemented in qemu.    |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| demo_stack_check/     | N             |               | Only read and write access to CSRs            |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| demo_timer/           | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| demo_vnice/           | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| helloworld/           | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| lowpower/             | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| smphello/             |               | Y             |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| freertos/demo/        | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| freertos/smpdemo/     |               | N             | All tasks run on core0.                       |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| rtthread/demo/        | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| rtthread/msh/         | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| threadx/demo/         | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
+| ucosii/demo/          | Y             |               |                                               |
++-----------------------+---------------+---------------+-----------------------------------------------+
 
 And Nuclei QEMU and Nuclei SDK are deeply integrated in Nuclei Studio, you can also use it in Nuclei Studio, see https://nucleisys.com/upload/files/doc/nucleistudio/Nuclei_Studio_User_Guide.202406.pdf
 
