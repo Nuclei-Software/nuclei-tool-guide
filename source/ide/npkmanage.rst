@@ -119,8 +119,52 @@ Type选择ssp: ``Soc Support Package``
 
 .. _npkmanage_test_package:
 
-测试NPK组件包
---------------
+NPK组件包的检测和问题处理
+-----------------------------
+
+.. _npkmanage_install_test_project:
+
+新创建组件包导入前的检测
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+创建完成的软件包，在导入之前，可以先使用检查工具检测npk组件包的合法性，避免导入失败。其核心功能聚焦于代码风格、变量命名、函数结构以及依赖关系的合规性检查，确保代码质量。
+
+关于该工具的内容请参见: `软件包检查工具  <https://gito.corp.nucleisys.com/software/ide/npk-checker>`__ 
+
+
+.. _npkmanage_install_err_project:
+
+软件包导入失败的处理 
+~~~~~~~~~~~~~~~~~~~~
+
+在软件包导入失败的情况下，可以根据相关日志去判断问题所在，这里主要针对npk文件格式错误、依赖不满足等问题。
+
+1、点击Package Management 页面右下角的View log，会弹出对应日志页面，简略的告知导入失败的原因。
+
+|image29|
+
+.. |image29| image:: /asserts/nucleistudio/developer/image168.png
+
+    
+|image30|
+
+.. |image30| image:: /asserts/nucleistudio/developer/image169.png
+
+
+2、当日志中出现类似There are file parsing exceptions提示时，可以去对应的`用户目录\nuclei-pack-npk-v2\CFGs\logs\sys\`路径下看当天的日志文件，进一步了解相关npk文件的问题点，以便进行相应的修正。
+
+|image31|
+
+.. |image31| image:: /asserts/nucleistudio/developer/image170.png
+
+|image32|
+
+.. |image32| image:: /asserts/nucleistudio/developer/image171.png
+
+|image33|
+
+.. |image33| image:: /asserts/nucleistudio/developer/image172.png
+
 
 .. _npkmanage_create_test_project:
 
