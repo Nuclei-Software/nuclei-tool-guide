@@ -2,6 +2,7 @@ docutils
 breathe
 commonmark
 recommonmark
+xcffib==1.5.0
 Sphinx
 sphinx-rtd-theme
 sphinx_markdown_tables
