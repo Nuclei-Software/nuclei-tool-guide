@@ -87,6 +87,72 @@ Nuclei Studio IDE充分利用上述Eclipse IDE优势，结合社区成熟的Ecli
 Nuclei Studio 更新说明
 =======================
 
+2024.12版更新说明
+-----------------
+
+2024.12版本是基于eclipse Cpp 2024-12开发，CDT版本到Eclipse CDT 2024-09（2024-12版本暂末发布），升级了芯来科技的工具版本至2024.12，优化了部分原有功能，新增了调试及代码性能分析等功能，以及解决了2024.06版中存在的缺陷。
+
+升级Eclipse Cpp版本
+~~~~~~~~~~~~~~~~~~~
+
+在Nuclei Studio 2024.12基于Eclipse Cpp 2024-12版本开发此版本。基础的CDT版本，升级到了11.6.1。
+
+升级RISC-V Toolchain、OpenOCD、QEMU版本
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+在Nuclei Studio 2024.12版本中集成了Nuclei RISC-V Toolchain 2024.12版，具体信息可以查看：https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2024.12 。
+
+在Nuclei Studio 2024.12版本中集成了OpenOCD 2024.012版，具体信息可以查看：https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2024.12 。
+
+在Nuclei Studio 2024.12版本中集成了Nuclei Qemu 2024.12版，具体信息可以查看：https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2024.12 。
+
+新增对更多新核的支持
+~~~~~~~~~~~~~~~~~~~~
+
+增加了对N200E、N202、N202E、NX1000、NX1000F、NX1000FD、UX1000、UX1000F CPU的核配套支持。
+
+新增Flash Programming功能
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+为了满足用户将编译好的二进制文件直接下载到硬件开发板的需求，Nuclei Studio 新增了 Flash Programming 功能。该功能允许用户快速、便捷地将编译好的二进制文件直接下载到硬件开发板中，极大提升了开发和调试的效率。
+
+具体参见 :ref:`Flash Programming功能 <ide_flash_programming>` 。
+
+新增了Nuclei NICE Wizard
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Nuclei NICE Wizard 是一个集成在 Nuclei Studio 上的工具，旨在简化和加速 NICE (自定义指令扩展) 和 VNICE (向量化自定义指令扩展) 指令的创建过程。
+
+具体参见 :ref:`Nuclei NICE Wizard <ide_nuclei_nice_wizard>` 。
+
+新增Nuclei Model功能的使用
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Nuclei Model是芯来科技为 Nuclei Near Cycle Model 开发了专门的运行工具，为了提供更简洁高效的用户体验，在 RVProf 的基础上进行了功能简化，推出了新的 Model 工具。
+
+具体参见 :ref:`Nuclei Model <ide_nuclei_model>` 。
+
+
+优化Nuclei Near Cycle Model
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Nuclei Near Cycle Model，是由芯来科技自主研发的仿真测试和性能分析工具，可以帮助研发人员在项目初期进行一些必要的仿真测试和程序性能分析。在此版本中实现了Windows和Linux下的支持。
+
+具体参见 :ref:`Nuclei Near Cycle Model <ide_nuclei_near_cycle_model>` 。
+
+新增Live Watch功能
+~~~~~~~~~~~~~~~~~~~~
+
+Live Watch 是芯来科技研发的实时监控工具，专为开发者设计，旨在帮助开发者更高效地调试和优化代码。
+
+具体参见 :ref:`Live Watch功能的使用 <ide_live_watch>` 。
+
+
+ZCC升级
+~~~~~~~~~
+
+在Nuclei Studio 2024.12版本中集成了ZCC 3.2.5版，并加入芯来科技支持的软件库。具体信息可以查看：https://www.terapines.com/products/zcc
+
 2024.06版更新说明
 -----------------
 

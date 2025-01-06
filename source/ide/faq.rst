@@ -1,7 +1,7 @@
 .. _faq: 
 
-常见问题
-========
+Nuclei Studio常见问题
+======================
 
 Nuclei Studio启动慢
 -------------------
@@ -270,8 +270,8 @@ Debug时报错Error: Couldn't find an available hardware trigger.
 
 这种情况下需要将程序编译到RAM上才可以支持IDE上进行调试（软件断点），如果需要调试则暂时只能通过命令行的方式进行调试。
 
-其他未注明或者遇到的版本问题
-============================
+其他未注明版本问题
+==================
 
 如本文档中有疏漏的地方，请关注 `https://www.rvmcu.com/NucleiStudio-faq.html <https://www.rvmcu.com/nucleistudio-faq.html>`__
 这里将列出不同版本后续遇到的常见问题。

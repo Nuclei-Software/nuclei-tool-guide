@@ -5,8 +5,8 @@ Nuclei Studio 其它功能
 
 .. _ide_advanceusage_0:
 
-导入旧版本Nuclei Studio创建的工程
----------------------------------
+导入旧版本创建的工程
+---------------------
 
 Nuclei Studio 2023.10版导导入旧工程
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -661,24 +661,28 @@ Nuclei Studio会在本地启一个web服务，同时打开Perfetto Trace Viewer�
 
 |image71|
 
-.. _ide_advanceusage_71:
-
+.. _ide_nuclei_nice_wizard:
 
 Nuclei NICE Wizard  
 ---------------------
 
+.. note::
+   
+   在 **芯来科技视频号** 中有 **Nuclei NICE Wizard** 的视频，您可以在微信中搜索 **芯来科技视频号** 点击查看相关内容。
+
 Nuclei NICE Wizard 是一个集成在 Nuclei Studio 上的工具，旨在简化和加速 NICE (自定义指令扩展) 和 VNICE (向量化自定义指令扩展) 指令的创建过程。它允许用户通过图形界面快速配置并生成自定义指令所需的代码框架，从而实现对特定应用算法的硬件加速。具体来说：
 
-- 简化开发流程：减少从构思到实现自定义指令的时间。
+- **简化开发流程**：减少从构思到实现自定义指令的时间。
 
-- 提高效率：通过生成优化后的指令代码，提高应用程序的执行效率。
+- **提高效率**：通过生成优化后的指令代码，提高应用程序的执行效率。
 
-- 易于集成：生成的代码可以直接整合到现有项目中，减少了额外的工作量。
+- **易于集成**：生成的代码可以直接整合到现有项目中，减少了额外的工作量。
 
 
 创建.nice文件，打开Nuclei NICE Wizard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-在 Nuclei Studio 中打开目标工程，并在项目根目录下创建一个*.nice 文件（例如 aicc.nice），双击打开Nuclei NICE Wizard。
+
+在 Nuclei Studio 中打开目标工程，并在项目根目录下创建一个 ``*.nice`` 文件（例如 aicc.nice），双击打开Nuclei NICE Wizard。
 
 |image-nice-1|
 
@@ -686,7 +690,7 @@ Nuclei NICE Wizard 是一个集成在 Nuclei Studio 上的工具，旨在简化�
 
 新增指令  
 ~~~~~~~~
-点击Add...,根据需要修改指令内容后，点击右上角save即可。
+点击 ``Add...`` ,根据需要修改指令内容后，点击右上角 ``save`` 即可。
 
 这里举例先创建两条指令，同时左侧被选中的指令会变灰，对应内容显示在右侧。
 
@@ -717,7 +721,7 @@ Nuclei NICE Wizard 是一个集成在 Nuclei Studio 上的工具，旨在简化�
 
 |image-nice-8|
 
-NlCE指令模板说明
+NICE指令模板说明
 ~~~~~~~~~~~~~~~~
 
 |image-nice-1|
@@ -736,25 +740,62 @@ NlCE指令模板说明
 
 如上图，Instruction content显示默认内容。
 
-  * Instruction name: 指令名称，具体定义规范如下
-    * 字母和数字:函数名可以包含字母(A-Z，a-z)和数字(0-9)，但是不能以数字开头。
-    * 下划线:函数名中可以使用下划线(_)来提高可读性，尤其是在多单词组合的情况下。例如，get_user_name 是一个有效的函数名，<，>，，…，?，/都不允许出现在函数名中
-    * 特殊字符:除了下划线以外，其他特殊字符如 !,@，#，$，%，^,&,*,(,),{,},[,],,\，:，;,
-    * 关键字:函数名不能是C语言的关键字或保留字，比如int，char，float，double，if，else，while，for,return 等等。
-  * Function name: 函数名称，在不勾选的情况下生成的对应函数名为指令名称，命名规范与Instruction name相同
-  * funct7: 对应模板的funct7，可通过勾选Binary对应项设置
-  * funct3: 对应模板的funct3，可通过勾选Binary对应项设置
-  * Return Value Type: 对应模板的rd，可点击Edit Type进行设置，如果rd为void,
-  * Number of Function Parameters: 参数个数，可设置传入参数rs1、rs2以及rs3（rs3既为参数也为返回值）的对应类型
-    * 参数为0时，Edit Type不可设置，rs1和rs2可在下方指定寄存器，如rd为void类型，rd也可在下方指定寄存器
-    * 参数为1时，Edit Type可设置rs1类型，rs2可在下方指定寄存器，如rd为void类型，rd也可在下方指定寄存器
-    * 参数为2时，Edit Type可设置rs1、rs2类型，如rd为void类型，rd也可在下方指定寄存器
-    * 参数为3时，Edit Type可设置rs1、rs2、rs3类型
+  * **Instruction name** ：指令名称，具体定义规范如下
+
+      * **字母和数字** ：函数名可以包含字母 ``(A-Z，a-z)`` 和数字 ``(0-9)`` ，但是不能以数字开头。
+
+      * **下划线** ：函数名中可以使用下划线 ``_`` 来提高可读性，尤其是在多单词组合的情况下。例如，``get_user_name`` 是一个有效的函数名， ``<  ， >  ， …  ， ?  ， /`` 都不允许出现在函数名中。
+
+      * **特殊字符** ：除了下划线以外，其他特殊字符如 ``! ， @ ， # ， $ ， % ， ^ ， & ， * ， ( ， ) ， { ， } ， [ ， ] ， \ ， : ， ; ，`` 。
+
+      * **关键字** ：函数名不能是C语言的关键字或保留字，比如 ``int ， char ， float ， double ， if ， else ， while ， for , return``  等等。
+
+  * **Function name** ：函数名称，在不勾选的情况下生成的对应函数名为指令名称，命名规范与 ``Instruction name`` 相同。
+
+  * **funct7** ：对应模板的 ``funct7`` ，可通过勾选Binary对应项设置。
+
+  * **funct3** ：对应模板的 ``funct3`` ，可通过勾选Binary对应项设置。
+
+  * **Return Value Type** ：对应模板的rd，可点击Edit Type进行设置，如果rd为void。
+
+  * **Number of Function Parameters** ：参数个数，可设置传入参数rs1、rs2以及rs3（rs3既为参数也为返回值）的对应类型。
+
+      * 参数为0时，Edit Type不可设置，rs1和rs2可在下方指定寄存器，如rd为void类型，rd也可在下方指定寄存器。
+
+      * 参数为1时，Edit Type可设置rs1类型，rs2可在下方指定寄存器，如rd为void类型，rd也可在下方指定寄存器。
+
+      * 参数为2时，Edit Type可设置rs1、rs2类型，如rd为void类型，rd也可在下方指定寄存器。
+
+      * 参数为3时，Edit Type可设置rs1、rs2、rs3类型。
 
 
+.. _ide_nuclei_model:
 
-使用Nuclei Near Cycle Model仿真性能分析
----------------------------------------
+Nuclei Model功能的使用
+----------------------
+
+芯来科技为 Nuclei Near Cycle Model 开发了专门的运行工具——Model。自 Nuclei Studio 2014.06 版本起，Nuclei Near Cycle Model最初是通过 RVProf 工具运行的。随着 Nuclei Near Cycle Model 的不断迭代和发展，为了提供更简洁高效的用户体验，我们在 RVProf 的基础上进行了功能简化，推出了新的 Model 工具。
+
+新工具的主要特点包括：
+
+**简化功能** ：移除不必要的复杂功能，使用户能够更专注于 Nuclei Near Cycle Model 的核心功能。
+
+**提升效率** ：优化操作流程，减少用户配置和使用的时间成本。
+
+**兼容性好** ：确保与现有工作流无缝集成，同时支持最新的 Nuclei Near Cycle Model 特性。
+
+通过这些改进，用户可以更加高效地利用 Nuclei Near Cycle Model 进行开发和调试。通过Nuclei Studio菜单 ``Run -> Run Configuration`` 打开Run Configuration，然找后到 ``Nuclei Model`` ,双击 ``Nuclei Model`` 菜单，就会生成对应工程的配置。
+
+|image82|
+
+关于Nuclei Model的使用，将在Nuclei Near Cycle Model章节中详细介绍。
+
+.. _ide_nuclei_near_cycle_model:
+
+.. _ide_advanceusage_71:
+
+Nuclei Near Cycle Model
+------------------------
 
 在Nuclei Studio 2024.06版中，集成了Nuclei Near Cycle Model，它是由芯来科技自主研发的仿真测试和性能分析工具，可以帮助研发人员在项目初期进行一些必要的仿真测试和程序性能分析。
 
@@ -777,11 +818,45 @@ Nuclei Near Cycle Model采用Nuclei Studio中的Model运行配置来进行运
 
 |image73|
 
-并创建一个Model的配置，具体的配置及参数说明如下。
+并创建一个Nuclei Near Cycle Model的配置，具体的配置及参数说明如下。
 
 |image74|
 
-其中在Config options中需要配置 ``--trace=1 --gprof=1 --logdir=Debug`` , ``--trace=1`` 表示开启rvtrace， ``--gprof=1`` 表示开启gprof功能， ``--logdir=Debug`` 则表示最终生成的 ``.rvtrace`` 文件、 ``.gmon`` 文件存存放的路径为当前工程下的Debug目录。
+关于Model的参数如下图
+
++--------------------+-------------------------------------------------------------------------------------------------+
+| parameter          | description                                                                                     |
++====================+=================================================================================================+
+| ``--version``      | display version info                                                                            |
++--------------------+-------------------------------------------------------------------------------------------------+
+| ``--machine=<str>``| machine type config, defaults to 'nuclei_evalsoc'                                               |
++--------------------+-------------------------------------------------------------------------------------------------+
+| ``--cpu=<str>``    | core config, defaults to 'n300fd'                                                               |
++--------------------+-------------------------------------------------------------------------------------------------+
+| ``--ext=<str>``    | RISC-V arch extensions config, defaults to NULL                                                 |
++--------------------+-------------------------------------------------------------------------------------------------+
+| ``--mem=<str>``    | memory map config, --mem="start_addr0:size0,start_addr1:size1..."                               |
++--------------------+-------------------------------------------------------------------------------------------------+
+| ``--timeout=<n>``  | expected real execution time(s); otherwise, it is unlimited                                     |
++--------------------+-------------------------------------------------------------------------------------------------+
+| ``--bpu=<str>``    | core bpu type config, defaults to ``--bpu=n300`` and can be set to ``n900``                     |
++--------------------+-------------------------------------------------------------------------------------------------+
+| ``--smp=<n>``      | SMP system core number configuration, with a maximum of 16                                      |
++--------------------+-------------------------------------------------------------------------------------------------+
+| ``--trace=<n>``    | whether generate the trace file, ``--trace=1`` means generating                                 |
++--------------------+-------------------------------------------------------------------------------------------------+
+| ``--gprof=<n>``    | whether to use profiling, ``--gprof=1`` means using profiling                                   |
++--------------------+-------------------------------------------------------------------------------------------------+
+| ``--varch=<str>``  | RISCV Vector uArch config, defaults to ``--varch=vlen:128,elen:64``                             |
++--------------------+-------------------------------------------------------------------------------------------------+
+| ``--funcmode=<n>`` | Whether to only use the function model which instructions do not have cycle count in            |
++--------------------+-------------------------------------------------------------------------------------------------+
+| ``--log=<str>``    | logging system level, defaults to ``--log=info`` and can be set to ``error``, ``tlm``, ``debug``|
++--------------------+-------------------------------------------------------------------------------------------------+
+| ``--logdir=<str>`` | the directory to save trace and gprof files                                                     |
++--------------------+-------------------------------------------------------------------------------------------------+
+
+在演示示例的Config options中配置了 ``--trace=1 --gprof=1 --logdir=Debug --cpu=n300fd`` , ``--trace=1`` 表示开启rvtrace， ``--gprof=1`` 表示开启gprof功能， ``--logdir=Debug`` 则表示最终生成的 ``.rvtrace`` 文件、 ``.gmon`` 文件存存放的路径为当前工程下的Debug目录, ``--cup=n300fd`` 表示当前模拟的cpu核是n300fd。
 
 |image75|
 
@@ -811,6 +886,163 @@ Nuclei Near Cycle Model中支持通过gprof来分析程序，所以当我们�
 gprof工具在查看 ``.gmon`` 文件的同时，会根据其内容，解析出程序的调用关系，并生成 ``callgraph.out`` 文件，双击 ``callgraph.out`` 调用Call Graph工具查看。
 
 |image81|
+
+.. _ide_live_watch:
+
+Live Watch功能的使用
+---------------------
+
+Live Watch 是一款强大的实时监控工具，专为开发者设计，旨在帮助您更高效地调试和优化代码。通过 Live Watch，您可以即时查看程序运行过程中变量的变化情况，无需打断执行流程或手动添加日志语句。在Nuclei Studio 2024.12版中实现了Live Watch 功能，它支持自动刷新变量值，确保始终看到最新的数据变化。直观的图形化界面，能轻松管理需要监控的变量。
+
+.. note::
+   
+   Live Watch功能依赖OpenOCD和telnet，仅支持使OpenOCD调试程序并开启了telnet端口的情况下使用Live Watch功能。
+
+Live Watch功能介绍
+~~~~~~~~~~~~~~~~~~
+
+通过Nuclei Studio菜单 ``Window -> Show View -> Live Watch`` 可以打开Live Watch视图。
+
+|image83|
+
+Live Watch 视图提供了一系列功能菜单，帮助用户更高效地管理和监控变量：
+
+|image84|
+
+**Remove**
+
+   - 删除 Live Watch 视图中指定的变量行。
+
+**ReMove All**
+
+   - 清除 Live Watch 视图中所有添加的变量。
+
+**Show Live Plot**
+
+   - 显示 Live Plot 视图，用于对采样的数据进行实时绘图。
+
+
+在隐藏的菜单栏中，有两个设置菜单用于配置全局属性：
+
+|image85|
+
+**Live Watch Settings**
+
+|image86|
+
+ - Live Watch中的一些常用设置，包含：
+
+     - 包含以下常用设置：
+
+        - Live Watch Speed : 设定 Live Watch 的采样频率,最快为100 ms每次。
+
+        - Live Watch Varible Limit : 限制同时采样的变量数量，最多为10个。
+
+        - Live Plot Limit : 设定 Live Plot 同时绘制的最大样本数，最多同时绘制10个样本。
+
+        - Save Data Path : 指定 Live Watch 采样的数据自动保存路径，供后续分析使用。
+
+        - Save Data Speed : 设定 Live Watch 数据自动保存的频率，默认为每10分钟保存一次。
+
+**Number Fromat**
+
+   - Live Watch视图变量的值的显示方式。
+
+
+Live Watch使用演示
+~~~~~~~~~~~~~~~~~~
+
+创建一个测试工程，并在工程内实现一个正弦计算。打开Live Watch视图，找到Live Watch Settings并根据需要设置相关参数（无可不设置，直接使用默认值）。
+
+|image87|
+
+.. code-block:: c
+
+   #define PI 3.14159265358979323846
+
+   /**
+   * 获取随时间变化的正弦波形变量
+   */
+   double get_sine_wave_value(double amplitude, double frequency) {
+      // 获取当前周期计数器的值
+      uint64_t current_cycle = __RV_CSR_READ(CSR_MCYCLE);
+
+      // 假设每秒大约有 10^8 个周期（具体取决于 CPU 频率）
+      double cycles_per_second = 1e8; // 替换为实际频率
+      double currentTime = (double)current_cycle / cycles_per_second;
+
+      // 计算相位
+      double phase = currentTime * frequency * 2 * PI;
+
+      // 返回正弦值
+      return sin(phase) * amplitude;
+   }
+
+   int main(void)
+   {
+
+      double amplitude = 100.0; // 波形的振幅
+
+      double frequency = 0.5;  // 波形的频率（每秒周期数）
+
+      double sine_value = 0;
+
+      printf("Enter to task_2\r\n");
+      while (1) {
+
+         sine_value = get_sine_wave_value(amplitude, frequency);
+
+      }
+
+      return 0;
+   }
+
+
+通过菜单 ``Windows -> Show VIew -> Live Watch`` ，打开Live Watch视图。
+
+|image88|
+
+编译工程后，Debug运行程序，在Live Watch视图中添加需要查看的变量。
+
+|image89|
+
+让工程全速运行时，可以看到变量的值，以设定的Live Watch Speed变化，如果想要通过Live Plot查看变量的变化曲线，可以选中该条记录，并点击鼠标右键，在弹出的菜单中选中 ``Toggle Live Plot`` ,Live Plot工具就会弹出，并适应的画出变量的变化曲线。
+
+|image90|
+
+Live Plot绘制的曲线图如下
+
+|image91|
+
+在Live Plot中点击鼠标右键弹出菜单，有 ``Suspend``、``Continue`` 两个功能菜单，点击 ``Suspend``，Live Plot会暂停画图。
+
+|image92|
+
+用户可以通过滚动鼠标放大曲线，查看数据详情；点击 ``Continue`` Live Plot会继续绘制曲线。
+
+|image93|
+
+
+如果不想查看该变量的变化曲线，可以再次点击 ``Toggle Live Plot`` ，将该变量从Live Plot踢除。
+
+|image94|
+
+Live Watch视图中的某个变量，点击鼠标右键，可以修改数据显示的格式。
+
+|image97|
+
+Live Watch视图中的某个变量，点击鼠标右键，将该变量的结果存存为CSV格式文件，方便查阅和使用。
+
+|image96|
+
+Live Watch也会自动将查询到的数据结果保存到 ``Save Data Path`` 中，用户可以在Save Data Path找到对应的CSV格式的数据文件。
+
+|image98|
+
+如果不想继续查看该变量的值，也可以选中该条记录，并点击鼠标右键，在弹出的菜单中选中 ``Toggle Live Watch`` ,Live Watch就不再适时查询该变量的值。
+
+|image95|
+
 
 
 .. |image1| image:: /asserts/nucleistudio/advanceusage/image2.png
@@ -909,106 +1141,107 @@ gprof工具在查看 ``.gmon`` 文件的同时，会根据其内容，解析出�
 
 .. |image47| image:: /asserts/nucleistudio/advanceusage/image48.png
 
-
 .. |image48| image:: /asserts/nucleistudio/advanceusage/image49.png
-
 
 .. |image49| image:: /asserts/nucleistudio/advanceusage/image50.png
 
-
 .. |image50| image:: /asserts/nucleistudio/advanceusage/image51.png
-
 
 .. |image51| image:: /asserts/nucleistudio/advanceusage/image52.png
 
-
 .. |image52| image:: /asserts/nucleistudio/advanceusage/image53.png
-
 
 .. |image53| image:: /asserts/nucleistudio/advanceusage/image54.png
 
-
 .. |image54| image:: /asserts/nucleistudio/advanceusage/image55.png
-
 
 .. |image55| image:: /asserts/nucleistudio/advanceusage/image56.png
 
-
 .. |image56| image:: /asserts/nucleistudio/advanceusage/image57.png
-
 
 .. |image57| image:: /asserts/nucleistudio/advanceusage/image58.png
 
-
 .. |image58| image:: /asserts/nucleistudio/advanceusage/image59.png
-
 
 .. |image59| image:: /asserts/nucleistudio/advanceusage/image60.png
 
-
 .. |image60| image:: /asserts/nucleistudio/advanceusage/image61.png
-
 
 .. |image61| image:: /asserts/nucleistudio/advanceusage/image47.png
 
-
 .. |image62| image:: /asserts/nucleistudio/advanceusage/image62.png
-
 
 .. |image63| image:: /asserts/nucleistudio/advanceusage/image63.png
 
-
 .. |image64| image:: /asserts/nucleistudio/advanceusage/image64.png
-
 
 .. |image65| image:: /asserts/nucleistudio/advanceusage/image65.png
 
-
 .. |image66| image:: /asserts/nucleistudio/advanceusage/image66.png
-
 
 .. |image67| image:: /asserts/nucleistudio/advanceusage/image67.png
 
-
 .. |image68| image:: /asserts/nucleistudio/advanceusage/image68.png
-
 
 .. |image69| image:: /asserts/nucleistudio/advanceusage/image69.png
 
-
 .. |image70| image:: /asserts/nucleistudio/advanceusage/image70.png
-
 
 .. |image71| image:: /asserts/nucleistudio/advanceusage/image71.png
 
-
 .. |image72| image:: /asserts/nucleistudio/advanceusage/image72.png
-
 
 .. |image73| image:: /asserts/nucleistudio/advanceusage/image73.png
 
-
 .. |image74| image:: /asserts/nucleistudio/advanceusage/image74.png
-
 
 .. |image75| image:: /asserts/nucleistudio/advanceusage/image75.png
 
-
 .. |image76| image:: /asserts/nucleistudio/advanceusage/image76.png
-
 
 .. |image77| image:: /asserts/nucleistudio/advanceusage/image77.png
 
-
 .. |image78| image:: /asserts/nucleistudio/advanceusage/image78.png
 
-
 .. |image79| image:: /asserts/nucleistudio/advanceusage/image79.png
-
 
 .. |image80| image:: /asserts/nucleistudio/advanceusage/image80.png
 
 .. |image81| image:: /asserts/nucleistudio/advanceusage/image81.png
+
+.. |image82| image:: /asserts/nucleistudio/advanceusage/image82.png
+
+.. |image83| image:: /asserts/nucleistudio/advanceusage/image83.png
+   
+.. |image84| image:: /asserts/nucleistudio/advanceusage/image84.png
+
+.. |image85| image:: /asserts/nucleistudio/advanceusage/image85.png
+
+.. |image86| image:: /asserts/nucleistudio/advanceusage/image86.png
+
+.. |image87| image:: /asserts/nucleistudio/advanceusage/image87.png
+
+.. |image88| image:: /asserts/nucleistudio/advanceusage/image88.png
+
+.. |image89| image:: /asserts/nucleistudio/advanceusage/image89.png
+
+.. |image90| image:: /asserts/nucleistudio/advanceusage/image90.png
+
+.. |image91| image:: /asserts/nucleistudio/advanceusage/image91.png
+
+.. |image92| image:: /asserts/nucleistudio/advanceusage/image92.png
+
+.. |image93| image:: /asserts/nucleistudio/advanceusage/image93.png
+
+.. |image94| image:: /asserts/nucleistudio/advanceusage/image94.png
+
+.. |image95| image:: /asserts/nucleistudio/advanceusage/image95.png
+
+.. |image96| image:: /asserts/nucleistudio/advanceusage/image96.png
+
+.. |image97| image:: /asserts/nucleistudio/advanceusage/image97.png
+
+.. |image98| image:: /asserts/nucleistudio/advanceusage/image98.png
 
 .. |image-nice-1| image:: /asserts/nucleistudio/advanceusage/nice-1.png
 
