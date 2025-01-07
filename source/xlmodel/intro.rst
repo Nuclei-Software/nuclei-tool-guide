@@ -193,7 +193,7 @@ Nuclei SDK Cases Supported in xlmodel
 | ucosii/demo/          | Y             |               |                                               |                                               |
 +-----------------------+---------------+---------------+-----------------------------------------------+-----------------------------------------------+
 
-And `xlmodel` and Nuclei SDK are deeply integrated in Nuclei Studio, you can run Nuclei SDK test code using `xlmodel` in Nuclei Studio, please refer to the `Nuclei Studio User Guide <https://doc.nucleisys.com/nuclei_tools/ide/advanceusage.html#nuclei-near-cycle-model>`__.
+And `xlmodel` and Nuclei SDK are deeply integrated in Nuclei Studio, you can run Nuclei SDK test code using `xlmodel` in Nuclei Studio, please refer to the :ref:`ide_nuclei_near_cycle_model`.
 
 .. _Description_of_Parameters:
 

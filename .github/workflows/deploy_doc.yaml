@@ -36,8 +36,7 @@ jobs:
     - name: Build Documentation
       run: |
         make all
-        make latexpdf
-        cp build/latex/*.pdf build/html/
+        make pdf
 
     - name: Deploy Documentation
       if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/master' }}

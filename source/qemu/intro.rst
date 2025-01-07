@@ -627,7 +627,7 @@ Under normal circumstances, you should see the final output ``NMSIS_TEST_PASS``,
 | ucosii/demo/          | Y             |               |                                               |
 +-----------------------+---------------+---------------+-----------------------------------------------+
 
-And Nuclei QEMU and Nuclei SDK are deeply integrated in Nuclei Studio, you can also use it in Nuclei Studio, see https://doc.nucleisys.com/nuclei_tools/ide/index.html
+And Nuclei QEMU and Nuclei SDK are deeply integrated in Nuclei Studio, you can also use it in Nuclei Studio, see :ref:`ide`.
 
 Use Nuclei QEMU in Nuclei Linux SDK
 ===================================

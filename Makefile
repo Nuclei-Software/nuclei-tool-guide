@@ -25,6 +25,7 @@ all:
 pdf: all
 	make latexpdf
 	cp -f build/latex/nuclei_*.pdf build/html/
+	-cp -f source/asserts/nuclei_tool_user_guide_*.pdf build/html/
 
 preview:
 	httpserver_cli -d build/html/
