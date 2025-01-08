@@ -8,9 +8,24 @@ Repository and Doc
 
 **openocd**
 
-- github riscv-openocd: https://github.com/riscv-mcu/riscv-openocd/tree/nuclei/2024.06
+.. note::
 
-- gitee riscv-openocd: https://gitee.com/riscv-mcu/riscv-openocd/tree/nuclei/2024.06
+    2024.12
+    support live watch feature
+    improvement of ci and doc
+    replace vslide1down_vx to read/write vx register
+    support live watch feature
+    organize nuclei commands into nuclei_riscv.c
+    add nuclei cti command group
+    update nuclei etrace command group
+    optimise nuclei cpuinfo command
+    add new nuclei customized csr
+    rename nuclei customized csr
+    changes are based on [riscv/riscv-openocd](https://github.com/riscv-collab/riscv-openocd/commit/f9a12927)
+
+- github riscv-openocd: https://github.com/riscv-mcu/riscv-openocd/tree/nuclei/2024.12
+
+- gitee riscv-openocd: https://gitee.com/riscv-mcu/riscv-openocd/tree/nuclei/2024.12
 
 **openflashloader**
 
@@ -164,6 +179,13 @@ Configure a list of index for `nuclei_examine_cpu_core` to expose in this must b
 ``nuclei examine_cpu_core``
 
 Return the 64-bit value read from ``dm-custom1`` and ``dm-custom2`` value = ``dm-custom2 << 32 + dm-custom1``.
+
+.. rubric:: cross trigger command
+
+Cross-Trigger is an advanced debugging mechanism. It allows developers to trigger specific debugging 
+actions based on multiple debugging-related events.
+
+``nuclei cti halt_group|resume_group``
 
 .. rubric:: Init resethalt command
 
