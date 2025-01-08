@@ -376,13 +376,6 @@ Nuclei Dlink: https://github.com/Nuclei-Software/nuclei-dlink
 Change Log
 ==========
 
-+--------------+---------------+
-| new csr addr | new csr name  |
-+==============+===============+
-| 0x1a4~0x1af  | smpuaddr4~15  |
-| 0x1c0~0x1ef  | smpuaddr16~63 |
-+--------------+---------------+
-
 Version 2024.12
 ---------------
 
