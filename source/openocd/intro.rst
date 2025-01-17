@@ -4,12 +4,13 @@ Introduction to OpenOCD
 =======================
 
 Repositories and Documentation
------------------------------
+------------------------------
 
 **OpenOCD Repositories**
 
-- GitHub (RISC-V OpenOCD): https://github.com/riscv-mcu/riscv-openocd/tree/nuclei/2024.12
-- Gitee (RISC-V OpenOCD): https://gitee.com/riscv-mcu/riscv-openocd/tree/nuclei/2024.12
+`GitHub (RISC-V OpenOCD) Repository <https://github.com/riscv-mcu/riscv-openocd>`_.
+
+`Gitee  (RISC-V OpenOCD) Repository <https://gitee.com/riscv-mcu/riscv-openocd>`_.
 
 **OpenFlashLoader**
 
@@ -19,8 +20,9 @@ Repositories and Documentation
    without requiring modifications to OpenOCD itself. For detailed usage instructions,
    please refer to the documentation in the source code repository.
 
-- GitHub (OpenFlashLoader): https://github.com/riscv-mcu/openflashloader
-- Gitee (OpenFlashLoader): https://gitee.com/riscv-mcu/openflashloader
+`GitHub (OpenFlashLoader) Repository <https://github.com/riscv-mcu/openflashloader>`_.
+
+`Gitee  (OpenFlashLoader) Repository <https://gitee.com/riscv-mcu/openflashloader>`_.
 
 **Documentation Path**: ``openocd/doc/pdf/openocd.pdf``
 
@@ -108,7 +110,9 @@ Nuclei-Specific CSRs
 
 The Nuclei version of OpenOCD supports several custom CSRs (Control and Status Registers). For a complete list and detailed information, refer to:
 
-https://github.com/riscv-mcu/riscv-openocd/blob/nuclei/2024.06/src/target/riscv/encoding.h#L3109-L3223
+`GitHub (src/target/riscv/encoding.h) <https://github.com/riscv-mcu/riscv-openocd/blob/nuclei/2024/src/target/riscv/encoding.h#L3109>`_.
+
+`Gitee  (src/target/riscv/encoding.h) <https://gitee.com/riscv-mcu/riscv-openocd/blob/nuclei/2024/src/target/riscv/encoding.h#L3109>`_.
 
 Embedded Trace (ETrace) Support
 -------------------------------
@@ -209,8 +213,10 @@ Configuration File Overview
 The OpenOCD configuration file defines how to establish a connection with the development board through the debug interface. Nuclei provides a sample configuration file that can be adapted to specific hardware requirements.
 
 Example Configuration:
+
 - Using Nuclei HBird Debugger (FTDI-based)
-- Reference implementation: https://github.com/Nuclei-Software/nuclei-sdk/blob/master/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg
+
+`Reference implementation <https://github.com/Nuclei-Software/nuclei-sdk/blob/master/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg>`_.
 
 Debugger Speed Configuration
 ----------------------------
@@ -223,7 +229,7 @@ To adjust the debugger communication speed:
 Both commands set the debugger speed to 1000 kHz.
 
 Debugger Interface Configuration
--------------------------------
+--------------------------------
 
 The following configuration selects and initializes the FTDI debugger interface:
 
@@ -410,8 +416,9 @@ Frequently Asked Questions
 
 For additional troubleshooting and common issues, refer to:
 
-- GitHub FAQ: https://github.com/riscv-mcu/riscv-openocd/wiki
-- Gitee FAQ: https://gitee.com/riscv-mcu/riscv-openocd/wikis
+- `GitHub FAQ <https://github.com/riscv-mcu/riscv-openocd/wiki>`_.
+
+- `Gitee FAQ <https://gitee.com/riscv-mcu/riscv-openocd/wikis>`_.
 
 Low-Cost Debugger Solution
 ==========================
@@ -422,7 +429,7 @@ Nuclei provides an affordable debugging solution for RISC-V CPUs:
 - Fully compatible with Nuclei Studio
 - Open-source implementation available
 
-Repository: https://github.com/Nuclei-Software/nuclei-dlink
+`Dlink Repository <https://github.com/Nuclei-Software/nuclei-dlink>`_.
 
 Change Log
 ==========
@@ -431,12 +438,14 @@ Version 2024.12
 ---------------
 
 **New Features:**
+
 - Live watch feature implementation
 - Nuclei CTI command group support
 - Enhanced ETrace command group functionality
 - Optimized CPU information command
 
 **Improvements:**
+
 - Continuous integration and documentation enhancements
 - Code organization: consolidated Nuclei commands into nuclei_riscv.c
 - Register access optimization: replaced vslide1down_vx with direct vx register access
@@ -444,23 +453,31 @@ Version 2024.12
 **CSR Updates:**
 
 New Custom CSRs:
+
 +--------------+---------------+
 | Address Range| CSR Name      |
 +==============+===============+
 | 0x1a4~0x1af  | smpuaddr4~15  |
++--------------+---------------+
 | 0x1c0~0x1ef  | smpuaddr16~63 |
 +--------------+---------------+
 
 CSR Renaming:
+
 +--------------+---------------+
 | Old Name     | New Name      |
 +==============+===============+
 | spmpcfg0~3   | smpucfg0~3    |
++--------------+---------------+
 | spmpaddr0~15 | smpuaddr0~15  |
++--------------+---------------+
 | mfp16mode    | mmisc_ctl1    |
++--------------+---------------+
 | mecc_ctrl    | mecc_ctl      |
++--------------+---------------+
 | mstack_ctrl  | mstack_ctl    |
 +--------------+---------------+
 
 **Base Version:**
-- Changes based on [riscv/riscv-openocd](https://github.com/riscv-collab/riscv-openocd/commit/f9a12927)
+
+- Changes based on `riscv/riscv-openocd <https://github.com/riscv-collab/riscv-openocd/commit/f9a12927>`_.
