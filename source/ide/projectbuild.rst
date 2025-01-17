@@ -185,7 +185,7 @@ Verify Image：选中时，Download命令会带上 ``verify`` 参数，这条指
 
 |image20|
 
-Reset and Run：选中时，Download命令会带上 ``rest`` 参数，这条指令在执行完load后可能强制系统复位（SRST），并让目标设备运行。
+Reset and Run：选中时，Download命令会带上 ``reset`` 参数，这条指令在执行完load后可能强制系统复位（SRST），并让目标设备运行。
 
 |image21|
 

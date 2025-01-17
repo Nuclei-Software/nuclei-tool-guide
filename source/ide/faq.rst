@@ -1,6 +1,6 @@
 .. _faq: 
 
-Nuclei Studio常见问题
+Nuclei Studio 常见问题
 ======================
 
 Nuclei Studio启动慢

@@ -133,10 +133,10 @@ Nuclei Model是芯来科技为 Nuclei Near Cycle Model 开发了专门的运行�
 具体参见 :ref:`Nuclei Model <ide_nuclei_model>` 。
 
 
-优化Nuclei Near Cycle Model
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+升级Nuclei Near Cycle Model版本
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nuclei Near Cycle Model，是由芯来科技自主研发的仿真测试和性能分析工具，可以帮助研发人员在项目初期进行一些必要的仿真测试和程序性能分析。在此版本中实现了Windows和Linux下的支持。
+Nuclei Near Cycle Model，是由芯来科技自主研发的仿真测试和性能分析工具，可以帮助研发人员在项目初期进行一些必要的仿真测试和程序性能分析。在此版本中全面支持 Nuclei CPU 200，300，600，900，1000系列的CPU，同时支持Windows和Linux系统下使用。
 
 具体参见 :ref:`Nuclei Near Cycle Model <ide_nuclei_near_cycle_model>` 。
 
