@@ -825,7 +825,7 @@ Nuclei Near Cycle Model采用Nuclei Studio中的Model运行配置来进行运
 
 在演示示例的Config options中配置了 ``--trace=1 --gprof=1 --logdir=Debug --cpu=n300fd`` , ``--trace=1`` 表示开启rvtrace， ``--gprof=1`` 表示开启gprof功能， ``--logdir=Debug`` 则表示最终生成的 ``.rvtrace`` 文件、 ``.gmon`` 文件存存放的路径为当前工程下的Debug目录, ``--cup=n300fd`` 表示当前模拟的cpu核是n300fd。
 
-关于Nuclei Near Cycle Model的参数具体说明，请参见 `Description of Parameters <https://doc.nucleisys.com/nuclei_tools/xlmodel/intro.html#description-of-parameters>`__  
+关于Nuclei Near Cycle Model的参数具体说明，请参见 :ref:`Description of Parameters <Description_of_Parameters>` 。
 
 |image75|
 
