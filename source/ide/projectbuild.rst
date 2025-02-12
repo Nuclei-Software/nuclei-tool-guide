@@ -158,49 +158,95 @@ Nuclei Studio中编译Hello World项目
 
 |image15|
 
+.. _ide_flash_programming:
+
+Flash Programming
+------------------
+
+为了满足用户将编译好的二进制文件直接下载到硬件开发板的需求，Nuclei Studio 新增了 Flash Programming 功能。该功能允许用户快速、便捷地将编译好的二进制文件直接下载到硬件开发板中，极大提升了开发和调试的效率；简化操作流程，用户只需点击一次即可完成二进制文件的下载。工程编译好后，找到Flash Programming，并点击，即可完成二进制文件下载的下载。
+
+|image17|
+
+用户也可以修改其相关的配置信息，在Launch Bar中点击配置按钮，打开配置页面，然后选中Flash Programming选项卡。
+
+|image18|
+
+**Load Program Image**
+
+Load的文件，默认的elf格试的文件，也可以支持 ``*.bin、*.hex、*.s19、*.srec、*.symbolsrec`` 等各种格式
+
+|image19|
+
+**Flash Programming Options**
+
+Flash Programming的选项有以下三种
+
+Verify Image：选中时，Download命令会带上 ``verify`` 参数，这条指令要求确认你要烧录的镜像文件是否匹配当前连接的目标设备上的闪存配置。
+
+|image20|
+
+Reset and Run：选中时，Download命令会带上 ``reset`` 参数，这条指令在执行完load后可能强制系统复位（SRST），并让目标设备运行。
+
+|image21|
+
+Load in Ram：选中时，需要指定Program Address，Download命令会带上 ``resume {Program Address}`` 参数，这条指令固件加载到内存中，而不是闪存中。
+
+|image22|
+
+**OpenOCD Flash Programming Command line**
+
+这些参数最终会以命令行的形式通过 GDB 执行。用户也可以自定义所需的命令，只需勾选 ``Customize openocd flash programming command line`` ，即可在下方输入框中输入自定义命令。
+
+|image23|
+
+根据需求配置好参数后，点击Flash Programming就可以下载二进制代码到硬件中，下载成功的结果如下图。
+
+|image24|
+
+
 
 .. |image1| image:: /asserts/nucleistudio/projectbuild/image2.png
 
-
 .. |image2| image:: /asserts/nucleistudio/projectbuild/image3.png
-
 
 .. |image3| image:: /asserts/nucleistudio/projectbuild/image4.png
 
-
 .. |image4| image:: /asserts/nucleistudio/projectbuild/image5.png
-
 
 .. |image5| image:: /asserts/nucleistudio/projectbuild/image6.png
 
-
 .. |image6| image:: /asserts/nucleistudio/projectbuild/image7.png
-
 
 .. |image7| image:: /asserts/nucleistudio/projectbuild/image8.png
 
-
 .. |image8| image:: /asserts/nucleistudio/projectbuild/image9.png
-
 
 .. |image9| image:: /asserts/nucleistudio/projectbuild/image10.png
 
-
 .. |image10| image:: /asserts/nucleistudio/projectbuild/image11.png
-
 
 .. |image11| image:: /asserts/nucleistudio/projectbuild/image12.png
 
-
 .. |image12| image:: /asserts/nucleistudio/projectbuild/image13.png
-
 
 .. |image13| image:: /asserts/nucleistudio/projectbuild/image14.png
 
-
 .. |image14| image:: /asserts/nucleistudio/projectbuild/image15.png
-
 
 .. |image15| image:: /asserts/nucleistudio/projectbuild/image16.png
 
+.. |image17| image:: /asserts/nucleistudio/projectbuild/image17.png
 
+.. |image18| image:: /asserts/nucleistudio/projectbuild/image18.png
+
+.. |image19| image:: /asserts/nucleistudio/projectbuild/image19.png
+
+.. |image20| image:: /asserts/nucleistudio/projectbuild/image20.png
+
+.. |image21| image:: /asserts/nucleistudio/projectbuild/image21.png
+
+.. |image22| image:: /asserts/nucleistudio/projectbuild/image22.png
+
+.. |image23| image:: /asserts/nucleistudio/projectbuild/image23.png
+
+.. |image24| image:: /asserts/nucleistudio/projectbuild/image24.png

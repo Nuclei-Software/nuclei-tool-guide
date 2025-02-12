@@ -1,12 +1,12 @@
 .. _update: 
 
-Nuclei Studio 升级
-==================
+Nuclei Studio 升级更新
+======================
 
 一般情况下，如果Nuclei Studio没有大的版本变动，Nuclei Studio升级工作可以由用户下载最新的GNU工具链以及其他相关工具和升级IDE Plugins的方式来完成。
 
-GCC/OpenOCD等工具链的安装
--------------------------
+工具链的安装
+-------------
 
 Nuclei Studio已经把工具链集成在IDE内部，工具链存放在Nuclei Studio_IDE_XXX文件夹内，路径为： ``Nuclei Studio_IDE_XXX\\NucleiStudio\\toolchain`` 。IDE默认使用此路径的工具链，所以请不要移动 ``toolchain`` 此文件夹，使用IDE创建工程后也不需要进行工具链的相关配置。
 
