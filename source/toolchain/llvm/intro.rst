@@ -3,7 +3,7 @@
 About LLVM Toolchain
 ====================
 
-The current llvm toolchain is developed based on the upstream V17.0, and only Nuclei custom CSR is supported.
+The current llvm toolchain is developed based on the upstream V19.1.7, and only Nuclei custom CSR is supported.
 
 Extensions Support
 ==================
@@ -12,7 +12,7 @@ Extensions Support
 
 - Basic Extensions
 
-    i, m, a, f, d, c, h(Assembly only), zicsr, zifencei, zihintpause(Assembly only), zicond, zawrs(Assembly only), zfh, zfhmin, zmmul, svinval(Assembly only), svnapot(Assembly only), svpbmt.
+    i, m, a, f, d, c, h(Assembly only), zaamo, zalrsc, zicsr, zifencei, zihintpause(Assembly only), zicond, zawrs(Assembly only), zfh, zfhmin, zmmul, svinval(Assembly only), svnapot(Assembly only), svpbmt.
 
 - Z*inx Extensions
 
@@ -46,11 +46,28 @@ Extensions Support
 
     zvkg, zvkned, zvknha, zvknhb, zvksed, zvksh, zvkn, zvknc, zvkng, zvks, zvksc, zvksg, zvkt.
 
+- Zilsd Extensions
+
+    Zilsd, Zclsd
+
+- Xxlcz Extensions(Assembly only)
+
+    xxlczpstinc, xxlczbmrk, xxlczbitop, xxlczslet, xxlczabs, xxlczmac, xxlczbri, xxlczbitrev, xxlczgp.
+
+- Packed SIMD Extension 0.5.4(Assembly only)
+
+    xxldsp, xxldspn1x, xxldspn2x, xxldspn3x.
+
+    - xxldsp: P-spec-v0.54 + Nuclei Custom EXPD* instructions
+    - xxldspn1x: xxldsp + Nuclei Custom N1
+    - xxldspn2x: xxldsp + Nuclei Custom N1 & N2
+    - xxldspn3x: xxldsp + Nuclei Custom N1 & N2 & N3
+
 .. rubric:: Experimental Extensions
 
 LLVM supports (to various degrees) a number of experimental extensions.  All experimental extensions have ``experimental-`` as a prefix. Listed below:
 
-    smaia, ssaia, zacas, zfa, zfbfmin, zvfbfmin, zvfbfwma, zicond, zihintntl, ztso, zvbb, zvbc, zvkg, zvkn, zvknc, zvkned, zvkng, zvknha, zvknhb, zvks, zvksc, zvksed, zvksg, zvksh, zvkt.
+    smaia, ssaia, zacas, zfa, zfbfmin, zvfbfmin, zvfbfwma, zicond, zihintntl, ztso, zvbb, zvbc, zvkg, zvkn, zvknc, zvkned, zvkng, zvknha, zvknhb, zvks, zvksc, zvksed, zvksg, zvksh, zvkt, zilsd, zclsd.
 
 .. note::
 
@@ -91,7 +108,7 @@ General Options
     `-Os`
         Like -O2 with extra optimizations to reduce code size.
 
-For more about RISC-V options used by LLVM toolchain, please check https://releases.llvm.org/17.0.1/docs/RISCVUsage.html
+For more about RISC-V options used by LLVM toolchain, please check https://releases.llvm.org/19.1.0/docs/RISCVUsage.html
 
 Install and Setup
 =================
