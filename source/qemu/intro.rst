@@ -15,6 +15,8 @@ Nuclei QEMU is now developed based on QEMU version 9.0, supporting the machine f
 
   - **Zilsd & Zclsd**: riscv-zilsd Release 1.0
 
+  - **Xxlfbf & Xxlvfbf**: Nuclei Scalar & Vector BFloat16 extensions
+
 If you want to access the code of Nuclei QEMU, you can visit our opensource `Nuclei QEMU Github Repository <https://github.com/riscv-mcu/qemu/tree/nuclei/9.0>`_.
 
 
@@ -498,6 +500,10 @@ Let's describe the meaning of this complete command:
   | xxlcz        | Nuclei code size reduction extension                                    |
   +--------------+-------------------------------------------------------------------------+
   | xxlvqmacc    | Nuclei custom vpu extension                                             |
+  +--------------+-------------------------------------------------------------------------+
+  | xxlfbf       | Nuclei scalar bfloat16 extension                                        |
+  +--------------+-------------------------------------------------------------------------+
+  | xxlvfbf      | Nuclei vector bfloat16 extension                                        |
   +--------------+-------------------------------------------------------------------------+
 
   **vlen=128,elen=64**: The VLEN and ELEN are only effective when the V extension instructions of RISC-V are enabled. The default value of VLEN is 128, and it must be a multiple of 2 when set, with a value range of [128, 1024]. The default value of ELEN is 64, and ELEN must also be a multiple of 2, with a value range of [8, 64].
