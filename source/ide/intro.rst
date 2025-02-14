@@ -1,10 +1,10 @@
-.. _intro: 
+.. _intro:
 
 Nuclei Studio IDE 简介
 =======================
 
 .. note::
-   
+
    - Nuclei Studio出视频教程啦，相关内容在 **芯来科技视频号** 中持续更新中，您可以在微信中搜索 **芯来科技视频号** 并关注，以便获取到我们最新的更新内容。
    - 在使用Nuclei Studio, Nuclei Tools过程中，如查有问题，可以查阅 `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__\ 内容，也可以向我们提交相关Issue。
 
@@ -87,24 +87,24 @@ Nuclei Studio IDE充分利用上述Eclipse IDE优势，结合社区成熟的Ecli
 Nuclei Studio 更新说明
 =======================
 
-2024.12版更新说明
+2025.02版更新说明
 -----------------
 
-2024.12版本是基于eclipse Cpp 2024-09开发，CDT版本到Eclipse CDT 2024-09，升级了芯来科技的工具版本至2024.12，优化了部分原有功能，新增了调试及代码性能分析等功能，以及解决了2024.06版中存在的缺陷。
+2025.02版本是基于eclipse Cpp 2024-09开发，CDT版本到Eclipse CDT 2024-09，升级了芯来科技的工具版本至2025.02，优化了部分原有功能，新增了调试及代码性能分析等功能，以及解决了2024.06版中存在的缺陷。
 
 升级Eclipse Cpp版本
 ~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2024.12基于Eclipse Cpp 2024-09版本开发此版本。基础的CDT版本，升级到了11.6.1。
+在Nuclei Studio 2025.02基于Eclipse Cpp 2024-09版本开发此版本。基础的CDT版本，升级到了11.6.1。
 
 升级RISC-V Toolchain、OpenOCD、QEMU版本
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2024.12版本中集成了Nuclei RISC-V Toolchain 2024.12版，具体信息可以查看：https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2024.12 。
+在Nuclei Studio 2025.02版本中集成了Nuclei RISC-V Toolchain 2025.02版，具体信息可以查看：https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2025.02 。
 
-在Nuclei Studio 2024.12版本中集成了OpenOCD 2024.012版，具体信息可以查看：https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2024.12 。
+在Nuclei Studio 2025.02版本中集成了OpenOCD 2024.012版，具体信息可以查看：https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2025.02 。
 
-在Nuclei Studio 2024.12版本中集成了Nuclei Qemu 2024.12版，具体信息可以查看：https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2024.12 。
+在Nuclei Studio 2025.02版本中集成了Nuclei Qemu 2025.02版，具体信息可以查看：https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2025.02 。
 
 新增对更多新核的支持
 ~~~~~~~~~~~~~~~~~~~~
@@ -151,7 +151,7 @@ Live Watch 是芯来科技研发的实时监控工具，专为开发者设计，
 ZCC升级
 ~~~~~~~~~
 
-在Nuclei Studio 2024.12版本中集成了ZCC 3.2.5版，并加入芯来科技支持的软件库。具体信息可以查看：https://www.terapines.com/products/zcc
+在Nuclei Studio 2025.02版本中集成了ZCC 3.2.5版，并加入芯来科技支持的软件库。具体信息可以查看：https://www.terapines.com/products/zcc
 
 2024.06版更新说明
 -----------------
@@ -206,7 +206,7 @@ Nuclei DLink是芯来科技基于RV Link，并在RV Link的基础上做了许多
 
 Terapines ZCC是兆松科技研发的高性能RISC-V编译器。Nuclei Studio 2024.06版中对Terapines ZCC进行支持，用户可以在Nuclei Studio中直接使用。具体参见 :ref:`Nuclei Studio中编译Hello World项目 <ide_projectbuild_13>` 。
 
-新增LST View工具 
+新增LST View工具
 ~~~~~~~~~~~~~~~~~
 
 LST View 是一个lst文件查看器，可以方便用户查看lst格式的文件，并实现\*.lst文件与源代码的联动，具体请参见 :ref:`LST View <ide_advanceusage_13>` 。
@@ -356,7 +356,7 @@ OpenOCD版本升级至2023.10版，增加了一些额外的调试特性，例如
 
 |image11|
 
-.. _my_internal_link_label: 
+.. _my_internal_link_label:
 
 新增了elf文件查看器
 ~~~~~~~~~~~~~~~~~~~
@@ -377,7 +377,7 @@ OpenOCD版本升级至2023.10版，增加了一些额外的调试特性，例如
 
 在Nuclei Studio 2023.10 **实验性** 新增了trace功能，因使用此功能需要带有Nuclei Trace IP的CPU，如需体验此功能，请与我们联系。
 
-Nuclei Settings功能优化 
+Nuclei Settings功能优化
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 为了应对更个性化的配置，我们修改了Nuclei Settings部分功能。
@@ -396,7 +396,7 @@ Nuclei Settings增强了其通用性，使它不仅仅能对Nuclei的工程进�
 
 |image17|
 
-新增指定工作空间快速打开 
+新增指定工作空间快速打开
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 类似双击项目下的 ``*.nuproject`` 文件可快速打开Nuclei Studio并导入该项目，现在Nuclei Studio会在使用过的工作空间目录下创建 ``work.nuworkspace`` 文件，双击该文件可以直接打开Nuclei Studio，但该功能暂时只支持windows版本。这个功能需要解压IDE后，在windows上执行 ``install.bat`` 来设置文件关联。
@@ -469,74 +469,74 @@ Nuclei Studio IDE 启动
 
 
 .. |image1| image:: /asserts/nucleistudio/intro/image2.png
-   :alt: workspace弹出不兼容的警告 
+   :alt: workspace弹出不兼容的警告
 
 .. |IMG_256| image:: /asserts/nucleistudio/intro/image3.png
    :alt: build-tools更新到4.4版
-   
+
 .. |image2| image:: /asserts/nucleistudio/intro/image4.png
    :alt: GCC和Clang的目录结构
-   
+
 .. |image3| image:: /asserts/nucleistudio/intro/image5.png
    :alt: 工程对GCC 13的支持
 
 .. |image4| image:: /asserts/nucleistudio/intro/image6.png
    :alt: 项目对Clang 17的支持
-   
+
 .. |image5| image:: /asserts/nucleistudio/intro/image7.png
    :alt: 创建工程时使用RISC-V扩展
-   
+
 .. |image6| image:: /asserts/nucleistudio/intro/image8.png
    :alt: 项目中对RISC-V扩展的支持
-   
+
 .. |image7| image:: /asserts/nucleistudio/intro/image9.png
    :alt: Nuclei Settings中对RISC-V扩展的支持
-   
+
 .. |image8| image:: /asserts/nucleistudio/intro/image10.png
    :alt: QEMU中对RISC-V扩展的支持
-   
+
 .. |image9| image:: /asserts/nucleistudio/intro/image11.png
    :alt: 创建工程时选择合适的工具链
-   
+
 .. |image10| image:: /asserts/nucleistudio/intro/image12.png
-   :alt: 组件包所适配的Nuclei Studio版本号 
-   
+   :alt: 组件包所适配的Nuclei Studio版本号
+
 .. |image11| image:: /asserts/nucleistudio/intro/image13.png
-   :alt: QEMU 8.0所在的目录  
-   
+   :alt: QEMU 8.0所在的目录
+
 .. |image12| image:: /asserts/nucleistudio/intro/image14.png
-   :alt: elf文件编辑器查看.elf文件 
-   
+   :alt: elf文件编辑器查看.elf文件
+
 .. |image13| image:: /asserts/nucleistudio/intro/image15.png
    :alt: elf文件编辑器查看.o文件
-   
+
 .. |image14| image:: /asserts/nucleistudio/intro/image16.png
-   :alt: Nuceli Settings页面修改 
-   
+   :alt: Nuceli Settings页面修改
+
 .. |image15| image:: /asserts/nucleistudio/intro/image17.png
    :alt: Select C Runtime Library在新版IDE中已不存在
-   
+
 .. |image16| image:: /asserts/nucleistudio/intro/image18.png
    :alt: Shared 项目Nuclei Settings(Arm)
-   
+
 .. |image17| image:: /asserts/nucleistudio/intro/image19.png
    :alt: Shared 项目Nuclei Settings(Riscv)
-   
+
 .. |image18| image:: /asserts/nucleistudio/intro/image20.png
    :alt: work.nuworkspace文件
-   
+
 .. |image19| image:: /asserts/nucleistudio/intro/image21.png
    :alt: Nuclei Studio IDE软件包的下载界面
-   
+
 .. |image20| image:: /asserts/nucleistudio/intro/image22.png
    :alt: Nuclei Studio IDE压缩包文件内容
-   
+
 .. |image21| image:: /asserts/nucleistudio/intro/image23.png
    :alt: 双击“Nuclei Studio.exe”启动Nuclei Studio
-   
+
 .. |image22| image:: /asserts/nucleistudio/intro/image24.png
-   :alt: 公司Logo  
-   
+   :alt: 公司Logo
+
 .. |image23| image:: /asserts/nucleistudio/intro/image25.png
    :alt: 第一次启动Nuclei Studio界面
-   
+

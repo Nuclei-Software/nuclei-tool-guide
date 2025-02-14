@@ -6,7 +6,7 @@ About Nuclei Near Cycle Model
 The ``Nuclei Near Cycle Model`` (referred to as `xlmodel`) is a co-simulation using **SystemC TLM-2 combined with xlspike**. Xlspike uses spike as the RISC-V ISA simulator and adds support for Nuclei's N/NX/UX RISC-V processors.
 SystemC establishes the TLM 2.0 interaction relationships among the components under **Nuclei EvalSoC**.
 
-- The `xlmodel` can be obtained in **Nuclei Studio 2024.12**.
+- The `xlmodel` can be obtained in **Nuclei Studio 2025.02**.
 - The `xlmodel` is supported on both **Linux and Windows** system.
 - The `xlmodel` is a **near cycle model** that can test the performance of firmware with different ISA configurations.
 - The `xlmodel` has SystemC built-in and uses version 2.3.4 by default.

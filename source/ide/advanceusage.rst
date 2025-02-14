@@ -1,4 +1,4 @@
-.. _advanceusage: 
+.. _advanceusage:
 
 Nuclei Studio 高级功能
 ======================
@@ -138,15 +138,15 @@ Studio工程使用Code Coverage和Profiling相关功能。在Nuclei Studio
 2024.06版本中对\ `Eclipse Linux
 Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__\ 的功能做了进一步的优化和升级，使其更容使用。
 
-关于Coverage、Profiling和Call Graph的使用教程请查看 :ref:`Coverage、Profiling和Call Graph使用 <ide_advanceusage_21>` 。 
+关于Coverage、Profiling和Call Graph的使用教程请查看 :ref:`Coverage、Profiling和Call Graph使用 <ide_advanceusage_21>` 。
 
 关于Eclipse Linux Tools的详细参见
-`Eclipse Linux Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__\ 
+`Eclipse Linux Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__\
 
 在使用过程，如有问题，可以查看 `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__  相关内容，也可以向我们提交相关issue。
 
 .. note::
-   
+
    在 **芯来科技视频号** 中有 **如何在Nuclei Studio中使用Code Coverage和Profiling功能** 的视频，您可以在微信中搜索 **芯来科技视频号** 点击查看相关内容。
 
 关于Code Coverage功能
@@ -362,13 +362,13 @@ Trace技术是一种强大的调试工具，它能够帮助开发人员跟踪和
 Nuclei Studio集成了Trace工具，结合相对应的硬件和Nuclei OpenOCD，用户在对工程进行Debug时，也可查看到Trace日志，并结合源码时行问题排查。
 
 .. note::
-   
+
    在 **芯来科技视频号** 中有 **如何在Nuclei Studio中使用Trace功能** 的视频，您可以在微信中搜索 **芯来科技视频号** 点击查看相关内容。
 
 .. note::
-   
+
    关于OpenOCD的Nuclei ETrace的一些命令，请参加OpenOCD下的openocd.pdf手册。
-   
+
 在使用过程，如有问题，可以查看 `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__  相关内容，也可以向我们提交相关issue。
 
 Trace界面介绍
@@ -589,14 +589,14 @@ RVProf是芯来科技针对cpu cycle model开发的性能分析工具，Nuclei S
 
 在使用过程，如有问题，可以查看 `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__  相关内容，也可以向我们提交相关issue。
 
-测试环境 
+测试环境
 ~~~~~~~~~
 
 cpu cycle model在运行过程中，对硬件环境的性能要求较高，在实际使用，四核及以上的系统中运行效果较好，一般不建议在虚拟机环境下使用。为了较好的体验效果，本测试在工作站上进行。
 
 |image62|
 
-准备测试NPK软件或者工具包 
+准备测试NPK软件或者工具包
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 目前此功能仅提供测试用的NPK包，将相关的包安装到Nuclei Studio中，关于安装NPK包，可以查看Nuclei Studio手册中相关章节，因为RVProf测试包没有公开，请联系我们索取。
@@ -607,7 +607,7 @@ cpu cycle model在运行过程中，对硬件环境的性能要求较高，在�
 
 -  Rvprof helloworld.zip 测试demo NPK App包
 
-创建rvprof测试工程 
+创建rvprof测试工程
 ^^^^^^^^^^^^^^^^^^^
 
 创建工程前，先查看Nuclei Package Management中NPK是否安装正确，因为测式demo是依赖于nuclei_sdk，所以也要先安装sdk-nuclei_sdk，具体如下：
@@ -626,7 +626,7 @@ cpu cycle model在运行过程中，对硬件环境的性能要求较高，在�
 
 |image66|
 
-查看rvprof的结果 
+查看rvprof的结果
 ~~~~~~~~~~~~~~~~~
 
 创建完工程后，在Nuclei Studio的launch bar上，选中 ``test_debug_rvprof.launch`` ，并点击工具栏中的运行按钮，Nuclei Studio依次完成以下任务，并将最终的结果在在Perfetto Trace Viewer中展示。
@@ -663,11 +663,11 @@ Nuclei Studio会在本地启一个web服务，同时打开Perfetto Trace Viewer�
 
 .. _ide_nuclei_nice_wizard:
 
-Nuclei NICE Wizard  
+Nuclei NICE Wizard
 ---------------------
 
 .. note::
-   
+
    在 **芯来科技视频号** 中有 **Nuclei NICE Wizard** 的视频，您可以在微信中搜索 **芯来科技视频号** 点击查看相关内容。
 
 Nuclei NICE Wizard 是一个集成在 Nuclei Studio 上的工具，旨在简化和加速 NICE (自定义指令扩展) 和 VNICE (向量化自定义指令扩展) 指令的创建过程。它允许用户通过图形界面快速配置并生成自定义指令所需的代码框架，从而实现对特定应用算法的硬件加速。具体来说：
@@ -688,7 +688,7 @@ Nuclei NICE Wizard 是一个集成在 Nuclei Studio 上的工具，旨在简化�
 
 |image-nice-2|
 
-新增指令  
+新增指令
 ~~~~~~~~
 
 点击 ``Add...`` ,根据需要修改指令内容后，点击右上角 ``save`` 即可。
@@ -711,7 +711,7 @@ Nuclei NICE Wizard 是一个集成在 Nuclei Studio 上的工具，旨在简化�
 
 |image-nice-5|
 
-文件生成 
+文件生成
 ~~~~~~~~
 
 可定义insn.h（包含内嵌汇编头文件）和 nice.cc（包含指令实现逻辑）文件的保存地址，点击Save and Generate File，会生成对应文件。
@@ -728,11 +728,11 @@ NICE指令模板说明
 |image-nice-1|
 
 单个指令模板如上图所示，
- * opcode: 可选custome-0,custome-1,custome-2,custome-3   
- * funct3: 3位功能字段，通常用来区分不同类型的指令。  
- * funct7: 7 位功能字段，可以用来进一步细分指令类型或提供额外的功能选项。  
- * rd: 返回值寄存器或类型（例如 void, int, vint8m8_t 等）。  
- * rs1, rs2: 输入源寄存器或类型。  
+ * opcode: 可选custome-0,custome-1,custome-2,custome-3
+ * funct3: 3位功能字段，通常用来区分不同类型的指令。
+ * funct7: 7 位功能字段，可以用来进一步细分指令类型或提供额外的功能选项。
+ * rd: 返回值寄存器或类型（例如 void, int, vint8m8_t 等）。
+ * rs1, rs2: 输入源寄存器或类型。
 
 指令内容编辑说明
 ~~~~~~~~~~~~~~~~
@@ -800,11 +800,11 @@ Nuclei Near Cycle Model
 
 在Nuclei Studio 2024.06版中，集成了Nuclei Near Cycle Model，它是由芯来科技自主研发的仿真测试和性能分析工具，可以帮助研发人员在项目初期进行一些必要的仿真测试和程序性能分析。
 
-Nuclei Near Cycle Modeld在Nuclei Studio 2024.06版中只有Linux版本，从2024.12版开始，已实现对Windows的支持。其具体介绍和命令行上使用参见 （https://doc.nucleisys.com/nuclei_tools/xlmodel/intro.html ） ，下面将在Nuclei Studio上演示如何使用Nuclei Near Cycle Model进行仿真和性能分析。
+Nuclei Near Cycle Modeld在Nuclei Studio 2024.06版中只有Linux版本，从2025.02版开始，已实现对Windows的支持。其具体介绍和命令行上使用参见 （https://doc.nucleisys.com/nuclei_tools/xlmodel/intro.html ） ，下面将在Nuclei Studio上演示如何使用Nuclei Near Cycle Model进行仿真和性能分析。
 
 .. note::
-   
-   Nuclei Near Cycle Model 已支持 Windows/Linux 版本，此文档测试都是基于 Nuclei Studio IDE 2024.12的 Windows 版本完成的。
+
+   Nuclei Near Cycle Model 已支持 Windows/Linux 版本，此文档测试都是基于 Nuclei Studio IDE 2025.02的 Windows 版本完成的。
 
 在使用过程，如有问题，可以查看 `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__  相关内容，也可以向我们提交相关issue。
 
@@ -861,11 +861,11 @@ gprof工具在查看 ``.gmon`` 文件的同时，会根据其内容，解析出�
 Live Watch功能的使用
 ---------------------
 
-Live Watch 是一款强大的实时监控工具，专为开发者设计，旨在帮助您更高效地调试和优化代码。通过 Live Watch，您可以即时查看程序运行过程中变量的变化情况，无需打断执行流程或手动添加日志语句。在Nuclei Studio 2024.12版中实现了Live Watch 功能，它支持自动刷新变量值，确保始终看到最新的数据变化。直观的图形化界面，能轻松管理需要监控的变量。
+Live Watch 是一款强大的实时监控工具，专为开发者设计，旨在帮助您更高效地调试和优化代码。通过 Live Watch，您可以即时查看程序运行过程中变量的变化情况，无需打断执行流程或手动添加日志语句。在Nuclei Studio 2025.02版中实现了Live Watch 功能，它支持自动刷新变量值，确保始终看到最新的数据变化。直观的图形化界面，能轻松管理需要监控的变量。
 
 .. note::
-   
-   Live Watch功能依赖Nuclei OpenOCD >= 2024.12版本。仅支持Nuclei CPU配置了RISC-V SBA功能。
+
+   Live Watch功能依赖Nuclei OpenOCD >= 2025.02版本。仅支持Nuclei CPU配置了RISC-V SBA功能。
 
 Live Watch功能介绍
 ~~~~~~~~~~~~~~~~~~
@@ -1181,7 +1181,7 @@ Live Watch也会自动将查询到的数据结果保存到 ``Save Data Path`` �
 .. |image82| image:: /asserts/nucleistudio/advanceusage/image82.png
 
 .. |image83| image:: /asserts/nucleistudio/advanceusage/image83.png
-   
+
 .. |image84| image:: /asserts/nucleistudio/advanceusage/image84.png
 
 .. |image85| image:: /asserts/nucleistudio/advanceusage/image85.png

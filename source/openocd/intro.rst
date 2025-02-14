@@ -15,7 +15,7 @@ Repositories and Documentation
 **OpenFlashLoader**
 
 .. note::
-   
+
    The OpenOCD Flashloader enables support for various customized flash programming implementations
    without requiring modifications to OpenOCD itself. For detailed usage instructions,
    please refer to the documentation in the source code repository.
@@ -41,7 +41,7 @@ To determine the installed OpenOCD version:
     :width: 900px
 
 .. note::
-   
+
    Current Version Information:
    - Git Commit ID: 787e48e66
    - Compile Date: 2022-12-29 08:49
@@ -118,7 +118,7 @@ Embedded Trace (ETrace) Support
 -------------------------------
 
 .. note::
-   
+
    The ETrace feature is currently in the experimental stage and should not be used in production environments.
 
 Some Nuclei CPUs include embedded trace support, enabling detailed examination of instruction execution. The trace functionality is managed through an Embedded Trace (ETrace) module integrated into the CPU's scan chains.
@@ -145,14 +145,14 @@ ETrace Commands:
    - ``nuclei etrace info``: Displays current ETrace status
 
 .. note::
-   
+
    The ETrace feature is also available in Nuclei Studio IDE. Refer to the IDE documentation for additional implementation details.
 
 Debug Map Feature
 -----------------
 
 .. note::
-   
+
    The debug map for each hardware thread (hart) is automatically read and displayed during OpenOCD initialization.
    Alternatively, you can access the debug map at runtime using the ``examine_cpu_core`` command.
 
@@ -204,7 +204,7 @@ Usage:
 ``ftdi nscan1_mode on|off``
 
 .. note::
-   
+
    This command follows the same syntax and behavior as the standard ``ftdi oscan1_mode`` command.
 
 Configuration File Overview
@@ -308,9 +308,9 @@ The JTAG link configuration varies depending on the system architecture:
     target smp $_TARGETNAME1.0 $_TARGETNAME1.1
 
 .. note::
-   
+
    The ``-rtos hwthread`` option enables OpenOCD's pseudo RTOS functionality, which:
-   
+
    - Presents CPU cores ("hardware threads") as threads to GDB
    - Allows inspection of SMP system state through GDB commands
    - Enables core-specific debugging operations:
@@ -334,7 +334,7 @@ Configuration Example:
     $_TARGETNAME0 configure -work-area-phys 0x08000000 -work-area-size 0x10000 -work-area-backup 1
 
 .. note::
-   
+
    Work Area Requirements:
    - Must be a readable, writable, and executable memory region
    - Base address (0x08000000) and size (0x10000) should be adjusted according to system requirements
@@ -350,7 +350,7 @@ The NOR flash configuration specifies the memory mapping and controller settings
     flash bank $_FLASHNAME0 nuspi 0x20000000 0 0 0 $_TARGETNAME0.0 0x10180000
 
 .. note::
-   
+
    Configuration Parameters:
    - ``nuspi``: Flash driver type (adjust as needed)
    - ``0x20000000``: QSPI XIP address (adjust as needed)
@@ -385,7 +385,7 @@ Configuration Example:
     tcl_port 6666
 
 .. note::
-   
+
    - Port numbers can be customized if the default ports are unavailable
    - To disable a service, set its port to ``disable``
    - Ensure port numbers don't conflict with other services
@@ -400,7 +400,7 @@ OpenOCD supports ARM semihosting, which allows target programs to use host syste
     arm semihosting enable
 
 .. note::
-   
+
    Semihosting provides access to:
    - File I/O operations
    - Console input/output
@@ -434,7 +434,7 @@ Nuclei provides an affordable debugging solution for RISC-V CPUs:
 Change Log
 ==========
 
-Version 2024.12
+Version 2025.02
 ---------------
 
 **New Features:**

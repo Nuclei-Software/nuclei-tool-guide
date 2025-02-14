@@ -13,15 +13,15 @@ Nuclei QEMU is now developed based on QEMU version 9.0, supporting the machine f
 
   - **Xxlvqmacc**: Nuclei custom vpu extension
 
-  - **Zilsd & Zclsd**: riscv-zilsd Release 1.0-rc1
+  - **Zilsd & Zclsd**: riscv-zilsd Release 1.0
 
-If you want to access the code of Nuclei QEMU, you can visit our opensource `Nuclei QEMU Github Repository <https://github.com/riscv-mcu/qemu/tree/nuclei/8.0>`_.
+If you want to access the code of Nuclei QEMU, you can visit our opensource `Nuclei QEMU Github Repository <https://github.com/riscv-mcu/qemu/tree/nuclei/9.0>`_.
 
 
 Design and Architecture
 =======================
 
-Previously, Nuclei QEMU supports two machine types: ``nuclei_evalsoc`` and ``nuclei_demosoc``, but now, ``nuclei_demosoc`` has been abandoned on Nuclie QEMU 2024.12 and later versions.
+Previously, Nuclei QEMU supports two machine types: ``nuclei_evalsoc`` and ``nuclei_demosoc``, but now, ``nuclei_demosoc`` has been abandoned on Nuclei QEMU 2025.02 and later versions.
 
 Nuclei CPU Types Supported on QEMU
 ----------------------------------
@@ -221,7 +221,7 @@ Description of Parameters
 Nuclei QEMU adds some custom features and functionalities based on the original capabilities of qemu. If you want to learn more about the usage of qemu, you can refer to the documentation at https://www.qemu.org/docs/master/.
 
 Nuclei QEMU has several types of parameters that can be configured.
-You can enter ``qemu-system-riscv32 --help`` to view the parameters that can be configured in Nuclei QEMU. 
+You can enter ``qemu-system-riscv32 --help`` to view the parameters that can be configured in Nuclei QEMU.
 
 Nuclei QEMU supports two main programs: ``qemu-system-riscv32`` and ``qemu-system-riscv64. qemu-system-riscv32`` is used to support 32-bit programs, while ``qemu-system-riscv64`` supports 64-bit programs.
 
@@ -364,10 +364,10 @@ Let's describe the meaning of this complete command:
 
   ``debug=1`` list the start address of the current device's peripherals and memory distribution information or irq info for debugging purposes. It is generally not recommended to enable this feature under normal circumstances.
 
-* ``-cpu nuclei-n300fd,ext=_v_xxldsp,vlen=128,elen=64,s=true``: 
+* ``-cpu nuclei-n300fd,ext=_v_xxldsp,vlen=128,elen=64,s=true``:
 
   Using the ``-cpu`` option, ``nuclei-n300fd`` represents the selectable CPU type for Nuclei, and the complete list of types can be referred to in the diagrams within the ``Design and Architecture`` section. This operation is necessary.
-  
+
   ``ext=`` This parameter is optional, used to pass different riscv extension, The way to enable different extensions is to add them inside it, for example, ``xxldsp`` represents enable the nuclei DSP extension, ``v`` represents enable RISC-V V-Extension, When enabling multiple extensions, they are connected through ``_``. Currently, Nuclei QEMU supports the following common RISC-V instruction set extension types:
 
   +--------------+-------------------------------------------------------------------------+
@@ -501,7 +501,7 @@ Let's describe the meaning of this complete command:
   +--------------+-------------------------------------------------------------------------+
 
   **vlen=128,elen=64**: The VLEN and ELEN are only effective when the V extension instructions of RISC-V are enabled. The default value of VLEN is 128, and it must be a multiple of 2 when set, with a value range of [128, 1024]. The default value of ELEN is 64, and ELEN must also be a multiple of 2, with a value range of [8, 64].
-  
+
   **s=true**: This parameter is optional, If you wish for RISC-V to support the S (supervisor) privilege mode, you can add s=true to the parameters to meet this requirement. Nuclei QEMU currently only supports interrupt handling in M-privilege mode.
 
 * ``-m 512M``: To set the DDR size in QEMU, if the DDR size is not passed with ``-m``, then the JSON config will be used to determine the size, and lastly, if neither is specified, it will initialize with 32MB.
@@ -542,7 +542,7 @@ If you want to use QEMU on Nuclei-SDK.The example here uses the CPU of the nx900
 First, you need to configure the toolchain, nuclei-sdk, and qemu environments according to the documentation, https://doc.nucleisys.com/nuclei_sdk/quickstart.html
 
 .. code-block:: c
-   
+
    # Enter the example folder of xxldsp
    cd nuclei-sdk/application/baremetal/demo_dsp/
    # Clear the compilation cache
