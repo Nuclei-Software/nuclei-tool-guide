@@ -434,7 +434,7 @@ Nuclei provides an affordable debugging solution for RISC-V CPUs:
 Change Log
 ==========
 
-Version 2024.12
+Version 2025.02
 ---------------
 
 **New Features:**
@@ -480,4 +480,4 @@ CSR Renaming:
 
 **Base Version:**
 
-- Changes based on `riscv/riscv-openocd <https://github.com/riscv-collab/riscv-openocd/commit/f9a12927>`_.
+- Changes based on `riscv/riscv-openocd <https://github.com/riscv-collab/riscv-openocd/commit/f82c5a7>`_.
