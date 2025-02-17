@@ -4,7 +4,7 @@ About GNU Toolchain
 ===================
 
 The official toolchain repository is located at https://github.com/riscv-collab/riscv-gnu-toolchain.git.
-Nuclei maintained toolchain repo is located at https://github.com/riscv-mcu/riscv-gnu-toolchain, and the branch is ``nuclei/2024-gcc14-llvm19``, in which the tools included versions are: gcc14.2.1, binutils2.44, gdb16.2, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
+Nuclei maintained toolchain repo is located at https://github.com/riscv-mcu/riscv-gnu-toolchain, and the latest branch for gcc14 is ``nuclei/2025.02``, in which the tools included versions are: gcc14.2.1, binutils2.44, gdb16.2, newlib 4.4.0, llvm 19.1.7, glibc 2.40, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc. For the 2024.06 toolchain branch, you can check out the ``nuclei/2024-gcc13`` branch.
 
 Extensions Support
 ==================
@@ -74,6 +74,10 @@ Extensions Support
 
     xxlczpstinc, xxlczbmrk, xxlczbitop, xxlczslet, xxlczabs, xxlczmac, xxlczbri, xxlczbitrev, xxlczgp.
 
+- Nuclei custom VPU Extensions
+    
+    xxlvqmacc
+
 .. note::
 
     Extensions starting with **x** are generally reserved for manufacturers to customize, and should be placed after extensions starting with **z** when used.
@@ -104,7 +108,7 @@ General Options
 
 `-mtune=processor-string`
 
-    Optimize the output for the given processor, specified by microarchitecture or particular CPU name. Permissible values for this option are: ``nuclei-100-series``, ``nuclei-200-series``, ``nuclei-300-series``, ``nuclei-600-series``, ``nuclei-900-series``, ``nuclei-1000-3w-series``,  ``nuclei-1000-4w-series(nuclei-1000-series)``, and all valid options for ``-mcpu=``.
+    Optimize the output for the given processor, specified by microarchitecture or particular CPU name. Permissible values for this option are: ``nuclei-100-series``, ``nuclei-200-series``, ``nuclei-300-series``, ``nuclei-600-series``, ``nuclei-900-series``, ``nuclei-1000-3w-series``, ``nuclei-1000-4w-series(nuclei-1000-series)``, and all valid options for ``-mcpu=``.
 
     When ``-mtune=`` is not specified, use the setting from ``-mcpu``, the default is ``rocket`` if both are not specified.
 
@@ -159,6 +163,25 @@ Libraries
 
     ``libncrt`` is short of Nuclei C Runtime Library, which currently support Nuclei RV32 processor, which is released by Nuclei to reduce c library code size, and improve math library speed, for details, please refer to the user guide located in ``gcc\share\pdf\Nuclei C Runtime Library Doc.pdf``
 
+Significant Changes Brought by GCC13 Compared to GCC10
+======================================================
+
+- Instead of using single-letter ``bkp`` to enable these extensions as we did on gcc10, we split them all into corresponding sub-extensions, for example, ``_zba_zkr_zve32f``, please check https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#arch-ext to learn about how to adapt Nuclei SDK to support gcc13 upgraded from gcc10.
+
+- Implement new style of architecture extension test macros: each architecture extension has a corresponding feature test macro, which can be used to test its existence and version information. In addition, we add several custom macros, ``__riscv_dsp``, ``__riscv_bitmanip``.
+
+- Add new option ``-misa-spec=*`` to control ISA spec version. This controls the default version of each extensions. The official version is ``20191213``, but it is set to ``2.2`` when configuring nuclei toolchain.
+  The difference between them is that in ``20191213`` version, ``Zicsr`` and ``Zifencei`` are separated from the ``i`` extension into two independent extensions, and using ``-misa-spec=2.2`` can avoid incompatible errors when the ``Zicsr`` and ``Zifencei`` are not passed to ``-march=``. See for details at https://github.com/riscv-collab/riscv-gnu-toolchain/issues/1315
+
+- Support for vector intrinsics as specified in version 0.12 of the RISC-V vector intrinsic specification.
+
+- The toolchain component prefix is ``riscv-nuclei-elf-`` on gcc10, but is ``riscv64-unknown-elf-`` on gcc13.
+
+- On gcc10, RISCV intrinsic api heads contain ``riscv_vector.h``, ``riscv_vector_itr.h``, ``rvintrin.h``, ``rvp_intrinsic.h``, but now only ``riscv_vector.h``, ``rvp_intrinsic.h``, ``riscv_nuclei_xlcz.h`` are provided in gcc13, if you want to find ``b`` or ``k`` intrinsic API, please check https://github.com/riscv/riscv-crypto/blob/main/benchmarks/share/rvintrin.h and https://github.com/riscv/riscv-crypto/blob/main/benchmarks/share/riscv-crypto-intrinsics.h , and for RVV intrinsic API, we
+  support 0.12 in gcc13 now, see https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0-rc0
+
+- The version of the libncrt was changed from v2.0.0 to v3.0.0, and libncrt is now split into three parts, 'libncrt', 'heapops' and 'fileops', click https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#stdclib to learn about how the newlib/libncrt are used in Nuclei SDK with gcc13.
+
 Significant Changes Brought by GCC14 Compared to GCC13
 ======================================================
 
@@ -181,11 +204,11 @@ Install and Setup
 
 .. rubric:: Build Toolchain
 
-For more information about how to build a toolchain, see https://github.com/riscv-mcu/riscv-gnu-toolchain/tree/nuclei/2024-gcc14-llvm19/scripts/toolchain. (Only for Nuclei internal use, no technical support is provided)
+For more information about how to build a toolchain, see https://github.com/riscv-mcu/riscv-gnu-toolchain/tree/nuclei/2025.02/scripts/toolchain. (Only for Nuclei internal use, no technical support is provided)
 
 .. rubric:: Development
 
-The process of user compilation and development can see from https://github.com/riscv-mcu/riscv-gnu-toolchain/blob/nuclei/2024-gcc14-llvm19/README.md. To get other  technical support, please send issues directly to the upstream repository https://github.com/riscv-collab/riscv-gnu-toolchain.
+The process of user compilation and development can see from https://github.com/riscv-mcu/riscv-gnu-toolchain/blob/nuclei/2025.02/README.md. To get other technical support, please send issues directly to the upstream repository https://github.com/riscv-collab/riscv-gnu-toolchain.
 
 .. rubric:: Examples
 

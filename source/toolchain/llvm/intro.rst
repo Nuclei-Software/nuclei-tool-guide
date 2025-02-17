@@ -63,6 +63,10 @@ Extensions Support
     - xxldspn2x: xxldsp + Nuclei Custom N1 & N2
     - xxldspn3x: xxldsp + Nuclei Custom N1 & N2 & N3
 
+- Nuclei custom VPU Extensions
+    
+    xxlvqmacc
+
 .. rubric:: Experimental Extensions
 
 LLVM supports (to various degrees) a number of experimental extensions.  All experimental extensions have ``experimental-`` as a prefix. Listed below:
