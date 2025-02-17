@@ -725,7 +725,7 @@ Nuclei NICE Wizard 是一个集成在 Nuclei Studio 上的工具，旨在简化�
 NICE指令模板说明
 ~~~~~~~~~~~~~~~~
 
-|image-nice-1|
+|image-nice-9|
 
 单个指令模板如上图所示，
  * opcode: 可选custome-0,custome-1,custome-2,custome-3
@@ -775,7 +775,7 @@ NICE指令模板说明
 Nuclei Model功能的使用
 ----------------------
 
-芯来科技为 Nuclei Near Cycle Model 开发了专门的运行工具——Model。自 Nuclei Studio 2014.06 版本起，Nuclei Near Cycle Model最初是通过 RVProf 工具运行的。随着 Nuclei Near Cycle Model 的不断迭代和发展，为了提供更简洁高效的用户体验，我们在 RVProf 的基础上进行了功能简化，推出了新的 Model 工具。
+芯来科技为 Nuclei Near Cycle Model 开发了专门的运行工具——Model。自 Nuclei Studio 2024.06 版本起，Nuclei Near Cycle Model最初是通过 RVProf 工具运行的。随着 Nuclei Near Cycle Model 的不断迭代和发展，为了提供更简洁高效的用户体验，我们在 RVProf 的基础上进行了功能简化，推出了新的 Model 工具。
 
 新工具的主要特点包括：
 
@@ -823,7 +823,13 @@ Nuclei Near Cycle Model采用Nuclei Studio中的Model运行配置来进行运
 
 |image74|
 
-在演示示例的Config options中配置了 ``--trace=1 --gprof=1 --logdir=Debug --cpu=n300fd`` , ``--trace=1`` 表示开启rvtrace， ``--gprof=1`` 表示开启gprof功能， ``--logdir=Debug`` 则表示最终生成的 ``.rvtrace`` 文件、 ``.gmon`` 文件存存放的路径为当前工程下的Debug目录, ``--cup=n300fd`` 表示当前模拟的cpu核是n300fd。
+在演示示例的Config options中配置了 ``--trace=1 --gprof=1 --logdir=Debug --cpu=n300fd`` , ``--trace=1`` 表示开启rvtrace， ``--gprof=1`` 表示开启gprof功能， ``--logdir=Debug`` 则表示最终生成的 ``.rvtrace`` 文件、 ``.gmon`` 文件存存放的路径为当前工程下的Debug目录, ``--cpu=n300fd`` 表示当前模拟的cpu核是n300fd。
+
+.. note::
+
+   ``--cpu=<core type>`` 必须配置且与Nuclei Setting中配置的Core的值一致。
+
+   ``--ext=<extension type>`` 与Nuclei Setting中配置的Other extensions的值一致。
 
 关于Nuclei Near Cycle Model的参数具体说明，请参见 :ref:`Description of Parameters <Description_of_Parameters>` 。
 
@@ -831,8 +837,6 @@ Nuclei Near Cycle Model采用Nuclei Studio中的Model运行配置来进行运
 
 运行工程并生成性能分析结果
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-点击运行（Run）工程，NucleiStudio会依次调用Nuclei Near Cycle Model来仿真程序执行，并产生 ``.rvtrace`` 文件，再调用rvprof来解析 ``.rvtrace`` 文件并生成 ``.json`` 文件，最后启用一个perfetto服务来用来查看rvprof解析 ``.rvtrace`` 文件所产生的 ``.json`` 文件。
 
 点击Run按钮，开始运行程序。
 
@@ -842,7 +846,7 @@ Nuclei Near Cycle Model采用Nuclei Studio中的Model运行配置来进行运
 
 |image77|
 
-在工程的Debug目录中可以查看到已经生成 ``.rvtrace`` 文件、 ``.json`` 文件、 ``.gmon`` 文件。
+在工程的Debug目录中可以查看到已经生成 ``.rvtrace`` 文件、 ``.gmon`` 文件。
 
 |image78|
 
@@ -1193,6 +1197,7 @@ Live Watch也会自动将查询到的数据结果保存到 ``Save Data Path`` �
 .. |image88| image:: /asserts/nucleistudio/advanceusage/image88.png
 
 .. |image89| image:: /asserts/nucleistudio/advanceusage/image89.png
+
 
 .. |image90| image:: /asserts/nucleistudio/advanceusage/image90.png
 
