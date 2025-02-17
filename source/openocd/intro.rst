@@ -480,4 +480,4 @@ CSR Renaming:
 
 **Base Version:**
 
-- Changes based on `riscv/riscv-openocd <https://github.com/riscv-collab/riscv-openocd/commit/f9a12927>`_.
+- Changes based on `riscv/riscv-openocd <https://github.com/riscv-collab/riscv-openocd/commit/f82c5a7>`_.
