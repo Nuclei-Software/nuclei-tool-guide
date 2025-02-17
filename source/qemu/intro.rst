@@ -231,7 +231,7 @@ Let's describe the meaning of this complete command:
 
 * ``-M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json,debug=1``:
 
-  ``-M`` represents ``machine``, which means selecting the type of machine. Currently, Nuclei QEMU has added ``nuclei_demosoc`` (which will be deprecated in future versions) and ``nuclei_evalsoc`` to the existing options. This option must exist.
+  ``-M`` represents ``machine``, which means selecting the type of machine. Currently, Nuclei QEMU has added ``nuclei_evalsoc`` to the existing options. This option must exist.
 
   ``download=`` is used to choose the download mode, and currently, it supports four download modes: ``sram, flashxip, flash, ilm, and ddr``.If this parameter is not present, the default value is ``flashxip``.
 
@@ -645,7 +645,7 @@ This command sets up QEMU to emulate a Nuclei processor and environment specific
 
 * ``qemu-system-riscv64``: This is the QEMU emulator for the RISC-V 64-bit architecture.
 
-* ``-M nuclei_evalsoc``: Specifies the machine type for nuclei_evalsoc, nuclei_demosoc will be deprecated in future versions.
+* ``-M nuclei_evalsoc``: Specifies the machine type for nuclei_evalsoc.
 
 * ``download=flashxip``: The download mode of firmware, which is an optional parameter. If not set, the default download mode is flashxip.
 
