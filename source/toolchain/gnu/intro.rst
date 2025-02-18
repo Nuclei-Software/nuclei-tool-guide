@@ -120,11 +120,11 @@ General Options
 
 `-fstrict-aliasing`
 
-    It is recommended to add the optimization option -fno-strict-aliasing to the project, In some circumstances, this flag allows the compiler to assume that pointers to different types do not alias.
+    It is recommended to add the optimization option ``-fno-strict-aliasing`` to the project, In some circumstances, this flag allows the compiler to assume that pointers to different types do not alias.
 
 `-ftree-loop-vectorize`
 
-    If you need to disable the RISC-V RVV automatic vectorization, you can use the options ``-fno-tree-loop-vectorize``and ``-fno-tree-slp-vectorize``. For GCC 13, you can use ``--param=riscv-autovec-preference=none``.
+    If you need to disable the RISC-V RVV automatic vectorization, you can use the options ``-fno-tree-loop-vectorize`` and ``-fno-tree-slp-vectorize``. For GCC 13, you can use ``--param=riscv-autovec-preference=none``.
 
 `-fno-builtin`
 
@@ -207,15 +207,15 @@ Significant Changes Brought by GCC14 Compared to GCC13
 
 - Implement custom VPU intrinsics for Nuclei.
 
-- Nuclei introduces the bf16 type and supports the xxlvfbf and xxlfbf extensions.
+- Nuclei introduces the ``bf16`` type and supports the ``xxlvfbf`` and ``xxlfbf`` extensions.
 
-- Added support for 3-issue(nuclei-1000-3w-series) and 4-issue(nuclei-1000-4w-series) in the Nuclei 1000 series CPUs.
+- Added support for 3-issue(``nuclei-1000-3w-series``) and 4-issue(``nuclei-1000-4w-series``) in the Nuclei 1000 series CPUs.
 
 - GCC14 introduces additional function attribute checks compared to GCC13. For more details, you can refer to https://gcc.gnu.org/gcc-14/porting_to.html.
 
-- Add the option to automatically generate control for xldsp with -mautovec-dsp/-mno-autovec-dsp for gcc, which is enabled by default.
+- Add the option to automatically generate control for xldsp with ``-mautovec-dsp/-mno-autovec-dsp`` for gcc, which is enabled by default.
 
-- The riscv_vector.h must be included when leverage intrinisc type(s) and API(s).  And the scope of this attribute should not excced the function body.  Meanwhile, to make rvv types and API(s) available for this attribute, include riscv_vector.h will not report error for now if v is not present in march.
+- The ``riscv_vector.h`` must be included when leverage intrinisc type(s) and API(s).  And the scope of this attribute should not excced the function body.  Meanwhile, to make rvv types and API(s) available for this attribute, include ``riscv_vector.h`` will not report error for now if v is not present in march.
 
 Install and Setup
 =================
