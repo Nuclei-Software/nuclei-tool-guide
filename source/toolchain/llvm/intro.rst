@@ -92,6 +92,10 @@ General Options
 
     Print out a list of supported processors for the given target (specified through ``--target=<architecture>`` or ``-arch <architecture>``). If no target is specified, the system default target will be used.
 
+`-fno-vectorize`
+
+    Use ``-fno-vectorize`` and ``-fno-slp-vectorize`` to disable LLVM19 automatic vectorization for RVV; by default, automatic vectorization is enabled.
+
 `Optimization Option`
 
     `-O0`
