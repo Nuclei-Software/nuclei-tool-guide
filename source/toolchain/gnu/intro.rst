@@ -114,6 +114,22 @@ General Options
 
     The ``size`` choice is not intended for use by end-users. This is used when -Os is specified. It overrides the instruction cost info provided by ``-mtune=``, but does not override the pipeline info. This helps reduce code size while still giving good performance.
 
+`-mautovec-dsp/-mno-autovec-dsp`
+
+    Controls the generation of automatic vectorization of Nuclei DSP instructions, with the compiler enabling Nuclei DSP instructions instruction auto-vectorization by default.
+
+`-fstrict-aliasing`
+
+    It is recommended to add the optimization option -fno-strict-aliasing to the project, In some circumstances, this flag allows the compiler to assume that pointers to different types do not alias.
+
+`-ftree-loop-vectorize`
+
+    If you need to disable the RISC-V RVV automatic vectorization, you can use the options ``-fno-tree-loop-vectorize``and ``-fno-tree-slp-vectorize``. For GCC 13, you can use ``--param=riscv-autovec-preference=none``.
+
+`-fno-builtin`
+
+    The ``-fno-builtin`` option instructs the compiler to avoid replacing standard library function calls with optimized built-in versions. If your program requires implementing its own system functions, such as memcpy, memset, etc., you need to use this option.
+
 `Optimization Options`
 
     `-O0`
@@ -197,7 +213,9 @@ Significant Changes Brought by GCC14 Compared to GCC13
 
 - GCC14 introduces additional function attribute checks compared to GCC13. For more details, you can refer to https://gcc.gnu.org/gcc-14/porting_to.html.
 
-- Add the option to automatically generate control for xldsp with -mautovec-dsp for gcc, which is enabled by default.
+- Add the option to automatically generate control for xldsp with -mautovec-dsp/-mno-autovec-dsp for gcc, which is enabled by default.
+
+- The riscv_vector.h must be included when leverage intrinisc type(s) and API(s).  And the scope of this attribute should not excced the function body.  Meanwhile, to make rvv types and API(s) available for this attribute, include riscv_vector.h will not report error for now if v is not present in march.
 
 Install and Setup
 =================
