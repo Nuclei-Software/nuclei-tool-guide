@@ -108,7 +108,7 @@ General Options
 
 `-mtune=processor-string`
 
-    Optimize the output for the given processor, specified by microarchitecture or particular CPU name. Permissible values for this option are: ``nuclei-100-series``, ``nuclei-200-series``, ``nuclei-300-series``, ``nuclei-600-series``, ``nuclei-900-series``, ``nuclei-1000-3w-series``, ``nuclei-1000-4w-series(nuclei-1000-series)``, and all valid options for ``-mcpu=``.
+    Optimize the output for the specified processor by either microarchitecture or a specific CPU name. The allowable values for this option include: ``nuclei-100-series``, ``nuclei-200-series``, ``nuclei-300-series``, ``nuclei-600-series``, ``nuclei-900-series``, ``nuclei-1000-series``, ``nuclei-1000-3w-series``, and ``nuclei-1000-4w-series``. Note that ``nuclei-1000-series`` and ``nuclei-1000-4w-series`` are considered equivalent. All these options are valid for the -mcpu= flag.
 
     When ``-mtune=`` is not specified, use the setting from ``-mcpu``, the default is ``rocket`` if both are not specified.
 
