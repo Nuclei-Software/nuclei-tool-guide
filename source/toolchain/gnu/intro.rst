@@ -4,7 +4,7 @@ About GNU Toolchain
 ===================
 
 The official toolchain repository is located at https://github.com/riscv-collab/riscv-gnu-toolchain.git.
-Nuclei maintained toolchain repo is located at https://github.com/riscv-mcu/riscv-gnu-toolchain, and the branch is ``nuclei/2024-gcc13``, in which the tools included versions are: gcc13, binutils2.40, gdb13.2, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
+Nuclei maintained toolchain repo is located at https://github.com/riscv-mcu/riscv-gnu-toolchain, and the latest branch for gcc14 is ``nuclei/2025.02``, in which the tools included versions are: gcc14.2.1, binutils2.44, gdb16.2, newlib 4.4.0, llvm 19.1.7, glibc 2.40, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc. For the 2024.06 toolchain branch, you can check out the ``nuclei/2024-gcc13`` branch.
 
 Extensions Support
 ==================
@@ -13,7 +13,7 @@ Extensions Support
 
 - Basic Extensions
 
-    i, m, a, f, d, c, h, q(Assembly only), zicsr, zifencei, zicond, zawrs, zfh, zfhmin, zmmul, svinval, svnapot.
+    i, m, a, f, d, c, h, q(Assembly only), zaamo, zalrsc, zicsr, zifencei, zicond, zawrs, zfh, zfhmin, zmmul, svinval, svnapot.
 
 - Z*Inx Extensions
 
@@ -53,11 +53,11 @@ Extensions Support
 
 - BFloat 16 Extensions
 
-    Zfbfmin, Zvfbfmin, Zvfbfwma
+    Zfbfmin, Zvfbfmin, Zvfbfwma, Xxlfbf, Xxlvfbf
 
 - Zilsd Extensions
 
-    Zilsd, Zcmlsd
+    Zilsd, Zclsd
 
 .. rubric:: Nuclei Custom Extensions
 
@@ -73,6 +73,10 @@ Extensions Support
 - Xxlcz Extensions
 
     xxlczpstinc, xxlczbmrk, xxlczbitop, xxlczslet, xxlczabs, xxlczmac, xxlczbri, xxlczbitrev, xxlczgp.
+
+- Nuclei custom VPU Extensions
+    
+    xxlvqmacc
 
 .. note::
 
@@ -104,11 +108,27 @@ General Options
 
 `-mtune=processor-string`
 
-    Optimize the output for the given processor, specified by microarchitecture or particular CPU name. Permissible values for this option are: ``nuclei-100-series``, ``nuclei-200-series``, ``nuclei-300-series``, ``nuclei-600-series``, ``nuclei-900-series``, ``nuclei-1000-series``, and all valid options for ``-mcpu=``.
+    Optimize the output for the specified processor by either microarchitecture or a specific CPU name. The allowable values for this option include: ``nuclei-100-series``, ``nuclei-200-series``, ``nuclei-300-series``, ``nuclei-600-series``, ``nuclei-900-series``, ``nuclei-1000-series``, ``nuclei-1000-3w-series``, and ``nuclei-1000-4w-series``. Note that ``nuclei-1000-series`` and ``nuclei-1000-4w-series`` are considered equivalent. All these options are valid for the -mcpu= flag.
 
     When ``-mtune=`` is not specified, use the setting from ``-mcpu``, the default is ``rocket`` if both are not specified.
 
     The ``size`` choice is not intended for use by end-users. This is used when -Os is specified. It overrides the instruction cost info provided by ``-mtune=``, but does not override the pipeline info. This helps reduce code size while still giving good performance.
+
+`-mautovec-dsp/-mno-autovec-dsp`
+
+    Controls the generation of automatic vectorization of Nuclei DSP instructions, with the compiler enabling Nuclei DSP instructions instruction auto-vectorization by default.
+
+`-fstrict-aliasing`
+
+    It is recommended to add the optimization option ``-fno-strict-aliasing`` to the project, In some circumstances, this flag allows the compiler to assume that pointers to different types do not alias.
+
+`-ftree-loop-vectorize`
+
+    If you need to disable the RISC-V RVV automatic vectorization, you can use the options ``-fno-tree-loop-vectorize`` and ``-fno-tree-slp-vectorize``. For GCC 13, you can use ``--param=riscv-autovec-preference=none``.
+
+`-fno-builtin`
+
+    The ``-fno-builtin`` option instructs the compiler to avoid replacing standard library function calls with optimized built-in versions. If your program requires implementing its own system functions, such as memcpy, memset, etc., you need to use this option.
 
 `Optimization Options`
 
@@ -130,7 +150,7 @@ General Options
     `-Ofast`
         Disregard strict standards compliance. -Ofast enables all -O3 optimizations. It also enables optimizations that are not valid for all standard-compliant programs.
 
-For more information about RISC-V Options used in GCC, please check https://gcc.gnu.org/onlinedocs/gcc-13.1.0/gcc/RISC-V-Options.html
+For more information about RISC-V Options used in GCC, please check https://gcc.gnu.org/onlinedocs/gcc-14.2.0/gcc/RISC-V-Options.html
 
 For RISC-V ELF psABI Document, please check https://github.com/riscv-non-isa/riscv-elf-psabi-doc
 
@@ -178,16 +198,35 @@ Significant Changes Brought by GCC13 Compared to GCC10
 
 - The version of the libncrt was changed from v2.0.0 to v3.0.0, and libncrt is now split into three parts, 'libncrt', 'heapops' and 'fileops', click https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#stdclib to learn about how the newlib/libncrt are used in Nuclei SDK with gcc13.
 
+Significant Changes Brought by GCC14 Compared to GCC13
+======================================================
+
+- Support for the zilsd and zclsd extensions.
+
+- Some Nuclei custom CSR naming has been re-revised and corrected.
+
+- Implement custom VPU intrinsics for Nuclei.
+
+- Nuclei introduces the ``bf16`` type and supports the ``xxlvfbf`` and ``xxlfbf`` extensions.
+
+- Added support for 3-issue(``nuclei-1000-3w-series``) and 4-issue(``nuclei-1000-4w-series``) in the Nuclei 1000 series CPUs.
+
+- GCC14 introduces additional function attribute checks compared to GCC13. For more details, you can refer to https://gcc.gnu.org/gcc-14/porting_to.html.
+
+- Add the option to automatically generate control for xldsp with ``-mautovec-dsp/-mno-autovec-dsp`` for gcc, which is enabled by default.
+
+- The ``riscv_vector.h`` must be included when leverage intrinisc type(s) and API(s).  And the scope of this attribute should not excced the function body.  Meanwhile, to make rvv types and API(s) available for this attribute, include ``riscv_vector.h`` will not report error for now if v is not present in march.
+
 Install and Setup
 =================
 
 .. rubric:: Build Toolchain
 
-For more information about how to build a toolchain, see https://github.com/riscv-mcu/riscv-gnu-toolchain/tree/nuclei/2024-gcc13/scripts/toolchain. (Only for Nuclei internal use, no technical support is provided)
+For more information about how to build a toolchain, see https://github.com/riscv-mcu/riscv-gnu-toolchain/tree/nuclei/2025.02/scripts/toolchain. (Only for Nuclei internal use, no technical support is provided)
 
 .. rubric:: Development
 
-The process of user compilation and development can see from https://github.com/riscv-mcu/riscv-gnu-toolchain/blob/nuclei/2024-gcc13/README.md. To get other  technical support, please send issues directly to the upstream repository https://github.com/riscv-collab/riscv-gnu-toolchain.
+The process of user compilation and development can see from https://github.com/riscv-mcu/riscv-gnu-toolchain/blob/nuclei/2025.02/README.md. To get other technical support, please send issues directly to the upstream repository https://github.com/riscv-collab/riscv-gnu-toolchain.
 
 .. rubric:: Examples
 
