@@ -102,8 +102,7 @@ html_search_language = "en"
 
 html_theme_options = {
     'logo_only': True,
-    'navigation_depth': 6,
-    'display_version': True
+    'navigation_depth': 6
 }
 
 # replace "view page source" with "edit on github" in Read The Docs theme
