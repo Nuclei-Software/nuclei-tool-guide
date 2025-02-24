@@ -13,6 +13,7 @@ Welcome to Nuclei Tool User Guide!
    overview/intro.rst
    ide/index.rst
    toolchain/index.rst
+   libncrt/index.rst
    openocd/index.rst
    qemu/index.rst
    xlmodel/index.rst
