@@ -28,11 +28,11 @@ jobs:
       if: startsWith(matrix.os, 'ubuntu')
       run: |
           sudo apt-get update
-          sudo apt-get install lftp python3 make latexmk \
+          sudo apt-get install lftp python3 python3-pip make latexmk \
           texlive-full xindy texlive-latex-recommended texlive-xetex texlive-lang-cjk texlive-latex-extra texlive-fonts-recommended
           sudo python3 -m pip install --upgrade pip
           pip install --upgrade setuptools setuptools-scm
-          sudo pip3 install -r requirements.txt
+          pip install -r requirements.txt
 
     - name: Build Documentation
       run: |
