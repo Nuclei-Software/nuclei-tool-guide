@@ -68,7 +68,7 @@ For the sake of generality, some Nuclei IP cores have been mapped and implemente
   |                     | PLIC                  | 0x4000000             | 0x4000000             | PLIC address space.                   |
   +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
 
-In addition, Evalsoc's address mapping can be customized and configured through the ``--mem=<str>`` parameter. Regarding the usage of this parameter, please see :ref:`Description_of_Parameters`.
+In addition, Evalsoc's address mapping can be customized and configured through the ``--mem=<str>`` parameter. Regarding the usage of this parameter, please see :ref:`xlmodel_description_of_parameters`.
 
 Nuclei CPU Features Supported in xlmodel
 ----------------------------------------
@@ -195,7 +195,7 @@ Nuclei SDK Cases Supported in xlmodel
 
 And `xlmodel` and Nuclei SDK are deeply integrated in Nuclei Studio, you can run Nuclei SDK test code using `xlmodel` in Nuclei Studio, please refer to the :ref:`ide_nuclei_near_cycle_model`.
 
-.. _Description_of_Parameters:
+.. _xlmodel_description_of_parameters:
 
 Description of Parameters
 =========================

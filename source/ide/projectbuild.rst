@@ -109,7 +109,7 @@ SDK Configuration Tools各选项详细功能如下：
 
 -  Download对应当前工程的下载模式，可以切换选择不同的下载模式，目前仅Nuclei FPGA评估开发板支持切换下载模式，RVSTAR仅有 ``FLASHXIP`` 模式。其中切换到flash模式会额外定义 ``VECTOR_TABLE_REMAPPED`` 宏，其他模式不会定义这个宏
 
--  ``Select C Runtime Library`` 对应的使用标准C库， **本功能在2023.10版本中移除** 。在工程创建的时候，如果创建的工程采用的是Newlib，则这里只能进行newlib版本的切换，如果创建的工程才用的是 ``Nuclei C Runtime Library(libncrt)`` ，则这里只能进行libncrt版本的切换。
+-  ``Select C Runtime Library`` 对应的使用标准C库， **本功能在2023.10版本中移除** 。在工程创建的时候，如果创建的工程采用的是Newlib，则这里只能进行newlib版本的切换，如果创建的工程才用的是 ``Nuclei C Runtime Library`` (:ref:`libncrt <libncrt_intro>`) ，则这里只能进行libncrt版本的切换。
 
 -  ``Optimization Level`` 对应编译的优化等级。
 
