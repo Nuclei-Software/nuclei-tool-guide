@@ -161,7 +161,7 @@ Libraries
 .. note::
 
    - ``glibc`` is used in Linux GNU Glibc toolchain used to compile linux kernel, opensbi, uboot, and linux applications.
-   - ``newlibc`` is used in Baremetal or RTOS toolchain, used to compile baremetal or rtos source code, which contains ``newlib``, ``newlib-nano`` and ``libncrt``
+   - ``newlibc`` is used in Baremetal or RTOS toolchain, used to compile baremetal or rtos source code, which contains ``newlib``, ``newlib-nano`` and :ref:`libncrt <libncrt_intro>`
 
 `glibc`
 
@@ -175,9 +175,9 @@ Libraries
 
     Newlib-nano is a derivative of the newlib C library for embedded systems. It is smaller and faster than newlib by code and data size reduction through optimization and removal of non-MCU features. 
 
-`libncrt`
+:ref:`libncrt <libncrt_intro>`
 
-    ``libncrt`` is short of Nuclei C Runtime Library, which currently support Nuclei RV32 processor, which is released by Nuclei to reduce c library code size, and improve math library speed, for details, please refer to the user guide located in ``gcc\share\pdf\Nuclei C Runtime Library Doc.pdf``
+    ``libncrt`` is short of **Nuclei C Runtime Library**, which currently support Nuclei RV32 processor, which is released by Nuclei to reduce c library code size, and improve math library speed, for details, please refer to the user guide located in ``gcc\share\pdf\Nuclei C Runtime Library Doc.pdf``
 
 Significant Changes Brought by GCC13 Compared to GCC10
 ======================================================
