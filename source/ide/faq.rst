@@ -19,14 +19,14 @@ Nuclei Studio编译程序很慢
 
 在测试使用过程中，我们发现Nuclei Studio在编译项目时会出现很慢的现像，经过排查发现，当电脑安装360杀毒软件时，编译指令执行很慢，退出360杀毒软件时，编译指令可以按正常速度执行。为了保障Nuclei Studio的正常使用，建议在使用时退出360等杀毒软件。
 
-找不到New Nuclei Risc-V C/C++ Project菜单
+找不到New Nuclei RISC-V C/C++ Project菜单
 -----------------------------------------
 
-New Nuclei Risc-V C/C++ Project是创建工程的快捷入口，有时候如果找到不到New Nuclei Risc-V C/C++ Project菜单。
+New Nuclei RISC-V C/C++ Project是创建工程的快捷入口，有时候如果找到不到New Nuclei RISC-V C/C++ Project菜单。
 
 |image1|
 
-可以在菜单 ``Window->Perspective->Reset Perspective`` 里进行视图重置， ``New Nuclei Risc-V C/C++ Project`` 就会重新出现。
+可以在菜单 ``Window->Perspective->Reset Perspective`` 里进行视图重置， ``New Nuclei RISC-V C/C++ Project`` 就会重新出现。
 
 |image2|
 

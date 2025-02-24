@@ -90,19 +90,19 @@ Nuclei Studio 更新说明
 2025.02版更新说明
 -----------------
 
-2025.02版本是基于eclipse Cpp 2024-09开发，CDT版本到Eclipse CDT 2024-09，升级了芯来科技的工具版本至2025.02，优化了部分原有功能，新增了调试及代码性能分析等功能，以及解决了2024.06版中存在的缺陷。
+2025.02版本是基于eclipse Cpp 2024-06开发，CDT版本到Eclipse CDT 2024-06，升级了芯来科技的工具版本至2025.02，优化了部分原有功能，新增了调试及代码性能分析等功能，以及解决了2024.06版中存在的缺陷。
 
 升级Eclipse Cpp版本
 ~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2025.02基于Eclipse Cpp 2024-09版本开发此版本。基础的CDT版本，升级到了11.6.1。
+在Nuclei Studio 2025.02基于Eclipse Cpp 2024-06版本开发此版本。基础的CDT版本，升级到了11.6.1。
 
 升级RISC-V Toolchain、OpenOCD、QEMU版本
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 在Nuclei Studio 2025.02版本中集成了Nuclei RISC-V Toolchain 2025.02版，具体信息可以查看：https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2025.02 。
 
-在Nuclei Studio 2025.02版本中集成了OpenOCD 2024.012版，具体信息可以查看：https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2025.02 。
+在Nuclei Studio 2025.02版本中集成了OpenOCD 2025.02版，具体信息可以查看：https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2025.02 。
 
 在Nuclei Studio 2025.02版本中集成了Nuclei Qemu 2025.02版，具体信息可以查看：https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2025.02 。
 
