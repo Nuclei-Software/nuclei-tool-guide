@@ -6,10 +6,12 @@ ChangeLog
 Nuclei Tools official releases can be found in https://nucleisys.com/download.php#tools, you can download
 it from there.
 
-2025.02-WIP
------------
+2025.02
+-------
 
-This is 2025.02 release of Nuclei Tools, which is still in development.
+This is 2025.02 release of Nuclei Tools.
+
+For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nuclei_tool_user_guide.pdf
 
 **Find release note below**:
 
