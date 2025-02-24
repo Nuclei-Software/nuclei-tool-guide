@@ -240,6 +240,8 @@ Aggregate View
 
 .. _ide_advanceusage_21:
 
+.. _ide_advanceusage_profiling:
+
 Coverage、Profiling和Call Graph使用
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

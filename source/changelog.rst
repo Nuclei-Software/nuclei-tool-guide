@@ -6,6 +6,9 @@ ChangeLog
 Nuclei Tools official releases can be found in https://nucleisys.com/download.php#tools, you can download
 it from there.
 
+You can also find our Nuclei Studio Supply documentation in https://nuclei-software.github.io/nuclei-studio/,
+which is used for application notes using Nuclei Studio and Nuclei Tools.
+
 2025.02
 -------
 

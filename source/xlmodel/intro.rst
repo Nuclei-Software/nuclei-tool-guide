@@ -14,6 +14,14 @@ SystemC establishes the TLM 2.0 interaction relationships among the components u
 - The `xlmodel` can easily extend **user-defined** instructions, namely **Nuclei NICE instructions**.
 - Xlspike supports RV32IMAFDCBPV and RV64IMAFDCBPV ISA.
 
+Since this model is also integrated in Nuclei Studio, you can use it do to
+
+- Profiling and Code Coverage
+   - https://nuclei-software.github.io/nuclei-studio/18-demonstrate_NICE_VNICE_acceleration_of_the_Nuclei_Model_through_profiling/
+   - :ref:`ide_advanceusage_profiling`
+- NICE Instruction Design and Modeling
+   - :ref:`ide_nuclei_nice_wizard`
+
 Design and Architecture
 =======================
 
