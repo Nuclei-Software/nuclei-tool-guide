@@ -437,6 +437,11 @@ Change Log
 Version 2025.02
 ---------------
 
+**Known Issues:**
+
+- There is a probability that writing flash under smp multi-core architecture will fail, 
+  which can be solved by clarifying the number of SMP cores or reducing the JTAG frequency.
+
 **New Features:**
 
 - Live watch feature implementation
@@ -480,4 +485,4 @@ CSR Renaming:
 
 **Base Version:**
 
-- Changes based on `riscv/riscv-openocd <https://github.com/riscv-collab/riscv-openocd/commit/f9a12927>`_.
+- Changes based on `riscv/riscv-openocd <https://github.com/riscv-collab/riscv-openocd/commit/f82c5a7>`_.
