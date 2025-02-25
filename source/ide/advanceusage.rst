@@ -833,18 +833,12 @@ Nuclei Near Cycle Model采用Nuclei Studio中的Model运行配置来进行运
 
    ``--ext=<extension type>`` 与Nuclei Setting中配置的Other extensions的值一致。
 
-关于Nuclei Near Cycle Model的参数具体说明，请参见 :ref:`Description of Parameters <Description_of_Parameters>` 。
-
-|image75|
+关于Nuclei Near Cycle Model的参数具体说明，请参见 :ref:`Description of Parameters <xlmodel_description_of_parameters>` 。
 
 运行工程并生成性能分析结果
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-点击Run按钮，开始运行程序。
-
-|image76|
-
-程序在Nuclei Near Cycle Model中成功执行，输出了对应的Log信息。
+点击Run按钮，开始运行程序。程序在Nuclei Near Cycle Model中成功执行，输出了对应的Log信息。
 
 |image77|
 
@@ -852,7 +846,7 @@ Nuclei Near Cycle Model采用Nuclei Studio中的Model运行配置来进行运
 
 |image78|
 
-Nuclei Near Cycle Model中支持通过gprof来分析程序，所以当我们配置了 ``--gprof`` ，在程序运行时，也会在Debug目录（ ``--logdir=XX`` 所配置的目录）下同步产生一个 ``.gmon`` 文件，双击 ``.gmon`` 文件，将调用gprof工具来分析程序执行所消耗的cycle数及调用关系；同时也会产生对应的 ``callgraph.ou`` t文件，双击 ``callgraph.out`` 文件，调用Call Graph查看程序的调用关系。
+Nuclei Near Cycle Model中支持通过gprof来分析程序，所以当我们配置了 ``--gprof`` ，在程序运行时，也会在Debug目录（ ``--logdir=XX`` 所配置的目录）下同步产生一个 ``.gmon`` 文件，双击 ``.gmon`` 文件，将调用gprof工具来分析程序执行所消耗的cycle数及调用关系；同时也会产生对应的 ``callgraph.out`` 文件，双击 ``callgraph.out`` 文件，调用Call Graph查看程序的调用关系。
 
 调用gprof工具，可以查看生成的 ``.gmon`` 文件中的内容。
 
