@@ -411,6 +411,34 @@ OpenOCD supports ARM semihosting, which allows target programs to use host syste
 For more detailed information about how to use openocd, please check the ``openocd.pdf`` distributed in openocd release.
 
 
+Target Defer Examine
+--------------------
+
+In some multicore systems, the slave-target is not debuggable and needs to be unlocked by the host-target before it can be used, in which case the -defer-examine parameter is needed.
+
+.. code-block:: c
+
+    # Configuring the “-defer-examine” parameter
+    $SLAVE_TARGETNAME configure -defer-examine
+
+    # Override events, the following events will trigger reset, slave-target needs to be initialized manually after reset
+    $_TARGETNAME1_0 configure -event gdb-flash-erase-start {
+      init
+    }
+    $_TARGETNAME1_0 configure -event gdb-flash-write-end {
+      init
+    }
+
+    # Initialization, since the slave-target specifies the “-defer-examine” parameter, only the other targets will be initialized.
+    init
+
+    # The host-target unlocks the slave-target with the command configuration registers
+    $HOST_TARGETNAME dmi_write/dm_write
+    $HOST_TARGETNAME dmi_read/dm_read
+
+    # Manually initialize slave-target
+    $SLAVE_TARGETNAME arp_examine
+
 Frequently Asked Questions
 ==========================
 
