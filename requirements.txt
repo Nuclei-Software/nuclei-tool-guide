@@ -2,7 +2,7 @@ docutils
 breathe
 commonmark
 recommonmark
-xcffib==1.5.0
+xcffib==1.7.1
 # version display needed
 sphinx-rtd-theme==2.1.0rc2
 Sphinx
