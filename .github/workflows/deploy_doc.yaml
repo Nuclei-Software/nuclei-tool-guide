@@ -32,6 +32,8 @@ jobs:
           texlive-full xindy texlive-latex-recommended texlive-xetex texlive-lang-cjk texlive-latex-extra texlive-fonts-recommended
           python3 -m pip install --upgrade pip
           pip install --upgrade setuptools==75.8.0 setuptools-scm==8.2.0
+          # install xcffib seperately due to install fail
+          pip install --use-pep517  xcffib==1.5.0
           pip install -r requirements.txt
 
     - name: Build Documentation
