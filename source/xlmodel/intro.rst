@@ -521,6 +521,9 @@ Below are the steps to use MSYS2's MinGW64 to compile `xlmodel_nice` on Windows:
     cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Rlease -DCLUSTER_NUM=1 ..
     make -j$(nproc)
 
+.. note::
+
+    If you need to import and compile `xlmodel_nice` in Nuclei Studio (:ref:`Nuclei Studio use xlmodel <ide_nuclei_near_cycle_model>`), you also need to configure the **MSYS2** environment as described above first.
 
 NICE example
 ------------
