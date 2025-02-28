@@ -18,10 +18,10 @@ For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nu
 
 **Find release note below**:
 
-- `Nuclei Studio 2025.02`_
-- `Nuclei RISC-V Toolchain 2025.02`_
-- `Nuclei QEMU 2025.02`_
-- `Nuclei OpenOCD 2025.02`_
+- `Nuclei Studio 2025.02`_ : Add a lot new features such as Live watch, Modeling integration, flash programming, and Nice Wizard etc.
+- `Nuclei RISC-V Toolchain 2025.02`_ : Bump to GCC 14 and LLVM 19.
+- `Nuclei QEMU 2025.02`_ : Bump to Qemu 9.0.
+- `Nuclei OpenOCD 2025.02`_ : Bump to OpenOCD 0.12.0
 
 Click https://github.com/Nuclei-Software/nuclei-tool-guide/issues/18 for this release known issues.
 
