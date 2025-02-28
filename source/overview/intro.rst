@@ -28,8 +28,9 @@ it supports near cycle-level simulation and SystemC TLM 2.0 Nuclei EvalSoC model
 
 .. _Nuclei Development Tool User Guide: ../nuclei_tool_user_guide.pdf
 
-You can also find our Nuclei Studio Supply documentation in https://nuclei-software.github.io/nuclei-studio/,
+You can also find our **Nuclei Studio Supply Documents** in https://doc.nucleisys.com/nuclei_studio_supply/,
 which is used for application notes using Nuclei Studio and Nuclei Tools.
+
 
 If you have issues in this user guide, please send us an pull request in https://github.com/Nuclei-Software/nuclei-tool-guide repo to help us improve it.
 

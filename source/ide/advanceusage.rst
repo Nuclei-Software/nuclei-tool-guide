@@ -3,6 +3,8 @@
 Nuclei Studio 高级功能
 ======================
 
+我们在 https://doc.nucleisys.com/nuclei_studio_supply 这里提供了很多且不断完善的Nuclei Studio和Nuclei Tools使用问题和案例，帮助你更好的使用Nuclei Studio以及Tools，可以点进去了解下。
+
 .. _ide_advanceusage_0:
 
 导入旧版本创建的工程
