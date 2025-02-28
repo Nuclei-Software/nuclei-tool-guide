@@ -528,7 +528,6 @@ Use Nuclei QEMU in Nuclei SDK
 **Setup Tools and Environment**
 
 1. Download the `nuclei-sdk <https://github.com/Nuclei-Software/nuclei-sdk>`_, checkout to ``master`` branch.
-
 2. Download RISC-V GNU Toolchain form `Nuclei Download Center <https://nucleisys.com/download.php>`_.
 
 3. Download Nuclei Qemu form `Nuclei Download Center <https://nucleisys.com/download.php>`_.
@@ -665,3 +664,10 @@ This command sets up QEMU to emulate a Nuclei processor and environment specific
 
 * ``-drive file=disk.img,if=sd,format=raw``: Attaches a virtual disk image named ``disk.img`` to the virtual machine, using the SD card interface (if=sd) and a raw file format (format=raw). This disk image likely contains the Nuclei Linux SDK filesystem.
 
+Known Issues
+============
+
+LiteOS-M is not able to run on Nuclei Qemu
+------------------------------------------
+
+This issue still existed in 2025.02 version, see https://github.com/riscv-mcu/qemu/issues/6
