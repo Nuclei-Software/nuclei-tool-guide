@@ -537,3 +537,29 @@ The test example for Nuclei NICE instruction features are located in `tests/demo
 The test example for Nuclei VNICE instruction features are located in `tests/demovnice`::
 
     ./xl_cpumodel --cpu=nx900fd --ext=v ../tests/demovnice/demovnice_nx900fd.elf
+
+Changelog
+=========
+
+.. _xlmodel_changelog_202502:
+
+Version 2025.02
+---------------
+
+**Known Issues:**
+
+- Does not support smp ECLIC, cidu and cache emulation
+
+**New Features:**
+
+- Added support for Windows systems
+- Added important parameters such as ``--cpu``, ``--ext``, and ``--mem``, and changed the ``--time`` parameter to ``--timeout``
+- Added rough cycle calculation for vector instructions
+
+**Improvements:**
+
+- Improved the CPU, Timer, and UART models
+- Improved the `xlmodel_nice` software package
+- Resolved the issue where some instructions could not be profiled
+- Adapted to run `demo_vnice`, `demo_plic`, and multiple RTOS cases in nuclei-sdk
+
