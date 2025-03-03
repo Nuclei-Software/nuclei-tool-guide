@@ -4,7 +4,12 @@ About GNU Toolchain
 ===================
 
 The official toolchain repository is located at https://github.com/riscv-collab/riscv-gnu-toolchain.git.
-Nuclei maintained toolchain repo is located at https://github.com/riscv-mcu/riscv-gnu-toolchain, and the latest branch for gcc14 is ``nuclei/2025.02``, in which the tools included versions are: gcc14.2.1, binutils2.44, gdb16.2, newlib 4.4.0, llvm 19.1.7, glibc 2.40, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc. For the 2024.06 toolchain branch, you can check out the ``nuclei/2024-gcc13`` branch.
+
+Nuclei maintained toolchain repo is located at https://github.com/riscv-mcu/riscv-gnu-toolchain.
+
+The latest release **2025.02** branch for gcc14 and llvm19 is ``nuclei/2025.02``, in which the tools included versions are: gcc 14.2.1, binutils 2.44, gdb 16.2, newlib 4.4.0, llvm 19.1.7, glibc 2.40, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
+
+For the 2024.06 toolchain branch(gcc13 + llvm17), you can check out the ``nuclei/2024-gcc13`` branch.
 
 Extensions Support
 ==================
@@ -53,7 +58,8 @@ Extensions Support
 
 - BFloat 16 Extensions
 
-    Zfbfmin, Zvfbfmin, Zvfbfwma, Xxlfbf, Xxlvfbf
+    - Standard: Zfbfmin, Zvfbfmin, Zvfbfwma
+    - Nuclei customized: Xxlfbf, Xxlvfbf
 
 - Zilsd Extensions
 
@@ -75,7 +81,7 @@ Extensions Support
     xxlczpstinc, xxlczbmrk, xxlczbitop, xxlczslet, xxlczabs, xxlczmac, xxlczbri, xxlczbitrev, xxlczgp.
 
 - Nuclei custom VPU Extensions
-    
+
     xxlvqmacc
 
 .. note::
@@ -179,8 +185,12 @@ Libraries
 
     ``libncrt`` is short of **Nuclei C Runtime Library**, which currently support Nuclei RV32 processor, which is released by Nuclei to reduce c library code size, and improve math library speed, for details, please refer to the user guide located in ``gcc\share\pdf\Nuclei C Runtime Library Doc.pdf``
 
+.. _changelog_202406:
+
 Significant Changes Brought by GCC13 Compared to GCC10
 ======================================================
+
+This is the changelog for 2023.10 and 2024.06.
 
 - Instead of using single-letter ``bkp`` to enable these extensions as we did on gcc10, we split them all into corresponding sub-extensions, for example, ``_zba_zkr_zve32f``, please check https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#arch-ext to learn about how to adapt Nuclei SDK to support gcc13 upgraded from gcc10.
 
@@ -198,14 +208,19 @@ Significant Changes Brought by GCC13 Compared to GCC10
 
 - The version of the libncrt was changed from v2.0.0 to v3.0.0, and libncrt is now split into three parts, 'libncrt', 'heapops' and 'fileops', click https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#stdclib to learn about how the newlib/libncrt are used in Nuclei SDK with gcc13.
 
+
+.. _changelog_202502:
+
 Significant Changes Brought by GCC14 Compared to GCC13
 ======================================================
+
+This is the changelog for 2025.02.
 
 - Support for the zilsd and zclsd extensions.
 
 - Some Nuclei custom CSR naming has been re-revised and corrected.
 
-- Implement custom VPU intrinsics for Nuclei.
+- Implement custom VPU intrinsics for Nuclei RISC-V CPU.
 
 - Nuclei introduces the ``bf16`` type and supports the ``xxlvfbf`` and ``xxlfbf`` extensions.
 

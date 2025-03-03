@@ -459,8 +459,10 @@ Nuclei provides an affordable debugging solution for RISC-V CPUs:
 
 `Dlink Repository <https://github.com/Nuclei-Software/nuclei-dlink>`_.
 
-Change Log
-==========
+Changelog
+=========
+
+.. _changelog_202502:
 
 Version 2025.02
 ---------------
