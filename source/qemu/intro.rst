@@ -664,6 +664,25 @@ This command sets up QEMU to emulate a Nuclei processor and environment specific
 
 * ``-drive file=disk.img,if=sd,format=raw``: Attaches a virtual disk image named ``disk.img`` to the virtual machine, using the SD card interface (if=sd) and a raw file format (format=raw). This disk image likely contains the Nuclei Linux SDK filesystem.
 
+Changelog
+=========
+
+.. _changelog_202502:
+
+Version 2025.02
+---------------
+
+- Synchronize to the upstream QEMU 9.0
+- Remove the Nuclei Demosoc support
+- Add new cpu support for the Nuclei 200 and 1000 series
+- Add Nuclei custom Xxlvqmacc extension support
+- Add basic support for Nuclei gpio, qspi, test finisher, etc
+- Zilsd/Zclsd extensions sync to upstream releases 1.0
+- Add support for rv32/64 linux-user
+- The maximum number of cpus supported by the Nuclei evalsoc smp has been adjusted from 16 to 64
+- Fixed failure to respond to external interrupt in ECLIC
+- Fixed Nuclei systimer support in CLINT  mode
+
 Known Issues
 ============
 

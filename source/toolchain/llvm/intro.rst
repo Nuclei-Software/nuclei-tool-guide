@@ -122,3 +122,19 @@ Install and Setup
 =================
 
 More information on building and running LLVM, see https://llvm.org/docs/GettingStarted.html#getting-the-source-code-and-building-llvm
+
+Changelog
+=========
+
+.. _changelog_202502:
+
+Version 2025.02
+---------------
+
+- llvm was upgraded to the upstream version 19.1.7
+- Add Zilsd & Zclsd V1.0 assembly support
+- Add Nuclei Xxldsp/Xxldspn1x/Xxldspn2x/Xxldspn3x extensions assembly support
+- Add Nuclei Xxlcz extension assembly support
+- Add Nuclei Xxlvamacc extension intrinsic support
+- Update Nuclei custom csrs
+- Update the multilib list
