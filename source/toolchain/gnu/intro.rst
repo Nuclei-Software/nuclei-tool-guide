@@ -185,7 +185,7 @@ Libraries
 
     ``libncrt`` is short of **Nuclei C Runtime Library**, which currently support Nuclei RV32 processor, which is released by Nuclei to reduce c library code size, and improve math library speed, for details, please refer to the user guide located in ``gcc\share\pdf\Nuclei C Runtime Library Doc.pdf``
 
-.. _changelog_202406:
+.. _gnu_changelog_202406:
 
 Significant Changes Brought by GCC13 Compared to GCC10
 ======================================================
@@ -209,7 +209,7 @@ This is the changelog for 2023.10 and 2024.06.
 - The version of the libncrt was changed from v2.0.0 to v3.0.0, and libncrt is now split into three parts, 'libncrt', 'heapops' and 'fileops', click https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#stdclib to learn about how the newlib/libncrt are used in Nuclei SDK with gcc13.
 
 
-.. _changelog_202502:
+.. _gnu_changelog_202502:
 
 Significant Changes Brought by GCC14 Compared to GCC13
 ======================================================

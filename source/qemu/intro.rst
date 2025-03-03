@@ -667,7 +667,7 @@ This command sets up QEMU to emulate a Nuclei processor and environment specific
 Changelog
 =========
 
-.. _changelog_202502:
+.. _qemu_changelog_202502:
 
 Version 2025.02
 ---------------

@@ -548,11 +548,12 @@ Version 2025.02
 
 **Known Issues:**
 
-- Does not support smp ECLIC, cidu and cache emulation
+- Does not support smp ECLIC, CIDU and CACHE emulation
 
 **New Features:**
 
-- Added support for Windows systems
+- Nuclei 200/300/900/1000 are supported, and support cpu core name are aligned with Nuclei SDK 0.7.1 release.
+- Added support for Windows system, now both windows and linux system are supported.
 - Added important parameters such as ``--cpu``, ``--ext``, and ``--mem``, and changed the ``--time`` parameter to ``--timeout``
 - Added rough cycle calculation for vector instructions
 

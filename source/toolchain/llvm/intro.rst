@@ -126,7 +126,7 @@ More information on building and running LLVM, see https://llvm.org/docs/Getting
 Changelog
 =========
 
-.. _changelog_202502:
+.. _llvm_changelog_202502:
 
 Version 2025.02
 ---------------

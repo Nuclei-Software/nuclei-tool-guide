@@ -462,7 +462,7 @@ Nuclei provides an affordable debugging solution for RISC-V CPUs:
 Changelog
 =========
 
-.. _changelog_202502:
+.. _openocd_changelog_202502:
 
 Version 2025.02
 ---------------

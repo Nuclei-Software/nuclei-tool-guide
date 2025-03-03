@@ -87,7 +87,7 @@ Nuclei Studio IDE充分利用上述Eclipse IDE优势，结合社区成熟的Ecli
 Nuclei Studio 更新说明
 =======================
 
-.. _changelog_202502:
+.. _ide_changelog_202502:
 
 2025.02版更新说明
 -----------------
@@ -155,7 +155,7 @@ ZCC升级
 
 在Nuclei Studio 2025.02版本中集成了ZCC 3.2.5版，并加入芯来科技支持的软件库。具体信息可以查看：https://www.terapines.com/products/zcc
 
-.. _changelog_202406:
+.. _ide_changelog_202406:
 
 2024.06版更新说明
 -----------------
@@ -235,7 +235,7 @@ Call Graph是分析函数调用关系图的工具，结合Gprof使用，便于�
 
 Nuclei Near Cycle Model，它是由芯来科技自主研发的仿真测试和性能分析工具，可以帮助研发人员在项目初期进行一些必要的仿真测试和程序性能分析，具体请参见 :ref:`使用Nuclei Near Cycle Model仿真性能分析 <ide_advanceusage_71>` 。
 
-.. _changelog_202402:
+.. _ide_changelog_202402:
 
 2024.02.dev版更新说明
 ---------------------
@@ -272,7 +272,7 @@ RVProf是芯来科技基于CPU cycle model开发的性能分析工具，具体�
 
 Dlink是芯来自主研发的调试解决方案，在本次版本中得到支持。此功能需要有相应的Dlink调试器的支持，如需体验此功能，请与我们联系。
 
-.. _changelog_202310:
+.. _ide_changelog_202310:
 
 2023.10版更新说明
 -----------------
@@ -411,7 +411,7 @@ Nuclei Settings增强了其通用性，使它不仅仅能对Nuclei的工程进�
 
 |image18|
 
-.. _changelog_202212:
+.. _ide_changelog_202212:
 
 2022.12版更新说明
 -----------------
