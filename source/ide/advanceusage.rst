@@ -358,6 +358,8 @@ NucleiSudio安装了nuclei_sdk 0.6.0后，可以创建一个 ``Profiling demo to
 
 .. _ide_advanceusage_43:
 
+.. _ide_etrace:
+
 Trace功能的使用
 ---------------
 

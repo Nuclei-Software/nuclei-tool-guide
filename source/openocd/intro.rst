@@ -24,7 +24,7 @@ Repositories and Documentation
 
 `Gitee  (OpenFlashLoader) Repository <https://gitee.com/riscv-mcu/openflashloader>`_.
 
-**Documentation Path**: ``openocd/doc/pdf/openocd.pdf``
+**OpenOCD User Guide Location**: ``openocd/doc/pdf/openocd.pdf``
 
 Getting Started
 ===============
@@ -467,23 +467,27 @@ Changelog
 Version 2025.02
 ---------------
 
+In this release, Nuclei OpenOCD bump openocd code base from 0.11 to 0.12,
+with this base changes, a lot of new features supported by upstream will
+be taken into Nuclei OpenOCD.
+
 **Known Issues:**
 
-- There is a probability that writing flash under smp multi-core architecture will fail, 
+- There is a probability that writing flash under smp multi-core architecture will fail,
   which can be solved by clarifying the number of SMP cores or reducing the JTAG frequency.
 
 **New Features:**
 
-- Live watch feature implementation
+- Live watch feature implementation, see :ref:`ide_live_watch`
 - Nuclei CTI command group support
-- Enhanced ETrace command group functionality
+- Enhanced ETrace command group functionality, see :ref:`ide_etrace`
 - Optimized CPU information command
 
 **Improvements:**
 
 - Continuous integration and documentation enhancements
-- Code organization: consolidated Nuclei commands into nuclei_riscv.c
-- Register access optimization: replaced vslide1down_vx with direct vx register access
+- Code organization: consolidated Nuclei commands into ``nuclei_riscv.c``
+- Register access optimization: replaced ``vslide1down_vx`` with direct ``vx`` register access for lite vpu case
 
 **CSR Updates:**
 
@@ -515,4 +519,4 @@ CSR Renaming:
 
 **Base Version:**
 
-- Changes based on `riscv/riscv-openocd <https://github.com/riscv-collab/riscv-openocd/commit/f82c5a7>`_.
+- Changes based on `riscv-collab/riscv-openocd@f82c5a7 <https://github.com/riscv-collab/riscv-openocd/commit/f82c5a7>`_.
