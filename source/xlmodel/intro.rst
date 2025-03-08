@@ -26,6 +26,8 @@ Since this model is also integrated in Nuclei Studio, you can use it do to
 Design and Architecture
 =======================
 
+.. _xlmodel_systemc_components:
+
 SystemC components
 ------------------
 
@@ -537,6 +539,56 @@ The test example for Nuclei NICE instruction features are located in `tests/demo
 The test example for Nuclei VNICE instruction features are located in `tests/demovnice`::
 
     ./xl_cpumodel --cpu=nx900fd --ext=v ../tests/demovnice/demovnice_nx900fd.elf
+
+SystemC integration
+===================
+
+If you need to integrate `xlmodel` into a third-party SoC simulation platform, you need to contact Nuclei AE for the software integration package of the model (`xlmodel_integration`).
+
+`xlmodel_integration` mainly includes the source code of :ref:`xlmodel_systemc_components`. You can extract the parts you need and use them on third-party platforms with relatively little adaptation.
+
+The main directory structure of `xlmodel_integration` is as follows:
+
++----------------+------------------------------------------------------------------------------------------------------------+
+| directory      | description                                                                                                |
++================+============================================================================================================+
+| src            | All SystemC components, Cluster and Timer are mandatory to integrate, while others be integrated as needed |
++----------------+------------------------------------------------------------------------------------------------------------+
+| inc            | All header files related to xlmodel, which are integrated as needed                                        |
++----------------+------------------------------------------------------------------------------------------------------------+
+| systemc        | SystemC 2.3.4 header files and static libraries, which are integrated as needed                            |
++----------------+------------------------------------------------------------------------------------------------------------+
+| cycle          | The near cycle lib file, must be integrated                                                                |
++----------------+------------------------------------------------------------------------------------------------------------+
+| profiling      | The xlmodel profiling lib file, which is integrated as needed                                              |
++----------------+------------------------------------------------------------------------------------------------------------+
+| xlspike        | xlspike header files and library files, must be fully integrated                                           |
++----------------+------------------------------------------------------------------------------------------------------------+
+| tests          | simple test codes                                                                                          |
++----------------+------------------------------------------------------------------------------------------------------------+
+| nice           | header and source files for the NICE interface, must be fully integrated                                   |
++----------------+------------------------------------------------------------------------------------------------------------+
+| CMakeLists.txt | CMake file required for compilation                                                                        |
++----------------+------------------------------------------------------------------------------------------------------------+
+
+Here are the integration steps instructions:
+
+1. In `inc/cluster.h`, find the **Cluster class** and inherit it in your SystemC platform class to use the base class methods of your platform. And all `simple_initiator_socket` and `simple_target_socket` components can be replaced with the SystemC sockets in your platform.
+
+2. Find the **Cluster class** in `src/cluster.cpp` and modify the constructor:
+   
+   1. No need to obtain parameters from `clustersMessage`, you can customize the values of parameters such as ``core_num``, ``core_type``, ``memMap``, ``bpu``, ``vectorArch``, etc., according to the simulation requirements.
+   2. You can refer to the `process_elf()` function in `src/main.cpp` to obtain ELF information, and fill the internal ilm/dlm variables of Cluster using the `ElfSectionInfo` structure. Alternatively, you can define your own `load_image` and pass it to the internal ilm/dlm variables of Cluster.
+   3. Except for the step of initializing the trace, all other steps in the constructor need to be retained during integration.
+
+3. in `src/cluster.cpp`, if your platform implements TLM transmission from CPU to Bus, you can substitute the read/write implementations into `cpu_read_tlm()` and `cpu_write_tlm()`.
+
+4. in `src/cluster.cpp`, if your platform implements TLM transmission for external interrupts, you can use the interrupt response API from `cluster_process_irq()` into your CPU's interrupt handling function. For example:
+   
+   When the CPU responds to a `Uart0` interrupt in **ECLIC** mode, you need to call ``irq_ctrl->set_external_pending(PRV_M, ECLIC_UART0);``.
+
+   When the CPU responds to a `Uart0` interrupt in **PLIC** mode, you need to call ``irq_ctrl->set_external_pending(PRV_M, PLIC_UART0);``.
+
 
 Changelog
 =========
