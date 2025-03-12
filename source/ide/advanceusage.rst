@@ -931,6 +931,11 @@ Live Watch使用演示
 
 .. code-block:: c
 
+   #include <stdio.h>
+   #include "nuclei_sdk_soc.h"
+   #include <math.h>
+
+   #define PI 3.14159265358979323846
    /**
    * 获取随时间变化的正弦波形变量
    */
@@ -970,6 +975,9 @@ Live Watch使用演示
       return 0;
    }
 
+测试demo中运用了数学函数，所以需要在编译选项中添加 ``-lm`` ，在工程的属性中，找到 ``Settings -> GNU RISC-V Cross C++ Linker -> Libraries``，并添加 ``-lm`` 。
+
+|image99|
 
 通过菜单 ``Windows -> Show VIew -> Live Watch`` ，打开Live Watch视图。
 
@@ -1016,6 +1024,84 @@ Live Watch也会自动将查询到的数据结果保存到 ``Save Data Path`` �
 
 |image95|
 
+Live Watch使用时的一些问题总结
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**对RISC-V SBA的依赖**
+
+前文已经提到，Live Watch对RISC-V SBA的依赖，如果在使用Live Watch时，无法获取到对应的值，有可能是当前CPU不支持RISC-V SBA，如何确认当前CPU是否支持RISC-V SBA，可以尝试以下方法。
+
+在工程处理Debug状态时，获取到将要在Live Watch查看的变量的地址。可以参考如下图。
+
+|image100|
+
+打开telnet工具，配置并连接。如无法连接，请检查OpenOCD服务是否启功正常，telnet端口是否正常开启。
+
+|image101|
+
+依然是在Debug状态下，在telnet工具中，使用命令 ``riscv set_mem_access sysbus`` 将riscv的memory access设置为sysbus(SBA)访问模式，并且尝试读取变量的值。
+
+.. code-block:: c
+
+   > riscv set_mem_access sysbus
+   > mdw 0x9000ffd8 4
+   0x9000ffd8: 000ab156 404e8df0 9999999a 3fb99999 
+
+如果上述操作能读取到变量的值，那么在全速运行程序的状态下，再次尝试读取变量的值，如果没有报错并且能读取到变量的值，说明当前CPU是支持SBA功能。
+
+.. code-block:: c
+
+   > mdw 0x9000ffd8 4
+   0x9000ffd8: 000ab156 404e8df0 9999999a 3fb99999 
+   > mdw 0x9000ffd8 4
+   0x9000ffd8: d0b53424 c0510557 9999999a 3fb99999 
+   > mdw 0x8000ffd8 4
+   0x8000ffd8: 00000000 00000000 00000000 00000000 
+   > mdw 0x9000ffd8 4
+   0x9000ffd8: b169d356 c0580176 9999999a 3fb99999 
+   > mdw 0x9000ffd8 4
+   0x9000ffd8: a69861c1 c056547d 9999999a 3fb99999 
+   > mdw 0x9000ffd8 4
+   0x9000ffd8: 4dbf49f2 404022d3 9999999a 3fb99999 
+   > mdw 0x9000ffd8 4
+
+
+**优化级别太高Live Watch读取不到变量的值**
+
+当工程优化级别较高时，Live Watch可能无法获取到某些变量的值，有demo如下。
+
+.. code-block:: c
+
+   int test()
+   {
+      uint32_t live_watch = 0;
+      while(1){
+         live_watch += 1;
+         delay_ms(100U);
+      }
+   }
+
+当工程的优化级变为O3或其他更高级别的，Live Watch无法获取到 ``live_watch`` 的值。可以调整工程的优化等级；也可以将需要监控的变量设置为全局变量或者static静态变量，且需要避免被编译器优化，工程代码修改如下。
+
+.. code-block:: c
+
+   int test()
+   {
+      static uint32_t live_watch = 0;
+      while(1){
+         live_watch += 1;
+         delay_ms(100U);
+      }
+   }
+
+Flash Programming
+------------------
+
+为了满足用户将编译好的二进制文件直接下载到硬件开发板的需求，Nuclei Studio 新增了 Flash Programming 功能。该功能允许用户快速、便捷地将编译好的二进制文件直接下载到硬件开发板中，极大提升了开发和调试的效率；简化操作流程，用户只需点击一次即可完成二进制文件的下载。工程编译好后，找到Flash Programming，并点击，即可完成二进制文件的下载。
+
+具体参见 :ref:`Flash Programming功能 <ide_flash_programming>` 。
+
+|image102|
 
 
 .. |image1| image:: /asserts/nucleistudio/advanceusage/image2.png
@@ -1216,6 +1302,14 @@ Live Watch也会自动将查询到的数据结果保存到 ``Save Data Path`` �
 .. |image97| image:: /asserts/nucleistudio/advanceusage/image97.png
 
 .. |image98| image:: /asserts/nucleistudio/advanceusage/image98.png
+
+.. |image99| image:: /asserts/nucleistudio/advanceusage/image99.png
+
+.. |image100| image:: /asserts/nucleistudio/advanceusage/image100.png
+
+.. |image101| image:: /asserts/nucleistudio/advanceusage/image101.png
+
+.. |image102| image:: /asserts/nucleistudio/advanceusage/image102.png
 
 .. |image-nice-1| image:: /asserts/nucleistudio/advanceusage/nice-1.png
 
