@@ -1035,11 +1035,11 @@ Live Watch使用时的一些问题总结
 
 |image100|
 
-打开telnet工具，配置并连接。如无法连接，说明当前CPU不支持使用Live Watch功能。
+打开telnet工具，配置并连接。如无法连接，请检查OpenOCD服务是否启功正常，telnet端口是否正常开启。
 
 |image101|
 
-依然是在Debug状态下，在telnet工具中，使用命令如下设置 ``riscv set_mem_access sysbus`` 并且尝试读取变量的值。
+依然是在Debug状态下，在telnet工具中，使用命令 ``riscv set_mem_access sysbus`` 将riscv的memory access设置为sysbus(SBA)访问模式，并且尝试读取变量的值。
 
 .. code-block:: c
 
@@ -1074,22 +1074,22 @@ Live Watch使用时的一些问题总结
 
    int test()
    {
-      uint32_t live_wathc = 0;
+      uint32_t live_watch = 0;
       while(1){
-         live_wathc += 1;
+         live_watch += 1;
          delay_ms(100U);
       }
    }
 
-当工程的优化级变为O3或其他更高级别的，Live Watch无法获取到 ``live_wathc`` 的值。可以调整工程的优化等级，也可以将工程代码修改如下。
+当工程的优化级变为O3或其他更高级别的，Live Watch无法获取到 ``live_watch`` 的值。可以调整工程的优化等级；也可以将需要监控的变量设置为全局变量或者static静态变量，且需要避免被编译器优化，工程代码修改如下。
 
 .. code-block:: c
 
    int test()
    {
-      static uint32_t live_wathc = 0;
+      static uint32_t live_watch = 0;
       while(1){
-         live_wathc += 1;
+         live_watch += 1;
          delay_ms(100U);
       }
    }

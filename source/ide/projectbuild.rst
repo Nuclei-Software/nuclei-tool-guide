@@ -181,17 +181,23 @@ Load的文件，默认的elf格试的文件，也可以支持 ``*.bin、*.hex、
 
 Flash Programming的选项有以下三个
 
-    - Verify Image：在烧录时，会验证烧录的镜像文件是否匹配当前连接的目标设备上的闪存配置。
+    - Verify Image：在烧录完备后，会校验烧录的镜像文件与当前连接的目标设备上下载进去的文件是否一致，确保烧录成功。
 
-    - Reset and Run：在烧录结束后执行完load后可能强制系统复位（SRST），并让目标设备运行。
+    - Reset and Run：烧录完成后，让CPU复位并并运行，需要注意如果勾选了 Load in RAM, 则只会运行不会复位（如程序烧录在RAM中，复位将会使程序丢失）。
 
-    - Load in Ram：将固件烧录到内存中，而不是闪存中，选中时，需要指定Program Address。
+    - Load in Ram：勾选这个表示固件需要下载到内存中，而不是Flash等非易失性存储器上，选中后，必须指定Program Address。
 
-参数的使用，与工程的Download模式匹配，Nuclei Studio中默认支持 ``DDR/ILM/SRAM/FLASH/FLASHXIP`` 。
+    .. note::
+       
+       Load in Ram勾选和不勾选固件下载方式不一样，所使用的OpenOCD命令也不同，后续文档中有详细介绍，请仔细阅读并根据实际情况准确选择。
+
+上述参数的使用，与工程的Download模式匹配，Nuclei Studio中默认支持 ``DDR/ILM/SRAM/FLASH/FLASHXIP`` 。
 
 当工程Download模式是 ``DDR/ILM/SRAM`` 时，``Load in Ram`` 必须选中，同时 ``Program Address`` 地址也不能为空，这里的 ``Program Address`` 地址是程序烧写入Ram时的第一个地址。
 
-一般 ``Program Address`` 可以在 ``*.map`` 文件中找到，打开 ``*.map`` 文件，搜索 ``Linker script and memory map`` ,然后找到 ``.init`` 后面的这个地址就是 ``Program Address`` 。
+一般 ``Program Address`` 可以在 ``*.map`` 文件中找到，或者执行 riscv64-unknown-elf-readelf -h /path/to/your.elf后查看Entry point address，本文档仅介绍从 ``*.map`` 文件中查找 ``Program Address`` 。
+
+打开 ``*.map`` 文件，搜索 ``Linker script and memory map`` ,然后找到 ``.init`` 后面的这个地址就是 ``Program Address`` 。
 
 |image25|
 
@@ -227,7 +233,9 @@ Flash Programming的选项有以下三个
 
 **OpenOCD Flash Programming Command line**
 
-这些参数最终会以命令行的形式通过 GDB 执行。用户也可以自定义所需的命令，只需勾选 ``Customize openocd flash programming command line`` ，即可在下方输入框中输入自定义命令。如果用户对gdb命令非常了解，可以尝试自定义命令，否则，不建议勾选 ``Customize openocd flash programming command line`` 。
+Flash Programming中的参数最终将通过OpenOCD执行。默认情况下， ``Customize openocd flash programming command line`` 选项是未选中的。当您勾选 ``Customize openocd flash programming command line`` 时，所有其他相关选项将失效。此时，您可以直接在下方的输入框中输入自定义命令。
+
+如果您对OpenOCD命令有足够的了解，可以尝试自定义命令以满足特定需求。然而，如果您不熟悉OpenOCD命令行操作，建议不要勾选此选项，以免导致配置错误。
 
 |image23|
 
