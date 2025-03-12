@@ -163,7 +163,7 @@ Nuclei Studio中编译Hello World项目
 Flash Programming
 ------------------
 
-为了满足用户将编译好的二进制文件直接下载到硬件开发板的需求，Nuclei Studio 新增了 Flash Programming 功能。该功能允许用户快速、便捷地将编译好的二进制文件直接下载到硬件开发板中，极大提升了开发和调试的效率；简化操作流程，用户只需点击一次即可完成二进制文件的下载。工程编译好后，找到Flash Programming，并点击，即可完成二进制文件下载的下载。
+为了满足用户将编译好的二进制文件直接下载到硬件开发板的需求，Nuclei Studio 新增了 Flash Programming 功能。该功能允许用户快速、便捷地将编译好的二进制文件直接下载到硬件开发板中，极大提升了开发和调试的效率；简化操作流程，用户只需点击一次即可完成二进制文件的下载。工程编译好后，找到Flash Programming，并点击，即可完成二进制文件的下载。
 
 |image17|
 
@@ -179,23 +179,55 @@ Load的文件，默认的elf格试的文件，也可以支持 ``*.bin、*.hex、
 
 **Flash Programming Options**
 
-Flash Programming的选项有以下三种
+Flash Programming的选项有以下三个
 
-Verify Image：选中时，Download命令会带上 ``verify`` 参数，这条指令要求确认你要烧录的镜像文件是否匹配当前连接的目标设备上的闪存配置。
+    - Verify Image：在烧录时，会验证烧录的镜像文件是否匹配当前连接的目标设备上的闪存配置。
 
-|image20|
+    - Reset and Run：在烧录结束后执行完load后可能强制系统复位（SRST），并让目标设备运行。
 
-Reset and Run：选中时，Download命令会带上 ``reset`` 参数，这条指令在执行完load后可能强制系统复位（SRST），并让目标设备运行。
+    - Load in Ram：将固件烧录到内存中，而不是闪存中，选中时，需要指定Program Address。
 
-|image21|
+参数的使用，与工程的Download模式匹配，Nuclei Studio中默认支持 ``DDR/ILM/SRAM/FLASH/FLASHXIP`` 。
 
-Load in Ram：选中时，需要指定Program Address，Download命令会带上 ``resume {Program Address}`` 参数，这条指令固件加载到内存中，而不是闪存中。
+当工程Download模式是 ``DDR/ILM/SRAM`` 时，``Load in Ram`` 必须选中，同时 ``Program Address`` 地址也不能为空，这里的 ``Program Address`` 地址是程序烧写入Ram时的第一个地址。
 
-|image22|
+一般 ``Program Address`` 可以在 ``*.map`` 文件中找到，打开 ``*.map`` 文件，搜索 ``Linker script and memory map`` ,然后找到 ``.init`` 后面的这个地址就是 ``Program Address`` 。
+
+|image25|
+
+当选中 ``Load in Ram`` 时， 同时选中 ``Verify Image`` ，命令行中将多一行命令 ``-c "verify_image Debug/test.elf"`` ，此时是通过 ``verify_image`` 命令来实现镜像文件的检查。
+
+当选中 ``Load in Ram`` 时， 同时选中 ``Reset and Run`` 、命令行中将多一行命令 ``-c "resume 0x80000000; shutdown"`` ，此时是通过 ``resume`` 命令来实现load后可能强制系统复位。
+
+.. code-block:: c
+
+    -c "set BOOT_HARTID 0;" 
+    -f "nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg" 
+    -c 'echo "Start to program Debug/test.elf to 0x80000000"' 
+    -c "load_image Debug/test.elf" 
+    -c "verify_image Debug/test.elf" 
+    -c "resume 0x80000000; shutdown"
+
+|image26|
+
+当工程Download模式是 ``FLASH/FLASHXIP`` 时，则不勾选 ``Load in Ram``，并且 ``Program Address`` 为必须为空。
+
+当选中 ``Verify Image`` ，命令行中将多一行命令 ``verify`` ，此时是通过 ``verify`` 命令来实现镜像文件的检查。
+
+当选中 ``Reset and Run`` ，命令行中将多一行命令 ``reset`` ，此时是通过 ``reset`` 命令来实现load后可能强制系统复位。
+
+.. code-block:: c
+
+    -c "set BOOT_HARTID 0;" 
+    -f "nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg" 
+    -c 'echo "Start to program Debug/test.elf"' 
+    -c "program Debug/test.elf verify reset exit"
+
+|image27|
 
 **OpenOCD Flash Programming Command line**
 
-这些参数最终会以命令行的形式通过 GDB 执行。用户也可以自定义所需的命令，只需勾选 ``Customize openocd flash programming command line`` ，即可在下方输入框中输入自定义命令。
+这些参数最终会以命令行的形式通过 GDB 执行。用户也可以自定义所需的命令，只需勾选 ``Customize openocd flash programming command line`` ，即可在下方输入框中输入自定义命令。如果用户对gdb命令非常了解，可以尝试自定义命令，否则，不建议勾选 ``Customize openocd flash programming command line`` 。
 
 |image23|
 
@@ -250,3 +282,9 @@ Load in Ram：选中时，需要指定Program Address，Download命令会带上 
 .. |image23| image:: /asserts/nucleistudio/projectbuild/image23.png
 
 .. |image24| image:: /asserts/nucleistudio/projectbuild/image24.png
+
+.. |image25| image:: /asserts/nucleistudio/projectbuild/image25.png
+
+.. |image26| image:: /asserts/nucleistudio/projectbuild/image26.png
+
+.. |image27| image:: /asserts/nucleistudio/projectbuild/image27.png
