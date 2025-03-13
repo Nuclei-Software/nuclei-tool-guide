@@ -59,7 +59,7 @@ Extensions Support
 - BFloat 16 Extensions
 
     - Standard: Zfbfmin, Zvfbfmin, Zvfbfwma
-    - Nuclei customized: Xxlfbf, Xxlvfbf
+    - Nuclei customized: :ref:`Xxlfbf, Xxlvfbf <toolchain_gnu_nuclei_bf16>`
 
 - Zilsd Extensions
 
