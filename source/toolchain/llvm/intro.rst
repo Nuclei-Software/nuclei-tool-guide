@@ -3,7 +3,9 @@
 About LLVM Toolchain
 ====================
 
-The current llvm toolchain is developed based on the upstream V19.1.7, and only Nuclei custom CSR is supported.
+The current llvm toolchain is developed based on the upstream V19.1.7, for extensions we supported, check below:
+
+You can find our llvm source code in https://github.com/riscv-mcu/llvm-project/tree/nuclei/19.x
 
 Extensions Support
 ==================
@@ -64,7 +66,7 @@ Extensions Support
     - xxldspn3x: xxldsp + Nuclei Custom N1 & N2 & N3
 
 - Nuclei custom VPU Extensions
-    
+
     xxlvqmacc
 
 .. rubric:: Experimental Extensions
