@@ -8,3 +8,4 @@ GNU Toolchain
    :maxdepth: 3
 
    intro.rst
+   nuclei_bf16.rst
