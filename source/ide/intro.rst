@@ -6,7 +6,7 @@ Nuclei Studio IDE 简介
 .. note::
 
    - Nuclei Studio出视频教程啦，相关内容在 **芯来科技视频号** 中持续更新中，您可以在微信中搜索 **芯来科技视频号** 并关注，以便获取到我们最新的更新内容。
-   - 在使用Nuclei Studio, Nuclei Tools过程中，如查有问题，可以查阅 `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__\ 内容，也可以向我们提交相关Issue。
+   - 在使用Nuclei Studio, Nuclei Tools过程中，如查有问题，可以查阅 `https://doc.nucleisys.com/nuclei_studio_supply/ <https://doc.nucleisys.com/nuclei_studio_supply/>`__\ 内容，也可以向我们提交相关Issue。
 
 一款高效易用的集成开发环境（Integrated Development Environment，IDE）对于任何MCU都显得非常重要，软件开发人员需要借助IDE进行实际的项目开发与调试。
 ARM的商业IDE软件Keil，在中国大陆很多嵌入式软件工程师均对其非常熟悉。但是商业IDE软件（譬如Keil）存在着授权以及收费的问题，各大MCU厂商也会推出自己
