@@ -44,7 +44,7 @@ BF16 标量的支持
 扩展
 ++++++++++++++++++++++++++++++++++++++
 
-Nuclei bf16 标量的运算操作,需要开启xxlfbf扩展.
+Nuclei bf16 标量的运算操作,需要开启 ``xxlfbf`` 扩展.
 
 示例：`-march=rv64imafdc_xxlfbf`
 
@@ -111,9 +111,9 @@ BF16 向量的支持(rvv intrinsic)
 扩展
 +++++++++++++++++++++++++++++++
 
-Nuclei bf16 rvv intrinsic的使用,需要开启xxlvfbf扩展.
+Nuclei bf16 rvv intrinsic的使用,需要开启 ``V`` 扩展以及 ``xxlvfbf`` 扩展.
 
-示例：`-march=rv64imafdc_xxlvfbf`
+示例：`-march=rv64imafdcv_xxlvfbf`
 
 Nuclei bf16 rvv intrinsic nameing scheme
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
