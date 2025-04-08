@@ -9,3 +9,4 @@ GNU Toolchain
 
    intro.rst
    nuclei_bf16.rst
+   nuclei_vpu.rst

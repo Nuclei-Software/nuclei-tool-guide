@@ -82,7 +82,7 @@ Extensions Support
 
 - Nuclei custom VPU Extensions
 
-    xxlvqmacc
+    :ref:`xxlvqmacc <toolchain_gnu_nuclei_vpu>`
 
 .. note::
 
