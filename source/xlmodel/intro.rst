@@ -33,12 +33,12 @@ SystemC components
 
 Brief description of the `xlmodel` SystemC components:
 
-* Top: Top-level entity that builds & starts the SystemC simulation
-* Cluster: Cluster contains multiple cores and can be used to start xlspike for co-simulation
+* Evalsoc: SystemC modeling of EvalSoC, including the binding relationships of all components and load image functionality
+* Cluster: Modeling of single-core or multi-core CPU, using xlspike internally to execute instructions
 * Bus: Simple bus manager
-* Memory: Memory comprises both instruction memory and data memory, as well as the loading of ELF sections
-* EvalUart: Nuclei EvalSoC uart
-* EvalQspi: Nuclei EvalSoC qspi
+* Memory: Simple memory
+* EvalUart: Nuclei EvalSoC UART
+* EvalQspi: Nuclei EvalSoC QSPI
 
 Address Allocation of Evalsoc in xlmodel
 ----------------------------------------
@@ -490,9 +490,7 @@ After implementing the **NICE** instruction, you need to recompile `xlmodel_nice
     # Change to the root directory of the xlmodel_nice package
     cd <xlmodel_nice root directory>
     mkdir build && cd build
-    # Configure the cluster num based on the SoC system using -DCLUSTER_NUM=xxx
-    # The following is the configuration with cluster number 1, which is the default.
-    cmake -DCMAKE_BUILD_TYPE=Release -DCLUSTER_NUM=1 ..
+    cmake -DCMAKE_BUILD_TYPE=Release ..
     make -j$(nproc)
 
 **nice build for Windows**
@@ -518,9 +516,7 @@ Below are the steps to use MSYS2's MinGW64 to compile `xlmodel_nice` on Windows:
     # Change to the root directory of the xlmodel_nice package
     cd <xlmodel_nice root directory>
     mkdir build && cd build
-    # Configure the cluster num based on the SoC system using -DCLUSTER_NUM=xxx
-    # The following is the configuration with cluster number 1, which is the default.
-    cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Rlease -DCLUSTER_NUM=1 ..
+    cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Rlease ..
     make -j$(nproc)
 
 .. note::
@@ -573,22 +569,37 @@ The main directory structure of `xlmodel_integration` is as follows:
 
 Here are the integration steps instructions:
 
-1. In `inc/cluster.h`, find the **Cluster class** and inherit it in your SystemC platform class to use the base class methods of your platform. And all `simple_initiator_socket` and `simple_target_socket` components can be replaced with the SystemC sockets in your platform.
+1. Find the Cluster class in `inc/cluster.h`:
 
-2. Find the **Cluster class** in `src/cluster.cpp` and modify the constructor:
+   - The Cluster class contains two types of variables:
+
+     * **Internal variables**: Initialized to default values in the constructor's member initialization list.
+  
+     * **User-defined variables**: Initialization in the constructor's member list depends on your **firmware, CPU configurations and extra simulation feature needs**.
+
+   - Usage recommendations:
+
+     * You can inherit the Cluster class in your SystemC platform class to use base methods of your platform.
+
+2. Find the Cluster class in `src/cluster.cpp`:
+
+   - Usage recommendations:
+
+     * If you do not need to replace the SystemC sockets and TLM methods in the Cluster class, you can directly use the constructor and methods in the Cluster class without any modification.
+  
+     * Adjust the user-defined variables in the constructor's member initialization list.
+  
+     * If your platform implements TLM transmission from CPU to Bus, you can substitute the read/write implementations into ``cpu_read_tlm()`` and ``cpu_write_tlm()``.
+
+3. Use External Interrupts:
    
-   1. No need to obtain parameters from `clustersMessage`, you can customize the values of parameters such as ``core_num``, ``core_type``, ``memMap``, ``bpu``, ``vectorArch``, etc., according to the simulation requirements.
-   2. You can refer to the `process_elf()` function in `src/main.cpp` to obtain ELF information, and fill the internal ilm/dlm variables of Cluster using the `ElfSectionInfo` structure. Alternatively, you can define your own `load_image` and pass it to the internal ilm/dlm variables of Cluster.
-   3. Except for the step of initializing the trace, all other steps in the constructor need to be retained during integration.
+   - To connect User-defined external interrupts to the CPU:
 
-3. in `src/cluster.cpp`, if your platform implements TLM transmission from CPU to Bus, you can substitute the read/write implementations into `cpu_read_tlm()` and `cpu_write_tlm()`.
-
-4. in `src/cluster.cpp`, if your platform implements TLM transmission for external interrupts, you can use the interrupt response API from `cluster_process_irq()` into your CPU's interrupt handling function. For example:
-   
-   When the CPU responds to a `Uart0` interrupt in **ECLIC** mode, you need to call ``irq_ctrl->set_external_pending(PRV_M, ECLIC_UART0);``.
-
-   When the CPU responds to a `Uart0` interrupt in **PLIC** mode, you need to call ``irq_ctrl->set_external_pending(PRV_M, PLIC_UART0);``.
-
+     * Configure the number of external interrupts by updating ``ext_irq_num`` during Cluster instantiation.
+  
+     * Bind your device's interrupt socket to the CPU.
+  
+     * Use the device socket's ``b_transport`` method to pass the **irq_id** to the CPU.
 
 Changelog
 =========
