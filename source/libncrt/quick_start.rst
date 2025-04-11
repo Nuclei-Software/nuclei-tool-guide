@@ -81,10 +81,33 @@ In `startup.S`, load `__tls_base` to tp register:
 Heap
 ~~~~
 
-Specific `'heapops'` static libraries can be chosen based on the API support. Here are the **SEGGER heap API** support conditions for the three `'heapops'` static libraries:
+Heap implementation classification
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+`libncrt` provides three heap implementations which you may choose from:
+
+.. _libncrt_heapops_basic:
+
+* Basic Heap (**-lheapops_basic**)
+
+    Basic heap implement a low-overhead best-fit heap where allocation and deallocation have very little internal fragmentation.
+
+.. _libncrt_heapops_realtime:
+
+* Real-Time Heap (**-lheapops_realtime**)
+
+    Real-Time heap implement a real-time heap where allocation and deallocation have O(1) performance.
+
+.. _libncrt_heapops_minimal:
+
+* Minimal Heap (**-lheapops_minimal**)
+
+    Minimal heap implement an allocate-only heap where deallocation and reallocation are not implemented.
 
 SEGGER heap API support
 ^^^^^^^^^^^^^^^^^^^^^^^
+
+Specific `'heapops'` static libraries can be chosen based on the API support. Here are the **SEGGER heap API** support conditions for the three `'heapops'` static libraries:
 
 +-----------------------------+----------------------+-------------------+---------------------+
 |                             | **heapops_realtime** | **heapops_basic** | **heapops_minimal** |
@@ -98,7 +121,7 @@ SEGGER heap API support
 | __SEGGER_RTL_free           | yes                  | yes               | no                  |
 +-----------------------------+----------------------+-------------------+---------------------+
 
-Before calling heap-related APIs such as malloc, you need to implement the initialization of the heap as shown in `init_libncrt_heap()`. You can call the function during startup such as in the `startup.S` file.
+Before calling heap-related APIs such as malloc, you need to implement the initialization of the heap as shown in nuclei-sdk `init_libncrt_heap() <https://github.com/Nuclei-Software/nuclei-sdk/blob/master/SoC/evalsoc/Common/Source/Stubs/libncrt/stubs.c>`__ . You can call the function during startup such as in the `startup.S` file.
 
 .. code-block:: c
 
