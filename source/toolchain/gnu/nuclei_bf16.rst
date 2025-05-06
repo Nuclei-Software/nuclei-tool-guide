@@ -1,6 +1,6 @@
 .. _toolchain_gnu_nuclei_bf16:
 
-Nuclei Customized BFloat16 Extension
+Nuclei Custom BFloat16 Extension
 ====================================
 
 Introduction
@@ -155,7 +155,7 @@ Nuclei 自定义的bfloat16 intrinsic 也遵循rvv intrinsic 命名的基础规�
 ``mf4``            lmul的值
 
 .. note::
-    bfloat16 的向量数据类型,参考 https://github.com/riscv-non-isa/rvv-intrinsic-doc/blob/main/doc/vector-bfloat16-spec.adoc.
+    bfloat16 的向量数据类型,参考 https://github.com/riscv-non-isa/rvv-intrinsic-doc/blob/post-1.0-dev/doc/vector-bfloat16-spec.adoc.
 
 
 Nuclei bf16 支持的rvv 指令
@@ -377,11 +377,11 @@ Nuclei 自定义支持的指令所对应的rvv intrinsic,与上述文档中float
 
         ``vbfloat16mf4_t __riscv_vle16_v_bf16mf4(const __bf16 *rs1, size_t vl);``
 
-详细的intrinsic api 可参考 https://github.com/riscv-non-isa/rvv-intrinsic-doc/tree/main/auto-generated/bfloat16/intrinsic_funcs.
+详细的intrinsic api 可参考 https://github.com/riscv-non-isa/rvv-intrinsic-doc/tree/post-1.0-dev/auto-generated/bfloat16/intrinsic_funcs.
 
 .. note::
 
-    1、部分上游支持的指令对应的 intrinsic https://github.com/riscv-non-isa/rvv-intrinsic-doc/tree/main/auto-generated/bfloat16/intrinsic_funcs v-intrinsic-spec.pdf 中并未全部列出,但依然可以使用,具体如下:
+    1、部分上游支持的指令对应的 intrinsic https://github.com/riscv-non-isa/rvv-intrinsic-doc/tree/post-1.0-dev/auto-generated/bfloat16/intrinsic_funcs 中并未全部列出,但依然可以使用,具体如下:
 
     * Vector Indexed Load Intrinsics
         - ``vloxei[8/32/64].v``
@@ -406,7 +406,7 @@ Nuclei 自定义支持的指令所对应的rvv intrinsic,与上述文档中float
 
     对应的 intrisic 名字请参考 `与上游兼容的intrinsic`_
 
-    2、 上述网站  https://github.com/riscv-non-isa/rvv-intrinsic-doc/tree/main/auto-generated/bfloat16/intrinsic_funcs **03_bfloat16_arithmetic_intrinsics.adoc** 文件中的
+    2、 上述网站  https://github.com/riscv-non-isa/rvv-intrinsic-doc/tree/post-1.0-dev/auto-generated/bfloat16/intrinsic_funcs **03_bfloat16_arithmetic_intrinsics.adoc** 文件中的
 
     * Vector BFloat16 Move Intrinsics
 
