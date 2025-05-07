@@ -108,6 +108,11 @@ Examples
 BF16 向量的支持(rvv intrinsic)
 ********************************
 
+.. _rvv-intrinsic-doc: https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0.0-rc7
+.. _vector-bfloat16-spec.adoc: https://github.com/riscv-non-isa/rvv-intrinsic-doc/blob/9328aba3fca494717de08502ff32819a7c168daa/doc/vector-bfloat16-spec.adoc
+.. _bfloat16 intrinsic_funcs: https://github.com/riscv-non-isa/rvv-intrinsic-doc/tree/9328aba3fca494717de08502ff32819a7c168daa/auto-generated/bfloat16/intrinsic_funcs
+.. _riscv-bfloat16 release v1.0: https://github.com/riscv/riscv-bfloat16/releases
+
 扩展
 +++++
 
@@ -118,7 +123,7 @@ Nuclei bf16 rvv intrinsic的使用,需要开启 ``V`` 扩展以及 ``xxlvfbf`` �
 Nuclei bf16 rvv intrinsic nameing scheme
 +++++++++++++++++++++++++++++++++++++++++
 
-rvv intrinsic 命名规则: https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0.0-rc7 ``v-intrinsic-spec.pdf``-> **Chapter 6**.
+rvv intrinsic 命名规则: `rvv-intrinsic-doc`_ ``v-intrinsic-spec.pdf``-> **Chapter 6**.
 
 我们的命名规则遵循上述的命名规则,并在此基础上为了区分我们自定义的intrinsic,在前缀处添加了 ``_xl`` 示例如下：
 
@@ -155,7 +160,7 @@ Nuclei 自定义的bfloat16 intrinsic 也遵循rvv intrinsic 命名的基础规�
 ``mf4``            lmul的值
 
 .. note::
-    bfloat16 的向量数据类型,参考 `vector-bfloat16-spec.adoc <https://github.com/riscv-non-isa/rvv-intrinsic-doc/blob/9328aba3fca494717de08502ff32819a7c168daa/doc/vector-bfloat16-spec.adoc>`_.
+    bfloat16 的向量数据类型,参考 `vector-bfloat16-spec.adoc`_.
 
 
 Nuclei bf16 支持的rvv 指令
@@ -313,7 +318,7 @@ Nuclei 自定义的指令
     - ``vsuxseg[2-8]ei64.v``
 
 .. note::
-    Zvfbfmin、Zvfbfwma 扩展支持的指令 https://github.com/riscv/riscv-bfloat16/releases ``riscv-bfloat16.pdf`` 和我们自定义的Xxlvfbf扩展不兼容.
+    Zvfbfmin、Zvfbfwma 扩展支持的指令 `riscv-bfloat16 release v1.0`_ ``riscv-bfloat16.pdf`` 和我们自定义的Xxlvfbf扩展不兼容.
 
     其功能已在vfncvt.f.f.w、vfncvt.f.f.f、vfwmacc.vv/vfwmacc.vf中实现.
 
@@ -324,7 +329,7 @@ Nuclei bf16 支持的rvv intrinsic
 Nuclei 自定义的 intrinsic
 ##########################
 
-参考 https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0.0-rc7 ``v-intrinsic-spec.pdf`` -> **Appendix A**.
+参考 `rvv-intrinsic-doc`_ ``v-intrinsic-spec.pdf`` -> **Appendix A**.
 
 Nuclei 自定义支持的指令所对应的rvv intrinsic,与上述文档中float16对应的rvv intrinsic只有名字的区别,区别请参考 `Nuclei bf16 rvv intrinsic nameing scheme`_
 
@@ -361,7 +366,7 @@ Nuclei 自定义支持的指令所对应的rvv intrinsic,与上述文档中float
 与上游兼容的intrinsic
 ######################
 
-这部分intrinsic 所对应的命名与 https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0.0-rc7 ``v-intrinsic-spec.pdf`` -> **Appendix A** 文档中float16对应的rvv intrinsic也只有名字的区别.
+这部分intrinsic 所对应的命名与 `rvv-intrinsic-doc`_ ``v-intrinsic-spec.pdf`` -> **Appendix A** 文档中float16对应的rvv intrinsic也只有名字的区别.
 
 区别只需要将float16相关数据类型替换为bfloat16数据类型
 
@@ -377,11 +382,11 @@ Nuclei 自定义支持的指令所对应的rvv intrinsic,与上述文档中float
 
         ``vbfloat16mf4_t __riscv_vle16_v_bf16mf4(const __bf16 *rs1, size_t vl);``
 
-详细的intrinsic api 可参考 `bfloat16 intrinsic_funcs <https://github.com/riscv-non-isa/rvv-intrinsic-doc/tree/9328aba3fca494717de08502ff32819a7c168daa/auto-generated/bfloat16/intrinsic_funcs>`_.
+详细的intrinsic api 可参考 `bfloat16 intrinsic_funcs`_.
 
 .. note::
 
-    1、部分上游支持的指令对应的 intrinsic `bfloat16 intrinsic_funcs <https://github.com/riscv-non-isa/rvv-intrinsic-doc/tree/9328aba3fca494717de08502ff32819a7c168daa/auto-generated/bfloat16/intrinsic_funcs>`_ 中并未全部列出,但依然可以使用,具体如下:
+    1、部分上游支持的指令对应的 intrinsic `bfloat16 intrinsic_funcs`_ 中并未全部列出,但依然可以使用,具体如下:
 
     * Vector Indexed Load Intrinsics
         - ``vloxei[8/32/64].v``
@@ -406,7 +411,7 @@ Nuclei 自定义支持的指令所对应的rvv intrinsic,与上述文档中float
 
     对应的 intrisic 名字请参考 `与上游兼容的intrinsic`_
 
-    2、 上述bfloat16 intrinsic_funcs `03_bfloat16_arithmetic_intrinsics.adoc <https://github.com/riscv-non-isa/rvv-intrinsic-doc/blob/9328aba3fca494717de08502ff32819a7c168daa/auto-generated/bfloat16/intrinsic_funcs/03_bfloat16_arithmetic_intrinsics.adoc>`_ 文件中的
+    2、 上述 `bfloat16 intrinsic_funcs`_ 中03_bfloat16_arithmetic_intrinsics.adoc文件里的
 
     * Vector BFloat16 Move Intrinsics
 
