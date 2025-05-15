@@ -205,7 +205,7 @@ Flash Programming的选项有以下三个
 
 当选中 ``Load in Ram`` 时， 同时选中 ``Reset and Run`` 、命令行中将多一行命令 ``-c "resume 0x80000000; shutdown"`` ，此时是通过 ``resume`` 命令来实现load后可能强制系统复位。
 
-.. code-block:: c
+.. code-block::
 
     -c "set BOOT_HARTID 0;" 
     -f "nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg" 
@@ -222,7 +222,7 @@ Flash Programming的选项有以下三个
 
 当选中 ``Reset and Run`` ，命令行中将多一行命令 ``reset`` ，此时是通过 ``reset`` 命令来实现load后可能强制系统复位。
 
-.. code-block:: c
+.. code-block::
 
     -c "set BOOT_HARTID 0;" 
     -f "nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg" 
