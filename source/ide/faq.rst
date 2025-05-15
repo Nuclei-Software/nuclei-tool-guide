@@ -277,24 +277,41 @@ Debug工程时查看GDB Trace
 
 |image44|
 
-在Debug时，可以在 ``Console`` 窗口中查看到GDB Trace，可以帮助用户分析调试过程中的一些问题。
+在Debug时，可以在 ``Console`` 窗口中,点击 ``Display Selected Console`` 切换到GDB Trace Console，就可以查看到GDB Trace，用以帮助分析调试过程中的问题。
 
 |image45|
 
-Debug工程时链接到运行中的target
+Debug工程时链接到运行中的Target
 --------------------------------
 
-在Nuclei Studio环境中使用OpenOCD Debug工程时，链接到运行中的target，可以通过如下操作实现。打开debug_openocd的配置文件，选中 ``Startup`` 页并修改配置如下图：
+在Nuclei Studio环境中使用OpenOCD Debug工程时，链接到运行中的Target，可以通过如下操作实现。打开Debug_openocd的配置文件，选中 ``
+`` 页并修改配置如下图：
+
+- Init reset 去掉勾选，避免发 monitor reset 之类的命令导致cpu复位；
+- Load executable 去掉勾选，避免重新下载elf；
+- Pre-run/restart commands 去掉勾选，避免发 monitor reset 之类的命令导致cpu复位；
+- Continue 去掉勾选，当OpenOCD连上去以后，直接进入调试状态且运行暂停。
 
 |image46|
 
-点击Debug按钮，可以看到已经连接到运行中的target。
+点击Debug按钮，可以看到已经连接到运行中的Target。
 
 |image47|
 
-使用Jlink Debug工程时，链接到运行中的target，可以通过如下操作实现。打开debug_jlink的配置文件，选中 ``Debugger`` 页并修改配置如下图，点击Debug按钮，可以看到已经连接到运行中的target。
+使用Jlink Debug工程时，链接到运行中的target，可以通过如下操作实现。打开Debug_jlink的配置文件，选中 ``Debugger`` 页并修改配置如下图，点击Debug按钮，可以看到已经连接到运行中的Target。
 
 |image48|
+
+Flash Programming中已知缺陷
+--------------------------------
+
+在选中需要使用Flash Programming功能时，如果通过 ``File System`` 选择Load的文件，因代码缺陷会导致命令不完整。为规避此类问题，尽量将需要选择的文件放在工程目录下
+
+|image49|
+
+Flash Programming依赖OpenOCD，当在Nuclei Studio中配置了不启动OpenOCD的前提下使用Flash Programming，会导致Nuclei Studio卡死，如出现上述情况，请确认配置是否正确。
+
+|image50|
 
 其他未注明版本问题
 ==================
@@ -437,4 +454,7 @@ Debug工程时链接到运行中的target
 
 .. |image48| image:: /asserts/nucleistudio/faq/image48.png
 
+.. |image49| image:: /asserts/nucleistudio/faq/image49.png
+
+.. |image50| image:: /asserts/nucleistudio/faq/image50.png
 
