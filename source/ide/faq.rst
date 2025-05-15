@@ -284,8 +284,7 @@ Debug工程时查看GDB Trace
 Debug工程时链接到运行中的Target
 --------------------------------
 
-在Nuclei Studio环境中使用OpenOCD Debug工程时，链接到运行中的Target，可以通过如下操作实现。打开Debug_openocd的配置文件，选中 ``
-`` 页并修改配置如下图：
+在Nuclei Studio环境中使用OpenOCD Debug工程时，链接到运行中的Target，可以通过如下操作实现。打开Debug_openocd的配置文件，选中 ``Startup`` 页并修改配置如下图：
 
 - Init reset 去掉勾选，避免发 monitor reset 之类的命令导致cpu复位；
 - Load executable 去掉勾选，避免重新下载elf；
