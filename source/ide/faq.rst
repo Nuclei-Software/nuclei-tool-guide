@@ -270,6 +270,32 @@ Debug时报错Error: Couldn't find an available hardware trigger.
 
 这种情况下需要将程序编译到RAM上才可以支持IDE上进行调试（软件断点），如果需要调试则暂时只能通过命令行的方式进行调试。
 
+Debug工程时查看GDB Trace
+-------------------------
+
+在Nuclei Studio环境中，GDB Trace功能详细记录了在调试程序过程中使用的GDB命令，默认情况下该功能是关闭，如需要查看GDB Trace，可以开启该功能。在NucleiStudio的菜单中依次点击 ``Window -> Preferences`` ，在弹出的Preferences窗口中依次选择 ``C/C++ -> Debug -> GDB`` ，找到 ``Show the GDB traces consoles with character limit`` 选项关勾选。
+
+|image44|
+
+在Debug时，可以在 ``Console`` 窗口中查看到GDB Trace，可以帮助用户分析调试过程中的一些问题。
+
+|image45|
+
+Debug工程时链接到运行中的target
+--------------------------------
+
+在Nuclei Studio环境中使用OpenOCD Debug工程时，链接到运行中的target，可以通过如下操作实现。打开debug_openocd的配置文件，选中 ``Startup`` 页并修改配置如下图：
+
+|image46|
+
+点击Debug按钮，可以看到已经连接到运行中的target。
+
+|image47|
+
+使用Jlink Debug工程时，链接到运行中的target，可以通过如下操作实现。打开debug_jlink的配置文件，选中 ``Debugger`` 页并修改配置如下图，点击Debug按钮，可以看到已经连接到运行中的target。
+
+|image48|
+
 其他未注明版本问题
 ==================
 
@@ -400,5 +426,15 @@ Debug时报错Error: Couldn't find an available hardware trigger.
 
 
 .. |image43| image:: /asserts/nucleistudio/faq/image43.png
+
+.. |image44| image:: /asserts/nucleistudio/faq/image44.png
+
+.. |image45| image:: /asserts/nucleistudio/faq/image45.png
+
+.. |image46| image:: /asserts/nucleistudio/faq/image46.png
+
+.. |image47| image:: /asserts/nucleistudio/faq/image47.png
+
+.. |image48| image:: /asserts/nucleistudio/faq/image48.png
 
 
