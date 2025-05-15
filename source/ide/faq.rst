@@ -273,7 +273,7 @@ Debug时报错Error: Couldn't find an available hardware trigger.
 Debug工程时查看GDB Trace
 -------------------------
 
-在Nuclei Studio环境中，GDB Trace功能详细记录了在调试程序过程中使用的GDB命令，默认情况下该功能是关闭，如需要查看GDB Trace，可以开启该功能。在NucleiStudio的菜单中依次点击 ``Window -> Preferences`` ，在弹出的Preferences窗口中依次选择 ``C/C++ -> Debug -> GDB`` ，找到 ``Show the GDB traces consoles with character limit`` 选项关勾选。
+在Nuclei Studio环境中，GDB Trace功能详细记录了在调试程序过程中使用的GDB命令，默认情况下该功能是关闭，如需要查看GDB Trace，可以开启该功能。在NucleiStudio的菜单中依次点击 ``Window -> Preferences`` ，在弹出的Preferences窗口中依次选择 ``C/C++ -> Debug -> GDB`` ，找到 ``Show the GDB traces consoles with character limit`` 选项并勾选。
 
 |image44|
 
