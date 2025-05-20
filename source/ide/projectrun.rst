@@ -176,7 +176,7 @@ Eclipse embedded CDT官方文档中对Startup中的参数也做了一些基本�
 
 **Enable semithost** 
 
-若勾选该项，工程必须要支持semithost功能，在RISC-V OpenOCD下使用semihost功能，openocd的配置文件中需要加上 ``arm semihosting enable`` 来使能这个特性，并且配合Nuclei SDK工程创建的时候使能semihost特性（关于J-link和GDB J-link调试可以实现semihost功能，具体参见 :ref:`使用J-Link调试运行项目 <ide_nuclei_projectrun_jlink>` ），默认不需勾选。
+如果勾选此项，工程必须支持 semihosting 功能。在使用 RISC-V OpenOCD 时，需要在配置文件中添加``arm semihosting enable`` 来启用该功能，并且在创建 Nuclei SDK工程时也需要开启semihost支持。J-Link 和 GDB J-Link 调试方式也可以实现 semihost 功能，具体请参考 :ref:`使用J-Link调试运行项目 <ide_nuclei_projectrun_jlink>` 。默认情况下，无需勾选此选项。
 
 |image62|
 
