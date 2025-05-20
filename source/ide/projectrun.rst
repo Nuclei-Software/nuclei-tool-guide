@@ -168,7 +168,7 @@ Debug Configuration
 
 关于Debug Configuration 中Startup各项设置的具体含义，详细说明如下。这里的设定内容最终将以GDB命令的方式实现，所以在执行GDB命令时也是按此顺序来执行。
 
-eclipse官方对Startup中的参数也做了一些基本介绍，具体参见：https://eclipse-embed-cdt.github.io/debug/openocd/riscv/
+Eclipse embedded CDT官方文档中对Startup中的参数也做了一些基本介绍，具体参见：https://eclipse-embed-cdt.github.io/debug/openocd/riscv/
 
 **Initial Reset** 
 
@@ -176,7 +176,11 @@ eclipse官方对Startup中的参数也做了一些基本介绍，具体参见：
 
 **Enable semithost** 
 
-使用semihost功能，目前RISC-V OpenOCD暂时还不支持semihost功能（使用J-link和GDB J-link调试可以实现semihost功能，具体参见 :ref:`使用J-Link调试运行项目 <ide_nuclei_projectrun_jlink>` ），默认不需勾选。
+若勾选该项，工程必须要支持semithost功能，在RISC-V OpenOCD下使用semihost功能，openocd的配置文件中需要加上 ``arm semihosting enable`` 来使能这个特性，并且配合Nuclei SDK工程创建的时候使能semihost特性（关于J-link和GDB J-link调试可以实现semihost功能，具体参见 :ref:`使用J-Link调试运行项目 <ide_nuclei_projectrun_jlink>` ），默认不需勾选。
+
+|image62|
+
+|image63|
 
 **Load symbols** 
 
@@ -726,4 +730,6 @@ Dlink连接后，在串口工具下，可以看到两个COM口，一个COM串用
 
 .. |image61| image:: /asserts/nucleistudio/projectrun/image61.png
 
+.. |image62| image:: /asserts/nucleistudio/projectrun/image62.png
 
+.. |image63| image:: /asserts/nucleistudio/projectrun/image63.png
