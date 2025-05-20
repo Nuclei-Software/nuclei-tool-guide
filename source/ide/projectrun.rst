@@ -166,52 +166,51 @@ Debug Configuration
 
 |image16|
 
-关于Debug Configuration 中Startup 各项设置的具体含义，详细说明一下。首先这里的设定内容都是给GDB 来使用的，所以GDB 执行后做的事情也是按这个页面的顺序来执行。
+关于Debug Configuration 中Startup 各项设置的具体含义，详细说明如下。这里的设定内容最终将以GDB命令的方式实现，所以在执行GDB命令时也是按此顺序来执行。
 
 **Initial Reset** 
 
-可以设定一些让GDB 做init 的命令，具体可以参考GDB init command 的一些用法， 不过因为已经使用IDE了，这里一般不需要勾选。
+可以设定一些让GDB做init的命令，具体可以参考GDB init command的一些用法，一般不需勾选。
 
 **Enable semithost** 
 
-这个feature就是semihost， 目前RISC-V OpenOCD 暂时还不支持semihost 功能 （使用J-link 和GDB J-link 调试 可以实现，具体参考IDE 的user guide），所以这里不用勾选。
+使用semihost功能，目前RISC-V OpenOCD暂时还不支持semihost功能（使用J-link和GDB J-link调试可以实现semihost功能，具体参见 :ref:`使用J-Link调试运行项目 <ide_nuclei_projectrun_jlink>` ），默认不需勾选。
 
 **Load symbols** 
 
-使用GDB的 ``file`` 命令，让GDB 读取elf 的debug information，这样GDB 才能方便和正确的debug， 这里需要勾选。
+使用GDB的 ``file`` 命令，通过GDB读取elf的debug information信息，使GDB能方便且正确的进行Debug操作， 默认需勾选。
 
 **Load executable** 
 
-使用GDB的 ``load`` 命令，让GDB 下载程序到target 端 （这里提醒一下，GDB 做load ，会下载内容到target 端，且会把target 端CPU 的pc 改成当前elf 的entry 位置），这里如果是用调试RAM（比如LM） 的程序，就默认勾选；如果是调试Flash 的程序，这里要看openocd 是否支持flash 的烧写和当前这次调试是否要重新做flash 烧写，如果支持且需要烧写，这里就勾选， 否则不勾选； 如果是ROM 的代码，
-这里不要勾选。
+使用GDB的 ``load`` 命令，让GDB下载程序到target端（GDB执行load命令，下载elf内容到target端，并将target端CPU的PC改成当前elf的entry位置），如果调试RAM（比如LM）中的程序，默认勾选；如果调试Flash中的程序，需确认openocd是否支持Flash的烧写以及当前调试是否要重新做Flash烧写，如果支持且需要重新烧写，则此项需勾选，否则不勾选；如果是ROM的代码，则不需要勾选。
 
 **Debug in Ram** 
 
-如果GDB 在load excutable 之后做了reset 等动作，避免cpu 的启动地址和elf 的启动地址不一样或者RAM 的程序因为reset 后不见，就每次在GDB reset 后再load elf 。所以如果是在RAM 里调试，就一定要勾选。
+如果GDB在 ``load excutable`` 后有reset等动作，避免CPU的启动地址和elf文件的启动地址不一样；或者RAM中的程序因为reset后被清掉。故每次在GDB reset后需重新load elf文件。如果是调试RAM里的程序，必需勾选此项。
 
 **Pre-run/Reset** 
 
-使用GDB的 ``monitor reset`` 命令， 它给openocd 发reset 命令，openocd 会按RISC-V Debug Spec去驱动nReset信号，这个信号会让core和peripherals都reset （这里也要看具体实现，不过RISC-V Dedbug Spec 推荐如此，且如果是Nuclei做的example SoC 或者FPGA ，都是follow 这个Spec ），执行reset 后，CPU 的PC 就是reset_vector 地址，然后因为外设都reset，所以RAM 的内容也都清掉。 如果是在RAM里debug，且勾选了这里，那么一定要勾选 ``Debug in RAM`` 。
+使用GDB的 ``monitor reset`` 命令，它给openocd发 ``reset`` 命令，openocd会按RISC-V Debug Spec去驱动 ``nReset`` 信号，这个信号会让 ``core`` 和 ``peripherals`` 都 ``reset`` （这里也要看具体实现，不过RISC-V Dedbug Spec 推荐如此，且如果是Nuclei做的example SoC 或者FPGA ，都是follow 这个Spec ），执行 ``reset`` 后，CPU的PC就是 ``reset_vector`` 地址，因为外设都reset，所以RAM的内容也都会被清掉。如果是在RAM里debug，且勾选了此项，那么必须要勾选 ``Debug in RAM`` 项。
+
+下图是RISC-V Debug Spec 中关于 ``nRESET`` 的说明。
+
+|image61|
 
 **Halt** 
 
-使用GDB的 ``monitor halt`` 命令，如后面的括号的注释，它实现的动作就是 OpenOCD 发 ``reset`` 命令后发 ``halt`` 命令，让CPU reset完马上halt住。 
+使用GDB的 ``monitor halt`` 命令，它实现就是通过OpenOCD 发 ``reset`` 命令后发 ``halt`` 命令，让CPU reset完后能马上halt住。 
 
 **Set Program counter at** 
 
-使用GDB的 ``set $pc`` 命令，可以再次修改target 端CPU 的PC 地址。
+使用GDB的 ``set $pc`` 命令，可以再次修改target端CPU的PC地址。
 
 **Set breakpoint at** 
 
-使用GDB的 ``break`` 命令，default 这里是main，如果是初次调试或者调试启动代码 ，建议修改这里，比如_start, 也比如某一个绝对的地址。 
+使用GDB的 ``break`` 命令，默认是main方法，如果是初次调试或者调试启动代码 ，建议修改为其他，如_start, 或者某一个绝对的地址。 
 
 **Continue** 
 
 使用GDB的 ``continue`` 命令。
-
-下图是RISC-V Debug Spec 关于nRESET 的说明。
-
-|image61|
 
 
 在原型开发板上调试程序
@@ -289,6 +288,8 @@ Debug Configuration
 如果想要结束程序运行并需要断开连接，在console栏目下点击红色按钮断开连接。
 
 |image26|
+
+.. _ide_nuclei_projectrun_jlink:
 
 使用J-Link调试运行项目
 ----------------------
