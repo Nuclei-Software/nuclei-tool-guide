@@ -166,7 +166,9 @@ Debug Configuration
 
 |image16|
 
-关于Debug Configuration 中Startup 各项设置的具体含义，详细说明如下。这里的设定内容最终将以GDB命令的方式实现，所以在执行GDB命令时也是按此顺序来执行。
+关于Debug Configuration 中Startup各项设置的具体含义，详细说明如下。这里的设定内容最终将以GDB命令的方式实现，所以在执行GDB命令时也是按此顺序来执行。
+
+eclipse官方对Startup中的参数也做了一些基本介绍，具体参见：https://eclipse-embed-cdt.github.io/debug/openocd/riscv/
 
 **Initial Reset** 
 
