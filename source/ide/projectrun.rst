@@ -190,15 +190,11 @@ Debug Configuration
 
 **Pre-run/Reset** 
 
-<<<<<<< HEAD
 使用GDB的 ``monitor reset`` 命令，它给openocd发 ``reset`` 命令，openocd会按RISC-V Debug Spec去驱动 ``nReset`` 信号，这个信号会让 ``core`` 和 ``peripherals`` 都 ``reset`` （这里也要看具体实现，不过RISC-V Dedbug Spec 推荐如此，且如果是Nuclei做的example SoC 或者FPGA ，都是follow 这个Spec ），执行 ``reset`` 后，CPU的PC就是 ``reset_vector`` 地址，因为外设都reset，所以RAM的内容也都会被清掉。如果是在RAM里debug，且勾选了此项，那么必须要勾选 ``Debug in RAM`` 项。
 
 下图是RISC-V Debug Spec 中关于 ``nRESET`` 的说明。
 
 |image61|
-=======
-使用GDB的 ``monitor reset`` 命令， 它给openocd 发reset 命令，openocd 会按RISC-V Debug Spec去驱动nReset信号，这个信号会让core和peripherals都reset （这里也要看具体实现，不过RISC-V Debug Spec 推荐如此，且如果是Nuclei做的example SoC 或者FPGA ，都是follow 这个Spec ），执行reset 后，CPU 的PC 就是reset_vector 地址，然后因为外设都reset，所以RAM 的内容也都清掉。 如果是在RAM里debug，且勾选了这里，那么一定要勾选 ``Debug in RAM`` 。
->>>>>>> 7d30ba0fea466b7893b4aae95c99407f81e248c2
 
 **Halt** 
 
