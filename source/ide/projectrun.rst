@@ -166,6 +166,58 @@ Debug Configuration
 
 |image16|
 
+关于Debug Configuration 中Startup各项设置的具体含义，详细说明如下。这里的设定内容最终将以GDB命令的方式实现，所以在执行GDB命令时也是按此顺序来执行。
+
+Eclipse embedded CDT官方文档中对Startup中的参数也做了一些基本介绍，具体参见：https://eclipse-embed-cdt.github.io/debug/openocd/riscv/
+
+**Initial Reset** 
+
+可以设定一些让GDB做init的命令，具体可以参考GDB init command的一些用法，一般不需勾选。
+
+**Enable semithost** 
+
+如果勾选此项，工程必须支持 semihosting 功能。在使用 RISC-V OpenOCD 时，需要在配置文件中添加``arm semihosting enable`` 来启用该功能，并且在创建 Nuclei SDK工程时也需要开启semihost支持。J-Link 和 GDB J-Link 调试方式也可以实现 semihost 功能，具体请参考 :ref:`使用J-Link调试运行项目 <ide_nuclei_projectrun_jlink>` 。默认情况下，无需勾选此选项。
+
+|image62|
+
+|image63|
+
+**Load symbols** 
+
+使用GDB的 ``file`` 命令，通过GDB读取elf的debug information信息，使GDB能方便且正确的进行Debug操作， 默认需勾选。
+
+**Load executable** 
+
+使用GDB的 ``load`` 命令，让GDB下载程序到target端（GDB执行load命令，下载elf内容到target端，并将target端CPU的PC改成当前elf的entry位置），如果调试RAM（比如LM）中的程序，默认勾选；如果调试Flash中的程序，需确认openocd是否支持Flash的烧写以及当前调试是否要重新做Flash烧写，如果支持且需要重新烧写，则此项需勾选，否则不勾选；如果是ROM的代码，则不需要勾选。
+
+**Debug in Ram** 
+
+如果GDB在 ``load excutable`` 后有reset等动作，避免CPU的启动地址和elf文件的启动地址不一样；或者RAM中的程序因为reset后被清掉。故每次在GDB reset后需重新load elf文件。如果是调试RAM里的程序，必需勾选此项。
+
+**Pre-run/Reset** 
+
+使用GDB的 ``monitor reset`` 命令，它给openocd发 ``reset`` 命令，openocd会按RISC-V Debug Spec去驱动 ``nReset`` 信号，这个信号会让 ``core`` 和 ``peripherals`` 都 ``reset`` （这里也要看具体实现，不过RISC-V Dedbug Spec 推荐如此，且如果是Nuclei做的example SoC 或者FPGA ，都是follow 这个Spec ），执行 ``reset`` 后，CPU的PC就是 ``reset_vector`` 地址，因为外设都reset，所以RAM的内容也都会被清掉。如果是在RAM里debug，且勾选了此项，那么必须要勾选 ``Debug in RAM`` 项。
+
+下图是RISC-V Debug Spec 中关于 ``nRESET`` 的说明。
+
+|image61|
+
+**Halt** 
+
+使用GDB的 ``monitor halt`` 命令，它实现就是通过OpenOCD 发 ``reset`` 命令后发 ``halt`` 命令，让CPU reset完后能马上halt住。 
+
+**Set Program counter at** 
+
+使用GDB的 ``set $pc`` 命令，可以再次修改target端CPU的PC地址。
+
+**Set breakpoint at** 
+
+使用GDB的 ``break`` 命令，默认是main方法，如果是初次调试或者调试启动代码 ，建议修改为其他，如_start, 或者某一个绝对的地址。 
+
+**Continue** 
+
+使用GDB的 ``continue`` 命令。
+
 
 在原型开发板上调试程序
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -242,6 +294,8 @@ Debug Configuration
 如果想要结束程序运行并需要断开连接，在console栏目下点击红色按钮断开连接。
 
 |image26|
+
+.. _ide_nuclei_projectrun_jlink:
 
 使用J-Link调试运行项目
 ----------------------
@@ -674,4 +728,8 @@ Dlink连接后，在串口工具下，可以看到两个COM口，一个COM串用
 
 .. |image59| image:: /asserts/nucleistudio/projectrun/image60.png
 
+.. |image61| image:: /asserts/nucleistudio/projectrun/image61.png
 
+.. |image62| image:: /asserts/nucleistudio/projectrun/image62.png
+
+.. |image63| image:: /asserts/nucleistudio/projectrun/image63.png
