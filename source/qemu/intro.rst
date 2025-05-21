@@ -223,7 +223,7 @@ Nuclei QEMU adds some custom features and functionalities based on the original 
 Nuclei QEMU has several types of parameters that can be configured.
 You can enter ``qemu-system-riscv32 --help`` to view the parameters that can be configured in Nuclei QEMU.
 
-Nuclei QEMU supports two main programs: ``qemu-system-riscv32`` and ``qemu-system-riscv64. qemu-system-riscv32`` is used to support 32-bit programs, while ``qemu-system-riscv64`` supports 64-bit programs.
+Nuclei QEMU supports two main programs: ``qemu-system-riscv32`` and ``qemu-system-riscv64``. ``qemu-system-riscv32`` is used to support 32-bit programs, while ``qemu-system-riscv64`` supports 64-bit programs.
 
 This is an example of a fully functional parameter for Nuclei QEMU: ``qemu-system-riscv32 -M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json,debug=1 -cpu nuclei-n300fd,ext=_v_xxldsp,vlen=128,elen=64,s=true -m 512M -smp 1 -icount shift=0 -nodefaults -nographic -serial stdio -kernel dhrystone.elf``.
 
@@ -233,9 +233,11 @@ Let's describe the meaning of this complete command:
 
   ``-M`` represents ``machine``, which means selecting the type of machine. Currently, Nuclei QEMU has added ``nuclei_evalsoc`` to the existing options. This option must exist.
 
-  ``download=`` is used to choose the download mode, and currently, it supports four download modes: ``sram, flashxip, flash, ilm, and ddr``.If this parameter is not present, the default value is ``flashxip``.
+  ``download=`` is used to choose the download mode, and currently, it supports four download modes: ``sram``, ``flashxip``, ``flash``, ``ilm``, and ``ddr``. If this parameter is not present, the default value is ``flashxip``.
 
-  ``soc-cfg=`` is an optional option to pass dynamic modifications to the initial configuration of the machine with a json file. If this parameter is not set, the default value of qemu will be used .Here is an example:
+  ``soc-cfg=`` is an optional option to pass dynamic modifications to the initial configuration of the machine with a json file. If this parameter is not set, the default value of qemu will be used.
+
+  Here is an example of json config file passed to ``soc-cfg=``:
 
   .. code-block:: json
 
@@ -405,19 +407,19 @@ Let's describe the meaning of this complete command:
   +--------------+-------------------------------------------------------------------------+
   | zdinx        | Zdinx  Extension                                                        |
   +--------------+-------------------------------------------------------------------------+
-  | zca          | RISC-V ZC* Extension                                                    |
+  | zca          | RISC-V Zc* Extension                                                    |
   +--------------+-------------------------------------------------------------------------+
-  | zcb          | RISC-V ZC* Extension                                                    |
+  | zcb          | RISC-V Zc* Extension                                                    |
   +--------------+-------------------------------------------------------------------------+
-  | zcf          | RISC-V ZC* Extension                                                    |
+  | zcf          | RISC-V Zc* Extension                                                    |
   +--------------+-------------------------------------------------------------------------+
-  | zcd          | RISC-V ZC* Extension                                                    |
+  | zcd          | RISC-V Zc* Extension                                                    |
   +--------------+-------------------------------------------------------------------------+
-  | zce          | RISC-V ZC* Extension                                                    |
+  | zce          | RISC-V Zc* Extension                                                    |
   +--------------+-------------------------------------------------------------------------+
-  | zcmp         | RISC-V ZC* Extension                                                    |
+  | zcmp         | RISC-V Zc* Extension                                                    |
   +--------------+-------------------------------------------------------------------------+
-  | zcmt         | RISC-V ZC* Extension                                                    |
+  | zcmt         | RISC-V Zc* Extension                                                    |
   +--------------+-------------------------------------------------------------------------+
   | zba          | RISC-V Bitmanipulation Extension                                        |
   +--------------+-------------------------------------------------------------------------+
@@ -536,9 +538,9 @@ Use Nuclei QEMU in Nuclei SDK
 
 **Example**
 
-If you want to use QEMU on Nuclei-SDK.The example here uses the CPU of the nx900fd, but other CPU types can also be used for testing. The example is xxldsp.
+If you want to use QEMU on Nuclei-SDK. The example here uses the CPU of the nx900fd, but other CPU types can also be used for testing. The example is xxldsp.
 
-First, you need to configure the toolchain, nuclei-sdk, and qemu environments according to the documentation, https://doc.nucleisys.com/nuclei_sdk/quickstart.html
+First, you need to configure the toolchain, nuclei-sdk, and qemu environments according to the documentation https://doc.nucleisys.com/nuclei_sdk/quickstart.html
 
 .. code-block:: c
 
