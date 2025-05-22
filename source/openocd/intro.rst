@@ -146,7 +146,8 @@ ETrace Commands:
 
 .. note::
 
-   The ETrace feature is also available in Nuclei Studio IDE. Refer to the IDE documentation for additional implementation details.
+   - For detailed command documentation, please refer to ``openocd.pdf``
+   - The ETrace feature is also available in Nuclei Studio IDE. Refer to the :ref:`ide_etrace` for how to use.
 
 Debug Map Feature
 -----------------
