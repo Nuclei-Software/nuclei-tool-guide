@@ -77,7 +77,7 @@ NPK软件包管理
 
 |image2|
 
-然后选中自己想要安装的npk,点击Download进行安装，本教程安装sdk-nuclei_sdk的0.3.7版本，最新版本为0.5.0，请使用最新版本进行安装，最新版本支持gcc13工具链，之前版本支持的是gcc10。
+然后选中自己想要安装的npk,点击Download进行安装，本教程安装sdk-nuclei_sdk的0.7.1版本，最新版本为0.8.0，请使用最新版本的NucleiStudio进行安装，最新版本支持gcc13工具链，之前版本支持的是gcc10。
 
 |image3|
 

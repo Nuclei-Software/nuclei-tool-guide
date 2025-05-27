@@ -39,7 +39,7 @@ Nuclei Studio 创建工程
 
 |image2|
 
-在弹出的窗口中选择项目类型，这里我们在Nuclei FPGA板，内核是N307，SDK为nuclei_sdk@0.3.9 版本来做一个测试开发，选对对应的Board下的SDK, 点击 ``Next`` 进入下一步。
+在弹出的窗口中选择项目类型，这里我们在Nuclei FPGA板，内核是N300FD，SDK为nuclei_sdk@0.7.1 版本来做一个测试开发，选对对应的Board下的SDK, 点击 ``Next`` 进入下一步。
 
 |image3|
 
@@ -47,15 +47,15 @@ Nuclei Studio 创建工程
 
    -  Project name：项目命名。这里设置为 ``1_helloworld`` 
 
-   -  Project Example：选 ``Helloworld`` 。
+   -  Project Example：选 ``Simple Hellowrld Demo`` 。
 
-   -  Toolchains：我们使用 ``Nuclei GUN Toolchain`` 。
+   -  Toolchains：我们使用 ``RISC-V GCC/Newlib`` 。
 
 .. note::
 
    **注意** ：此页面是通过NPK Configuration字段自动解析并生成的页面，不同的SDK或者不同的开发板或者不同的例子都可能会有不同的选项页面，请注意。
 
-我们的内核是N307，所以 ``Core`` 选择 ``N307`` 。
+我们的内核是N300FD，所以 ``Core`` 选择 ``N300FD`` 。
 
 蜂鸟开发板支持三种下载模式，以下为每种下载模式的简介，这里我们选择ILM模式。
 
@@ -101,7 +101,7 @@ FLASHXIP下载模式程序代码段约束Flash区间，意味着程序将被直�
 将Nuclei Studio IDE写入到注册表
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-下载Nuclei Studio IDE 2022.12版，在安装包中多了两个文件 ``install.bat/install.sh`` ,在windows系统下，双击 ``install.bat`` ,因为这里需要写入注册表，所以需要一个用户授权,授权后安装成功；在linux系统下，需要在shell命令下执行 ``install.sh`` 文件。
+在Nuclei Studio IDE 2022.12版本中，在安装包中多了两个文件 ``install.bat/install.sh`` ,在windows系统下，双击 ``install.bat`` ,因为这里需要写入注册表，所以需要一个用户授权,授权后安装成功；在linux系统下，需要在shell命令下执行 ``install.sh`` 文件。
 
 |image9|
 
@@ -112,7 +112,7 @@ FLASHXIP下载模式程序代码段约束Flash区间，意味着程序将被直�
 通过应用关联文件导入工程
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nuclei Studio IDE 2022.12版创建工程 ``test`` ，在工程中会有一应用关联文件 ``test.nuproject`` ，如果ide的启动路径已写入注册表，双点 ``test.nuproject`` 文件，系统会自动启动Nuclei Studio IDE并将test工程导入到IDE中。
+Nuclei Studio IDE 2022.12版本创建工程 ``test`` ，在工程中会有一应用关联文件 ``test.nuproject`` ，如果ide的启动路径已写入注册表，双点 ``test.nuproject`` 文件，系统会自动启动Nuclei Studio IDE并将test工程导入到IDE中。
 
 |image11|
 

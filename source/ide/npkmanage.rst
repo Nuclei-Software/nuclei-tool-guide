@@ -41,7 +41,7 @@ Nuclei Studio 2022.04版中，提供了一个非常重要的功能，该功能�
 创建NPK组件包
 ~~~~~~~~~~~~~~
 
-完成开发者认证后，在Nuclei Studio中新建一个Nuclei Studio组件工程,在菜单栏中，选择 ``File->New->Project->New Nuclei NPK Project`` 。
+完成开发者认证后，在Nuclei Studio中新建一个Nuclei Studio组件工程,在菜单栏中，选择 ``File-> New-> Project-> C/C++-> New Nuclei NPK Project`` 。
 
 |image4|
 
@@ -64,7 +64,7 @@ Nuclei Studio 2022.04版中，提供了一个非常重要的功能，该功能�
 
 选择Type时，无对应模板时，会跳出对应提示，点击确定，进入Nuclei Package Management页面，根据需要下载Template Package的对应模板，或点击下图右下角Import自行导入。
 
-下面以ssp类型模板为例,假设你的公司名称为GreenTech, 你的SoC名称为 gt25nv, 适配的开发板为gt25nv_devkit, 采用了我们的n307FD处理器(rv32imafdc)配置, 并且配置了dsp特性， 并且提供了ilm, flash,flashxip三种下载方式。
+下面以ssp类型模板为例,假设你的公司名称为GreenTech, 你的SoC名称为 gt25nv, 适配的开发板为gt25nv_fpga_eval, 采用了我们的n307FD处理器(rv32imafdc)配置, 并且配置了dsp特性， 并且提供了ilm, flash,flashxip三种下载方式。
 
 Type选择ssp: ``Soc Support Package``
 
@@ -72,21 +72,21 @@ Type选择ssp: ``Soc Support Package``
 
 .. |image7| image:: /asserts/nucleistudio/developer/image147.png
 
-其次进入缺少对应模板，进入Nuclei Package Management页面，选择 ``tpl-nsdk-soc-demosoc`` ，点击 ``Download`` 下载，下载完成后关闭该页面
+其次进入缺少对应模板，进入Nuclei Package Management页面，选择 ``tpp-nuclei_sdk`` 的1.1.0版本，点击 ``Download`` 下载，下载完成后关闭该页面
 
 |image8|
 
 .. |image8| image:: /asserts/nucleistudio/developer/image148.png
 
 
-点击Next，在 ``Select a Template`` 中选择刚才下载的模板 ``tpl-nsdk-soc-demosoc`` ，左侧为模板描述和相关的文件预览，右侧为模板中部分可自定义的内容。
+点击Next，在 ``Select a Template`` 中选择刚才下载的模板 ``tpp-nuclei_sdk`` ，左侧为模板描述和相关的文件预览，右侧为模板中部分可自定义的内容。
 
 |image9|
 
 .. |image9| image:: /asserts/nucleistudio/developer/image145.png
 
 
-我们这里举例，公司名称为 ``GreenTech`` ，SoC名称为 ``gt25nv`` ，适配的开发板为 ``gt25nv_devkit`` ，采用了我们的n307FD处理器( ``rv32imafdc`` )配置，并且配置了dsp特性，并且提供了ilm，flash，flashxip三种下载方式。然后Nuclei RISC-V Core选择为 ``NX600`` ，经过修改后如图。
+我们这里举例，公司名称为 ``GreenTech`` ，SoC名称为 ``gt25nv`` ，适配的开发板为 ``gt25nv_fpga_eval`` ，采用了我们的n307FD处理器( ``rv32imafdc`` )配置，并且配置了dsp特性，并且提供了ilm，flash，flashxip三种下载方式。经过修改后如图。
 
 |image10|
 
@@ -171,7 +171,7 @@ NPK组件包的检测和问题处理
 创建测试项目
 ~~~~~~~~~~~~~~
 
-使用导入的NPK组件包工程创建一个工程，可以在菜单栏中，选择 ``File-> New-> Project-> New Nuclei RISC-V C/C++ Project`` 。
+使用导入的NPK组件包工程创建一个工程，可以在菜单栏中，选择 ``File-> New-> Project-> C/C++-> New Nuclei RISC-V C/C++ Project`` 。
 
 |image15|
 
@@ -183,7 +183,7 @@ NPK组件包的检测和问题处理
 
 .. |image16| image:: /asserts/nucleistudio/developer/image154.png
 
-点击Next，填入Project Name，并选择Project Example为 ``Helloworld`` ，点击 ``Finish`` ，完成测试工程的创建。
+点击Next，填入Project Name，并选择Project Example为 ``Simple Helloworld Demo`` ，点击 ``Finish`` ，完成测试工程的创建。
 
 |image17|
 
