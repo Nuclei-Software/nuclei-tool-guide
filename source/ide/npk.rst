@@ -69,7 +69,7 @@ NPK软件包管理
 下载云端NPK软件包
 ~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio中最大的更新，就是将npk云端化，用户直接在Nuclei Studio中就可以下查看到所有的npk并自行安装，在菜单栏选择 ``RV-Tools-->Nuclei Package Management`` 在弹出的**Nuclei Package Management**管理页进行npk管理。
+在Nuclei Studio中最大的更新，就是将npk云端化，用户直接在Nuclei Studio中就可以下查看到所有的npk并自行安装，在菜单栏选择 ``RV-Tools-->Nuclei Package Management`` 在弹出的 **Nuclei Package Management** 管理页进行npk管理。
 
 |image1|
 
@@ -77,7 +77,7 @@ NPK软件包管理
 
 |image2|
 
-然后选中自己想要安装的npk,点击Download进行安装，本教程安装sdk-nuclei_sdk的0.3.7版本，最新版本为0.5.0，请使用最新版本进行安装，最新版本支持gcc13工具链，之前版本支持的是gcc10。
+然后选中自己想要安装的npk,点击Download进行安装，本教程安装sdk-nuclei_sdk的0.8.0版本，请使用最新版本的NucleiStudio进行安装，最新版本支持gcc14工具链，之前的版本有支持gcc13/gcc10。
 
 |image3|
 
@@ -85,7 +85,7 @@ NPK软件包管理
 
 |image4|
 
-在NucleiStudio 2024.06版本中，升级了Nuclei Package Management管理页中关于依赖的管理，大大简化了使用者关于NPK包依赖的问题。
+在NucleiStudio 2024.06及后续的版本中，升级了Nuclei Package Management管理页中关于依赖的管理，大大简化了使用者关于NPK包依赖的问题。
 
 |image5|
 
