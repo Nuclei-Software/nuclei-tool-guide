@@ -72,7 +72,7 @@ Type选择ssp: ``Soc Support Package``
 
 .. |image7| image:: /asserts/nucleistudio/developer/image147.png
 
-其次进入缺少对应模板，进入Nuclei Package Management页面，选择 ``tpp-nuclei_sdk`` 的1.1.0版本，点击 ``Download`` 下载，下载完成后关闭该页面
+在选择Type时，如果没有相关的模板，会进入Nuclei Package Management页面，在该页面选择 ``tpp-nuclei_sdk`` 的1.1.0版本，点击 ``Download`` 下载，下载完成后关闭该页面
 
 |image8|
 
