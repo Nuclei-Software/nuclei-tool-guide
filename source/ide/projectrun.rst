@@ -249,7 +249,7 @@ Eclipse embedded CDT官方文档中对Startup中的参数也做了一些基本�
 
 这里以1_helloworld为例，使用Nuclei Studio IDE对evalsoc原型开发板进行在线调试的步骤如下：
 
-.. note:: 注意demosoc在Nuclei SDK .5.0中被移除，请使用evalsoc作为替代。
+.. note:: 注意demosoc在Nuclei SDK 5.0中被移除，请使用evalsoc作为替代。
 
 确保Debug设置内容正确，可以打开Debug设置选项确认。在1_helloworld工程处右击，选择 ``Debug As –>Debug Configuration`` 打开Debug设置页面选择之前新建的设置进行检查。
 

@@ -196,9 +196,9 @@ Linux下使用时报Could not determine GDB version after sending:riscv-nuclei-e
 
 |image34|
 
-riscv-nulcei-elf-gdb在Nuclei studio 2023.10及之后的版本变更为riscv64-unknown-elf-gdb。
+riscv-nuclei-elf-gdb在Nuclei studio 2023.10及之后的版本变更为riscv64-unknown-elf-gdb。
 
-可以使用命令 ``ldd $(which riscv-nulcei-elf-gdb)`` 查看，依赖缺失
+可以使用命令 ``ldd $(which riscv-nuclei-elf-gdb)`` 查看，依赖缺失
 
 |image35|
 

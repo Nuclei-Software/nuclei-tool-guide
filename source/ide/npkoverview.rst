@@ -308,7 +308,7 @@ Nuclei Studio NPK 介绍
       - key: proxy            # 变量名,
         value: bin/cmlink_gdbserver.exe        # 实际引用结果为 npk文件父路径+value，例如C:\Users\jj\nuclei-pack-npk\NPKs\XinShengTech\Tool_Package\tool-cmlink\1.0.0\cmlink\bin\cmlink_gdbserver.exe
         description: proxy location
-        system: true    # 默认为fasle，当system为true时，该变量引用时直接使用变量名，例如${proxy}
+        system: true    # 默认为false，当system为true时，该变量引用时直接使用变量名，例如${proxy}
 
     ## Template File Management
     ## Only works on tpp类型，该类型比较特殊，描述文件为npk_template.yml，是基于npk.yml做的扩展
@@ -1168,7 +1168,7 @@ GDB Nuclei QEMU的参数
   | svdPath                                   |                                     | SVD file path                                  |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
 
-Nulcei RVProf的参数
+Nuclei RVProf的参数
 ^^^^^^^^^^^^^^^^^^^^
 
 .. _table_ips_5:
@@ -1178,7 +1178,7 @@ Nulcei RVProf的参数
   +-------------------------------------------+---------------------------------------------+------------------------------------------------+
   | Name                                      | Reset Value                                 | Description                                    |
   +-------------------------------------------+---------------------------------------------+------------------------------------------------+
-  | cycleModelExecutable                      | ${cycelmodel_path}/${cycelmodel_executable} | cycleModel Executable                          |
+  | cycleModelExecutable                      | ${cyclemodel_path}/${cyclemodel_executable} | cycleModel Executable                          |
   +-------------------------------------------+---------------------------------------------+------------------------------------------------+
   | cycleModelExecutableTimeOut               | 20                                          | cycleModelExecutable TimeOut                   |
   +-------------------------------------------+---------------------------------------------+------------------------------------------------+
@@ -1206,15 +1206,15 @@ Nulcei RVProf的参数
 
 Extended variable
 ~~~~~~~~~~~~~~~~~~
-**environment** 是应用于tool类型的NPK包中的配置，当用户想要通过NPK来共享一个tools如cycleModel，可以使用。当定义了 **environment** ，Nuclei Studio会自动产生几个全局，这个变量可以在其他的NPK中以 ``${xxx-1.0.0-XXX}`` 的方式使用。
+**environment** 是应用于tool类型的NPK包中的配置，当用户想要通过NPK来共享一个工具（tools类型，如cycleModel)，可以使用environment 配置。定义 **environment** 后，Nuclei Studio会自动生成几个全局变量，这些变量可以在其他的NPK中以 ``${xxx-1.0.0-XXX}`` 的方式引用。
 
 .. note::
 
     - 每个包存在一个包路径，引用为npk名称-版本号，例如 ``${tool-cyclemodel-1.0.0}``
 
-    - 其他变量的引用为npk名称-版本号-变量名，例如 ``${tool-cyclemodel-1.0.0-cycelmodel_path}`` , ``${tool-cyclemodel-1.0.0-cycelmodel_executable}``
+    - 其他变量的引用为npk名称-版本号-变量名，例如 ``${tool-cyclemodel-1.0.0-cyclemodel_path}`` , ``${tool-cyclemodel-1.0.0-cyclemodel_executable}``
 
-    - 当变量的system值为true时，额外新增一个不带版本号的变量，取最高版本的该变量，例如 ``${tool-cyclemodel-cycelmodel_executable}``
+    - 当变量的system值为true时，会额外生成一个不带版本号的变量（取最高版本），例如 ``${tool-cyclemodel-cyclemodel_executable}``
 
 .. code-block:: yaml
 
@@ -1233,13 +1233,13 @@ Extended variable
 
     ## 扩展变量  tool-cyclemodel-1.0.0与 tool-cyclemodel-1.0.0-proxy
     environment:
-      - key: cycelmodel_path
+      - key: cyclemodel_path
         value: bin
-        description: cyclemodel location
+        description: cyclemodel path
         system: true
-      - key: cycelmodel_executable
+      - key: cyclemodel_executable
         value: bin/n300_best_config_cymodel_latest
-        description: cyclemodel location
+        description: cyclemodel executable
         system: true
 
 
@@ -1249,7 +1249,7 @@ Extended variable
         description: Nuclei RVProf
         configs:
           - key: ncycm_path
-            value: ${tool-cyclemodel-1.0.0-cycelmodel_executable}
+            value: ${tool-cyclemodel-1.0.0-cyclemodel_executable}
           - key: rvprof_path
             value: ${tool-rvprof-1.0.0-rvprof_executable}
 

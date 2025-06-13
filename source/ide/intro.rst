@@ -521,7 +521,7 @@ Nuclei Studio IDE 启动
    :alt: elf文件编辑器查看.o文件
 
 .. |image14| image:: /asserts/nucleistudio/intro/image16.png
-   :alt: Nuceli Settings页面修改
+   :alt: Nuclei Settings页面修改
 
 .. |image15| image:: /asserts/nucleistudio/intro/image17.png
    :alt: Select C Runtime Library在新版IDE中已不存在

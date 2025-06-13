@@ -252,7 +252,7 @@ Coverage、Profiling和Call Graph使用
 通过串口使用
 ^^^^^^^^^^^^
 
-nuclei_sdk 0.6.0及以上版本的nulclei_sdk中，包含一个 ``Profiling demo to show how to use gprof and gcov`` 测试工程，在NucleiSudio安装了nuclei_sdk 0.6.0后，可以创建此测试工程。关于 ``Profiling demo to show how to use gprof and gcov`` 测试工程,可参考 `demo_profiling <https://doc.nucleisys.com/nuclei_sdk/design/app.html#demo-profiling>`__ 。
+nuclei_sdk 0.6.0及以上版本的nuclei_sdk中，包含一个 ``Profiling demo to show how to use gprof and gcov`` 测试工程，在NucleiSudio安装了nuclei_sdk 0.6.0后，可以创建此测试工程。关于 ``Profiling demo to show how to use gprof and gcov`` 测试工程,可参考 `demo_profiling <https://doc.nucleisys.com/nuclei_sdk/design/app.html#demo-profiling>`__ 。
 
 |image22|
 
@@ -275,7 +275,7 @@ nuclei_sdk 0.6.0及以上版本的nulclei_sdk中，包含一个 ``Profiling demo
 
 |image25|
 
-此时NucleiStudio会对输出的文件进行分析，并将结果存别分存放在对应的文件中。
+此时NucleiStudio会对输出的文件进行分析，并将结果分别存放在对应的文件中。
 
 |image26|
 
@@ -283,7 +283,7 @@ nuclei_sdk 0.6.0及以上版本的nulclei_sdk中，包含一个 ``Profiling demo
 
 |image27|
 
-双击 ``.gcda`` 文件，打开Gcov工具，就可以看到对应用程序的分析结果，在结果中显示了某个文件或某个方法在程序执行过程中是否执行到，以及代码执行复盖比等数据。
+双击 ``.gcda`` 文件，打开Gcov工具，就可以看到对应用程序的分析结果，在结果中显示了某个文件或某个方法在程序执行过程中是否执行到，以及代码执行覆盖比等数据。
 
 |image28|
 
@@ -305,7 +305,7 @@ code coverage也提供了以直方图的方式查看数据，选中想要查看�
 
 Gprof工具会启动，就可以看到对应用程序的分析结果，显示了文件、方法的调用关系等。
 
-双击Gprof中的某一行，NucleiStudio就会自动打开对应的源文件并定位到对应的行，同时打开LST View工具，并根据addr定位那那一行，实现Gprof、源代码、反汇编码的联系，帮用户快速了解程序结构及调用关系。
+双击Gprof中的某一行，NucleiStudio就会自动打开对应的源文件并定位到对应的行，同时打开LST View工具，并根据addr定位那一行，实现Gprof、源代码、反汇编码的联系，帮用户快速了解程序结构及调用关系。
 
 |image33|
 
@@ -365,7 +365,7 @@ Trace功能的使用
 
 Trace技术是一种强大的调试工具，它能够帮助开发人员跟踪和记录程序执行过程中的关键信息，从而有效地诊断问题、优化性能和提升系统的稳定性。
 
-Nuclei Studio集成了Trace工具，结合相对应的硬件和Nuclei OpenOCD，用户在对工程进行Debug时，也可查看到Trace日志，并结合源码时行问题排查。
+Nuclei Studio集成了Trace工具，结合相应硬件和Nuclei OpenOCD，用户在工程Debug时可查看Trace日志，并结合源码进行问题排查。
 
 .. note::
 
@@ -382,7 +382,7 @@ Trace界面介绍
 
 .. rubric:: Trace View
 
-在Nuclei Studio中，通过菜单 ``Window->Show View->Other`` 打开View管理器，在里面找到RV Trace->Trace菜单，打击打开Trace菜单。
+在Nuclei Studio中，通过菜单 ``Window->Show View->Other`` 打开View管理器，在里面找到RV Trace->Trace菜单，点击打开Trace菜单。
 
 |image44|
 
@@ -616,7 +616,7 @@ cpu cycle model在运行过程中，对硬件环境的性能要求较高，在�
 创建rvprof测试工程
 ^^^^^^^^^^^^^^^^^^^
 
-创建工程前，先查看Nuclei Package Management中NPK是否安装正确，因为测式demo是依赖于nuclei_sdk，所以也要先安装sdk-nuclei_sdk，具体如下：
+创建工程前，先查看Nuclei Package Management中NPK是否安装正确，因为测试demo是依赖于nuclei_sdk，所以也要先安装sdk-nuclei_sdk，具体如下：
 
 |image63|
 
@@ -624,11 +624,11 @@ cpu cycle model在运行过程中，对硬件环境的性能要求较高，在�
 
 |image64|
 
-在Project Example可以看到我们导入的demo NPK App中的Rvprof helloworld工程，选择此工程，然后下一步，完工程的创建。
+在Project Example可以看到我们导入的demo NPK App中的Rvprof helloworld工程，选择此工程，然后下一步，完成工程的创建。
 
 |image65|
 
-在创建的test工程中，可以看到多了一个 ``test_debug_rvprof.launch`` 文件，rvprof相关的配置在此文件中，可以查看内容如下。其中Cycle Model的time out时间，用来设置Cycle Model超时时间，因为Cycle Model运行时比较耗时，如果工程比较简单，可以设置一个较短的起时时间，到时间后，可以及时中断Cycle Model的运行；RVProf中的超时时间的功能也是类似。
+在创建的test工程中，可以看到多了一个 ``test_debug_rvprof.launch`` 文件，rvprof相关的配置在此文件中，可以查看内容如下。其中Cycle Model的time out时间，用来设置Cycle Model超时时间，因为Cycle Model运行时比较耗时，如果工程比较简单，可以设置一个较短的起始时间，到时间后，可以及时中断Cycle Model的运行；RVProf中的超时时间的功能也是类似。
 
 |image66|
 
@@ -806,7 +806,7 @@ Nuclei Near Cycle Model
 
 在Nuclei Studio 2024.06版中，集成了Nuclei Near Cycle Model，它是由芯来科技自主研发的仿真测试和性能分析工具，可以帮助研发人员在项目初期进行一些必要的仿真测试和程序性能分析。
 
-Nuclei Near Cycle Modeld在Nuclei Studio 2024.06版中只有Linux版本，从2025.02版开始，已实现对Windows的支持。其具体介绍和命令行上使用参见 （https://doc.nucleisys.com/nuclei_tools/xlmodel/intro.html ） ，下面将在Nuclei Studio上演示如何使用Nuclei Near Cycle Model进行仿真和性能分析。
+Nuclei Near Cycle Model在Nuclei Studio 2024.06版中只有Linux版本，从2025.02版开始，已实现对Windows的支持。其具体介绍和命令行上使用参见 （https://doc.nucleisys.com/nuclei_tools/xlmodel/intro.html ） ，下面将在Nuclei Studio上演示如何使用Nuclei Near Cycle Model进行仿真和性能分析。
 
 .. note::
 
@@ -829,7 +829,7 @@ Nuclei Near Cycle Model采用Nuclei Studio中的Model运行配置来进行运
 
 |image74|
 
-在演示示例的Config options中配置了 ``--trace=1 --gprof=1 --logdir=Debug --cpu=n300fd`` , ``--trace=1`` 表示开启rvtrace， ``--gprof=1`` 表示开启gprof功能， ``--logdir=Debug`` 则表示最终生成的 ``.rvtrace`` 文件、 ``.gmon`` 文件存存放的路径为当前工程下的Debug目录, ``--cpu=n300fd`` 表示当前模拟的cpu核是n300fd。
+在演示示例的Config options中配置了 ``--trace=1 --gprof=1 --logdir=Debug --cpu=n300fd`` , ``--trace=1`` 表示开启rvtrace， ``--gprof=1`` 表示开启gprof功能， ``--logdir=Debug`` 则表示最终生成的 ``.rvtrace`` 文件、 ``.gmon`` 文件存放的路径为当前工程下的Debug目录, ``--cpu=n300fd`` 表示当前模拟的cpu核是n300fd。
 
 .. note::
 
