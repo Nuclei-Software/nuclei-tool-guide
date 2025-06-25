@@ -312,6 +312,153 @@ Flash Programming依赖OpenOCD，当在Nuclei Studio中配置了不启动OpenOCD
 
 |image50|
 
+.. _faq_27: 
+
+Nuclei Studio调试工程前的硬件检测
+---------------------------------
+
+在使用 **Nuclei Studio IDE** 进行软件开发和调试之前，必须确保目标硬件（如基于 FPGA 的 RISC-V 系统）已正确配置并稳定运行。以下步骤可用于验证硬件平台是否具备进行正常软件调试的条件。
+
+检查 OpenOCD 配置文件 `openocd.cfg` 是否正确
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+OpenOCD 是用于与 FPGA 上的 RISC-V 核进行 JTAG 调试的重要工具。要启动调试会话，需准备一个正确的 `.cfg` 配置文件。通过以下步骤以确认`openocd.cfg`文件是否正确。
+
+
+- 使用 Nuclei Studio 安装目录下的 OpenOCD 工具：
+    - Windows：`NucleiStudio/toolchain/openocd/bin/openocd.exe`
+    - Linux：`NucleiStudio/toolchain/openocd/bin/openocd`
+- 将配置文件（如 `openocd_demosoc.cfg`）复制到 OpenOCD 的 bin 目录中。
+- 执行命令启动 OpenOCD：
+
+.. code-block::
+
+    openocd -f openocd.cfg
+
+
+如果 OpenOCD 成功启动并显示连接信息，则表示 FPGA 板上的 JTAG 接口和 CPU 正常工作。
+
+|image51|
+
+**注意事项：**
+
+- 若 FPGA 上没有 SPI Flash 或无需烧录 Flash，可删除 `.cfg` 文件中关于 Flash 的配置项。
+- 确保配置文件中的 JTAG 引脚、CPU 类型、频率等参数与你的硬件一致。
+
+|image52|
+
+使用命令行确认 GDB 与 OpenOCD 能正常通信
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+为了进一步验证硬件状态，可以使用 GDB 命令行工具与 OpenOCD 建立连接。
+
+- 启动 OpenOCD（见上一步）
+
+- 新开终端，进入 GDB 工具路径：
+   
+   - Windows：`NucleiStudio/toolchain/gcc/bin/riscv-nuclei-elf-gdb.exe`
+   - Linux：`NucleiStudio/toolchain/gcc/bin/riscv-nuclei-elf-gdb`
+
+- 启动 GDB，并执行以下命令：
+
+.. code-block:: console
+
+  (gdb) set arch riscv:rv32     # 或 rv64，根据 CPU 架构选择
+  (gdb) set remotetimeout 240   # 设置远程连接超时时间
+  (gdb) target remote :3333     # 连接 OpenOCD 默认端口
+
+
+若能成功连接，则表明 FPGA 上的 JTAG 接口和 RISC-V Core 正常运行。
+
+|image53|
+
+**可能问题：**
+
+- FPGA 上的 CPU 主频较低 → 首次连接可能会超时，建议提前设置 `set remotetimeout 240` 。具体可以参考 :ref:`CPU主频比较低导致Nuclei Studio无法调试 <faq_28>` 。 
+
+使用 GDB 命令检查底层硬件功能
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+一旦 GDB 成功连接，可以通过一系列命令验证 CPU、SRAM 和外设寄存器的功能。
+
+|image55|
+
+测试项目及命令：
+
+**读写通用寄存器（GPR）**
+
+.. code-block:: console
+
+    (gdb) p/x $pc        # 查看当前 PC 值
+    (gdb) p/x $a0        # 查看 a0 寄存器值
+
+
+**读写 CSR 寄存器**
+
+.. code-block:: console
+
+    (gdb) info reg $mstatus    # 查看 mstatus 寄存器
+    (gdb) info reg $misa       # 查看支持的指令集架构
+
+
+**读写 SRAM 内存（验证内存稳定性）**
+
+- 准备一个测试 bin 文件，加载到 SRAM：
+
+.. code-block:: console
+
+    (gdb) restore test.bin binary 0x80000000
+
+
+- 从内存 dump 出来并比对：
+
+.. code-block:: console
+
+    (gdb) dump binary memory dump.bin 0x80000000 0x80001000
+
+
+- 检查 `test.bin` 和 `dump.bin` 是否完全一致。
+
+如果数据不一致，说明 SRAM 可能存在时序或接口问题。
+
+**8bit/16bit 数据访问测试**
+
+- 验证是否支持字节级访问：
+
+.. code-block:: console
+
+    (gdb) x/1bx 0x80000000      # 读取单个字节
+    (gdb) x/1hx 0x80000000      # 读取半字（16位）
+
+
+**读写 SOC 外设寄存器**
+
+- 对映射在外设地址空间的寄存器进行读写测试：
+
+.. code-block:: console
+
+    (gdb) p/x *(int *)0x10000000   # 读取某个外设寄存器
+    (gdb) set *(int *)0x10000000 = 0x1  # 写入值
+
+|image54|
+
+.. _faq_28: 
+
+CPU主频比较低导致Nuclei Studio无法调试
+--------------------------------------
+
+如果 CPU 主频较低，可能导致 Nuclei Studio 调试失败或不稳定。此时建议在 OpenOCD 配置文件中降低 JTAG 主频，一般应小于 CPU 主频的一半，推荐设置为 CPU 主频的 1/4 左右。在Nuclei Studio中使用时也需要修改 `set remotetimeout 250` 命令，将超时时间设为较大的值（单位为秒），以提升连接成功率。
+
+|image56|
+
+设置Nuclei Studio主题配色
+-------------------------
+
+Nuclei Studio是基于eclipse开发，没有针对主题配色进行修改，所以它继承了eclipse的主题配色功能。如果想要修改Nuclei Studio的主题配色，用户可以自行搜索并参考eclipse的主题配色修改方法。也可以通过配置选项快速配置通用主题。
+
+|image57|
+
+
 其他未注明版本问题
 ==================
 
@@ -457,3 +604,16 @@ Flash Programming依赖OpenOCD，当在Nuclei Studio中配置了不启动OpenOCD
 
 .. |image50| image:: /asserts/nucleistudio/faq/image50.png
 
+.. |image51| image:: /asserts/nucleistudio/faq/image51.png
+
+.. |image52| image:: /asserts/nucleistudio/faq/image52.png
+
+.. |image53| image:: /asserts/nucleistudio/faq/image53.png
+
+.. |image54| image:: /asserts/nucleistudio/faq/image54.png
+
+.. |image55| image:: /asserts/nucleistudio/faq/image55.png
+
+.. |image56| image:: /asserts/nucleistudio/faq/image56.png
+
+.. |image57| image:: /asserts/nucleistudio/faq/image57.png
