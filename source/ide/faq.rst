@@ -451,6 +451,14 @@ CPU主频比较低导致Nuclei Studio无法调试
 
 |image56|
 
+设置Nuclei Studio主题配色
+-------------------------
+
+Nuclei Studio是基于eclipse开发，没有针对主题配色进行修改，所以它继承了eclipse的主题配色功能。如果想要修改Nuclei Studio的主题配色，用户可以自行搜索并参考eclipse的主题配色修改方法。也可以通过配置选项快速配置通用主题。
+
+|image57|
+
+
 其他未注明版本问题
 ==================
 
@@ -608,3 +616,4 @@ CPU主频比较低导致Nuclei Studio无法调试
 
 .. |image56| image:: /asserts/nucleistudio/faq/image56.png
 
+.. |image57| image:: /asserts/nucleistudio/faq/image57.png
