@@ -326,8 +326,8 @@ OpenOCD 是用于与 FPGA 上的 RISC-V 核进行 JTAG 调试的重要工具。�
 
 
 - 使用 Nuclei Studio 安装目录下的 OpenOCD 工具：
-    - Windows：`NucleiStudio\toolchain\openocd\bin\openocd.exe`
-    - Linux：对应路径中的 `openocd`
+    - Windows：`NucleiStudio/toolchain/openocd/bin/openocd.exe`
+    - Linux：`NucleiStudio/toolchain/openocd/bin/openocd`
 - 将配置文件（如 `openocd_demosoc.cfg`）复制到 OpenOCD 的 bin 目录中。
 - 执行命令启动 OpenOCD：
 
@@ -356,8 +356,8 @@ OpenOCD 是用于与 FPGA 上的 RISC-V 核进行 JTAG 调试的重要工具。�
 
 - 新开终端，进入 GDB 工具路径：
    
-   - Windows：`NucleiStudio\toolchain\gcc\bin\riscv-nuclei-elf-gdb`
-   - Linux：对应路径下的 `riscv64-unknown-elf-gdb` 或类似工具
+   - Windows：`NucleiStudio/toolchain/gcc/bin/riscv-nuclei-elf-gdb.exe`
+   - Linux：`NucleiStudio/toolchain/gcc/bin/riscv-nuclei-elf-gdb`
 
 - 启动 GDB，并执行以下命令：
 
@@ -374,7 +374,7 @@ OpenOCD 是用于与 FPGA 上的 RISC-V 核进行 JTAG 调试的重要工具。�
 
 **可能问题：**
 
-- FPGA 上的 CPU 主频较低 → 首次连接可能会超时，建议提前设置 `set remotetimeout`
+- FPGA 上的 CPU 主频较低 → 首次连接可能会超时，建议提前设置 `set remotetimeout 240` 。具体可以参考 :ref:`CPU主频比较低导致Nuclei Studio无法调试 <faq_28>` 。 
 
 使用 GDB 命令检查底层硬件功能
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -441,6 +441,8 @@ OpenOCD 是用于与 FPGA 上的 RISC-V 核进行 JTAG 调试的重要工具。�
     (gdb) set *(int *)0x10000000 = 0x1  # 写入值
 
 |image54|
+
+.. _faq_28: 
 
 CPU主频比较低导致Nuclei Studio无法调试
 --------------------------------------
