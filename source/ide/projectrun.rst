@@ -111,7 +111,11 @@ Nuclei Studio 调试运行工程
 
    cd Nuclei Studio/toolchain/gcc/bin/
 
+   # for gcc10, try command below
    ldd ./riscv-nuclei-elf-gdb
+   # for >= gcc13/gcc14 and later version
+   ldd ./riscv64-unknown-elf-gdb
+
 
 |image7|
 
