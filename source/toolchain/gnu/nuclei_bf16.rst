@@ -313,7 +313,20 @@ Nuclei 自定义的指令
     - ``vsuxseg[2-8]ei64.v``
 
 .. note::
-    我们自定义的Xxlvfbf扩展兼容Zvfbfmin、Zvfbfwma 扩展支持的指令 `riscv-bfloat16 release v1.0`_ ``riscv-bfloat16.pdf`` ,指令对应的intrinsic在Xxlvfbf扩展下可以正常使用.
+
+    2025.02 版本：
+
+    自定义的Xxlvfbf扩展与Zvfbfmin、Zvfbfwma 扩展 `riscv-bfloat16 release v1.0`_ ``riscv-bfloat16.pdf`` 不兼容，其功能已在 ``vfncvt.f.f.w、vfwcvt.f.f.v、vfwmacc.vv/vfwmacc.vf`` 指令中实现，使用时可参考指令对应的intrinsic。
+
+    如果一定需要用Zvfbfmin、Zvfbfwma 扩展的intrinsic, 需要单独使用，即不带Xxlvfbf扩展。
+
+    同时存在时，Zvfbfmin、Zvfbfwma 扩展的intrinsic会映射到 ``vfncvt.f.f.w、vfwcvt.f.f.v、vfwmacc.vv/vfwmacc.vf`` 指令，可能会产生错误
+
+    2025.10 版本：
+
+    自定义的Xxlvfbf扩展已经兼容Zvfbfmin、Zvfbfwma 扩展。
+
+    Zvfbfmin、Zvfbfwma 扩展包含的intrinsic在Xxlvfbf扩展下可以正常使用，并且会正确映射到其扩展定义的指令 ``vfncvtbf16.f.f.w、vfwcvtbf16.f.f.v、vfwmaccbf16.vv/vfwmaccbf16.vf`` ，与我们自定义的intrinsic同时使用时，不会产生错误
 
 Nuclei bf16 支持的rvv intrinsic
 ++++++++++++++++++++++++++++++++++++
