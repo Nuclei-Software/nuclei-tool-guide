@@ -544,7 +544,10 @@ Nuclei Studio IDE 启动
 
 |image22|
 
-设置好Workspace目录之后，单击“Launch”按钮，将会启动Nuclei Studio。第一次启动后的Nuclei Studio。
+设置好Workspace目录之后，单击“Launch”按钮，将会启动Nuclei Studio。首次启动后的Nuclei Studio会显示Welcome页面，该页面提供了Nuclei Studio的部分功能入口和开发所需的各类文档和视频教程，后续在需要时也可以通过菜单栏选择 ``Help 🡪 Welcome`` 来打开。
+
+.. note::
+   2025.10版本Nuclei Studio的Welcome页面更新了内容。
 
 |image23|
 
@@ -623,5 +626,5 @@ Nuclei Studio IDE 启动
    :alt: 公司Logo
 
 .. |image23| image:: /asserts/nucleistudio/intro/image25.png
-   :alt: 第一次启动Nuclei Studio界面
+   :alt: 首次启动Nuclei Studio界面
 
