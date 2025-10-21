@@ -422,6 +422,10 @@ trace的配置信息，在这里配置Trace ATB2AXI Config Addr、Trace Buffer B
 
 当选种某条记录时，可以打开并定位到该条记录所对应的源码和反汇编码。
 
+- **Decode trace into flame**
+
+从Trace记录中解析出火焰图信息
+
 - **step into previous line**
 
 当选种某条记录时，跳转到该条记录的上一条记录，并定位到所对应的源码和反汇编码。
@@ -439,6 +443,10 @@ trace的配置信息，在这里配置Trace ATB2AXI Config Addr、Trace Buffer B
 搜索结果的记录是多条时，可以查看上一条搜索结果。
 
 - **search forward**
+
+搜索结果的记录是多条时，可以查看下一条搜索结果。
+
+- **search exceptions or interruptions**
 
 搜索结果的记录是多条时，可以查看下一条搜索结果。
 
@@ -472,6 +480,8 @@ Trace记录表格，是Nuclei Studio将dump到的trace文件进行解密之后�
 
 |image45|
 
+- **Check core support for Trace：**  如果勾选，在下发Trace命令前会检测CPU是否支持Trace功能；如果不勾选，则在下发Trace命令时忽略CPU是否支持Trace。
+
 - **Trace need to be configured:** 如果需要配置Trace模块就勾选，如果其他地方已经配置过了，就千万不要勾选了，例如多核SMP/AMP的情况下，SoC上只有一个Trace模块，假设其中一个核心已经勾选配置了，其他的核心就不能勾选了，或者是配置是在C代码中或者其他地方做了，也千万不要勾选。
 
 - **Trace ATB2AXI Config Addr：** ATB2AXI模块控制器的基地址。
@@ -496,9 +506,13 @@ Set Current Debug hart Configuration弹框中，用户可以自定义trace decod
 
 - **HartID：** trace decode时需要指定当前需要查看的trace对应的HartID，单核工程默认HartID=0。
 
-- **Trace Data Align Size：** 跟踪数据对齐大小，一般与硬件的trace输出位宽对齐，默认有8、32、64。
+- **Trace Data Align Size：** 跟踪数据对齐大小，一般与硬件的trace输出位宽对齐，默认有8、32、64。如果Trace Wrap没有勾选，该值设置为8。
 
 - **Display Address Bits：** trace decode后显示地址的位数，一般是32、64、128位。
+
+- **Decode Mode：** trace decode扩展功能，默认情况下选0。
+
+- **Decode Limit：** trace decode的条数限制默认下是500万条，条数越多对用户PC的要求越高。
 
 Trace的使用
 ~~~~~~~~~~~
@@ -512,7 +526,7 @@ Trace的使用
 
 如果您已获取到芯来授权的CPU和相关配套硬件并准备好硬件环境，这里不详细说明。然后创建好对应工程并确保它能在硬件上运行和调试。以下示例是在我们自己构建的一个测试环境上的流程举例说明。
 
-我们在这里创建了一个N900的单核应用helloworld，并让它跑在FLASHXIP模式下。
+我们在这里创建了一个U900的单核、demo timer模板工程的应test，并让它跑在FLASHXIP模式下。
 
 |image47|
 
@@ -538,9 +552,28 @@ Trace文件下载完后，Nuclei Studio会弹出一个 ``Set current debug hart 
 
 |image52|
 
+.. _ide_ide_trace_exceptions:
+
+在Trace列表中如果存在中断，该条记录的背景色将变成绿色；如果存在异常，该记录的背景色将变成黄色；以帮助用户快速分辨中断或异常。
+
+.. note::
+
+   关于中断与异常的查询是Nuclei Studio 2025.10版中新增的功能。
+
+|image122|
+
+通过点击search exceptions or interruptions,可以查看当前工程中存在的所有中断或异常情况。
+
+|image123|
+
+双击某条中断或异常，Trace列表会自动跳转到该条记录。鼠标悬停在该条记录上，将会显示该条记录的详细信息。
+
+|image124|
+
 也可以双击 ``工程名.trace`` 文件，以文本的方式查看trace文件。
 
 |image53|
+
 
 在SMP多核应用中使用Trace
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -588,10 +621,45 @@ Trace Configuration设置完成后，同样的通过Debug视图的Thread来切�
 
 |image61|
 
-.. _ide_advanceusage_61:
+.. _ide_ide_trace_flame:
+
+Trace中Flame View的使用
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+   在 Nuclei Studio 2025.10 中，我们推出了 Flame View 功能，通过可视化火焰图清晰展现程序运行时的调用栈与时间消耗，让开发者能够更高效地分析性能热点，加速问题排查。
+
+Trace本身记录的是程序执行的过程，所以天然的适合解析出程序的执行火焰图。假设用户已经获取到 ``工程名.trace`` 文件，点击 ``Decode trace into flame`` 按钮。
+
+若 ``工程名.trace`` 文件尚未解析，系统将首先弹出 Trace 解析配置页面（相关配置项详见前文说明）。用户完成配置后，点击 “Decode” 开始解析。。
+
+|image125|
+
+同时IDE将自动进入 Flame View 导入向导页面。此时会提示用户即将生成对应的 ``工程名.trace`` 文件。文件生成后，用户可通过双击该文件将其导入 Flame View 进行可视化分析。系统会要求用户输入当前 CPU 的运行频率（例如本次测试中为 50 MHz），以便准确还原时间信息。
+
+|image126|
+
+若 ``工程名.trace`` 文件已解析过，将直接从已有的 Trace 列表中提取对应的 ``工程名.trace`` 文件，并立即弹出 Flame View 导入向导页面，跳过重复解析步骤，提升操作效率。
+
+|image127|
+
+待解析Trace list并生成 ``工程名.gtef`` 文件后，IDE 将自动提示操作完成。
+
+|image128|
+
+此时在Debug目录下有一个 ``工程名.gtef`` 文件，双击该文件就可以查看工程的火焰图了。具体Flame View功能，可以参见 :ref:`Flame View功能的使用 <ide_flame_view>` 。
+
+|image129|
+
+.. _ide_ide_rvprof:
 
 RVProf功能的使用
 ----------------
+
+.. note::
+
+   Nuclei Studio 2025.10版开始，RVProf功能支持在Windows下使用。
 
 RVProf是芯来科技针对cpu cycle model开发的性能分析工具，Nuclei Studio在2024.02.dev版本中，完成对RVProf的支持。在实际使用中，RVProf功能分三步完成，首先通过Cycle model工具，运行代码，产生 ``.rvtrace`` 文件，然后RVProf工具，将 ``.rvtrace`` 解析成对应的 ``.json`` 文件，最后通过google的开源工具Perfetto Trace Viewer对 ``.json`` 文件进行解析并展示。因为cpu cycle model当前仅提供了linux版本，所以本文档均是在linux环境下演示此功能。
 
@@ -776,6 +844,93 @@ NICE指令模板说明
       * 参数为2时，Edit Type可设置rs1、rs2类型，如rd为void类型，rd也可在下方指定寄存器。
 
       * 参数为3时，Edit Type可设置rs1、rs2、rs3类型。
+
+.. _ide_nuclei_model_debugger:
+
+Nuclei Model Debugger功能的使用
+----------------------------------
+
+Nuclei Model Debugger是为升级后的Nuclei Near Cycle Model开发的调试运行工具。自 Nuclei Studio 2025.10 版本起，Nuclei Near Cycle Model丰富了其功能，能实现程序的调试、运行；自户自定义参数等功能。为了方便用户使用这些功能，参考Qemu Debugger功能的使用而开发了Nuclei Model Debugger功能。
+
+创建一个测试工程并编译，在IDE的主菜单找到 `Run` 菜单并点击，找到 `Run Configurations` 或者 `Debug Configurations` ，我们以Debug为例，点击 `Debug Configurations` 。
+
+|image104|
+
+在弹出的Debug Configurations中，找到GDB Nuclei Model riscv Debugging。
+
+|image105|
+
+双击GDB Nuclei Model riscv Debugging，就会自动新建一个Nuclei Model Debugger的配置，用户可以在配置面中配置Model Debug的命令相关参数。
+
+|image106|
+
+其中在Debugger页面中有几个值的配置需与工程对应
+
+|image107|
+
+- **Nuclei RISC-V Core** CPU的Core，需与程序中对应
+- **Download** 程序下载模式
+- **Nuclei SMP Count CPU** 核心数量
+- **RVV length** RISC-V 向量扩展
+- **Ohter Extensions** 其他扩展
+
+勾选了 Enable Nuclei Model RVTrace ，程序运行时将会生成一个 ``*.rvtrave`` 的文件。
+
+More options中可以添加Nuclei Model 支持的参数。在演示示例的Config options中配置了 ``--gprof=1 --flame=1 `` ,  ``--gprof=1`` 表示开启gprof功能程序运行时，生会产生gprof文件； ``--flame=1`` 表示开启flame功能。
+
+关于Nuclei Near Cycle Model的参数具体说明，请参见 :ref:`Description of Parameters <xlmodel_description_of_parameters>` 。
+
+关于gprof功能请参见 :ref:`Code Coverage和Profiling功能 <ide_advanceusage_17>` 。
+
+关于flame功能请参见 :ref:`Flame View功能的使用 <ide_flame_view>`  。
+
+配置完参数并保存，然后点击Debug，进入Nuclei Model 的Debug模式。
+
+|image108|
+
+程序在Nuclei Near Cycle Model中成功执行，输出了对应的Log信息。
+
+|image77|
+
+在工程的Debug目录中可以查看到已经生成 ``.rvtrace`` 文件、 ``.gmon`` 文件。
+
+|image78|
+
+Nuclei Near Cycle Model中支持通过gprof来分析程序，所以当我们配置了 ``--gprof`` ，在程序运行时，也会在Debug目录（ ``--logdir=XX`` 所配置的目录）下同步产生一个 ``.gmon`` 文件，双击 ``.gmon`` 文件，将调用gprof工具来分析程序执行所消耗的cycle数及调用关系；同时也会产生对应的 ``callgraph.out`` 文件，双击 ``callgraph.out`` 文件，调用Call Graph查看程序的调用关系。
+
+调用gprof工具，可以查看生成的 ``.gmon`` 文件中的内容。
+
+|image80|
+
+gprof工具在查看 ``.gmon`` 文件的同时，会根据其内容，解析出程序的调用关系，并生成 ``callgraph.out`` 文件，双击 ``callgraph.out`` 调用Call Graph工具查看。
+
+|image43|
+
+因为配置了``--flame=1`` ，在工程的根目录下会产生一个 `xlmodel_flame_0.gtef` 文件，双击该文件，会调用Flame View工具解析并生成火焰图。
+
+|image114|
+
+同一个配置是可以支持Debug和Run，如需要直接执行程序，可以在Launch Bar中进行切换。
+
+|image109|
+
+点击Run，进入Nuclei Model 的Run模式。
+
+|image110|
+
+也可以将配置文件导出并存放在工程的根目录下，这样就可以将配置分享给其他的用户。
+
+打开Debug Configurations页面，找到刚才的配置，然后在右键菜单中点击 ` Exprot... `
+
+|image111|
+
+在弹出的Export Launch Configurations页面中选中要导出的配置和导出的位置，点击Finish完成导出
+
+|image112|
+
+刷新工程，在工程下存在一个 `*.launch` 文件，同时在Launch Bar中也出现了对应的配置，此时就可就可以使用该配置进行程序的Debug/Run等操作，同时IDE也对这些功能做了支持。
+
+|image113|
 
 
 .. _ide_nuclei_model:
@@ -1096,6 +1251,45 @@ Live Watch使用时的一些问题总结
       }
    }
 
+.. _ide_flame_view:
+
+Flame View功能的使用
+---------------------
+
+Flame View（火焰图视图） 是一款直观、高效的性能分析工具，用于可视化嵌入式系统中程序的执行调用栈与时间分布。通过将复杂的跟踪数据转化为层次化堆叠图，Flame View 帮助开发者快速识别热点函数、分析执行路径、定位性能瓶颈。
+
+其中 ``*.gtef`` 文件，是我们在IDE中专为Flame View（火焰图视图）工具定义的一种文件格式。在IDE中目前可以通过Trace数据解析出 ``*.gtef`` 文件（具体参见），也可以通过Nuclei Model直接产生 ``*.gtef`` 文件（具体参见）。
+
+如果你已经有一个 ``*.gtef`` 文件，只需要双击该文件来启动Flame View工具，首先会弹出一个引导，告知IDE将会将 ``*.gtef`` 文件导入到Trace目录中。
+
+|image115|
+
+同时IDE会打开Flame Chart视图和Flame Graph视图
+
+|image116|
+
+Flame Chart视图中以列表的形式展示了某一个函数执行的时间等信息
+
+|image117|
+
+Flame Graph则以火焰图的方式展示了函数执行的时间、调用层次、耗时等数据，在Flame Graph视图个，用户可以通过 `A D W S` 来对火焰图进行方大缩小，以便查看到更详细的信息。
+
+|image118|
+
+当鼠标点击火焰图某段时，会显示该段的更多详细信息
+
+|image119|
+
+通过火焰图，可以帮助用户了解程序的执行情况以及耗时情况快速识别热点函数、分析执行路径、定位性能瓶颈。
+
+ ``*.gtef`` 文件也可通过google的开源工具Perfetto Trace Viewer进行展示。打开 ``https://ui.perfetto.dev/`` 网址，点通过Open trace file，找到工程中生成的 ``*.gtef`` 文件，手动将json文件load到Perfetto中。
+
+|image120|
+
+用户可以通过 `A D W S` 来对火焰图进行方大缩小，以便查看到更详细的信息。
+
+|image121|
+
 Flash Programming
 ------------------
 
@@ -1105,6 +1299,15 @@ Flash Programming
 
 |image102|
 
+
+Connect to Running Target
+---------------------------
+
+为了满足用户直接连接到开发板的需求，Nuclei Studio 新增了 Connect to Running Target 功能。该功能允许用户直接连接到硬件开发板，可以读取开发板的相关信息，极大方便了开发的效率。
+
+具体参见 :ref:`Connect to Running Target功能 <ide_connet_to_target>` 。
+
+|image103|
 
 .. |image1| image:: /asserts/nucleistudio/advanceusage/image2.png
 
@@ -1286,7 +1489,6 @@ Flash Programming
 
 .. |image89| image:: /asserts/nucleistudio/advanceusage/image89.png
 
-
 .. |image90| image:: /asserts/nucleistudio/advanceusage/image90.png
 
 .. |image91| image:: /asserts/nucleistudio/advanceusage/image91.png
@@ -1312,6 +1514,60 @@ Flash Programming
 .. |image101| image:: /asserts/nucleistudio/advanceusage/image101.png
 
 .. |image102| image:: /asserts/nucleistudio/advanceusage/image102.png
+
+.. |image103| image:: /asserts/nucleistudio/advanceusage/image103.png
+
+.. |image104| image:: /asserts/nucleistudio/advanceusage/image104.png
+
+.. |image105| image:: /asserts/nucleistudio/advanceusage/image105.png
+
+.. |image106| image:: /asserts/nucleistudio/advanceusage/image106.png
+
+.. |image107| image:: /asserts/nucleistudio/advanceusage/image107.png
+
+.. |image108| image:: /asserts/nucleistudio/advanceusage/image108.png
+
+.. |image109| image:: /asserts/nucleistudio/advanceusage/image109.png
+
+.. |image110| image:: /asserts/nucleistudio/advanceusage/image110.png
+
+.. |image111| image:: /asserts/nucleistudio/advanceusage/image111.png
+
+.. |image112| image:: /asserts/nucleistudio/advanceusage/image112.png
+
+.. |image113| image:: /asserts/nucleistudio/advanceusage/image113.png
+
+.. |image114| image:: /asserts/nucleistudio/advanceusage/image114.png
+
+.. |image115| image:: /asserts/nucleistudio/advanceusage/image115.png
+
+.. |image116| image:: /asserts/nucleistudio/advanceusage/image116.png
+
+.. |image117| image:: /asserts/nucleistudio/advanceusage/image117.png
+
+.. |image118| image:: /asserts/nucleistudio/advanceusage/image118.png
+
+.. |image119| image:: /asserts/nucleistudio/advanceusage/image119.png
+
+.. |image120| image:: /asserts/nucleistudio/advanceusage/image120.png
+
+.. |image121| image:: /asserts/nucleistudio/advanceusage/image121.png
+
+.. |image122| image:: /asserts/nucleistudio/advanceusage/image122.png
+
+.. |image123| image:: /asserts/nucleistudio/advanceusage/image123.png
+
+.. |image124| image:: /asserts/nucleistudio/advanceusage/image124.png
+
+.. |image125| image:: /asserts/nucleistudio/advanceusage/image125.png
+
+.. |image126| image:: /asserts/nucleistudio/advanceusage/image126.png
+
+.. |image127| image:: /asserts/nucleistudio/advanceusage/image127.png
+
+.. |image128| image:: /asserts/nucleistudio/advanceusage/image128.png
+
+.. |image129| image:: /asserts/nucleistudio/advanceusage/image129.png
 
 .. |image-nice-1| image:: /asserts/nucleistudio/advanceusage/nice-1.png
 

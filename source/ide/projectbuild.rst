@@ -158,6 +158,27 @@ Nuclei Studio中编译Hello World项目
 
 |image15|
 
+.. _ide_connet_to_target:
+
+Connect to Running Target
+---------------------------
+
+为了满足用户直接连接到开发板的需求，Nuclei Studio 新增了 ``Connect to Running Target`` 功能。该功能允许用户直接连接到硬件开发板，可以读取开发板的相关信息，极大方便了开发的效率。
+
+在Nuclei Studio中 ``Connect to Running Target`` 仅支持OpenOCD和Jlink两种方式。下面以OpenOCD的方式来展示 ``Connect to Running Target`` 的使用。
+
+ ``Connect to Running Target`` 功能的使用非常简单。连接好开发板，并创建一个demo工程，当工程编译好后选中工程，在鼠标右键弹出的菜单，或者在IDE的工具菜单中找到 ``Connect to Running Target`` 菜单并点击。
+
+|image28|
+
+在console窗口中可以看到，gdb尝试连接到开发板中。
+
+|image29|
+
+当IDE连接上开发板后，用户可以通过IDE的 ``Debugger Console`` 工具来发送gdb命令来查看开发板当前的一些信息。
+
+|image30|
+
 .. _ide_flash_programming:
 
 Flash Programming
@@ -296,3 +317,9 @@ Flash Programming中的参数最终将通过OpenOCD执行。默认情况下， `
 .. |image26| image:: /asserts/nucleistudio/projectbuild/image26.png
 
 .. |image27| image:: /asserts/nucleistudio/projectbuild/image27.png
+
+.. |image28| image:: /asserts/nucleistudio/projectbuild/image28.png
+
+.. |image29| image:: /asserts/nucleistudio/projectbuild/image29.png
+
+.. |image30| image:: /asserts/nucleistudio/projectbuild/image30.png
