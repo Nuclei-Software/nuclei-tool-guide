@@ -1,4 +1,4 @@
-.. _update: 
+.. _ide_update: 
 
 Nuclei Studio 升级更新
 ======================
@@ -6,40 +6,56 @@ Nuclei Studio 升级更新
 在线更新
 -----------
 
-一般情况下，在发布新的版本后，如果用户所使用IDE/Plugin/工具链存在可升级版本的情况下，IDE启动后会弹出相应的升级提示，用户可以选择在线升级进行安装。
+.. note::
+   Nuclei Studio 2025.10 版本及以后的版本可以使用以下方法对IDE进行在线更新升级。
+
+当 Nuclei Studio 发布新版本后，若检测到用户当前使用的 IDE、插件（Plugin）或配套工具链（如编译器、调试器等）存在可用的更新版本，IDE 在启动时将自动弹出版本升级提示。
 
 Nuclei Studio IDE的安装
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
+在 Nuclei Studio 2025.10 之前的版本中，当有新版本 Nuclei Studio 发布时，仅会提示用户手动下载最新版安装包，升级过程需用户自行完成。自 Nuclei Studio 2025.10 版本起，我们引入了全新的在线升级机制：用户可通过内置的升级工具，直接在线下载并自动完成解压与安装，实现 IDE 的一键升级。该改进显著简化了升级流程，提升了操作便捷性与用户体验。
+
+Nuclei Studio启动时，会检测是否存在新版 Nuclei Studio可供下载升级，如若存在将会弹出升级提示框，用户可以选择需要升级的版本以及新版本安装的路径进行升级安装，也可以设置升级提示的频率。
+
 |image5|
 
--  Updated version是可选升级的版本。
+-  Updated version 可选升级的uclei Studio的版本。
 
--  Check Frequency是启动时检测新版本的频率，默认为Every Start。
+-  Check Frequency 是启动时检测新版本的频率，默认为Every Start。
 
--  Installation Path为新版本IDE的安装路径。
+-  Installation Path 为新版本IDE的安装路径。
 
-除了启动时检测到新版本弹窗外，用户也可以通过菜单栏选择 ``Help 🡪 Check for IDE updates`` 来检查IDE的更新。
+除了Nuclei Studio启动时检测到新版本并自动弹窗外，用户也可以通过菜单栏选择 ``Help 🡪 Check for IDE updates`` 来检查IDE的更新。
 
 
 工具链和插件的安装
 ~~~~~~~~~~~~~~~~~~~
 
+工具链和插件是 Nuclei Studio 中的重要组成部分，工具链 包括 GCC 编译器、QEMU 模拟器、Nuclei Model 等核心开发组件；插件则用于扩展 Nuclei Studio 功能，支持新特性与调试能力的持续集成。它们的实时更新能带来更好的用户体验。
+
+在 Nuclei Studio 2025.10 之前的版本中，当有新版本工具链和插件发布时，也无法做到在线升级。自 Nuclei Studio 2025.10 版本起，我们引入了全新的在线升级机制：用户可通过内置的升级工具，直接在线下载并自动完成升级与安装。
+
+Nuclei Studio启动时，会检测是否存在新版工具链或插件，如若存在将会弹出升级提示框，用户可以选择需要升级的工具链或插件版本并点击升级，就可以实自动升级工具链和插件了。
+
 |image6|
 
--  Name为对应需要升级的工具链或者插件名称。
+-  Name 对应需要升级的工具链或者插件名称。
 
--  Description为对应需要升级的工具链或者插件的描述。
+-  Description 对应需要升级的工具链或者插件的描述。
 
--  Type只有Plugin和Toolcahin，分别对应为插件和工具链类型。
+-  Type 只有Plugin和Toolcahin，分别对应为插件和工具链类型。
 
 -  在选中某一项时，Changelog会显示对应需要升级的工具链或者插件的更新日志。
 
-除了启动时检测到新版本弹窗外，用户也可以通过菜单栏选择 ``Help 🡪 Check for component updates`` 来检查IDE的更新。
+除了Nuclei Studio启动时检测到新版本工具链和插件并自动弹窗外，用户也可以通过菜单栏选择 ``Help 🡪 Check for component updates`` 来检查IDE的更新。
 
 
 手动更新
 -----------
+
+.. note::
+   Nuclei Studio 2025.10 之前的版本可以使用以下方法对IDE进行手动更新升级。
 
 当在线更新无法完成时，用户可以手动下载最新的GNU工具链以及其他相关工具和升级IDE Plugins的方式来完成。
 

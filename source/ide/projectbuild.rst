@@ -163,7 +163,7 @@ Nuclei Studio中编译Hello World项目
 Connect to Running Target
 ---------------------------
 
-为了满足用户直接连接到开发板的需求，Nuclei Studio 新增了 ``Connect to Running Target`` 功能。该功能允许用户直接连接到硬件开发板，可以读取开发板的相关信息，极大方便了开发的效率。
+为了满足用户直接连接到开发板的需求，Nuclei Studio 新增了 ``Connect to Running Target`` 功能。该功能支持直接连接正在运行的硬件目标板，用户可以进行如读取开发板相关信息等操作，极大方便了开发的效率。
 
 在Nuclei Studio中 ``Connect to Running Target`` 仅支持OpenOCD和Jlink两种方式。下面以OpenOCD的方式来展示 ``Connect to Running Target`` 的使用。
 

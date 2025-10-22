@@ -554,11 +554,11 @@ Trace文件下载完后，Nuclei Studio会弹出一个 ``Set current debug hart 
 
 .. _ide_ide_trace_exceptions:
 
-在Trace列表中如果存在中断，该条记录的背景色将变成绿色；如果存在异常，该记录的背景色将变成黄色；以帮助用户快速分辨中断或异常。
-
 .. note::
 
-   关于中断与异常的查询是Nuclei Studio 2025.10版中新增的功能。
+   中断与异常的查询是Nuclei Studio 2025.10版中新增的功能。
+
+在Trace列表中如果存在中断，该条记录的背景色将变成绿色；如果存在异常，该记录的背景色将变成黄色；以帮助用户快速分辨中断或异常。
 
 |image122|
 
@@ -652,14 +652,14 @@ Trace本身记录的是程序执行的过程，所以天然的适合解析出程
 
 |image129|
 
-.. _ide_ide_rvprof:
+.. _ide_adv_rvprof:
 
 RVProf功能的使用
 ----------------
 
 .. note::
 
-   Nuclei Studio 2025.10版开始，RVProf功能支持在Windows下使用。
+   Nuclei Studio 2025.10版开始，RVProf功能支持在Windows下使用，使用方法与Linux下使用相同。
 
 RVProf是芯来科技针对cpu cycle model开发的性能分析工具，Nuclei Studio在2024.02.dev版本中，完成对RVProf的支持。在实际使用中，RVProf功能分三步完成，首先通过Cycle model工具，运行代码，产生 ``.rvtrace`` 文件，然后RVProf工具，将 ``.rvtrace`` 解析成对应的 ``.json`` 文件，最后通过google的开源工具Perfetto Trace Viewer对 ``.json`` 文件进行解析并展示。因为cpu cycle model当前仅提供了linux版本，所以本文档均是在linux环境下演示此功能。
 
@@ -850,21 +850,23 @@ NICE指令模板说明
 Nuclei Model Debugger功能的使用
 ----------------------------------
 
-Nuclei Model Debugger是为升级后的Nuclei Near Cycle Model开发的调试运行工具。自 Nuclei Studio 2025.10 版本起，Nuclei Near Cycle Model丰富了其功能，能实现程序的调试、运行；自户自定义参数等功能。为了方便用户使用这些功能，参考Qemu Debugger功能的使用而开发了Nuclei Model Debugger功能。
+Nuclei Model Debugger是为升级后的Nuclei Near Cycle Model开发的调试运行工具。
 
-创建一个测试工程并编译，在IDE的主菜单找到 `Run` 菜单并点击，找到 `Run Configurations` 或者 `Debug Configurations` ，我们以Debug为例，点击 `Debug Configurations` 。
+自 Nuclei Studio 2025.10 版本起，Nuclei Near Cycle Model提供了更丰富功能，实现了在 Nuclei Near Cycle Model 中对程序进行调试、运行等操作，并能接收自定义的参数。为了方便用户使用这些功能，参考 Qemu Debugger 功能的使用而开发了 Nuclei Model Debugger 功能。
+
+创建一个测试工程并编译，在 Nuclei Studio 的主菜单找到 ``Run`` 菜单并点击，找到 ``Run Configurations`` 或者 ``Debug Configurations`` ，以 Debug 为例，点击 ``Debug Configurations`` 。
 
 |image104|
 
-在弹出的Debug Configurations中，找到GDB Nuclei Model riscv Debugging。
+在弹出的 ``Debug Configurations`` 中，找到 ``GDB Nuclei Model riscv Debugging`` 。
 
 |image105|
 
-双击GDB Nuclei Model riscv Debugging，就会自动新建一个Nuclei Model Debugger的配置，用户可以在配置面中配置Model Debug的命令相关参数。
+双击 ``GDB Nuclei Model riscv Debugging`` ，Nuclei Studio 就会自动新建一个 Nuclei Model Debugger 的配置页面，用户可以在配置页面中配置 Model Debug 的命令相关参数。
 
 |image106|
 
-其中在Debugger页面中有几个值的配置需与工程对应
+其中在 ``Debugger`` 页面中的值的配置需与工程对应
 
 |image107|
 
@@ -874,9 +876,9 @@ Nuclei Model Debugger是为升级后的Nuclei Near Cycle Model开发的调试运
 - **RVV length** RISC-V 向量扩展
 - **Ohter Extensions** 其他扩展
 
-勾选了 Enable Nuclei Model RVTrace ，程序运行时将会生成一个 ``*.rvtrave`` 的文件。
+勾选了 ``Enable Nuclei Model RVTrace`` 并配置其路径，程序运行时会生成一个 ``*.rvtrave`` 的文件。
 
-More options中可以添加Nuclei Model 支持的参数。在演示示例的Config options中配置了 ``--gprof=1 --flame=1 `` ,  ``--gprof=1`` 表示开启gprof功能程序运行时，生会产生gprof文件； ``--flame=1`` 表示开启flame功能。
+在 ``More options`` 中可以添加 Nuclei Model 所支持的参数。在演示示例的Config options中配置了 ``--gprof=1 --flame=1 `` ,  ``--gprof=1`` 表示开启gprof功能程序运行时，生会产生gprof文件； ``--flame=1`` 表示开启flame功能。
 
 关于Nuclei Near Cycle Model的参数具体说明，请参见 :ref:`Description of Parameters <xlmodel_description_of_parameters>` 。
 
@@ -884,51 +886,53 @@ More options中可以添加Nuclei Model 支持的参数。在演示示例的Conf
 
 关于flame功能请参见 :ref:`Flame View功能的使用 <ide_flame_view>`  。
 
-配置完参数并保存，然后点击Debug，进入Nuclei Model 的Debug模式。
+配置完参数并保存，然后点击 ``Debug`` ，进入 Nuclei Model 的 Debug 模式。
 
 |image108|
 
-程序在Nuclei Near Cycle Model中成功执行，输出了对应的Log信息。
+程序在 Nuclei Near Cycle Model 中成功执行，输出了对应的 Log 信息。
 
 |image77|
 
-在工程的Debug目录中可以查看到已经生成 ``.rvtrace`` 文件、 ``.gmon`` 文件。
+在工程的 Debug 目录中可以查看到已经生成 ``.rvtrace`` 文件、 ``.gmon`` 文件。
 
 |image78|
 
-Nuclei Near Cycle Model中支持通过gprof来分析程序，所以当我们配置了 ``--gprof`` ，在程序运行时，也会在Debug目录（ ``--logdir=XX`` 所配置的目录）下同步产生一个 ``.gmon`` 文件，双击 ``.gmon`` 文件，将调用gprof工具来分析程序执行所消耗的cycle数及调用关系；同时也会产生对应的 ``callgraph.out`` 文件，双击 ``callgraph.out`` 文件，调用Call Graph查看程序的调用关系。
+Nuclei Near Cycle Model 中支持通过 gprof 来分析程序，所以当我们配置了 ``--gprof`` ，在程序运行时，也会在Debug目录（ ``--logdir=XX`` 所配置的目录）下同步产生一个 ``.gmon`` 文件，双击 ``.gmon`` 文件，将调用 gprof 工具来分析程序执行所消耗的cycle数及调用关系；同时也会产生对应的 ``callgraph.out`` 文件，双击 ``callgraph.out`` 文件，调用Call Graph查看程序的调用关系。
 
-调用gprof工具，可以查看生成的 ``.gmon`` 文件中的内容。
+调用 gprof 工具，可以查看生成的 ``.gmon`` 文件中的内容。
 
 |image80|
 
-gprof工具在查看 ``.gmon`` 文件的同时，会根据其内容，解析出程序的调用关系，并生成 ``callgraph.out`` 文件，双击 ``callgraph.out`` 调用Call Graph工具查看。
+gprof 工具在查看 ``.gmon`` 文件的同时，会根据其内容，解析出程序的调用关系，并生成 ``callgraph.out`` 文件，双击 ``callgraph.out`` 调用Call Graph工具查看。
 
 |image43|
 
-因为配置了``--flame=1`` ，在工程的根目录下会产生一个 `xlmodel_flame_0.gtef` 文件，双击该文件，会调用Flame View工具解析并生成火焰图。
+.. _ide_nuclei_model_flame:
+
+因为配置了 ``--flame=1`` ，在工程的根目录下会产生一个 ``xlmodel_flame_0.gtef`` 文件，双击该文件，会调用Flame View工具解析并生成火焰图。
 
 |image114|
 
-同一个配置是可以支持Debug和Run，如需要直接执行程序，可以在Launch Bar中进行切换。
+同一个配置是可以支持 Debug 和 Run ，如需要直接执行程序，可以在 Launch Bar 中进行切换。
 
 |image109|
 
-点击Run，进入Nuclei Model 的Run模式。
+点击 Run ，进入 Nuclei Model 的 Run 模式，程序就会直接执行完。
 
 |image110|
 
 也可以将配置文件导出并存放在工程的根目录下，这样就可以将配置分享给其他的用户。
 
-打开Debug Configurations页面，找到刚才的配置，然后在右键菜单中点击 ` Exprot... `
+打开 Debug Configurations 页面，找到刚才的配置，然后在右键菜单中点击 `` Exprot... `` 。
 
 |image111|
 
-在弹出的Export Launch Configurations页面中选中要导出的配置和导出的位置，点击Finish完成导出
+在弹出的 ``Export Launch Configurations`` 页面中选中要导出的配置和导出的位置，点击 ``Finish`` 完成导出
 
 |image112|
 
-刷新工程，在工程下存在一个 `*.launch` 文件，同时在Launch Bar中也出现了对应的配置，此时就可就可以使用该配置进行程序的Debug/Run等操作，同时IDE也对这些功能做了支持。
+刷新工程，在工程下存在一个 ``*.launch`` 文件，同时在 Launch Bar 中也出现了对应的配置，此时就可就可以使用该配置进行程序的 Debug/Run 等操作。
 
 |image113|
 
@@ -1260,33 +1264,33 @@ Flame View（火焰图视图） 是一款直观、高效的性能分析工具，
 
 其中 ``*.gtef`` 文件，是我们在IDE中专为Flame View（火焰图视图）工具定义的一种文件格式。在IDE中目前可以通过Trace数据解析出 ``*.gtef`` 文件（具体参见），也可以通过Nuclei Model直接产生 ``*.gtef`` 文件（具体参见）。
 
-如果你已经有一个 ``*.gtef`` 文件，只需要双击该文件来启动Flame View工具，首先会弹出一个引导，告知IDE将会将 ``*.gtef`` 文件导入到Trace目录中。
+如果你已经有一个 ``*.gtef`` 文件，只需要双击该文件来启动Flame View工具，首先会弹出一个引导提示，告知用户IDE将会把 ``*.gtef`` 文件导入到Traces目录中。
 
 |image115|
 
-同时IDE会打开Flame Chart视图和Flame Graph视图
+同时IDE会打开Flame Chart视图和Flame Graph视图。
 
 |image116|
 
-Flame Chart视图中以列表的形式展示了某一个函数执行的时间等信息
+Flame Chart视图以列表的形式展示了函数的相关信息，如开始时间、执行耗时等。
 
 |image117|
 
-Flame Graph则以火焰图的方式展示了函数执行的时间、调用层次、耗时等数据，在Flame Graph视图个，用户可以通过 `A D W S` 来对火焰图进行方大缩小，以便查看到更详细的信息。
+Flame Graph视图以火焰图的方式展示了程序中各函数执行的时间、调用层次、执行耗时等数据，在Flame Graph视图个，用户可以通过 ``A D W S`` 来对火焰图进行方大缩小，以便查看更多详细的信息。
 
 |image118|
 
-当鼠标点击火焰图某段时，会显示该段的更多详细信息
+当鼠标点击火焰图中某段时，会显示该段的更多详细信息。
 
 |image119|
 
 通过火焰图，可以帮助用户了解程序的执行情况以及耗时情况快速识别热点函数、分析执行路径、定位性能瓶颈。
 
- ``*.gtef`` 文件也可通过google的开源工具Perfetto Trace Viewer进行展示。打开 ``https://ui.perfetto.dev/`` 网址，点通过Open trace file，找到工程中生成的 ``*.gtef`` 文件，手动将json文件load到Perfetto中。
+``*.gtef`` 文件也可通过google的开源工具 Perfetto Trace Viewer 进行展示。打开 ``https://ui.perfetto.dev/`` 网址，点击 ``Open trace file`` ，找到工程中生成的 ``*.gtef`` 文件，手动将json文件load到Perfetto中。
 
 |image120|
 
-用户可以通过 `A D W S` 来对火焰图进行方大缩小，以便查看到更详细的信息。
+在生成的火焰图中，用户可以通过 ``A D W S`` 来对火焰图进行方大缩小，以便查看到更详细的信息。
 
 |image121|
 
