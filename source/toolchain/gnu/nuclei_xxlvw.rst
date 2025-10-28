@@ -204,6 +204,15 @@ Nuclei 自定义的 intrinsic
     vint32m4_t  __riscv_xl_vdsmacini_v_i32m4(vint32m4_t vs2, size_t vl);
     vint32m8_t  __riscv_xl_vdsmacini_v_i32m8(vint32m8_t vs2, size_t vl);
 
+.. note::
+
+    虽然该指令没有 ``vd parametter``，但是该指令的intrinsic使用时是需要一个返回值的，其返回值不为空。
+
+    暂时没有 ``vd parametter`` 的指令intrinsic，都需要一个返回值。
+
+    未来该类型指令的intrinsic的使用方法可能会有变化，目前只是一个workaround版本。
+
+
 * ``vdsmacini.s``  sew = 8/16/32  none_m_preds[none,_m]
 
 .. code-block:: c

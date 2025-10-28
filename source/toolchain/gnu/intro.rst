@@ -84,6 +84,10 @@ Extensions Support
 
     :ref:`xxlvqmacc <toolchain_gnu_nuclei_vpu>`
 
+- Nuclei custom XXLVW Extensions
+
+    :ref:`xxlvvw <toolchain_gnu_nuclei_xxlvw>`
+
 .. note::
 
     Extensions starting with **x** are generally reserved for manufacturers to customize, and should be placed after extensions starting with **z** when used.
