@@ -89,12 +89,15 @@ The ``nuclei cpuinfo`` command provides detailed information about the CPU's cap
 
 This command simplifies the process of querying CPU features by automatically reading and interpreting the relevant CSR (Control and Status Register) values, eliminating the need for manual register inspection and calculation.
 
+This command implementation are updated with latest nuclei sdk 0.9.0 ``cpuinfo.c/h`` to provide same analysis using same source code from 2025.10 release.
+
 NUSPI (Nuclei SPI) Driver
 -------------------------
 
 The NUSPI driver provides support for Nuclei's SPI controller, which is utilized in Nuclei RISC-V FPGA evaluation boards and other compatible hardware.
 
 Usage:
+
 ``flash bank name nuspi base size chip_width bus_width target spi_base [simulation]``
 
 Custom Driver with OpenFlashLoader
@@ -103,7 +106,17 @@ Custom Driver with OpenFlashLoader
 The custom driver provides compatibility with various SPI controllers and flash memory types. When using this driver, it must be combined with the OpenFlashLoader to achieve optimal functionality.
 
 Usage:
+
 ``flash bank name custom base size chip_width bus_width target spi_base flashloader_path [simulation] [sectorsize=]``
+
+**flashloader_path** could be one the following:
+
+.. note::
+
+   This require **2025.10** version to provide correct path search handling.
+
+- Abosulte path: eg. ``C:\\flashloader\\loader.bin`` or ``/home/loader/loader.bin``
+- Relative path: eg. ``loader.bin``, it wil search under where openocd executed, and ``scripts`` folder of where openocd installed such as ``toolchain/openocd/scripts``
 
 Nuclei-Specific CSRs
 --------------------
@@ -184,6 +197,11 @@ Available Commands:
 
 - ``nuclei cti resume_group on/off target_name0 target_name1 ...``
   - Controls resume group triggers
+
+Debug with Hypervisor
+---------------------
+
+Need **2025.10** version to work with, only work with ``riscv virt2phys_mode sw``, see https://github.com/riscv-collab/riscv-openocd/issues/1278#issuecomment-3166660685
 
 Reset and Halt Command
 ----------------------
@@ -462,6 +480,24 @@ Nuclei provides an affordable debugging solution for RISC-V CPUs:
 
 Changelog
 =========
+
+.. _openocd_changelog_202510:
+
+Version 2025.10
+---------------
+
+This release is based on 2025.02 version with some new features and bug fixes introduced.
+
+* Update ``nuclei cpuinfo`` command implementation using nuclei sdk 0.9.0 cpuinfo same source code to provide same behavior
+* Correct custom flashloader binary file location search rules, where openocd executed, openocd ``scripts`` folder, and absolute path
+* Sync nuclei custom CSRs support
+* Optimize flash probe process, when no flash probed, it will exit with error instead of hang on it
+* Support debug for hypervisor mode
+* Fix debug ``Assertion failed!`` on HBird opensource cpu
+* Fix nuclei riscv cross trigger command implementation ``nuclei cti xxx``
+* Clear ``haltreq`` signal when openocd connect failed
+* Fix segmentation fault issue when debug level set to 3 or 4
+* When debug on FPGA CPU MHz is very slow such as **5MHz**, openocd may work not correctly, it will be fixed by make CPU run faster such as **10MHz**
 
 .. _openocd_changelog_202502:
 
