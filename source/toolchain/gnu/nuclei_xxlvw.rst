@@ -206,9 +206,9 @@ Nuclei 自定义的 intrinsic
 
 .. note::
 
-    虽然该指令没有 ``vd parametter``，但是该指令的intrinsic使用时是需要一个返回值的，其返回值不为空。
+    虽然该指令没有 ``vd parameter``，但是该指令的intrinsic使用时是需要一个返回值的，其返回值不为空。
 
-    暂时没有 ``vd parametter`` 的指令intrinsic，都需要一个返回值。
+    暂时没有 ``vd parameter`` 的指令intrinsic，都需要一个返回值。
 
     未来该类型指令的intrinsic的使用方法可能会有变化，目前只是一个workaround版本。
 
