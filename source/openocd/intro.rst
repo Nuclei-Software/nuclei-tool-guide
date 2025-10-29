@@ -35,14 +35,14 @@ Checking OpenOCD Version
 To determine the installed OpenOCD version:
 
 1. Open a command prompt (Windows) or terminal (Linux)
-2. Execute the command: ``openocd -v``
+2. Execute the command: ``openocd -v`` to see version output
 
 .. image:: /asserts/images/openocd-v.png
     :width: 900px
 
 .. note::
 
-   Current Version Information:
+   Version Information parsed for above screenshot not for current release:
    - Git Commit ID: 787e48e66
    - Compile Date: 2022-12-29 08:49
 
@@ -193,10 +193,12 @@ The Cross-Trigger Interface (CTI) provides an advanced debugging mechanism that 
 Available Commands:
 
 - ``nuclei cti halt_group on/off target_name0 target_name1 ...``
-  - Controls halt group triggers
+
+  Controls halt group triggers
 
 - ``nuclei cti resume_group on/off target_name0 target_name1 ...``
-  - Controls resume group triggers
+
+  Controls resume group triggers
 
 Debug with Hypervisor
 ---------------------
@@ -220,7 +222,11 @@ FTDI nSCAN1 Mode Command
 The ``ftdi nscan1_mode`` command controls Nuclei's Compact JTAG (cJTAG) mode functionality.
 
 Usage:
+
 ``ftdi nscan1_mode on|off``
+
+- **on**: Means select 2-wire cJTAG mode
+- **off**: Means select 4-wire JTAG mode
 
 .. note::
 
@@ -429,11 +435,10 @@ OpenOCD supports ARM semihosting, which allows target programs to use host syste
 
 For more detailed information about how to use openocd, please check the ``openocd.pdf`` distributed in openocd release.
 
-
 Target Defer Examine
 --------------------
 
-In some multicore systems, the slave-target is not debuggable and needs to be unlocked by the host-target before it can be used, in which case the -defer-examine parameter is needed.
+In some multicore systems, the slave-target is not debuggable and needs to be unlocked by the host-target before it can be used, in which case the ``-defer-examine`` parameter is needed.
 
 .. code-block:: c
 
@@ -458,15 +463,6 @@ In some multicore systems, the slave-target is not debuggable and needs to be un
     # Manually initialize slave-target
     $SLAVE_TARGETNAME arp_examine
 
-Frequently Asked Questions
-==========================
-
-For additional troubleshooting and common issues, refer to:
-
-- `GitHub FAQ <https://github.com/riscv-mcu/riscv-openocd/wiki>`_.
-
-- `Gitee FAQ <https://gitee.com/riscv-mcu/riscv-openocd/wikis>`_.
-
 Low-Cost Debugger Solution
 ==========================
 
@@ -478,6 +474,17 @@ Nuclei provides an affordable debugging solution for RISC-V CPUs:
 
 `Dlink Repository <https://github.com/Nuclei-Software/nuclei-dlink>`_.
 
+Frequently Asked Questions
+==========================
+
+For additional trouble shooting and common issues, refer to:
+
+- `GitHub FAQ <https://github.com/riscv-mcu/riscv-openocd/wiki>`_.
+
+- `Gitee FAQ <https://gitee.com/riscv-mcu/riscv-openocd/wikis>`_.
+
+- `Known Issues <https://github.com/riscv-mcu/riscv-openocd/issues/11>`_
+
 Changelog
 =========
 
@@ -486,7 +493,7 @@ Changelog
 Version 2025.10
 ---------------
 
-This release is based on 2025.02 version with some new features and bug fixes introduced.
+This release is based on **2025.02** version with some new features and bug fixes introduced.
 
 * Update ``nuclei cpuinfo`` command implementation using nuclei sdk 0.9.0 cpuinfo same source code to provide same behavior
 * Correct custom flashloader binary file location search rules, where openocd executed, openocd ``scripts`` folder, and absolute path
@@ -504,7 +511,7 @@ This release is based on 2025.02 version with some new features and bug fixes in
 Version 2025.02
 ---------------
 
-In this release, Nuclei OpenOCD bump openocd code base from 0.11 to 0.12,
+In this release, Nuclei OpenOCD bump openocd code base from **0.11** to **0.12**,
 with this base changes, a lot of new features supported by upstream will
 be taken into Nuclei OpenOCD.
 
