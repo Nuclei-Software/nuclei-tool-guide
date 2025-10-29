@@ -15,6 +15,8 @@ Nuclei QEMU is now developed based on QEMU version 9.0, supporting the machine f
 
   - **Zilsd & Zclsd**: riscv-zilsd Release 1.0
 
+  - **Xxlfbf & Xxlvfbf**: Nuclei custom scalar & vector BF16 extensions
+
 If you want to access the code of Nuclei QEMU, you can visit our opensource `Nuclei QEMU Github Repository <https://github.com/riscv-mcu/qemu/tree/nuclei/9.0>`_.
 
 
@@ -210,9 +212,6 @@ TEST Support
 
   This is an exit mechanism implemented for **nuclei_evalsoc** in QEMU. By writing different values ``0x3333`` / ``0x5555`` to ``0x100000`` during program execution, qemu can automatically exit in **Fail/Pass** state. Writing ``0x7777`` will trigger system **reset**, initialize all devices, and run the program again.
 
-
-
-
 .. _Description_of_Parameters:
 
 Description of Parameters
@@ -225,7 +224,7 @@ You can enter ``qemu-system-riscv32 --help`` to view the parameters that can be 
 
 Nuclei QEMU supports two main programs: ``qemu-system-riscv32`` and ``qemu-system-riscv64``. ``qemu-system-riscv32`` is used to support 32-bit programs, while ``qemu-system-riscv64`` supports 64-bit programs.
 
-This is an example of a fully functional parameter for Nuclei QEMU: ``qemu-system-riscv32 -M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json,debug=1 -cpu nuclei-n300fd,ext=_v_xxldsp,vlen=128,elen=64,s=true -m 512M -smp 1 -icount shift=0 -nodefaults -nographic -serial stdio -kernel dhrystone.elf``.
+This is an example of a fully functional parameter for Nuclei QEMU: ``qemu-system-riscv32 -M nuclei_evalsoc,download=ddr,aia=aplic-imsic,aia-guests=4,soc-cfg=evalsoc.json,debug=1 -cpu nuclei-n300fd,ext=_v_xxldsp,vlen=128,elen=64,s=true -m 512M -smp 1 -icount shift=0 -nodefaults -nographic -serial stdio -kernel dhrystone.elf``.
 
 Let's describe the meaning of this complete command:
 
@@ -234,6 +233,10 @@ Let's describe the meaning of this complete command:
   ``-M`` represents ``machine``, which means selecting the type of machine. Currently, Nuclei QEMU has added ``nuclei_evalsoc`` to the existing options. This option must exist.
 
   ``download=`` is used to choose the download mode, and currently, it supports four download modes: ``sram``, ``flashxip``, ``flash``, ``ilm``, and ``ddr``. If this parameter is not present, the default value is ``flashxip``.
+
+  ``aia=`` is used to set type of AIA interrupt controller. The valid values are ``none``, ``aplic`` and ``aplic-imsic``, corresponding to the interrupt controller enabled on evalsoc as ``PLIC``, ``APLIC`` and ``APLIC-IMSIC``.
+
+  ``aia-guests=`` will set number of guest MMIO pages for AIA-IMSIC. Valid value should be between 0 and 4.
 
   ``soc-cfg=`` is an optional option to pass dynamic modifications to the initial configuration of the machine with a json file. If this parameter is not set, the default value of qemu will be used.
 
@@ -314,6 +317,8 @@ Let's describe the meaning of this complete command:
   **irq**: peripheral interrupt id, dec format
 
   **download**: firmware startup address
+
+  **irqmax**: number of external interrupts supported by evalsoc, maximum can be set to 1024. In addition, it is necessary to ensure that both the custom irq number and the irq number of the peripheral devices supported by default in qemu are less than this.
 
   The following is a list of interrupt id for all interrupts implemented in qemu in both PLIC and ECLIC, users should follow this rule when configuring irq.
 
@@ -469,11 +474,13 @@ Let's describe the meaning of this complete command:
   +--------------+-------------------------------------------------------------------------+
   | zvfhmin      | RISC-V V-Extension                                                      |
   +--------------+-------------------------------------------------------------------------+
-  | zhinx        | Zhinx  Extension                                                        |
+  | zhinx        | Zhinx Extension                                                         |
   +--------------+-------------------------------------------------------------------------+
-  | zhinxmin     | Zhinxmin  Extension                                                     |
+  | zhinxmin     | Zhinxmin Extension                                                      |
   +--------------+-------------------------------------------------------------------------+
-  | smaia        | Smaia   Extension                                                       |
+  | smaia        | Smaia Extension                                                         |
+  +--------------+-------------------------------------------------------------------------+
+  | smcntrpmf    | Smcntrpmf Extension                                                     |
   +--------------+-------------------------------------------------------------------------+
   | ssaia        | Ssaia  Extension                                                        |
   +--------------+-------------------------------------------------------------------------+
@@ -502,7 +509,9 @@ Let's describe the meaning of this complete command:
   | xxlvqmacc    | Nuclei custom vpu extension                                             |
   +--------------+-------------------------------------------------------------------------+
 
-  **vlen=128,elen=64**: The VLEN and ELEN are only effective when the V extension instructions of RISC-V are enabled. The default value of VLEN is 128, and it must be a multiple of 2 when set, with a value range of [128, 1024]. The default value of ELEN is 64, and ELEN must also be a multiple of 2, with a value range of [8, 64].
+  **vlen=128**: The VLEN is only effective when the V extension instructions of RISC-V are enabled. The default value of VLEN is 128, and it must be a multiple of 2 when set, with a value range of [128, 1024]. The default value of ELEN is 64, and ELEN must also be a multiple of 2, with a value range of [8, 64].
+
+  **elen=64**: The ELEN is also only effective when the V extension instructions of RISC-V are enabled. When QEMU only enables Zve32* extension, ELEN will be set to 32; otherwise, the default ELEN is 64. If it is also configured through 'elen=', the actual ELEN value will be set based on this option.
 
   **s=true**: This parameter is optional, If you wish for RISC-V to support the S (supervisor) privilege mode, you can add s=true to the parameters to meet this requirement. Nuclei QEMU currently only supports interrupt handling in M-privilege mode.
 
@@ -595,7 +604,7 @@ Under normal circumstances, you should see the final output ``NMSIS_TEST_PASS``,
 +-----------------------+---------------+---------------+-----------------------------------------------+
 | demo_profiling/       | Y             |               |                                               |
 +-----------------------+---------------+---------------+-----------------------------------------------+
-| demo_smode_eclic/     | F             |               | Eclic does not yet support S mode.            |
+| demo_smode_eclic/     | Y             |               | XLCFG_TEE, eg:XLCFG_TEE=1 .                   |
 +-----------------------+---------------+---------------+-----------------------------------------------+
 | demo_smpu/            | F             |               | XLCFG_SMPU, eg:XLCFG_SMPU=1, SPMU has not yet |
 |                       |               |               | been implemented in qemu.                     |
@@ -669,6 +678,31 @@ This command sets up QEMU to emulate a Nuclei processor and environment specific
 Changelog
 =========
 
+.. _qemu_changelog_202510:
+
+Version 2025.10
+---------------
+
+- Iregion now can be accessed via 1-8bytes per ops
+- Adjust the configuration of ELEN
+- Support pausing Nuclei systimer
+- Support smode ECLIC
+- Add support for Nuclei xxlfbf & xxlvfbf extensions
+- Add optional AIA APLIC & IMSIC support on nuclei_evalsoc
+- Cherry-pick Smcntrpmf extension support
+- Add Nuclei N300e core support
+- Update to reflect the overflow flag of xxldsp instructions through 'ucode'
+- Implement some Nuclei custom csrs
+- Fixed some issues related to csr access
+- Adapt the SSTC extension on nuclei_evalsoc
+- Add zhinx/zhinxmin/zdinx imply rules
+- Fixed the support for single-letter input of the 'ext=' option
+- Increase the default size of the flash to 64MB
+- Fixed overflow caused by setting the 'mtimecmp' too large in clint timer
+- Trigger system reset rather than systimer reset when writing 'msftrst'
+- Fix a series of issues during interrupt handling in eclic
+
+
 .. _qemu_changelog_202502:
 
 Version 2025.02
@@ -688,7 +722,16 @@ Version 2025.02
 Known Issues
 ============
 
-LiteOS-M is not able to run on Nuclei Qemu
-------------------------------------------
+Fixed issues on Nuclei Qemu 2025.10
+-----------------------------------
 
-This issue still existed in 2025.02 version, see https://github.com/riscv-mcu/qemu/issues/6
+- LiteOS-M is not able to run on Nuclei Qemu, see https://github.com/riscv-mcu/qemu/issues/6
+
+Remaining issues on Nuclei Qemu 2025.10
+---------------------------------------
+
+- The plic/eclic interrupt controller cannot be automatically switched, see https://github.com/riscv-mcu/qemu/issues/8
+
+- Can not run SMP mode of FreeRTOS, RT-Thread, and Zephyr, see https://github.com/riscv-mcu/qemu/issues/9
+
+- Sstc is not yet fully compatible with Nuclei systimer, see https://github.com/riscv-mcu/qemu/issues/10
