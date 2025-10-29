@@ -190,7 +190,6 @@ ZCC升级
 - 修复了 Lst View 在某些场景下打开文件导至IDE卡死的情况；
 - 修复了 打开或者删除 *.elf、*.o 文件时报文件占用的问题；
 - 修复了 Nuclei Studio Linux 版中 Coverage 功能数据为空的问题；
-- 修复了使用 Clang 编译带 --coverage 编译选项的工程报错的问题；
 - 修复了 Flash Programming 功能中无法选择非当前工程下二进制文件的问题；
 - 修复了 OpenOCD 调试蜂鸟工程报错的问题；
 - 修复了其他已知Bug。

@@ -162,6 +162,9 @@ Nuclei Studio中的Code Coverage功能是借助于gcc编译器提供gcov工具�
    - 注意：此处只需要将编译选项 ``--coverage`` 或者 ``-coverage``  加到特定的应用目录或者源码文件上，而不能加到整个工程，否则在程序运行时将会消耗大量内存，导致运行失败。
    - 注意: 在使用2025.02-gcc 14.x及后续版本的编译器配合Nuclei SDK Profiling库(<=0.8.0)的时候，会存在coverage功能不正常，没有任何coverage信息的问题，需要参考这个修改 https://github.com/Nuclei-Software/nuclei-sdk/commit/5aaae0d5a7629013a235657ed3bce3dce18e8e0b
 
+.. note::
+
+   截止到2025.10版本发布时，Nuclei SDK 0.9.0 [Profiling/Coverage](https://github.com/Nuclei-Software/nuclei-sdk/tree/master/Components/profiling) 的库实现，暂时没有增加clang编译器的支持，因此如果使用clang编译器进行测试，会报错如下，这个未来Nuclei SDK升级相关支持以后理论上就可以正常使用了。
 
 -  ``.gcno`` 文件是在使用 GCC 编译器的 ``-ftest-coverage`` 选项编译源代码时生成的。它包含了重构基本块图和为块分配源代码行号的信息。
 
@@ -1144,7 +1147,7 @@ Live Watch使用演示
 
 |image88|
 
-编译工程并Debug运行程序后，在Live Watch视图中添加需要查看的变量，添加变量的方式有两种。可以通过在Live Watch窗口中点击 ``add new variable`` 来手动添加；也可以在工程中选中想要添加的变，然后按住鼠标左键拖动至Live Watch窗口进行添加。
+编译工程并Debug运行程序后，在Live Watch视图中添加需要查看的变量，添加变量的方式有两种。可以通过在Live Watch窗口中点击 ``add new variable`` 来手动添加；也可以在工程中选中想要添加的变量，然后按住鼠标左键拖动至Live Watch窗口进行添加。
 
 |image89|
 
