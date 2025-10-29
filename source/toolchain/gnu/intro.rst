@@ -193,12 +193,13 @@ Libraries
 
     ``libncrt`` is short of **Nuclei C Runtime Library**, which currently support Nuclei RV32 processor, which is released by Nuclei to reduce c library code size, and improve math library speed, for details, please refer to the user guide located in ``gcc\share\pdf\Nuclei C Runtime Library Doc.pdf``
 
-.. _gnu_changelog_202406:
+Changelog
+=========
 
-Significant Changes Brought by GCC13 Compared to GCC10
-======================================================
+.. _llvm_changelog_202406:
 
-This is the changelog for 2023.10 and 2024.06.
+Version 2024.06
+---------------
 
 - Instead of using single-letter ``bkp`` to enable these extensions as we did on gcc10, we split them all into corresponding sub-extensions, for example, ``_zba_zkr_zve32f``, please check https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#arch-ext to learn about how to adapt Nuclei SDK to support gcc13 upgraded from gcc10.
 
@@ -217,14 +218,14 @@ This is the changelog for 2023.10 and 2024.06.
 - The version of the libncrt was changed from v2.0.0 to v3.0.0, and libncrt is now split into three parts, 'libncrt', 'heapops' and 'fileops', click https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#stdclib to learn about how the newlib/libncrt are used in Nuclei SDK with gcc13.
 
 
-.. _gnu_changelog_202502:
+.. _llvm_changelog_202502:
 
-Significant Changes Brought by GCC14 Compared to GCC13
-======================================================
+Version 2025.02
+---------------
 
-This is the changelog for 2025.02.
+- Updated toolchain components to their latest upstream versions: GCC 14.2.1, Binutils 2.44, GDB 16.2, Newlib 4.4.0, LLVM 19.1.7, and GLIBC 2.40.
 
-- Support for the zilsd and zclsd extensions.
+- Support for the Zilsd and Zclsd extensions.
 
 - Some Nuclei custom CSR naming has been re-revised and corrected.
 
@@ -236,35 +237,38 @@ This is the changelog for 2025.02.
 
 - GCC14 introduces additional function attribute checks compared to GCC13. For more details, you can refer to https://gcc.gnu.org/gcc-14/porting_to.html.
 
-- Add the option to automatically generate control for xldsp with ``-mautovec-dsp/-mno-autovec-dsp`` for gcc, which is enabled by default.
+- Add the option to automatically generate control for Xldsp with ``-mautovec-dsp/-mno-autovec-dsp`` for gcc, which is enabled by default.
 
 - The ``riscv_vector.h`` must be included when leverage intrinisc type(s) and API(s).  And the scope of this attribute should not excced the function body.  Meanwhile, to make rvv types and API(s) available for this attribute, include ``riscv_vector.h`` will not report error for now if v is not present in march.
 
-This is the changelog for 2025.10.
+.. _llvm_changelog_202510:
+
+Version 2025.10
+---------------
 
 - Feature: Windows newlib GCC now supports Win32_x64 (64-bit), replacing Win32 (32-bit).
 
-- Feature: Added auto-generation support for the zcmt extension.
+- Feature: Added auto-generation support for the Zcmt extension.
 
-- Feature: Initial support for ECLIC v2 instructions and CSRs added to binutils and GDB.
+- Feature: Initial support for ECLIC v2 instructions and CSRs added to Binutils and GDB.
 
 - Feature: Added multilib support for Zfinx, Zdinx, and related extensions.
 
-- Feature: binutils and GDB now add support for Virtual Supervisor-level CSRs.
+- Feature: Binutils and GDB now add support for Virtual Supervisor-level CSRs.
 
-- Feature: Add missing fcvt.d.h/fcvt.h.d instructions for xxlfbf extension.
+- Feature: Add missing fcvt.d.h/fcvt.h.d instructions for Xxlfbf extension.
 
 - Feature: Added Xxlvw extension support.
 
-- Feature: Add a new -maddibne/-mno-addibne option to control whether xxlcz's addibne instruction is auto-generated.
+- Feature: Add a new -maddibne/-mno-addibne option to control whether Xxlcz's addibne instruction is auto-generated.
 
-- Performance optimization: Aligned newlib memory/string routines (memcpy/memset/setjmp/strcmp/strcpy/strlen) to 4-byte boundaries.
+- Performance optimization: Aligned Newlib memory/string routines (memcpy/memset/setjmp/strcmp/strcpy/strlen) to 4-byte boundaries.
 
-- Fixed: Compilation issues with semihosting functions _times and _gettimeofday in newlib.
+- Fixed: Compilation issues with semihosting functions _times and _gettimeofday in Newlib.
 
-- Fixed: Incorrect inline assembly translation for the clrov instruction in xxldsp (binutils).
+- Fixed: Incorrect inline assembly translation for the clrov instruction in Xxldsp (Binutils).
 
-- Fixed: Conflicts between the xxlvfbf extension and zvfbfmin/zvfbfwma extensions.
+- Fixed: Conflicts between the Xxlvfbf extension and Zvfbfmin/Zvfbfwma extensions.
 
 - Fixed: Fix codegen regression in branch condition optimization by removing redundant AND -1 instruction.
 
