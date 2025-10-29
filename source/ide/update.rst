@@ -20,7 +20,7 @@ Nuclei Studio启动时，会检测是否存在新版 Nuclei Studio可供下载�
 
 |image5|
 
--  Updated version 可选升级的uclei Studio的版本。
+-  Updated version 可选升级的Nuclei Studio的版本。
 
 -  Check Frequency 是启动时检测新版本的频率，默认为Every Start。
 
@@ -36,7 +36,7 @@ Nuclei Studio启动时，会检测是否存在新版 Nuclei Studio可供下载�
 
 在 Nuclei Studio 2025.10 之前的版本中，当有新版本工具链和插件发布时，也无法做到在线升级。自 Nuclei Studio 2025.10 版本起，我们引入了全新的在线升级机制：用户可通过内置的升级工具，直接在线下载并自动完成升级与安装。
 
-Nuclei Studio启动时，会检测是否存在新版工具链或插件，如若存在将会弹出升级提示框，用户可以选择需要升级的工具链或插件版本并点击升级，就可以实自动升级工具链和插件了。
+Nuclei Studio启动时，会检测是否存在新版工具链或插件，如若存在将会弹出升级提示框，用户可以选择需要升级的工具链或插件版本并点击升级，就可以实现自动升级工具链和插件了。
 
 |image6|
 
@@ -44,7 +44,7 @@ Nuclei Studio启动时，会检测是否存在新版工具链或插件，如若�
 
 -  Description 对应需要升级的工具链或者插件的描述。
 
--  Type 只有Plugin和Toolcahin，分别对应为插件和工具链类型。
+-  Type 只有Plugin和Toolchain，分别对应为插件和工具链类型。
 
 -  在选中某一项时，Changelog会显示对应需要升级的工具链或者插件的更新日志。
 

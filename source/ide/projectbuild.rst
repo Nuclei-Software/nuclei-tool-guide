@@ -158,7 +158,7 @@ Nuclei Studio中编译Hello World项目
 
 |image15|
 
-.. _ide_connet_to_target:
+.. _ide_connect_to_target:
 
 Connect to Running Target
 ---------------------------
@@ -167,7 +167,7 @@ Connect to Running Target
 
 在Nuclei Studio中 ``Connect to Running Target`` 仅支持OpenOCD和Jlink两种方式。下面以OpenOCD的方式来展示 ``Connect to Running Target`` 的使用。
 
- ``Connect to Running Target`` 功能的使用非常简单。连接好开发板，并创建一个demo工程，当工程编译好后选中工程，在鼠标右键弹出的菜单，或者在IDE的工具菜单中找到 ``Connect to Running Target`` 菜单并点击。
+使用 ``Connect to Running Target`` 功能非常简单。连接好开发板，并创建一个demo工程，当工程编译好后选中工程，在鼠标右键弹出的菜单，或者在IDE的工具菜单中找到 ``Connect to Running Target`` 菜单并点击。
 
 |image28|
 

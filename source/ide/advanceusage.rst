@@ -632,7 +632,7 @@ Trace中Flame View的使用
 
 Trace本身记录的是程序执行的过程，所以天然的适合解析出程序的执行火焰图。假设用户已经获取到 ``工程名.trace`` 文件，点击 ``Decode trace into flame`` 按钮。
 
-若 ``工程名.trace`` 文件尚未解析，系统将首先弹出 Trace 解析配置页面（相关配置项详见前文说明）。用户完成配置后，点击 “Decode” 开始解析。。
+若 ``工程名.trace`` 文件尚未解析，系统将首先弹出 Trace 解析配置页面（相关配置项详见前文说明）。用户完成配置后，点击 ``Decode`` 开始解析。
 
 |image125|
 
@@ -874,7 +874,7 @@ Nuclei Model Debugger是为升级后的Nuclei Near Cycle Model开发的调试运
 - **Download** 程序下载模式
 - **Nuclei SMP Count CPU** 核心数量
 - **RVV length** RISC-V 向量扩展
-- **Ohter Extensions** 其他扩展
+- **Other Extensions** 其他扩展
 
 勾选了 ``Enable Nuclei Model RVTrace`` 并配置其路径，程序运行时会生成一个 ``*.rvtrave`` 的文件。
 
@@ -924,7 +924,7 @@ gprof 工具在查看 ``.gmon`` 文件的同时，会根据其内容，解析出
 
 也可以将配置文件导出并存放在工程的根目录下，这样就可以将配置分享给其他的用户。
 
-打开 Debug Configurations 页面，找到刚才的配置，然后在右键菜单中点击 `` Exprot... `` 。
+打开 Debug Configurations 页面，找到刚才的配置，然后在右键菜单中点击 `` Export... `` 。
 
 |image111|
 
@@ -1068,7 +1068,7 @@ Live Watch 视图提供了一系列功能菜单，帮助用户更高效地管理
 
      - 包含以下常用设置：
 
-        - Live Watch Speed : 设定 Live Watch 的采样频率,最快为100 ms每次。
+        - Live Watch Speed : 设定 Live Watch 的采样频率,最快为1 ms每次，建议采样频率在5 ms以上，如果采样频率过快可能会导致Live Plot绘制图形异常。
 
         - Live Watch Varible Limit : 限制同时采样的变量数量，最多为10个。
 
@@ -1144,7 +1144,7 @@ Live Watch使用演示
 
 |image88|
 
-编译工程后，Debug运行程序，在Live Watch视图中添加需要查看的变量。
+编译工程并Debug运行程序后，在Live Watch视图中添加需要查看的变量，添加变量的方式有两种。可以通过在Live Watch窗口中点击 ``add new variable`` 来手动添加；也可以在工程中选中想要添加的变，然后按住鼠标左键拖动至Live Watch窗口进行添加。
 
 |image89|
 
@@ -1262,7 +1262,7 @@ Flame View功能的使用
 
 Flame View（火焰图视图） 是一款直观、高效的性能分析工具，用于可视化嵌入式系统中程序的执行调用栈与时间分布。通过将复杂的跟踪数据转化为层次化堆叠图，Flame View 帮助开发者快速识别热点函数、分析执行路径、定位性能瓶颈。
 
-其中 ``*.gtef`` 文件，是我们在IDE中专为Flame View（火焰图视图）工具定义的一种文件格式。在IDE中目前可以通过Trace数据解析出 ``*.gtef`` 文件（具体参见），也可以通过Nuclei Model直接产生 ``*.gtef`` 文件（具体参见）。
+其中 ``*.gtef`` 文件，是我们在IDE中专为Flame View（火焰图视图）工具定义的一种文件格式。在IDE中目前可以通过Trace数据解析出 ``*.gtef`` 文件（具体参见 :ref:`Trace中Flame View的使用 <ide_ide_trace_flame>` ），也可以通过Nuclei Model直接产生 ``*.gtef`` 文件（具体参见 :ref:`Nuclei Model 中Flame View的使用 <ide_nuclei_model_flame>` ）。
 
 如果你已经有一个 ``*.gtef`` 文件，只需要双击该文件来启动Flame View工具，首先会弹出一个引导提示，告知用户IDE将会把 ``*.gtef`` 文件导入到Traces目录中。
 
@@ -1276,7 +1276,7 @@ Flame Chart视图以列表的形式展示了函数的相关信息，如开始时
 
 |image117|
 
-Flame Graph视图以火焰图的方式展示了程序中各函数执行的时间、调用层次、执行耗时等数据，在Flame Graph视图个，用户可以通过 ``A D W S`` 来对火焰图进行方大缩小，以便查看更多详细的信息。
+Flame Graph视图以火焰图的方式展示了程序中各函数执行的时间、调用层次、执行耗时等数据，在Flame Graph视图中，用户可以通过 ``A D W S`` 来对火焰图进行方大缩小，以便查看更多详细的信息。
 
 |image118|
 
@@ -1309,7 +1309,7 @@ Connect to Running Target
 
 为了满足用户直接连接到开发板的需求，Nuclei Studio 新增了 Connect to Running Target 功能。该功能允许用户直接连接到硬件开发板，可以读取开发板的相关信息，极大方便了开发的效率。
 
-具体参见 :ref:`Connect to Running Target功能 <ide_connet_to_target>` 。
+具体参见 :ref:`Connect to Running Target功能 <ide_connect_to_target>` 。
 
 |image103|
 

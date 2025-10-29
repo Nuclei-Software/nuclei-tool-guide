@@ -92,7 +92,7 @@ Nuclei Studio 更新说明
 2025.10版更新说明
 -----------------
 
-2025.10版本是基于eclipse Cpp 2024-06开发，升级了芯来科技的工具版本至2025.10，优化了部分原有功能，新增了调试及代码性能分析等功能，以及解决了2025.02版中存在的缺陷。
+2025.10版本是基于eclipse Cpp 2024-06开发，升级了芯来科技的工具版本至2025.10，新增了代码调试、代码性能分析以及IDE在线升级等功能，优化了部分原有功能，以及解决了2025.02版中存在的缺陷。
 
 
 升级RISC-V Toolchain、OpenOCD、QEMU版本
@@ -104,6 +104,8 @@ Nuclei Studio 更新说明
 
 在Nuclei Studio 2025.10版本中集成了Nuclei Qemu 2025.10版，具体信息可以查看：https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2025.10 。
 
+在Nuclei Studio 2025.10版本中集成了Nuclei Near Cycle Model 2025.10版，具体信息可以查看：https://doc.nucleisys.com/nuclei_tools/xlmodel/intro.html 。
+
 新增对更多新核的支持
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -112,7 +114,7 @@ Nuclei Studio 更新说明
 优化了Nuclei Studio中常用菜单
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nuclei Studio中有些比较常用的菜单，如 ``New Nuclei RISC-V C/C++ Project`` 在Debug视图中没有显示，用户体验不好。为了更方便用户使，优化了这些菜单的位置。
+Nuclei Studio中有些比较常用的菜单，如 ``New Nuclei RISC-V C/C++ Project`` 在Debug视图中没有显示，用户体验不好。为了更方便用户使用，优化了这些菜单的位置。
 
 具体参见 :ref:`Debug视图中没有创建工程菜单 <ide_faq_menu_add>` 。
 
@@ -135,7 +137,7 @@ Nuclei Studio中有些比较常用的菜单，如 ``New Nuclei RISC-V C/C++ Proj
 
 为了满足用户直接连接到开发板的需求，Nuclei Studio 新增了 Connect to Running Target 功能。该功能允许用户直接连接到硬件开发板，可以读取开发板的相关信息，极大方便了开发的效率。
 
-具体参见 :ref:`Connect to Running Target功能 <ide_connet_to_target>` 。
+具体参见 :ref:`Connect to Running Target功能 <ide_connect_to_target>` 。
 
 新增了Flame View功能
 ~~~~~~~~~~~~~~~~~~~~~
@@ -144,13 +146,13 @@ Nuclei Studio中有些比较常用的菜单，如 ``New Nuclei RISC-V C/C++ Proj
 
 具体参见 :ref:`Flame View功能的使用 <ide_flame_view>` 。
 
-新增了Nuclei Model Debugger功能的使用
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+新增了Nuclei Model 调试功能的使用
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nuclei Model是芯来科技为 Nuclei Near Cycle Model 开发了专门的运行工具，在本次版本更新中，增强了Nuclei Near Cycle Model的功能，用户可以在Nuclei Near Cycle Model对工程进行Debug/Run等操作，同时IDE也对这些功能做了支持。
+Nuclei Model是芯来科技为 Nuclei Near Cycle Model 开发了专门的运行工具，在本次版本更新中，增强了Nuclei Near Cycle Model的功能，用户可以在Nuclei Near Cycle Model对工程进行Debug/Run等操作。增加了全新的Nuclei Model Debug Configuration视图，以更好的支持运行和调试功能。
 
 
-关于Nuclei Model Debugger中Flame View的内容可以查看 :ref:`Nuclei Model Debugger中Flame View的使用 <ide_nuclei_model_flame>` 。
+关于Nuclei Model Debugger中Flame View的内容可以查看 :ref:`Nuclei Model 中Flame View的使用 <ide_nuclei_model_flame>` 。
 
 具体参见 :ref:`Nuclei Model Debugger功能的使用 <ide_nuclei_model_debugger>` 。
 
@@ -165,6 +167,13 @@ Nuclei Model是芯来科技为 Nuclei Near Cycle Model 开发了专门的运行�
 
 Trace功能的详情，具体参见 :ref:`Trace功能的使用 <ide_advanceusage_43>` 
 
+优化Live Watch功能
+~~~~~~~~~~~~~~~~~~~~
+
+Live Watch 是芯来科技研发的实时监控工具，专为开发者设计，旨在帮助开发者更高效地调试和优化代码。在Nuclei Studio 2025.10版本中对Live Watch功能做了优化，如提高采样频率、新增拖动添加变量等功能。
+
+具体参见 :ref:`Live Watch功能的使用 <ide_live_watch>` 。
+
 优化和完善RVProf功能
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -173,7 +182,18 @@ RVProf是芯来科技基于CPU cycle model开发的性能分析工具，从2025.
 ZCC升级
 ~~~~~~~~~
 
-在Nuclei Studio 2025.02版本中集成了ZCC 4.1.4版，并加入芯来科技支持的软件库。具体信息可以查看：https://www.terapines.com/products/zcc
+在Nuclei Studio 2025.10版本中集成了ZCC 4.1.6版，并加入芯来科技支持的软件库。具体信息可以查看：https://www.terapines.com/products/zcc
+
+修复了已知Bug
+~~~~~~~~~~~~~~
+
+- 修复了 Lst View 在某些场景下打开文件导至IDE卡死的情况；
+- 修复了 打开或者删除 *.elf、*.o 文件时报文件占用的问题；
+- 修复了 Nuclei Studio Linux 版中 Coverage 功能数据为空的问题；
+- 修复了使用 Clang 编译带 --coverage 编译选项的工程报错的问题；
+- 修复了 Flash Programming 功能中无法选择非当前工程下二进制文件的问题；
+- 修复了 OpenOCD 调试蜂鸟工程报错的问题；
+- 修复了其他已知Bug。
 
 
 .. _ide_changelog_202502:
