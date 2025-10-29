@@ -7,7 +7,7 @@ The official toolchain repository is located at https://github.com/riscv-collab/
 
 Nuclei maintained toolchain repo is located at https://github.com/riscv-mcu/riscv-gnu-toolchain.
 
-The latest release **2025.02** branch for gcc14 and llvm19 is ``nuclei/2025.02``, in which the tools included versions are: gcc 14.2.1, binutils 2.44, gdb 16.2, newlib 4.4.0, llvm 19.1.7, glibc 2.40, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
+The latest release **2025.10** branch for gcc14 and llvm19 is ``nuclei/2025``, in which the tools included versions are: gcc 14.2.1, binutils 2.44, gdb 16.2, newlib 4.5.0, llvm 19.1.7, glibc 2.41, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
 
 For the 2024.06 toolchain branch(gcc13 + llvm17), you can check out the ``nuclei/2024-gcc13`` branch.
 
@@ -42,7 +42,7 @@ Extensions Support
 
 - Zc Extensions
 
-    zca, zcb, zce, zcf, zcd, zcmp, zcmt(Assembly only).
+    zca, zcb, zce, zcf, zcd, zcmp, zcmt.
 
     - zce = zca + zcb + zcmp + zcmt
     - f + zce =  zca + zcb + zcf + zcmp + zcmt
@@ -127,6 +127,10 @@ General Options
 `-mautovec-dsp/-mno-autovec-dsp`
 
     Controls the generation of automatic vectorization of Nuclei DSP instructions, with the compiler enabling Nuclei DSP instructions instruction auto-vectorization by default.
+
+`-maddibne/-mno-addibne`
+
+    Controls auto-generation of the ``addibne`` instruction for the ``xxlcz`` extension. Enabled by default.
 
 `-fstrict-aliasing`
 
@@ -236,16 +240,46 @@ This is the changelog for 2025.02.
 
 - The ``riscv_vector.h`` must be included when leverage intrinisc type(s) and API(s).  And the scope of this attribute should not excced the function body.  Meanwhile, to make rvv types and API(s) available for this attribute, include ``riscv_vector.h`` will not report error for now if v is not present in march.
 
+This is the changelog for 2025.10.
+
+- Feature: Windows newlib GCC now supports Win32_x64 (64-bit), replacing Win32 (32-bit).
+
+- Feature: Added auto-generation support for the zcmt extension.
+
+- Feature: Initial support for ECLIC v2 instructions and CSRs added to binutils and GDB.
+
+- Feature: Added multilib support for Zfinx, Zdinx, and related extensions.
+
+- Feature: binutils and GDB now add support for Virtual Supervisor-level CSRs.
+
+- Feature: Add missing fcvt.d.h/fcvt.h.d instructions for xxlfbf extension.
+
+- Feature: Added Xxlvw extension support.
+
+- Feature: Add a new -maddibne/-mno-addibne option to control whether xxlcz's addibne instruction is auto-generated.
+
+- Performance optimization: Aligned newlib memory/string routines (memcpy/memset/setjmp/strcmp/strcpy/strlen) to 4-byte boundaries.
+
+- Fixed: Compilation issues with semihosting functions _times and _gettimeofday in newlib.
+
+- Fixed: Incorrect inline assembly translation for the clrov instruction in xxldsp (binutils).
+
+- Fixed: Conflicts between the xxlvfbf extension and zvfbfmin/zvfbfwma extensions.
+
+- Fixed: Fix codegen regression in branch condition optimization by removing redundant AND -1 instruction.
+
+- Fixed: Fix unnecessary slli/srai instruction generation when using int16 type.
+
 Install and Setup
 =================
 
 .. rubric:: Build Toolchain
 
-For more information about how to build a toolchain, see https://github.com/riscv-mcu/riscv-gnu-toolchain/tree/nuclei/2025.02/scripts/toolchain. (Only for Nuclei internal use, no technical support is provided)
+For more information about how to build a toolchain, see https://github.com/riscv-mcu/riscv-gnu-toolchain/tree/nuclei/2025/scripts/toolchain. (Only for Nuclei internal use, no technical support is provided)
 
 .. rubric:: Development
 
-The process of user compilation and development can see from https://github.com/riscv-mcu/riscv-gnu-toolchain/blob/nuclei/2025.02/README.md. To get other technical support, please send issues directly to the upstream repository https://github.com/riscv-collab/riscv-gnu-toolchain.
+The process of user compilation and development can see from https://github.com/riscv-mcu/riscv-gnu-toolchain/blob/nuclei/2025/README.md. To get other technical support, please send issues directly to the upstream repository https://github.com/riscv-collab/riscv-gnu-toolchain.
 
 .. rubric:: Examples
 

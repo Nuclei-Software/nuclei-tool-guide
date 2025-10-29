@@ -140,3 +140,14 @@ Version 2025.02
 - Add Nuclei Xxlvamacc extension intrinsic support
 - Update Nuclei custom csrs
 - Update the multilib list
+
+
+.. _llvm_changelog_202510:
+
+Version 2025.10
+---------------
+
+- Initial implementation of pipeline support for Nuclei processor 100/200/300/600/900/1000 series.
+- Added scalar BFloat16 support for Nuclei processors.
+- Implemented Nuclei-specific VPU matrix instructions.
+- Added missing Virtual Supervisor-level CSRs (hedelegh/medelegh) support in LLVM
