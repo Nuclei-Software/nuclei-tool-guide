@@ -206,7 +206,7 @@ Nuclei 自定义的 intrinsic
 
 .. note::
 
-    虽然该指令没有 ``vd parameter``，但是该指令的intrinsic使用时是需要一个返回值的，其返回值不为空。
+    虽然该指令没有 ``vd parameter``，但是该指令的intrinsic使用时是需要一个返回值的，其返回值不为空。具体示例可参考 `Examples`_ 部分。
 
     暂时没有 ``vd parameter`` 的指令intrinsic，都需要一个返回值。
 
@@ -660,3 +660,67 @@ _zvl128b 以下intrinsic可以使用
 Examples
 **********
 
+.. code-block:: c
+
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <string.h>
+    #include <riscv_vector.h>
+
+    typedef union {
+        struct {
+            int16_t re;
+            int16_t im;
+        } sc16;
+        int32_t i32;
+    } cplx_sc16;
+
+    cplx_sc16 src1[4];
+    cplx_sc16 src2[4];
+    cplx_sc16 dst_cmul[4];
+    cplx_sc16 dst_mac[4];
+    cplx_sc16 dst_cmac[4];
+
+    void cplx_mul(const cplx_sc16 *src1, const cplx_sc16 *src2, cplx_sc16 *dst, int len) {
+        for (int i = 0; i < len; ++i) {
+            int64_t re = (int64_t)src1[i].sc16.re * src2[i].sc16.re - (int64_t)src1[i].sc16.im * src2[i].sc16.im;
+            int64_t im = (int64_t)src1[i].sc16.re * src2[i].sc16.im + (int64_t)src1[i].sc16.im * src2[i].sc16.re;
+            dst[i].sc16.re = re >> 15;
+            dst[i].sc16.im = im >> 15;
+        }
+    }
+
+    int main()
+    {
+        unsigned long vcsr = (0x0 << 8) | (0x1 << 3);
+        asm volatile ("csrw 0xf,%0" : : "r"(vcsr));
+        asm volatile("csrr %0,0xf" : "=r"(vcsr));
+        printf("vcsr = %x\r\n", vcsr);
+
+        memset(&src1[0], 0, sizeof(cplx_sc16) * 4);
+        memset(&src2[0], 0, sizeof(cplx_sc16) * 4);
+        memset(&dst_cmul[0], 0, sizeof(cplx_sc16) * 4);
+        memset(&dst_mac[0], 0, sizeof(cplx_sc16) * 4);
+        memset(&dst_cmac[0], 0, sizeof(cplx_sc16) * 4);
+
+        for (int i = 0; i < 4; ++i) {
+            src1[i].sc16.re = rand() % 32 - 16;
+            src1[i].sc16.im = rand() % 32 - 16;
+            src2[i].sc16.re = rand() % 32 - 16;
+            src2[i].sc16.im = rand() % 32 - 16;
+        }
+
+        size_t vl = 4;
+
+        vint32m1_t vs1 = __riscv_vle32_v_i32m1(&src1[0].i32, vl);
+        vint32m1_t vs2 = __riscv_vle32_v_i32m1(&src2[0].i32, vl);
+        vint32m1_t vd = __riscv_xl_vdscmul_vv_i32m1(vs2, vs1, vl);
+        __riscv_vse32_v_i32m1(&dst_cmul[0].i32, vd, vl);
+
+        // tmp值可以不被用到，但是需要有，才能保证vdsmacini指令正常使用
+        vint32m1_t tmp = __riscv_xl_vdsmacini_x_i32m1(1, vl);
+
+        vd = __riscv_xl_vdscmaco_vv_i32m1(vs2, vs1, vl);
+        __riscv_vse32_v_i32m1(&dst_cmac[0].i32, vd, vl);
+        return 0;
+    }
