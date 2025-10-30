@@ -458,6 +458,27 @@ Nuclei Studio是基于eclipse开发，没有针对主题配色进行修改，所
 
 |image57|
 
+.. _ide_faq_menu_add:
+
+Debug视图中没有创建工程菜单
+---------------------------
+
+Nuclei Studio 2025.10版中更新了菜单显示的逻辑，可以在Debug视图中将常见的菜单显示。如果用户当前版本是Nuclei Studio 2025.10及之后的版本，在Debug视图中的 ``File ->New`` 中没有 ``New Nuclei RISC-V C/C++ Project`` 菜单，可以重启一下Debug视图以刷新菜单。
+
+在 Debug 视图的右上角 close Debug 视图。
+
+|image58|
+
+然后重新打开Debug视图。
+
+|image59|
+
+新加的 ``New Nuclei RISC-V C/C++ Project`` 菜单就会在 ``File ->New`` 中出现。同时在 Debug 时常用的 Trace 、Live Watch等菜单也会出现在 ``Window -> Show View`` 中。
+
+|image60|
+
+|image61|
+
 
 其他未注明版本问题
 ==================
@@ -617,3 +638,11 @@ Nuclei Studio是基于eclipse开发，没有针对主题配色进行修改，所
 .. |image56| image:: /asserts/nucleistudio/faq/image56.png
 
 .. |image57| image:: /asserts/nucleistudio/faq/image57.png
+
+.. |image58| image:: /asserts/nucleistudio/faq/image58.png
+
+.. |image59| image:: /asserts/nucleistudio/faq/image59.png
+
+.. |image60| image:: /asserts/nucleistudio/faq/image60.png
+
+.. |image61| image:: /asserts/nucleistudio/faq/image61.png

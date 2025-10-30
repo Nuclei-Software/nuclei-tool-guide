@@ -87,6 +87,124 @@ Nuclei Studio IDE充分利用上述Eclipse IDE优势，结合社区成熟的Ecli
 Nuclei Studio 更新说明
 =======================
 
+.. _ide_changelog_202510:
+
+2025.10版更新说明
+-----------------
+
+2025.10版本是基于eclipse Cpp 2024-06开发，升级了芯来科技的工具版本至2025.10，新增了代码调试、代码性能分析以及IDE在线升级等功能，优化了部分原有功能，以及解决了2025.02版中存在的缺陷。
+
+
+升级RISC-V Toolchain、OpenOCD、QEMU版本
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+在Nuclei Studio 2025.10版本中集成了Nuclei RISC-V Toolchain 2025.10版，具体信息可以查看：https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2025.10 。
+
+在Nuclei Studio 2025.10版本中集成了OpenOCD 2025.10版，具体信息可以查看：https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2025.10 。
+
+在Nuclei Studio 2025.10版本中集成了Nuclei Qemu 2025.10版，具体信息可以查看：https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2025.10 。
+
+在Nuclei Studio 2025.10版本中集成了Nuclei Near Cycle Model 2025.10版，具体信息可以查看：https://doc.nucleisys.com/nuclei_tools/xlmodel/intro.html 。
+
+.. note::
+
+   如需确认当前 Nuclei Studio 中所集成的RISC-V Toolchain、OpenOCD、QEMU、Nuclei Model的版本集息，可以查看该工具链下 ``build.txt`` 和 ``gitrepo.txt`` 文件，文件内存有构建信息以及git各个子仓的commit信息。 
+
+新增对更多新核的支持
+~~~~~~~~~~~~~~~~~~~~
+
+增加了对N300E核配套支持。
+
+优化了Nuclei Studio中常用菜单
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Nuclei Studio中有些比较常用的菜单，如 ``New Nuclei RISC-V C/C++ Project`` 在Debug视图中没有显示，用户体验不好。为了更方便用户使用，优化了这些菜单的位置。
+
+具体参见 :ref:`Debug视图中没有创建工程菜单 <ide_faq_menu_add>` 。
+
+新增了IDE在线升级功能
+~~~~~~~~~~~~~~~~~~~~~
+
+新增了在线升级插件、在线升级工具链、在线升级IDE三种不同的升级功能，可根据实际需求，灵活选择对不同组件进行独立升级，无需整体替换或重新安装，大幅提升使用效率与系统稳定性。
+
+具体参见 :ref:`Nuclei Studio 升级更新 <ide_update>` 。
+
+优化了IDE Welcome页面
+~~~~~~~~~~~~~~~~~~~~~
+
+优化了原有Welcome页面，将常用的文档与工具的快捷入口放在Welcome页面，方便用户查阅和使用。
+
+具体参见 :ref:`Welcome页面介绍 <ide_welcome>` 。
+
+新增了Connect to Running Target功能
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+为了满足用户直接连接到开发板的需求，Nuclei Studio 新增了 Connect to Running Target 功能。该功能允许用户直接连接到硬件开发板，可以读取开发板的相关信息，极大方便了开发的效率。
+
+具体参见 :ref:`Connect to Running Target功能 <ide_connect_to_target>` 。
+
+新增了Flame View功能
+~~~~~~~~~~~~~~~~~~~~~
+
+新增的 Flame View（火焰图视图） 是一款直观、高效的性能分析工具，用于可视化嵌入式系统中程序的执行调用栈与时间分布。通过将复杂的跟踪数据转化为层次化堆叠图，Flame View 帮助开发者快速识别热点函数、分析执行路径、定位性能瓶颈。
+
+具体参见 :ref:`Flame View功能的使用 <ide_flame_view>` 。
+
+新增了Nuclei Model 调试功能的使用
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Nuclei Model是芯来科技为 Nuclei Near Cycle Model 开发了专门的运行工具，在本次版本更新中，增强了Nuclei Near Cycle Model的功能，用户可以在Nuclei Near Cycle Model对工程进行Debug/Run等操作。增加了全新的Nuclei Model Debug Configuration视图，以更好的支持运行和调试功能。
+
+关于Nuclei Model Debugger中Flame View的内容可以查看 :ref:`Nuclei Model 中Flame View的使用 <ide_nuclei_model_flame>` 。
+
+具体参见 :ref:`Nuclei Model Debugger功能的使用 <ide_nuclei_model_debugger>` 。
+
+优化了 GDB Custom 调试功能
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+GDB Custom 是芯来科技为适应不同的调试工具，开发的一款简化的调试配置，允许用户在 Nuclei Studio 使用自己定义的调试工具来调试程序。本次版本在原有功能基础上做了优化，使之用户体验更好。
+
+具体参见 :ref:`GDB Custom 调试功能 <ide_nuclei_custom_debugger>` 。
+
+优化Trace功能
+~~~~~~~~~~~~~~
+
+经过前几个版本的实践反馈，我们对Trace功能中的已知bug进行了修复；优化了Trace工具的相关性能，使之在处理数据时更快更稳定；新增了基于Trace数据的中断查功能、Flame View功能等。
+
+关于Trace功能中中断的介绍可以查看 :ref:`Trace中中断的查询 <ide_ide_trace_exceptions>` 。
+
+关于Trace功能中Flame View的内容可以查看 :ref:`Trace中Flame View的使用 <ide_ide_trace_flame>` 。
+
+Trace功能的详情，具体参见 :ref:`Trace功能的使用 <ide_advanceusage_43>` 
+
+优化Live Watch功能
+~~~~~~~~~~~~~~~~~~~~
+
+Live Watch 是芯来科技研发的实时监控工具，专为开发者设计，旨在帮助开发者更高效地调试和优化代码。在Nuclei Studio 2025.10版本中对Live Watch功能做了优化，如提高采样频率、新增拖动添加变量等功能。
+
+具体参见 :ref:`Live Watch功能的使用 <ide_live_watch>` 。
+
+优化和完善RVProf功能
+~~~~~~~~~~~~~~~~~~~~
+
+RVProf是芯来科技基于CPU cycle model开发的性能分析工具，从2025.10版开始，RVProf支持在Windows下使用。具体内容参见第 :ref:`RVProf功能的使用 <ide_adv_rvprof>` 。此功能需要有相应的NPK软件包支持，如需体验此功能，请与我们联系。
+
+ZCC升级
+~~~~~~~~~
+
+在Nuclei Studio 2025.10版本中集成了ZCC 4.1.6版，并加入芯来科技支持的软件库。具体信息可以查看：https://www.terapines.com/products/zcc
+
+修复了已知Bug
+~~~~~~~~~~~~~~
+
+- 修复了 Lst View 在某些场景下打开文件导至IDE卡死的情况；
+- 修复了 打开或者删除 ``*.elf、*.o`` 文件时报文件占用的问题；
+- 修复了 Nuclei Studio Linux 版中 Coverage 功能数据为空的问题；
+- 修复了 Flash Programming 功能中无法选择非当前工程下二进制文件的问题；
+- 修复了 OpenOCD 调试蜂鸟工程报错的问题；
+- 修复了其他已知Bug。
+
+
 .. _ide_changelog_202502:
 
 2025.02版更新说明
@@ -265,7 +383,7 @@ Nuclei Studio中Trace功能升级，实现了在OpenOCD模式下对单核应用�
 优化和完善RVProf功能
 ~~~~~~~~~~~~~~~~~~~~
 
-RVProf是芯来科技基于CPU cycle model开发的性能分析工具，具体内容参见第 :ref:`RVProf功能的使用 <ide_advanceusage_61>` 。此功能需要有相应的NPK软件包支持，如需体验此功能，请与我们联系。
+RVProf是芯来科技基于CPU cycle model开发的性能分析工具，具体内容参见第 :ref:`RVProf功能的使用 <ide_adv_rvprof>` 。此功能需要有相应的NPK软件包支持，如需体验此功能，请与我们联系。
 
 新增对DLlink Debug的支持
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -469,13 +587,18 @@ Nuclei Studio IDE 启动
 
 |image22|
 
-设置好Workspace目录之后，单击“Launch”按钮，将会启动Nuclei Studio。第一次启动后的Nuclei Studio。
+.. _ide_welcome:
 
-|image23|
+设置好Workspace目录之后，单击“Launch”按钮，将会启动Nuclei Studio。
 
 .. note::
-   2021.02版本Nuclei Studio默认关闭了Launch Bar，请参照10.10.1开启Nuclei Studio中的Launch Bar功能，方便快速编译调试和下载。
+   Nuclei Studio 2025.10 版本对 Welcome 页面内容进行了更新。
 
+首次启动 Nuclei Studio 时，将显示 ``Welcome（欢迎）`` 页面。该页面提供了常用功能的快捷入口，包括项目创建、示例工程导入、软件包（NPK）管理等，同时集成了芯来科技提供的技术文档链接和教学视频教程，帮助开发者快速上手并掌握开发流程。
+
+后续如需再次访问 ``Welcome（欢迎）`` 页面，可通过菜单栏选择 ``Help → Welcome`` 重新打开欢迎页面。
+
+|image23|
 
 
 .. |image1| image:: /asserts/nucleistudio/intro/image2.png
@@ -548,5 +671,5 @@ Nuclei Studio IDE 启动
    :alt: 公司Logo
 
 .. |image23| image:: /asserts/nucleistudio/intro/image25.png
-   :alt: 第一次启动Nuclei Studio界面
+   :alt: 首次启动Nuclei Studio界面
 
