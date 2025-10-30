@@ -49,6 +49,7 @@ To determine the installed OpenOCD version:
 .. note::
 
    Version Information parsed for above screenshot not for current release:
+
    - Git Commit ID: 787e48e66
    - Compile Date: 2022-12-29 08:49
 
@@ -152,16 +153,18 @@ Current Implementation:
 ETrace Commands:
 
 1. Configuration:
-   ``nuclei etrace config etrace-addr buffer-addr buffer-size wrap``
-   - Initializes ETrace and configures operational parameters
+
+   ``nuclei etrace config etrace-addr buffer-addr buffer-size wrap``: Initializes ETrace and configures operational parameters
 
 2. Control:
+
    - ``nuclei etrace enable``: Activates ETrace functionality
    - ``nuclei etrace disable``: Deactivates ETrace functionality
    - ``nuclei etrace start``: Begins trace data collection
    - ``nuclei etrace stop``: Stops trace data collection
 
 3. Data Management:
+
    - ``nuclei etrace dump filename``: Exports captured trace data to a file
    - ``nuclei etrace clear``: Resets trace buffer pointers
    - ``nuclei etrace info``: Displays current ETrace status
@@ -184,10 +187,12 @@ For detailed documentation about the Nuclei debug map feature, please contact yo
 Commands:
 
 - ``nuclei expose_cpu_core``
+
   - Configures the list of indices for ``nuclei_examine_cpu_core``
   - Must be executed before the ``init`` command
 
 - ``nuclei examine_cpu_core``
+
   - Returns a 64-bit value combining ``dm-custom1`` and ``dm-custom2`` registers
   - Value calculation: ``(dm-custom2 << 32) + dm-custom1``
 
@@ -248,9 +253,7 @@ The OpenOCD configuration file defines how to establish a connection with the de
 
 Example Configuration:
 
-- Using Nuclei HBird Debugger (FTDI-based)
-
-`Reference implementation <https://github.com/Nuclei-Software/nuclei-sdk/blob/master/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg>`_.
+- Using Nuclei HBird Debugger (FTDI-based), see `Reference implementation <https://github.com/Nuclei-Software/nuclei-sdk/blob/master/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg>`_.
 
 Debugger Speed Configuration
 ----------------------------
@@ -283,6 +286,7 @@ The following configuration selects and initializes the FTDI debugger interface:
     ftdi layout_signal JTAG_SEL -data 0x0100 -oe 0x0100
 
 Configuration Details:
+
 - FTDI chip VID/PID must match the connected hardware
 - JTAG transport protocol selected
 - Signal layout configured for HBird Debugger compatibility
@@ -348,6 +352,7 @@ The JTAG link configuration varies depending on the system architecture:
    - Presents CPU cores ("hardware threads") as threads to GDB
    - Allows inspection of SMP system state through GDB commands
    - Enables core-specific debugging operations:
+
      - ``info threads`` lists active CPU cores
      - ``thread`` switches between CPU core views
      - ``step`` and ``stepi`` operate on individual cores
@@ -370,6 +375,7 @@ Configuration Example:
 .. note::
 
    Work Area Requirements:
+
    - Must be a readable, writable, and executable memory region
    - Base address (0x08000000) and size (0x10000) should be adjusted according to system requirements
 
@@ -386,6 +392,7 @@ The NOR flash configuration specifies the memory mapping and controller settings
 .. note::
 
    Configuration Parameters:
+
    - ``nuspi``: Flash driver type (adjust as needed)
    - ``0x20000000``: QSPI XIP address (adjust as needed)
    - ``0x10180000``: QSPI controller base address (adjust as needed)
@@ -436,6 +443,7 @@ OpenOCD supports ARM semihosting, which allows target programs to use host syste
 .. note::
 
    Semihosting provides access to:
+
    - File I/O operations
    - Console input/output
    - System clock information
@@ -475,22 +483,21 @@ In some multicore systems, the slave-target is not debuggable and needs to be un
 Low-Cost Debugger Solution
 ==========================
 
-Nuclei provides an affordable debugging solution for RISC-V CPUs:
+Nuclei provides an affordable debugging solution called
+`DLink <https://github.com/Nuclei-Software/nuclei-dlink>`_ for Nuclei RISC-V CPUs:
 
 - Supports both JTAG and cJTAG protocols
 - Fully compatible with Nuclei Studio
 - Open-source implementation available
 
-`Dlink Repository <https://github.com/Nuclei-Software/nuclei-dlink>`_.
-
 Frequently Asked Questions
 ==========================
 
-For additional trouble shooting and common issues, refer to:
+For additional trouble shooting and common issues, please refer to:
 
-- `GitHub FAQ <https://github.com/riscv-mcu/riscv-openocd/wiki>`_.
+- `GitHub FAQ <https://github.com/riscv-mcu/riscv-openocd/wiki>`_
 
-- `Gitee FAQ <https://gitee.com/riscv-mcu/riscv-openocd/wikis>`_.
+- `Gitee FAQ <https://gitee.com/riscv-mcu/riscv-openocd/wikis>`_
 
 - `Known Issues and common questions <https://github.com/riscv-mcu/riscv-openocd/issues/11>`_
 
