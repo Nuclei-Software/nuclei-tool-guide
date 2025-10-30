@@ -17,8 +17,19 @@ Nuclei QEMU is now developed based on QEMU version 9.0, supporting the machine f
 
   - **Xxlfbf & Xxlvfbf**: Nuclei custom scalar & vector BF16 extensions
 
-If you want to access the code of Nuclei QEMU, you can visit our opensource `Nuclei QEMU Github Repository <https://github.com/riscv-mcu/qemu/tree/nuclei/9.0>`_.
+.. note::
 
+  Before using Nuclei QEMU, you can check the current version on which Nuclei QEMU is based and the commit id through the ``--version`` option of Nuclei QEMU, for example:
+
+  .. code-block:: shell
+
+    $ qemu-system-riscv32 --version
+    QEMU emulator version 9.0.4 (v9.0.4-143-g1857be8c7d-dirty)
+    Copyright (c) 2003-2024 Fabrice Bellard and the QEMU Project developers
+
+  The above shows that Nuclei QEMU is currently developed based on the upstream version 9.0.4, and commit id is `1857be8c7d <https://github.com/riscv-mcu/qemu/tree/1857be8c7d>`_.
+
+If you want to access the code of Nuclei QEMU, you can visit our opensource `Nuclei QEMU Github Repository <https://github.com/riscv-mcu/qemu/tree/nuclei/9.0>`_. If you want to learn more about QEMU, please refer to the official QEMU documentation, which is available at https://www.qemu.org/documentation/.
 
 Design and Architecture
 =======================
