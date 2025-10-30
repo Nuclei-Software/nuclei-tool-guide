@@ -73,7 +73,7 @@ Version 2025.02
 
 - Add the option to automatically generate control for Xldsp with ``-mautovec-dsp/-mno-autovec-dsp`` for gcc, which is enabled by default.
 
-- The ``riscv_vector.h`` must be included when leverage intrinisc type(s) and API(s).  And the scope of this attribute should not excced the function body.  Meanwhile, to make rvv types and API(s) available for this attribute, include ``riscv_vector.h`` will not report error for now if v is not present in march.
+- The ``riscv_vector.h`` must be included when leverage intrinsic type(s) and API(s).  And the scope of this attribute should not exceed the function body.  Meanwhile, to make rvv types and API(s) available for this attribute, include ``riscv_vector.h`` will not report error for now if v is not present in march.
 
 - LLVM: Add Zilsd & Zclsd V1.0 assembly support
 

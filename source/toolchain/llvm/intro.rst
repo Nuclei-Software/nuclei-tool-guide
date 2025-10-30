@@ -136,13 +136,13 @@ Changelog
 
     Please check :ref:`toolchain_changelog` here.
 
-Checking GNU Version
---------------------
+Checking Clang Version
+----------------------
 
 To check the basic version information of Clang, you can use the command ``riscv64-unknown-elf-clang -v``.
 
 If you need to report an issue to the developers, please provide:
 
-1.The ``gcc/build.txt`` file (located in the GCC directory) for GCC compilation details.
+1. The ``gcc/build.txt`` file (located in the GCC directory) for GCC compilation details.
 
-2.The ``gcc/gitrepo.txt`` file to confirm commit IDs of each tool, which helps determine more detailed build information.
+2. The ``gcc/gitrepo.txt`` file to confirm commit IDs of each tool, which helps determine more detailed build information.
