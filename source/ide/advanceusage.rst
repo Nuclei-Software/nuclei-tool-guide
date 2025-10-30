@@ -164,7 +164,13 @@ Nuclei Studio中的Code Coverage功能是借助于gcc编译器提供gcov工具�
 
 .. note::
 
-   截止到2025.10版本发布时，Nuclei SDK 0.9.0 [Profiling/Coverage](https://github.com/Nuclei-Software/nuclei-sdk/tree/master/Components/profiling) 的库实现，暂时没有增加clang编译器的支持，因此如果使用clang编译器进行测试，会报错如下，这个未来Nuclei SDK升级相关支持以后理论上就可以正常使用了。
+   截止到Nuclei Studio 2025.10版本发布时，Nuclei SDK 0.9.0 [Profiling/Coverage](https://github.com/Nuclei-Software/nuclei-sdk/tree/master/Components/profiling) 的库实现，暂时没有增加clang编译器的支持，因此如果使用clang编译器进行测试，会报错如下，这个未来Nuclei SDK升级相关支持以后理论上就可以正常使用了。
+
+.. note::
+
+   由于 GCC 版本升级，使用最新 SDK 创建的工程在启用代码覆盖率（Code Coverage）功能时可能出现异常。该问题已在 Nuclei Studio 2025.10 版本中修复。
+   
+   **注意**：此修复仅支持 SDK 版本 0.8.1 及以上。不向下兼容旧版工程：对于此前创建的旧工程，需手动修改配置以适配新版本。请参考以下 GitHub 提交记录中的修改内容，对您的工程进行相应调整：https://github.com/Nuclei-Software/nuclei-sdk/commit/5aaae0d5a7629013a235657ed3bce3dce18e8e0b
 
 -  ``.gcno`` 文件是在使用 GCC 编译器的 ``-ftest-coverage`` 选项编译源代码时生成的。它包含了重构基本块图和为块分配源代码行号的信息。
 
@@ -651,7 +657,7 @@ Trace本身记录的是程序执行的过程，所以天然的适合解析出程
 
 |image128|
 
-此时在Debug目录下有一个 ``工程名.gtef`` 文件，双击该文件就可以查看工程的火焰图了。具体Flame View功能，可以参见 :ref:`Flame View功能的使用 <ide_flame_view>` 。
+此时在Debug目录下有一个 ``工程名.gtef`` 文件，双击该文件就可以查看工程的火焰图了。 **注意** ：如果 ``工程名.gtef`` 文件更新了，需要再次双击该文件以导入到Flame View中。具体Flame View功能，可以参见 :ref:`Flame View功能的使用 <ide_flame_view>` 。
 
 |image129|
 
@@ -1023,6 +1029,16 @@ Nuclei Near Cycle Model中支持通过gprof来分析程序，所以当我们�
 gprof工具在查看 ``.gmon`` 文件的同时，会根据其内容，解析出程序的调用关系，并生成 ``callgraph.out`` 文件，双击 ``callgraph.out`` 调用Call Graph工具查看。
 
 |image43|
+
+
+.. _ide_nuclei_custom_debugger:
+
+GDB Custom 调试功能的使用
+--------------------------
+
+GDB Custom 是芯来科技为适应不同的调试工具，开发的一款简化的调试配置，允许用户在 Nuclei Studio 使用自己定义的调试工具来调试程序。GDB Custom 支持通过Commands、Generic Serial、Dlink的调试方式来调试工程，用户可以根据自己的实际情况选择使用。
+
+关于GDB Custom 调试功能的使用，将以芯来科技自研的调试工具Dlink举例。具体参见 :ref:`使用DLink调试运行项目 <ide_projectrun_50>` 。
 
 .. _ide_live_watch:
 

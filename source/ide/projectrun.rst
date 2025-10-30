@@ -152,9 +152,14 @@ Debug Configuration
 
 |image12|
 
-在弹出的窗口中，如果没有当前工程的调试设置内容，右键单击 ``GDB OpenOCD Debugging`` ，选择 ``New`` ，将会为本项目新建出一个调试项目 ``hello_world_demo Debug`` 。确保 ``Project`` 是当前需要调试的工程， ``C/C++ Application`` 中选择了正确的需要调试的ELF文件。
-   
+在弹出的窗口中，如果没有当前工程的调试设置内容，右键单击 ``GDB OpenOCD Debugging`` ，选择 ``New`` ，将会为本项目新建出一个调试项目 ``hello_world_demo Debug`` 。
+
 |image13|
+
+确保 ``Project`` 是当前需要调试的工程， ``C/C++ Application`` 中选择了正确的需要调试的ELF文件。
+
+|image14|
+
 
 选择调试项目 ``hello_world_demo Debug`` 的Debugger菜单，在Config options栏目中填入 ``-f "nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg"`` ，以确保OpenOCD使用正确的配置文件。这里的配置文件(*nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg*)根据实际工程中openocd的配置文件路径而定。例如：如果使用makefile方式导入工程，修改此处的内容为 ``-f "SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg"`` 。
 
@@ -162,15 +167,23 @@ Debug Configuration
 
 如果当前内核为64位，应确保替换为 ``set arch riscv:rv64`` 
 
-|image14|
+.. _ide_projectrun_timeout:
 
-选择调试项目 ``hello_world_demo Debug`` 的Startup菜单，确保 ``Debug in RAM`` , ``Pre-run/Restart reset`` , ``Set Breakpoint at Main`` 和 ``Continue`` 被勾选。
+.. note::
+
+   Launch Timeout 为Nuclei Studio 2025.10版中新增配置选项。
+   在实际生产中使用时发现在某些特定场景下 OpenOCD 启动很慢， Nuclei Studio 中默认的 10s 时间以内没有探测到 OpenOCD 启动，就会超时处理。因此，用户可以通过 Launch Timeout 来设置超时间。
 
 |image15|
 
-完成配置后点击右下方 ``Apply`` 保存设置。
+
+
+
+选择调试项目 ``hello_world_demo Debug`` 的Startup菜单，确保 ``Debug in RAM`` , ``Pre-run/Restart reset`` , ``Set Breakpoint at Main`` 和 ``Continue`` 被勾选。
 
 |image16|
+
+完成配置后点击右下方 ``Apply`` 保存设置。
 
 关于Debug Configuration 中Startup各项设置的具体含义，详细说明如下。这里的设定内容最终将以GDB命令的方式实现，所以在执行GDB命令时也是按此顺序来执行。
 

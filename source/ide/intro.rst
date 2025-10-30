@@ -106,6 +106,10 @@ Nuclei Studio 更新说明
 
 在Nuclei Studio 2025.10版本中集成了Nuclei Near Cycle Model 2025.10版，具体信息可以查看：https://doc.nucleisys.com/nuclei_tools/xlmodel/intro.html 。
 
+.. note::
+
+   如需确认当前 Nuclei Studio 中所集城的RISC-V Toolchain、OpenOCD、QEMU、Nuclei Model的版本集息，可以查看该工具链下 ``build.txt`` 和 ``gitrepo.txt`` 文件，文件内存有构建信息以及git各个子仓的commit信息。 
+
 新增对更多新核的支持
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -151,10 +155,16 @@ Nuclei Studio中有些比较常用的菜单，如 ``New Nuclei RISC-V C/C++ Proj
 
 Nuclei Model是芯来科技为 Nuclei Near Cycle Model 开发了专门的运行工具，在本次版本更新中，增强了Nuclei Near Cycle Model的功能，用户可以在Nuclei Near Cycle Model对工程进行Debug/Run等操作。增加了全新的Nuclei Model Debug Configuration视图，以更好的支持运行和调试功能。
 
-
 关于Nuclei Model Debugger中Flame View的内容可以查看 :ref:`Nuclei Model 中Flame View的使用 <ide_nuclei_model_flame>` 。
 
 具体参见 :ref:`Nuclei Model Debugger功能的使用 <ide_nuclei_model_debugger>` 。
+
+优化了 GDB Custom 调试功能
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+GDB Custom 是芯来科技为适应不同的调试工具，开发的一款简化的调试配置，允许用户在 Nuclei Studio 使用自己定义的调试工具来调试程序。本次版本在原有功能基础上做了优化，使之用户体验更好。
+
+具体参见 :ref:`GDB Custom 调试功能 <ide_nuclei_custom_debugger>` 。
 
 优化Trace功能
 ~~~~~~~~~~~~~~
@@ -188,7 +198,7 @@ ZCC升级
 ~~~~~~~~~~~~~~
 
 - 修复了 Lst View 在某些场景下打开文件导至IDE卡死的情况；
-- 修复了 打开或者删除 *.elf、*.o 文件时报文件占用的问题；
+- 修复了 打开或者删除 ``*.elf、*.o`` 文件时报文件占用的问题；
 - 修复了 Nuclei Studio Linux 版中 Coverage 功能数据为空的问题；
 - 修复了 Flash Programming 功能中无法选择非当前工程下二进制文件的问题；
 - 修复了 OpenOCD 调试蜂鸟工程报错的问题；
