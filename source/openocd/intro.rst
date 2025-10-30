@@ -24,6 +24,12 @@ Repositories and Documentation
 
 `Gitee  (OpenFlashLoader) Repository <https://gitee.com/riscv-mcu/openflashloader>`_.
 
+.. note::
+
+    Nuclei OpenOCD is modifed based on OpenOCD with some customized features, so
+    in this guide, we dont provide any detailed usage about openocd, please directly
+    refer to the openocd.pdf in our released Nuclei OpenOCD package.
+
 **OpenOCD User Guide Location**: ``openocd/doc/pdf/openocd.pdf``
 
 Getting Started
@@ -89,7 +95,10 @@ The ``nuclei cpuinfo`` command provides detailed information about the CPU's cap
 
 This command simplifies the process of querying CPU features by automatically reading and interpreting the relevant CSR (Control and Status Register) values, eliminating the need for manual register inspection and calculation.
 
-This command implementation are updated with latest nuclei sdk 0.9.0 ``cpuinfo.c/h`` to provide same analysis using same source code from 2025.10 release.
+This command implementation are updated with latest nuclei sdk 0.9.0 `cpuinfo`_ to provide same analysis using same source code and more detailed information are analyzed from 2025.10 release.
+
+When you use ``riscv64-unknown-elf-gdb`` to connected to Nuclei OpenOCD GDB debug server, you will be able to
+use command ``monitor nuclei cpuinfo`` to dump Nuclei Detailed CPU Information.
 
 NUSPI (Nuclei SPI) Driver
 -------------------------
@@ -483,7 +492,7 @@ For additional trouble shooting and common issues, refer to:
 
 - `Gitee FAQ <https://gitee.com/riscv-mcu/riscv-openocd/wikis>`_.
 
-- `Known Issues <https://github.com/riscv-mcu/riscv-openocd/issues/11>`_
+- `Known Issues and common questions <https://github.com/riscv-mcu/riscv-openocd/issues/11>`_
 
 Changelog
 =========
@@ -496,6 +505,10 @@ Version 2025.10
 This release is based on **2025.02** version with some new features and bug fixes introduced.
 
 * Update ``nuclei cpuinfo`` command implementation using nuclei sdk 0.9.0 cpuinfo same source code to provide same behavior
+
+  When you connect to your FPGA evaluation board or Chip with Nuclei CPU inside it using Nuclei OpenOCD, you will be
+  able to see message like this: ``Info: [riscv.cpu] Nuclei CPU Detected: mhartid-0x0 marchid-0x0300 v5.2.0, ISA: RV32ABCIM, Feature: ECLIC, ILM-128K, DLM-128K, IC-32K``, sometimes it may not show, it is expected.
+
 * Correct custom flashloader binary file location search rules, where openocd executed, openocd ``scripts`` folder, and absolute path
 * Sync nuclei custom CSRs support
 * Optimize flash probe process, when no flash probed, it will exit with error instead of hang on it
@@ -564,3 +577,4 @@ CSR Renaming:
 **Base Version:**
 
 - Changes based on `riscv-collab/riscv-openocd@f82c5a7 <https://github.com/riscv-collab/riscv-openocd/commit/f82c5a7>`_.
+.. cpuinfo: https://doc.nucleisys.com/nuclei_sdk/design/app.html#cpuinfo
