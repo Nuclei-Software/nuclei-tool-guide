@@ -7,9 +7,11 @@ The official toolchain repository is located at https://github.com/riscv-collab/
 
 Nuclei maintained toolchain repo is located at https://github.com/riscv-mcu/riscv-gnu-toolchain.
 
-The latest release **2025.02** branch for gcc14 and llvm19 is ``nuclei/2025.02``, in which the tools included versions are: gcc 14.2.1, binutils 2.44, gdb 16.2, newlib 4.4.0, llvm 19.1.7, glibc 2.40, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
+The latest release **2025.10** branch for gcc14 and llvm19 is ``nuclei/2025.10``, in which the tools included versions are: gcc 14.2.1, binutils 2.44, gdb 16.2, newlib 4.5.0, llvm 19.1.7, glibc 2.41, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
 
-For the 2024.06 toolchain branch(gcc13 + llvm17), you can check out the ``nuclei/2024-gcc13`` branch.
+.. note::
+
+    The toolchain is implemented based on the upstream version. Many features can be referenced in the GCC online documentation: https://gcc.gnu.org/onlinedocs/. Please check the corresponding GNU release version in the online documentation for accurate details. Additionally, local documentation is available under ``gcc/share/doc`` in the toolchain directory.
 
 Extensions Support
 ==================
@@ -42,7 +44,7 @@ Extensions Support
 
 - Zc Extensions
 
-    zca, zcb, zce, zcf, zcd, zcmp, zcmt(Assembly only).
+    zca, zcb, zce, zcf, zcd, zcmp, zcmt.
 
     - zce = zca + zcb + zcmp + zcmt
     - f + zce =  zca + zcb + zcf + zcmp + zcmt
@@ -128,6 +130,10 @@ General Options
 
     Controls the generation of automatic vectorization of Nuclei DSP instructions, with the compiler enabling Nuclei DSP instructions instruction auto-vectorization by default.
 
+`-maddibne/-mno-addibne`
+
+    Controls auto-generation of the ``addibne`` instruction for the ``xxlcz`` extension. Enabled by default.
+
 `-fstrict-aliasing`
 
     It is recommended to add the optimization option ``-fno-strict-aliasing`` to the project, In some circumstances, this flag allows the compiler to assume that pointers to different types do not alias.
@@ -189,63 +195,21 @@ Libraries
 
     ``libncrt`` is short of **Nuclei C Runtime Library**, which currently support Nuclei RV32 processor, which is released by Nuclei to reduce c library code size, and improve math library speed, for details, please refer to the user guide located in ``gcc\share\pdf\Nuclei C Runtime Library Doc.pdf``
 
-.. _gnu_changelog_202406:
+Changelog
+=========
 
-Significant Changes Brought by GCC13 Compared to GCC10
-======================================================
-
-This is the changelog for 2023.10 and 2024.06.
-
-- Instead of using single-letter ``bkp`` to enable these extensions as we did on gcc10, we split them all into corresponding sub-extensions, for example, ``_zba_zkr_zve32f``, please check https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#arch-ext to learn about how to adapt Nuclei SDK to support gcc13 upgraded from gcc10.
-
-- Implement new style of architecture extension test macros: each architecture extension has a corresponding feature test macro, which can be used to test its existence and version information. In addition, we add several custom macros, ``__riscv_dsp``, ``__riscv_bitmanip``.
-
-- Add new option ``-misa-spec=*`` to control ISA spec version. This controls the default version of each extensions. The official version is ``20191213``, but it is set to ``2.2`` when configuring nuclei toolchain.
-  The difference between them is that in ``20191213`` version, ``Zicsr`` and ``Zifencei`` are separated from the ``i`` extension into two independent extensions, and using ``-misa-spec=2.2`` can avoid incompatible errors when the ``Zicsr`` and ``Zifencei`` are not passed to ``-march=``. See for details at https://github.com/riscv-collab/riscv-gnu-toolchain/issues/1315
-
-- Support for vector intrinsics as specified in version 0.12 of the RISC-V vector intrinsic specification.
-
-- The toolchain component prefix is ``riscv-nuclei-elf-`` on gcc10, but is ``riscv64-unknown-elf-`` on gcc13.
-
-- On gcc10, RISCV intrinsic api heads contain ``riscv_vector.h``, ``riscv_vector_itr.h``, ``rvintrin.h``, ``rvp_intrinsic.h``, but now only ``riscv_vector.h``, ``rvp_intrinsic.h``, ``riscv_nuclei_xlcz.h`` are provided in gcc13, if you want to find ``b`` or ``k`` intrinsic API, please check https://github.com/riscv/riscv-crypto/blob/main/benchmarks/share/rvintrin.h and https://github.com/riscv/riscv-crypto/blob/main/benchmarks/share/riscv-crypto-intrinsics.h , and for RVV intrinsic API, we
-  support 0.12 in gcc13 now, see https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0-rc0
-
-- The version of the libncrt was changed from v2.0.0 to v3.0.0, and libncrt is now split into three parts, 'libncrt', 'heapops' and 'fileops', click https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#stdclib to learn about how the newlib/libncrt are used in Nuclei SDK with gcc13.
-
-
-.. _gnu_changelog_202502:
-
-Significant Changes Brought by GCC14 Compared to GCC13
-======================================================
-
-This is the changelog for 2025.02.
-
-- Support for the zilsd and zclsd extensions.
-
-- Some Nuclei custom CSR naming has been re-revised and corrected.
-
-- Implement custom VPU intrinsics for Nuclei RISC-V CPU.
-
-- Nuclei introduces the ``bf16`` type and supports the ``xxlvfbf`` and ``xxlfbf`` extensions.
-
-- Added support for 3-issue(``nuclei-1000-3w-series``) and 4-issue(``nuclei-1000-4w-series``) in the Nuclei 1000 series CPUs.
-
-- GCC14 introduces additional function attribute checks compared to GCC13. For more details, you can refer to https://gcc.gnu.org/gcc-14/porting_to.html.
-
-- Add the option to automatically generate control for xldsp with ``-mautovec-dsp/-mno-autovec-dsp`` for gcc, which is enabled by default.
-
-- The ``riscv_vector.h`` must be included when leverage intrinisc type(s) and API(s).  And the scope of this attribute should not excced the function body.  Meanwhile, to make rvv types and API(s) available for this attribute, include ``riscv_vector.h`` will not report error for now if v is not present in march.
+    Please check :ref:`Changelog <toolchain_changelog>` here.
 
 Install and Setup
 =================
 
 .. rubric:: Build Toolchain
 
-For more information about how to build a toolchain, see https://github.com/riscv-mcu/riscv-gnu-toolchain/tree/nuclei/2025.02/scripts/toolchain. (Only for Nuclei internal use, no technical support is provided)
+For more information about how to build a toolchain, see https://github.com/riscv-mcu/riscv-gnu-toolchain/tree/nuclei/2025/scripts/toolchain. (Only for Nuclei internal use, no technical support is provided)
 
 .. rubric:: Development
 
-The process of user compilation and development can see from https://github.com/riscv-mcu/riscv-gnu-toolchain/blob/nuclei/2025.02/README.md. To get other technical support, please send issues directly to the upstream repository https://github.com/riscv-collab/riscv-gnu-toolchain.
+The process of user compilation and development can see from https://github.com/riscv-mcu/riscv-gnu-toolchain/blob/nuclei/2025/README.md. To get other technical support, please send issues directly to the upstream repository https://github.com/riscv-collab/riscv-gnu-toolchain.
 
 .. rubric:: Examples
 
@@ -255,3 +219,40 @@ The process of user compilation and development can see from https://github.com/
 
 3. When using a library, we can tell the linker which library we need to link by using the '-l', for example, ``-lc`` for newlib-full, ``-lc_nano`` for newlib-nano. For libncrt, you should pass ``--specs=libncrt_xxx.specs`` when using gcc. In addition, you need to link extra 'fileops' and 'heapops' static libraries during the linking phase by using the '-l', and for the 'fileops', you must select one of the three options: 'uart', 'semi' or 'rtt',
 and for the 'heapops', you must select one of the three options: 'basic', 'realtime' or 'minimal'.
+
+
+Checking GNU Version
+====================
+
+To check the basic version information of GCC, you can use the command ``riscv64-unknown-elf-gcc -v``.
+
+If you need to report an issue to the developers, please provide:
+
+1. The ``gcc/build.txt`` file (located in the GCC directory) for GCC compilation details.
+
+2. The ``gcc/gitrepo.txt`` file to confirm commit IDs of each tool, which helps determine more detailed build information.
+
+Known Issues
+============
+
+``sscanf`` Format Specifiers Issue in Newlib-nano
+-------------------------------------------------
+
+sscanf fails with hhu, llu, etc., due to missing C99 support (%hhX, %llX, %jX, %zX, %tX).
+
+References:
+
+- https://docs.zephyrproject.org/latest/develop/languages/c/newlib.html
+
+- https://github.com/32bitmicro/newlib-nano-1.0/blob/master/newlib/README.nano
+
+
+GDB RISC-V Memory Access at Address 0 When Symbols Are Missing
+--------------------------------------------------------------
+
+When debugging a RISC-V target via OpenOCD+GDB, running a stepping command (si) before loading an ELF with symbols causes GDB to incorrectly read memory near address 0x0.
+
+References:
+
+- https://github.com/riscv-mcu/riscv-openocd/issues/16
+

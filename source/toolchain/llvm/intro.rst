@@ -7,6 +7,10 @@ The current llvm toolchain is developed based on the upstream V19.1.7, for exten
 
 You can find our llvm source code in https://github.com/riscv-mcu/llvm-project/tree/nuclei/19.x
 
+.. note::
+
+    The LLVM toolchain is implemented based on the upstream version. Many features can be referenced in the official LLVM documentation: https://llvm.org/docs/. Please refer to the corresponding LLVM release version in the documentation for accurate details. Local documentation is also available under ``gcc/share/doc/llvm/docs/html`` within the toolchain directory.
+
 Extensions Support
 ==================
 
@@ -128,15 +132,15 @@ More information on building and running LLVM, see https://llvm.org/docs/Getting
 Changelog
 =========
 
-.. _llvm_changelog_202502:
+    Please check :ref:`Changelog <toolchain_changelog>` here.
 
-Version 2025.02
----------------
+Checking LLVM Version
+=====================
 
-- llvm was upgraded to the upstream version 19.1.7
-- Add Zilsd & Zclsd V1.0 assembly support
-- Add Nuclei Xxldsp/Xxldspn1x/Xxldspn2x/Xxldspn3x extensions assembly support
-- Add Nuclei Xxlcz extension assembly support
-- Add Nuclei Xxlvamacc extension intrinsic support
-- Update Nuclei custom csrs
-- Update the multilib list
+To check the basic version information of LLVM, you can use the command ``riscv64-unknown-elf-clang -v``.
+
+If you need to report an issue to the developers, please provide:
+
+1. The ``gcc/build.txt`` file (located in the GCC directory) for GCC compilation details.
+
+2. The ``gcc/gitrepo.txt`` file to confirm commit IDs of each tool, which helps determine more detailed build information.
