@@ -172,7 +172,7 @@ Debug Configuration
 .. note::
 
    Launch Timeout 为Nuclei Studio 2025.10版中新增配置选项。
-   在实际生产中使用时发现在某些特定场景下 OpenOCD 启动很慢， Nuclei Studio 中默认的 10s 时间以内没有探测到 OpenOCD 启动，就会超时处理。因此，用户可以通过 Launch Timeout 来设置超时间。
+   在实际生产中使用时发现在某些特定场景下 OpenOCD 启动很慢， Nuclei Studio 中默认的 10s 时间以内没有探测到 OpenOCD 启动，就会超时处理。因此，用户可以通过 Launch Timeout 来设置超时时间。
 
 |image15|
 

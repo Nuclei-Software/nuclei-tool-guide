@@ -108,7 +108,7 @@ Nuclei Studio 更新说明
 
 .. note::
 
-   如需确认当前 Nuclei Studio 中所集城的RISC-V Toolchain、OpenOCD、QEMU、Nuclei Model的版本集息，可以查看该工具链下 ``build.txt`` 和 ``gitrepo.txt`` 文件，文件内存有构建信息以及git各个子仓的commit信息。 
+   如需确认当前 Nuclei Studio 中所集成的RISC-V Toolchain、OpenOCD、QEMU、Nuclei Model的版本集息，可以查看该工具链下 ``build.txt`` 和 ``gitrepo.txt`` 文件，文件内存有构建信息以及git各个子仓的commit信息。 
 
 新增对更多新核的支持
 ~~~~~~~~~~~~~~~~~~~~
