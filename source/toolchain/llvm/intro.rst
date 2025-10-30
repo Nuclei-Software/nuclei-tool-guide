@@ -7,6 +7,10 @@ The current llvm toolchain is developed based on the upstream V19.1.7, for exten
 
 You can find our llvm source code in https://github.com/riscv-mcu/llvm-project/tree/nuclei/19.x
 
+.. note::
+
+    The LLVM is implemented based on the upstream version. Many features can be referenced in the official LLVM documentation: https://llvm.org/docs/. Local documentation is also available under ``gcc/share/doc`` within the toolchain directory.
+
 Extensions Support
 ==================
 
@@ -128,26 +132,17 @@ More information on building and running LLVM, see https://llvm.org/docs/Getting
 Changelog
 =========
 
-.. _llvm_changelog_202502:
+.. note::
 
-Version 2025.02
----------------
+    Please check :ref:`toolchain_changelog` here.
 
-- llvm was upgraded to the upstream version 19.1.7
-- Add Zilsd & Zclsd V1.0 assembly support
-- Add Nuclei Xxldsp/Xxldspn1x/Xxldspn2x/Xxldspn3x extensions assembly support
-- Add Nuclei Xxlcz extension assembly support
-- Add Nuclei Xxlvamacc extension intrinsic support
-- Update Nuclei custom csrs
-- Update the multilib list
+Checking GNU Version
+--------------------
 
+To check the basic version information of Clang, you can use the command ``riscv64-unknown-elf-clang -v``.
 
-.. _llvm_changelog_202510:
+If you need to report an issue to the developers, please provide:
 
-Version 2025.10
----------------
+1.The ``gcc/build.txt`` file (located in the GCC directory) for GCC compilation details.
 
-- Initial implementation of pipeline support for Nuclei processor 100/200/300/600/900/1000 series.
-- Added scalar BFloat16 support for Nuclei processors.
-- Implemented Nuclei-specific VPU matrix instructions.
-- Added missing Virtual Supervisor-level CSRs (hedelegh/medelegh) support in LLVM
+2.The ``gcc/gitrepo.txt`` file to confirm commit IDs of each tool, which helps determine more detailed build information.

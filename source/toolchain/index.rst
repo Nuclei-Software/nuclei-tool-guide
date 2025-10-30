@@ -9,3 +9,4 @@ Nuclei Toolchain
 
    gnu/index.rst
    llvm/index.rst
+   changelog.rst
