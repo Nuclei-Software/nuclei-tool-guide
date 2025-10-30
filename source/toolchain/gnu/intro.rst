@@ -7,11 +7,11 @@ The official toolchain repository is located at https://github.com/riscv-collab/
 
 Nuclei maintained toolchain repo is located at https://github.com/riscv-mcu/riscv-gnu-toolchain.
 
-The latest release **2025.10** branch for gcc14 and llvm19 is ``nuclei/2025``, in which the tools included versions are: gcc 14.2.1, binutils 2.44, gdb 16.2, newlib 4.5.0, llvm 19.1.7, glibc 2.41, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
+The latest release **2025.10** branch for gcc14 and llvm19 is ``nuclei/2025.10``, in which the tools included versions are: gcc 14.2.1, binutils 2.44, gdb 16.2, newlib 4.5.0, llvm 19.1.7, glibc 2.41, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
 
 .. note::
 
-    The toolchain is implemented based on the upstream version. Many features can be referenced in the GCC online documentation: https://gcc.gnu.org/onlinedocs/. Additionally, local documentation is available under ``gcc/share/doc`` in the toolchain directory.
+    The toolchain is implemented based on the upstream version. Many features can be referenced in the GCC online documentation: https://gcc.gnu.org/onlinedocs/. Please check the corresponding GNU release version in the online documentation for accurate details. Additionally, local documentation is available under ``gcc/share/doc`` in the toolchain directory.
 
 Extensions Support
 ==================
@@ -198,9 +198,7 @@ Libraries
 Changelog
 =========
 
-.. note::
-
-    Please check :ref:`toolchain_changelog` here.
+    Please check :ref:`Changelog <toolchain_changelog>` here.
 
 Install and Setup
 =================
@@ -224,7 +222,7 @@ and for the 'heapops', you must select one of the three options: 'basic', 'realt
 
 
 Checking GNU Version
---------------------
+====================
 
 To check the basic version information of GCC, you can use the command ``riscv64-unknown-elf-gcc -v``.
 

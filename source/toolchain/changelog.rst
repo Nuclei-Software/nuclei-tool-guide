@@ -1,4 +1,4 @@
-.. toolchain_changelog:
+.. _toolchain_changelog:
 
 Changelog
 =========

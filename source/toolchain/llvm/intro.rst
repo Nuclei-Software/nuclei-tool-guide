@@ -9,7 +9,7 @@ You can find our llvm source code in https://github.com/riscv-mcu/llvm-project/t
 
 .. note::
 
-    The LLVM is implemented based on the upstream version. Many features can be referenced in the official LLVM documentation: https://llvm.org/docs/. Local documentation is also available under ``gcc/share/doc`` within the toolchain directory.
+    The LLVM toolchain is implemented based on the upstream version. Many features can be referenced in the official LLVM documentation: https://llvm.org/docs/. Please refer to the corresponding LLVM release version in the documentation for accurate details. Local documentation is also available under ``gcc/share/doc/llvm/docs/html`` within the toolchain directory.
 
 Extensions Support
 ==================
@@ -132,14 +132,12 @@ More information on building and running LLVM, see https://llvm.org/docs/Getting
 Changelog
 =========
 
-.. note::
+    Please check :ref:`Changelog <toolchain_changelog>` here.
 
-    Please check :ref:`toolchain_changelog` here.
+Checking LLVM Version
+=====================
 
-Checking Clang Version
-----------------------
-
-To check the basic version information of Clang, you can use the command ``riscv64-unknown-elf-clang -v``.
+To check the basic version information of LLVM, you can use the command ``riscv64-unknown-elf-clang -v``.
 
 If you need to report an issue to the developers, please provide:
 
