@@ -52,6 +52,12 @@ Version 2025.10
 
 - LLVM: Added missing ``Virtual Supervisor-level`` CSRs (hedelegh/medelegh) support in LLVM
 
+- LLVM: Added Nuclei custom macro ``__riscv_dsp``, which can be used instead of ``__riscv_xxldsp`` in the old version.
+
+- LLVM: Added missing instructions ``dkabs32``, ``dsma32.u``, ``clrov``, ``rdov``, ``kmada32``, and ``smbb32``.
+
+- LLVM: Fixed the issue where the Xxldsp extension could not be disassembled correctly.
+
 .. _toolchain_changelog_202502:
 
 Version 2025.02
