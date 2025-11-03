@@ -5,6 +5,114 @@ Nuclei Studio 调试运行工程
 
 在进行工程调试前，可以先检验一下当前的硬件环境是否正确无误，可以参考 :ref:`Nuclei Studio调试工程前的硬件检测 <faq_27>` 。
 
+
+.. _ide_connect_to_target:
+
+Connect to Running Target
+---------------------------
+
+为了满足用户直接连接到开发板的需求，Nuclei Studio 新增了 ``Connect to Running Target`` 功能。该功能支持直接连接正在运行的硬件目标板，用户可以进行如读取开发板相关信息等操作，极大方便了开发的效率。
+
+在Nuclei Studio中 ``Connect to Running Target`` 仅支持OpenOCD和Jlink两种方式。下面以OpenOCD的方式来展示 ``Connect to Running Target`` 的使用。
+
+使用 ``Connect to Running Target`` 功能非常简单。连接好开发板，并创建一个demo工程，当工程编译好后选中工程，在鼠标右键弹出的菜单，或者在IDE的工具菜单中找到 ``Connect to Running Target`` 菜单并点击。
+
+|image75|
+
+在console窗口中可以看到，gdb尝试连接到开发板中。
+
+|image76|
+
+当IDE连接上开发板后，用户可以通过IDE的 ``Debugger Console`` 工具来发送gdb命令来查看开发板当前的一些信息。
+
+|image77|
+
+.. _ide_flash_programming:
+
+Flash Programming
+------------------
+
+为了满足用户将编译好的二进制文件直接下载到硬件开发板的需求，Nuclei Studio 新增了 Flash Programming 功能。该功能允许用户快速、便捷地将编译好的二进制文件直接下载到硬件开发板中，极大提升了开发和调试的效率；简化操作流程，用户只需点击一次即可完成二进制文件的下载。工程编译好后，找到Flash Programming，并点击，即可完成二进制文件的下载。
+
+|image64|
+
+用户也可以修改其相关的配置信息，在Launch Bar中点击配置按钮，打开配置页面，然后选中Flash Programming选项卡。
+
+|image65|
+
+**Load Program Image**
+
+Load的文件，默认的elf格试的文件，也可以支持 ``*.bin、*.hex、*.s19、*.srec、*.symbolsrec`` 等各种格式
+
+|image66|
+
+**Flash Programming Options**
+
+Flash Programming的选项有以下三个
+
+    - Verify Image：在烧录完备后，会校验烧录的镜像文件与当前连接的目标设备上下载进去的文件是否一致，确保烧录成功。
+
+    - Reset and Run：烧录完成后，让CPU复位并并运行，需要注意如果勾选了 Load in RAM, 则只会运行不会复位（如程序烧录在RAM中，复位将会使程序丢失）。
+
+    - Load in Ram：勾选这个表示固件需要下载到内存中，而不是Flash等非易失性存储器上，选中后，必须指定Program Address。
+
+    .. note::
+       
+       Load in Ram勾选和不勾选固件下载方式不一样，所使用的OpenOCD命令也不同，后续文档中有详细介绍，请仔细阅读并根据实际情况准确选择。
+
+上述参数的使用，与工程的Download模式匹配，Nuclei Studio中默认支持 ``DDR/ILM/SRAM/FLASH/FLASHXIP`` 。
+
+当工程Download模式是 ``DDR/ILM/SRAM`` 时，``Load in Ram`` 必须选中，同时 ``Program Address`` 地址也不能为空，这里的 ``Program Address`` 地址是程序烧写入Ram时的第一个地址。
+
+一般 ``Program Address`` 可以在 ``*.map`` 文件中找到，或者执行 riscv64-unknown-elf-readelf -h /path/to/your.elf后查看Entry point address，本文档仅介绍从 ``*.map`` 文件中查找 ``Program Address`` 。
+
+打开 ``*.map`` 文件，搜索 ``Linker script and memory map`` ,然后找到 ``.init`` 后面的这个地址就是 ``Program Address`` 。
+
+|image72|
+
+当选中 ``Load in Ram`` 时， 同时选中 ``Verify Image`` ，命令行中将多一行命令 ``-c "verify_image Debug/test.elf"`` ，此时是通过 ``verify_image`` 命令来实现镜像文件的检查。
+
+当选中 ``Load in Ram`` 时， 同时选中 ``Reset and Run`` 、命令行中将多一行命令 ``-c "resume 0x80000000; shutdown"`` ，此时是通过 ``resume`` 命令来实现load后可能强制系统复位。
+
+.. code-block:: console
+
+    -c "set BOOT_HARTID 0;" 
+    -f "nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg" 
+    -c 'echo "Start to program Debug/test.elf to 0x80000000"' 
+    -c "load_image Debug/test.elf" 
+    -c "verify_image Debug/test.elf" 
+    -c "resume 0x80000000; shutdown"
+
+|image73|
+
+当工程Download模式是 ``FLASH/FLASHXIP`` 时，则不勾选 ``Load in Ram``，并且 ``Program Address`` 为必须为空。
+
+当选中 ``Verify Image`` ，命令行中将多一行命令 ``verify`` ，此时是通过 ``verify`` 命令来实现镜像文件的检查。
+
+当选中 ``Reset and Run`` ，命令行中将多一行命令 ``reset`` ，此时是通过 ``reset`` 命令来实现load后可能强制系统复位。
+
+.. code-block:: console
+
+    -c "set BOOT_HARTID 0;" 
+    -f "nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg" 
+    -c 'echo "Start to program Debug/test.elf"' 
+    -c "program Debug/test.elf verify reset exit"
+
+|image74|
+
+**OpenOCD Flash Programming Command line**
+
+Flash Programming中的参数最终将通过OpenOCD执行。默认情况下， ``Customize openocd flash programming command line`` 选项是未选中的。当您勾选 ``Customize openocd flash programming command line`` 时，所有其他相关选项将失效。此时，您可以直接在下方的输入框中输入自定义命令。
+
+如果您对OpenOCD命令有足够的了解，可以尝试自定义命令以满足特定需求。然而，如果您不熟悉OpenOCD命令行操作，建议不要勾选此选项，以免导致配置错误。
+
+|image70|
+
+根据需求配置好参数后，点击Flash Programming就可以下载二进制代码到硬件中，下载成功的结果如下图。
+
+|image71|
+
+
 .. _ide_projectrun_1:
 
 调试模式管理
@@ -570,180 +678,121 @@ Dlink连接后，在串口工具下，可以看到两个COM口，一个COM串用
 
 .. |image1| image:: /asserts/nucleistudio/projectrun/image2.png
 
-
 .. |image2| image:: /asserts/nucleistudio/projectrun/image3.png
-
 
 .. |image3| image:: /asserts/nucleistudio/projectrun/image4.png
 
-
 .. |image4| image:: /asserts/nucleistudio/projectrun/image5.png
-
 
 .. |image5| image:: /asserts/nucleistudio/projectrun/image6.png
 
-
 .. |image6| image:: /asserts/nucleistudio/projectrun/image7.png
-
 
 .. |image7| image:: /asserts/nucleistudio/projectrun/image8.png
 
-
 .. |image8| image:: /asserts/nucleistudio/projectrun/image9.png
-
 
 .. |image9| image:: /asserts/nucleistudio/projectrun/image10.png
 
-
 .. |image10| image:: /asserts/nucleistudio/projectrun/image11.png
-
 
 .. |image11| image:: /asserts/nucleistudio/projectrun/image12.png
 
-
 .. |image12| image:: /asserts/nucleistudio/projectrun/image13.png
-
 
 .. |image13| image:: /asserts/nucleistudio/projectrun/image14.png
 
-
 .. |image14| image:: /asserts/nucleistudio/projectrun/image15.png
-
 
 .. |image15| image:: /asserts/nucleistudio/projectrun/image16.png
 
-
 .. |image16| image:: /asserts/nucleistudio/projectrun/image17.png
-
 
 .. |image17| image:: /asserts/nucleistudio/projectrun/image18.png
 
-
 .. |image18| image:: /asserts/nucleistudio/projectrun/image19.png
-
 
 .. |image19| image:: /asserts/nucleistudio/projectrun/image20.png
 
-
 .. |image20| image:: /asserts/nucleistudio/projectrun/image21.png
-
 
 .. |image21| image:: /asserts/nucleistudio/projectrun/image22.png
 
-
 .. |image22| image:: /asserts/nucleistudio/projectrun/image23.png
-
 
 .. |image23| image:: /asserts/nucleistudio/projectrun/image24.png
 
-
 .. |image24| image:: /asserts/nucleistudio/projectrun/image25.png
-
 
 .. |image25| image:: /asserts/nucleistudio/projectrun/image26.png
 
-
 .. |image26| image:: /asserts/nucleistudio/projectrun/image27.png
-
 
 .. |image27| image:: /asserts/nucleistudio/projectrun/image28.png
 
-
 .. |image28| image:: /asserts/nucleistudio/projectrun/image29.png
-
 
 .. |image29| image:: /asserts/nucleistudio/projectrun/image30.png
 
-
 .. |image30| image:: /asserts/nucleistudio/projectrun/image31.png
-
 
 .. |image31| image:: /asserts/nucleistudio/projectrun/image32.png
 
-
 .. |image32| image:: /asserts/nucleistudio/projectrun/image33.png
-
 
 .. |image33| image:: /asserts/nucleistudio/projectrun/image34.png
 
-
 .. |image34| image:: /asserts/nucleistudio/projectrun/image35.png
-
 
 .. |image35| image:: /asserts/nucleistudio/projectrun/image36.png
 
-
 .. |image36| image:: /asserts/nucleistudio/projectrun/image37.png
-
 
 .. |image37| image:: /asserts/nucleistudio/projectrun/image38.png
 
-
 .. |image38| image:: /asserts/nucleistudio/projectrun/image39.png
-
 
 .. |image39| image:: /asserts/nucleistudio/projectrun/image40.png
 
-
 .. |image40| image:: /asserts/nucleistudio/projectrun/image41.png
-
 
 .. |image41| image:: /asserts/nucleistudio/projectrun/image42.png
 
-
 .. |image42| image:: /asserts/nucleistudio/projectrun/image43.png
-
 
 .. |image43| image:: /asserts/nucleistudio/projectrun/image44.png
 
-
 .. |image431| image:: /asserts/nucleistudio/projectrun/image45.png
-
 
 .. |image44| image:: /asserts/nucleistudio/projectrun/image46.png
 
-
 .. |image45| image:: /asserts/nucleistudio/projectrun/image47.png
-
 
 .. |image46| image:: /asserts/nucleistudio/projectrun/image24.png
 
-
 .. |image47| image:: /asserts/nucleistudio/projectrun/image48.png
-
 
 .. |image48| image:: /asserts/nucleistudio/projectrun/image49.png
 
-
 .. |image49| image:: /asserts/nucleistudio/projectrun/image50.png
-
 
 .. |image50| image:: /asserts/nucleistudio/projectrun/image51.png
 
-
 .. |image51| image:: /asserts/nucleistudio/projectrun/image52.png
-
 
 .. |image52| image:: /asserts/nucleistudio/projectrun/image53.png
 
-
 .. |image53| image:: /asserts/nucleistudio/projectrun/image54.png
-
 
 .. |image54| image:: /asserts/nucleistudio/projectrun/image55.png
 
-
 .. |image55| image:: /asserts/nucleistudio/projectrun/image56.png
-
 
 .. |image56| image:: /asserts/nucleistudio/projectrun/image57.png
 
-
 .. |image57| image:: /asserts/nucleistudio/projectrun/image58.png
 
-
 .. |image58| image:: /asserts/nucleistudio/projectrun/image59.png
-
 
 .. |image59| image:: /asserts/nucleistudio/projectrun/image60.png
 
@@ -752,3 +801,31 @@ Dlink连接后，在串口工具下，可以看到两个COM口，一个COM串用
 .. |image62| image:: /asserts/nucleistudio/projectrun/image62.png
 
 .. |image63| image:: /asserts/nucleistudio/projectrun/image63.png
+
+.. |image64| image:: /asserts/nucleistudio/projectrun/image64.png
+
+.. |image65| image:: /asserts/nucleistudio/projectrun/image65.png
+
+.. |image66| image:: /asserts/nucleistudio/projectrun/image66.png
+
+.. |image67| image:: /asserts/nucleistudio/projectrun/image67.png
+
+.. |image68| image:: /asserts/nucleistudio/projectrun/image68.png
+
+.. |image69| image:: /asserts/nucleistudio/projectrun/image69.png
+
+.. |image70| image:: /asserts/nucleistudio/projectrun/image70.png
+
+.. |image71| image:: /asserts/nucleistudio/projectrun/image71.png
+
+.. |image72| image:: /asserts/nucleistudio/projectrun/image72.png
+
+.. |image73| image:: /asserts/nucleistudio/projectrun/image73.png
+
+.. |image74| image:: /asserts/nucleistudio/projectrun/image74.png
+
+.. |image75| image:: /asserts/nucleistudio/projectrun/image75.png
+
+.. |image76| image:: /asserts/nucleistudio/projectrun/image76.png
+
+.. |image77| image:: /asserts/nucleistudio/projectrun/image77.png
