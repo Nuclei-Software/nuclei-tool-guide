@@ -50,9 +50,9 @@ Load的文件，默认的elf格试的文件，也可以支持 ``*.bin、*.hex、
 
 Flash Programming的选项有以下三个
 
-    - Verify Image：在烧录完备后，会校验烧录的镜像文件与当前连接的目标设备上下载进去的文件是否一致，确保烧录成功。
+    - Verify Image：在烧录完成后，会校验烧录的镜像文件与当前连接的目标设备上下载进去的文件是否一致，确保烧录成功。
 
-    - Reset and Run：烧录完成后，让CPU复位并并运行，需要注意如果勾选了 Load in RAM, 则只会运行不会复位（如程序烧录在RAM中，复位将会使程序丢失）。
+    - Reset and Run：烧录完成后，让CPU复位并运行，需要注意如果勾选了 Load in RAM, 则只会运行不会复位（如程序烧录在RAM中，复位将会使程序丢失）。
 
     - Load in Ram：勾选这个表示固件需要下载到内存中，而不是Flash等非易失性存储器上，选中后，必须指定Program Address。
 
