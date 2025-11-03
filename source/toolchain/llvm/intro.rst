@@ -73,6 +73,10 @@ Extensions Support
 
     xxlvqmacc
 
+- Nuclei custom Scalar BFloat16 Extensions
+
+    :ref:`Xxlfbf <toolchain_gnu_nuclei_bf16>`
+
 .. rubric:: Experimental Extensions
 
 LLVM supports (to various degrees) a number of experimental extensions.  All experimental extensions have ``experimental-`` as a prefix. Listed below:

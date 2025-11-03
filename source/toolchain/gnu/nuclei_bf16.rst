@@ -55,6 +55,7 @@ Nuclei bf16 标量的运算操作,需要开启 ``xxlfbf`` 扩展.
 * ``fmadd.h/fmsub.h/fnmadd.h/fnmsub.h``
 * ``fsqrt.h``
 * ``fcvt.bf16.s/fcvt.s.bf16`` (兼容zfbfmin扩展的指令)
+* ``fcvt.h.d/fcvt.d.h`` (2025.10 版本补充)
 * ``fcvt.h.w[u]/fcvt.w[u].h`` (int32 <---> bf16)
 * ``fcvt.h.l[u]/fcvt.l[u].h`` (int64 <---> bf16)
 * ``fmin.h/fmax.h``
