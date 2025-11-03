@@ -42,7 +42,7 @@ Flash Programming
 
 **Load Program Image**
 
-Load的文件，默认的elf格试的文件，也可以支持 ``*.bin、*.hex、*.s19、*.srec、*.symbolsrec`` 等各种格式
+Load的文件，默认的elf格式的文件，也可以支持 ``*.bin、*.hex、*.s19、*.srec、*.symbolsrec`` 等各种格式
 
 |image66|
 
