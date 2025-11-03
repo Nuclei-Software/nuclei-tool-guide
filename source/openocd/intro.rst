@@ -584,4 +584,5 @@ CSR Renaming:
 **Base Version:**
 
 - Changes based on `riscv-collab/riscv-openocd@f82c5a7 <https://github.com/riscv-collab/riscv-openocd/commit/f82c5a7>`_.
-.. cpuinfo: https://doc.nucleisys.com/nuclei_sdk/design/app.html#cpuinfo
+
+.. _cpuinfo: https://doc.nucleisys.com/nuclei_sdk/design/app.html#cpuinfo
