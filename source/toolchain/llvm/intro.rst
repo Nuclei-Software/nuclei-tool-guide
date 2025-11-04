@@ -69,6 +69,10 @@ Extensions Support
     - xxldspn2x: xxldsp + Nuclei Custom N1 & N2
     - xxldspn3x: xxldsp + Nuclei Custom N1 & N2 & N3
 
+    .. note::
+
+        Currently, xxldsp assembly instructions implemented in LLVM only support single registers, while instructions using register pairs under rv32 behave abnormally. See `this issue <https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/34>`_.
+
 - Nuclei custom VPU Extensions
 
     xxlvqmacc
