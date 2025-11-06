@@ -92,8 +92,11 @@ Nuclei Studio 更新说明
 2025.10版更新说明
 -----------------
 
-2025.10版本是基于eclipse Cpp 2024-06开发，升级了芯来科技的工具版本至2025.10，新增了代码调试、代码性能分析以及IDE在线升级等功能，优化了部分原有功能，以及解决了2025.02版中存在的缺陷。
+.. note::
 
+   如需确认当前 Nuclei Studio 中所集成的RISC-V Toolchain、OpenOCD、QEMU、Nuclei Model的版本集息，可以查看该工具链下 ``build.txt`` 和 ``gitrepo.txt`` 文件，文件内存有构建信息以及git各个子仓的commit信息。 
+
+2025.10版本是基于eclipse Cpp 2024-06开发，升级了芯来科技的工具版本至2025.10，新增了代码调试、代码性能分析以及IDE在线升级等功能，优化了部分原有功能，以及解决了2025.02版中存在的缺陷。
 
 升级RISC-V Toolchain、OpenOCD、QEMU版本
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -106,9 +109,6 @@ Nuclei Studio 更新说明
 
 在Nuclei Studio 2025.10版本中集成了Nuclei Near Cycle Model 2025.10版，具体信息可以查看：https://doc.nucleisys.com/nuclei_tools/xlmodel/intro.html 。
 
-.. note::
-
-   如需确认当前 Nuclei Studio 中所集成的RISC-V Toolchain、OpenOCD、QEMU、Nuclei Model的版本集息，可以查看该工具链下 ``build.txt`` 和 ``gitrepo.txt`` 文件，文件内存有构建信息以及git各个子仓的commit信息。 
 
 新增对更多新核的支持
 ~~~~~~~~~~~~~~~~~~~~
@@ -192,7 +192,7 @@ RVProf是芯来科技基于CPU cycle model开发的性能分析工具，从2025.
 ZCC升级
 ~~~~~~~~~
 
-在Nuclei Studio 2025.10版本中集成了ZCC 4.1.6版，并加入芯来科技支持的软件库。具体信息可以查看：https://www.terapines.com/products/zcc
+在Nuclei Studio 2025.10版本中集成了ZCC 4.1.7版，并加入芯来科技支持的软件库。具体信息可以查看：https://www.terapines.com/products/zcc
 
 修复了已知Bug
 ~~~~~~~~~~~~~~
