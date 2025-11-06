@@ -479,6 +479,14 @@ Nuclei Studio 2025.10版中更新了菜单显示的逻辑，可以在Debug视图
 
 |image61|
 
+编译工程报 `DWARF error: mangled line number section (bad file number)`
+--------------------------------------------------------------------------
+
+在Nuclei Studio中使用clang编译工程时，报 ``DWARF error: mangled line number section (bad file number)`` ，是因为在使用clang编译工程时，clang工具中没有 ``objdump`` 工具，而使用的gcc中的 ``objdump`` 工具。而clang编译出来的elf和binutils里面的objdump不兼容，故而报错。一般不引响程序的正常运行。
+
+在 Nuclei Studio 中使用 Clang 编译工程时，若出现 ``DWARF error: mangled line number section (bad file number)`` 警告，通常是由于系统中缺少 Clang 配套的 ``objdump`` 工具，转而使用了 GCC 工具链中的 ``objdump`` 。由于 Binutils（如 GCC objdump）与 Clang 生成的 ``ELF`` 文件在调试信息格式上存在兼容性差异，因此会触发该警告。此问题一般不影响程序的正常编译与运行。
+
+|image62|
 
 其他未注明版本问题
 ==================
@@ -646,3 +654,5 @@ Nuclei Studio 2025.10版中更新了菜单显示的逻辑，可以在Debug视图
 .. |image60| image:: /asserts/nucleistudio/faq/image60.png
 
 .. |image61| image:: /asserts/nucleistudio/faq/image61.png
+
+.. |image62| image:: /asserts/nucleistudio/faq/image62.png

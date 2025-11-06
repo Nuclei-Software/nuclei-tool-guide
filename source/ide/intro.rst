@@ -192,7 +192,7 @@ RVProf是芯来科技基于CPU cycle model开发的性能分析工具，从2025.
 ZCC升级
 ~~~~~~~~~
 
-在Nuclei Studio 2025.10版本中集成了ZCC 4.1.6版，并加入芯来科技支持的软件库。具体信息可以查看：https://www.terapines.com/products/zcc
+在Nuclei Studio 2025.10版本中集成了ZCC 4.1.7版，并加入芯来科技支持的软件库。具体信息可以查看：https://www.terapines.com/products/zcc
 
 修复了已知Bug
 ~~~~~~~~~~~~~~
