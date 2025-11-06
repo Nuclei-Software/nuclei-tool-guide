@@ -14,7 +14,13 @@ Changelog
 Version 2025.10
 ---------------
 
-- Updated toolchain components to their latest upstream versions: GCC 14.2.1, Binutils 2.44, GDB 16.2, Newlib 4.5.0, LLVM 19.1.7, and GLIBC 2.41.
+.. note::
+
+    - This version is modified based on version 2025.02, only newlib and glibc do upstream version bump
+    - Windows toolchain now changed from win32 to win64
+    - A lot of known issues are fixed in this release
+
+- Updated toolchain components to these versions: GCC 14.2.1, Binutils 2.44, GDB 16.2, Newlib 4.5.0, LLVM 19.1.7, and GLIBC 2.41.
 
 - Feature: Windows newlib GCC now supports Win32_x64 (64-bit), replacing Win32 (32-bit).
 
@@ -30,7 +36,7 @@ Version 2025.10
 
 - Feature: Added ``Xxlvw`` extension support.
 
-- Feature: Add a new -maddibne/-mno-addibne option to control whether Xxlcz's addibne instruction is auto-generated.
+- Feature: Add a new ``-maddibne/-mno-addibne`` option to control whether Xxlcz's addibne instruction is auto-generated.
 
 - Performance optimization: Aligned Newlib memory/string routines (memcpy/memset/setjmp/strcmp/strcpy/strlen) to 4-byte boundaries.
 
@@ -63,9 +69,9 @@ Version 2025.10
 Version 2025.02
 ---------------
 
-- Updated toolchain components to their latest upstream versions: GCC 14.2.1, Binutils 2.44, GDB 16.2, Newlib 4.4.0, LLVM 19.1.7, and GLIBC 2.40.
+- Updated toolchain components to these versions: GCC 14.2.1, Binutils 2.44, GDB 16.2, Newlib 4.4.0, LLVM 19.1.7, and GLIBC 2.40.
 
-- Support for the Zilsd and Zclsd extensions.
+- Support for the ``Zilsd`` and ``Zclsd`` extensions.
 
 - Some Nuclei custom CSR naming has been re-revised and corrected.
 
@@ -98,7 +104,7 @@ Version 2025.02
 Version 2024.06
 ---------------
 
-- Updated toolchain components to their latest upstream versions: GCC 13.1, Binutils 2.40, GDB 13.2, Newlib 4.3.0, LLVM 17.0.2, and GLIBC 2.38.
+- Updated toolchain components to these versions: GCC 13.1, Binutils 2.40, GDB 13.2, Newlib 4.3.0, LLVM 17.0.2, and GLIBC 2.38.
 
 - Instead of using single-letter ``bkp`` to enable these extensions as we did on gcc10, we split them all into corresponding sub-extensions, for example, ``_zba_zkr_zve32f``, please check https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#arch-ext to learn about how to adapt Nuclei SDK to support gcc13 upgraded from gcc10.
 

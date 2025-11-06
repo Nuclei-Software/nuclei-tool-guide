@@ -9,12 +9,33 @@ it from there.
 You can also find our **Nuclei Studio Supply Documents** in https://doc.nucleisys.com/nuclei_studio_supply/,
 which is used for application notes using Nuclei Studio and Nuclei Tools.
 
+2025.10
+-------
+
+This is **2025.10** release of Nuclei Tools.
+
+.. note::
+
+    This is mostly based on 2025.02. but introduced some new features and fixed some known issues reported.
+
+For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nuclei_tool_user_guide.pdf
+
+**Find release note below**:
+
+- `Nuclei Studio 2025.10`_ : Add a lot new features such as New Welcome, Connect to Running Target, Flame View, Nuclei Model Debug integration and IDE online update, see :ref:`ide_changelog_202510`.
+- `Nuclei RISC-V Toolchain 2025.10`_ : Based on 2025.02, only bump newlibc and glibc version, and do lot of fixup and some new features, see :ref:`toolchain_changelog_202510`.
+- `Nuclei QEMU 2025.10`_ : Based on 2025.02, and fixup some known issues and introduce some new features, see :ref:`qemu_changelog_202510`.
+- `Nuclei OpenOCD 2025.10`_ : Based on 2025.02. and fixup some known issues and enhance existing features such as etrace, cpuinfo, cross trigger and etc, see :ref:`openocd_changelog_202510`.
+- **Nuclei Model 2025.10** : Introduced a lot of new features in this release, gdb debug and flame graph are also supported, see :ref:`xlmodel_changelog_202510`.
+
+Click https://github.com/Nuclei-Software/nuclei-tool-guide/issues/18 for this release known issues.
+
 2025.02
 -------
 
 This is 2025.02 release of Nuclei Tools.
 
-For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nuclei_tool_user_guide.pdf
+For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nuclei_tool_user_guide_2025.02.pdf
 
 **Find release note below**:
 
@@ -79,3 +100,8 @@ Click https://github.com/Nuclei-Software/nuclei-tool-guide/issues/1 for this rel
 .. _Nuclei RISC-V Toolchain 2025.02: https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2025.02
 .. _Nuclei QEMU 2025.02: https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2025.02
 .. _Nuclei OpenOCD 2025.02: https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2025.02
+
+.. _Nuclei Studio 2025.10: https://github.com/Nuclei-Software/nuclei-studio/releases/tag/2025.10
+.. _Nuclei RISC-V Toolchain 2025.10: https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2025.10
+.. _Nuclei QEMU 2025.10: https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2025.10
+.. _Nuclei OpenOCD 2025.10: https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2025.10

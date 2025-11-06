@@ -87,21 +87,21 @@ Nuclei Studio IDE充分利用上述Eclipse IDE优势，结合社区成熟的Ecli
 Nuclei Studio 更新说明
 =======================
 
+.. note::
+
+   - 如需确认当前 Nuclei Studio 中所集成的RISC-V Toolchain、OpenOCD、QEMU、Nuclei Model的版本集息，可以查看``toolchain/ReadMe.txt``里面的内容进行了解。
+
 .. _ide_changelog_202510:
 
 2025.10版更新说明
 -----------------
 
-.. note::
-
-   如需确认当前 Nuclei Studio 中所集成的RISC-V Toolchain、OpenOCD、QEMU、Nuclei Model的版本集息，可以查看该工具链下 ``build.txt`` 和 ``gitrepo.txt`` 文件，文件内存有构建信息以及git各个子仓的commit信息。 
-
-2025.10版本是基于eclipse Cpp 2024-06开发，升级了芯来科技的工具版本至2025.10，新增了代码调试、代码性能分析以及IDE在线升级等功能，优化了部分原有功能，以及解决了2025.02版中存在的缺陷。
+2025.10版本是基于Eclipse Cpp 2024-06开发，升级了芯来科技的工具版本至2025.10，新增了代码调试、代码性能分析以及IDE在线升级等功能，优化了部分原有功能，以及解决了2025.02版中存在的缺陷。
 
 升级RISC-V Toolchain、OpenOCD、QEMU版本
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2025.10版本中集成了Nuclei RISC-V Toolchain 2025.10版，具体信息可以查看：https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2025.10 。
+在Nuclei Studio 2025.10版本中集成了Nuclei RISC-V Toolchain 2025.10版，具体信息可以查看：https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2025.10 , 这里Windows版本换成了Win64版本，取代之前的Win32版本，以解决大文件无法编译的问题。
 
 在Nuclei Studio 2025.10版本中集成了OpenOCD 2025.10版，具体信息可以查看：https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2025.10 。
 
@@ -210,7 +210,7 @@ ZCC升级
 2025.02版更新说明
 -----------------
 
-2025.02版本是基于eclipse Cpp 2024-06开发，CDT版本到Eclipse CDT 2024-06，升级了芯来科技的工具版本至2025.02，优化了部分原有功能，新增了调试及代码性能分析等功能，以及解决了2024.06版中存在的缺陷。
+2025.02版本是基于Eclipse Cpp 2024-06开发，CDT版本到Eclipse CDT 2024-06，升级了芯来科技的工具版本至2025.02，优化了部分原有功能，新增了调试及代码性能分析等功能，以及解决了2024.06版中存在的缺陷。
 
 升级Eclipse Cpp版本
 ~~~~~~~~~~~~~~~~~~~
