@@ -89,7 +89,7 @@ Nuclei Studio 更新说明
 
 .. note::
 
-   - 如需确认当前 Nuclei Studio 中所集成的RISC-V Toolchain、OpenOCD、QEMU、Nuclei Model的版本集息，可以查看``toolchain/ReadMe.txt``里面的内容进行了解。
+   - 如需确认当前 Nuclei Studio 中所集成的RISC-V Toolchain、OpenOCD、QEMU、Nuclei Model的版本集息，可以查看 ``toolchain/ReadMe.txt`` 里面的内容进行了解。
 
 .. _ide_changelog_202510:
 
@@ -101,13 +101,13 @@ Nuclei Studio 更新说明
 升级RISC-V Toolchain、OpenOCD、QEMU版本
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2025.10版本中集成了Nuclei RISC-V Toolchain 2025.10版，具体信息可以查看：https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2025.10 , 这里Windows版本换成了Win64版本，取代之前的Win32版本，以解决大文件无法编译的问题。
+- 在Nuclei Studio 2025.10版本中集成了Nuclei RISC-V Toolchain 2025.10版，具体信息可以查看：:ref:`toolchain_changelog_202510`, 这里Windows版本换成了Win64版本，取代之前的Win32版本，以解决大文件无法编译的问题。
 
-在Nuclei Studio 2025.10版本中集成了OpenOCD 2025.10版，具体信息可以查看：https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2025.10 。
+- 在Nuclei Studio 2025.10版本中集成了OpenOCD 2025.10版，具体信息可以查看：:ref:`openocd_changelog_202510` 。
 
-在Nuclei Studio 2025.10版本中集成了Nuclei Qemu 2025.10版，具体信息可以查看：https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2025.10 。
+- 在Nuclei Studio 2025.10版本中集成了Nuclei Qemu 2025.10版，具体信息可以查看：:ref:`qemu_changelog_202510` 。
 
-在Nuclei Studio 2025.10版本中集成了Nuclei Near Cycle Model 2025.10版，具体信息可以查看：https://doc.nucleisys.com/nuclei_tools/xlmodel/intro.html 。
+- 在Nuclei Studio 2025.10版本中集成了Nuclei Near Cycle Model 2025.10版，具体信息可以查看：:ref:`xlmodel_changelog_202510` 。
 
 
 新增对更多新核的支持
