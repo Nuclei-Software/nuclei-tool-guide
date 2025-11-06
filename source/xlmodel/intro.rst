@@ -561,7 +561,7 @@ DEBUG
 
 .. _xlmodel_debug:
 
-You can debug applications running with `xlmodel` by adding pass the ``--gdbport=<port_num>`` parameter. This enables the GDB server and allows external GDB (e.g., ``riscv64-unknown-elf-gdb``) to connect via the specified portnum for software debugging.
+You can debug applications running with `xlmodel` by passing the ``--gdbport=<port_num>`` parameter. This enables the GDB server and allows external GDB (e.g., ``riscv64-unknown-elf-gdb``) to connect via the specified portnum for software debugging.
 
 To debug via the command line, follow these steps on a Linux system: (Windows is similar)
 
