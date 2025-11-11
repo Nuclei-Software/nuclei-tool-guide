@@ -9,6 +9,8 @@ it from there.
 You can also find our **Nuclei Studio Supply Documents** in https://doc.nucleisys.com/nuclei_studio_supply/,
 which is used for application notes using Nuclei Studio and Nuclei Tools.
 
+.. _changelog_202510:
+
 2025.10
 -------
 
@@ -16,7 +18,8 @@ This is **2025.10** release of Nuclei Tools.
 
 .. note::
 
-    This is mostly based on 2025.02. but introduced some new features and fixed some known issues reported.
+    - This release is mostly based on 2025.02. but introduced some new features and fixed some known issues reported.
+    - Windows RISC-V Toolchain changed from win32 to win64 now, please take care!
 
 For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nuclei_tool_user_guide.pdf
 
@@ -28,7 +31,9 @@ For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nu
 - `Nuclei OpenOCD 2025.10`_ : Based on 2025.02. and fixup some known issues and enhance existing features such as etrace, cpuinfo, cross trigger and etc, see :ref:`openocd_changelog_202510`.
 - **Nuclei Model 2025.10** : Introduced a lot of new features in this release, gdb debug and flame graph are also supported, see :ref:`xlmodel_changelog_202510`.
 
-Click https://github.com/Nuclei-Software/nuclei-tool-guide/issues/18 for this release known issues.
+Click https://github.com/Nuclei-Software/nuclei-tool-guide/issues/18 for known issues.
+
+.. _changelog_202502:
 
 2025.02
 -------
@@ -45,6 +50,8 @@ For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nu
 - `Nuclei OpenOCD 2025.02`_ : Bump to OpenOCD 0.12.0
 
 Click https://github.com/Nuclei-Software/nuclei-tool-guide/issues/18 for this release known issues.
+
+.. _changelog_202406:
 
 2024.06
 -------
@@ -64,12 +71,16 @@ For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nu
 
 Click https://github.com/Nuclei-Software/nuclei-tool-guide/issues/4 for this release known issues.
 
+.. _changelog_202402:
+
 2024.02
 -------
 
 This release is a bugfix release for 2023.10, which fix many issues reported by 2023.10.
 
 See https://github.com/Nuclei-Software/nuclei-tool-guide/issues/1
+
+.. _changelog_202310:
 
 2023.10
 -------
