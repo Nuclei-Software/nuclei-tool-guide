@@ -590,6 +590,36 @@ Connect to Running Target
 
 |image77|
 
+查看Nuclei CPU Information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Connect to Running Target 后，用户可以通过IDE的 ``Debugger Console`` 工具来发送命令 ``info reg misa`` 来查看当前 CPU 的 misa 信息。misa 会直接在 ``Debugger Console`` 中显示。
+
+|image78|
+
+
+用户也可以通过IDE的 ``Debugger Console`` 工具来发送命令 ``monitor nuclei cpuinfo`` 查看当前 Nuclei CPU Information ，因为 eclipse 的机制，Nuclei CPU Information 可能不会在 ``Debugger Console`` 中显示，但可以在 ``gdb trace`` 中查看到。
+
+首先，打开 ``gdb trace`` 功能。在Nuclei Studio 中打开菜单 ``Windows -> Preferences``。
+
+|image79|
+
+搜索  ``gdb``，在 gdb 配置页中找到并勾选 ``Show the GDB trace console with character limit`` 。
+
+|image80|
+
+通过IDE的 ``Debugger Console`` 工具来发送命令 ``monitor nuclei cpuinfo`` 。
+
+|image81|
+
+然后在 ``Console`` 窗口中找到 ``gdb trace`` 视图并打开。
+
+|image82|
+
+在 ``gdb trace`` 视图中可以查看到 Nuclei CPU Information。
+
+|image83|
+
 .. _ide_flash_programming:
 
 Flash Programming
@@ -828,3 +858,15 @@ Flash Programming中的参数最终将通过OpenOCD执行。默认情况下， `
 .. |image76| image:: /asserts/nucleistudio/projectrun/image76.png
 
 .. |image77| image:: /asserts/nucleistudio/projectrun/image77.png
+
+.. |image78| image:: /asserts/nucleistudio/projectrun/image78.png
+
+.. |image79| image:: /asserts/nucleistudio/projectrun/image79.png
+
+.. |image80| image:: /asserts/nucleistudio/projectrun/image80.png
+
+.. |image81| image:: /asserts/nucleistudio/projectrun/image81.png
+
+.. |image82| image:: /asserts/nucleistudio/projectrun/image82.png
+
+.. |image83| image:: /asserts/nucleistudio/projectrun/image83.png
