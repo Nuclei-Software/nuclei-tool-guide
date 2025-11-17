@@ -772,6 +772,7 @@ This release is based on **2025.02** version with some new features and bug fixe
 - Does not support CACHE emulation
 - Does not support booting a Linux Kernel
 - Some SMP cases for RT-Thread and Zephyr are not yet running correctly
+- When debugging with Nuclei Studio, if the ELF file lacks DWARF debug information, you need to add the ``--mem=0x0:0x10000000`` option as a workaround to prevent GDB from reporting memory read errors
 
 .. _xlmodel_changelog_202502:
 
