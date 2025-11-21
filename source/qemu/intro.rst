@@ -249,6 +249,8 @@ Let's describe the meaning of this complete command:
 
   ``aia-guests=`` will set number of guest MMIO pages for AIA-IMSIC. Valid value should be between 0 and 4.
 
+.. _qemu_opt_soc_cfg:
+
   ``soc-cfg=`` is an optional option to pass dynamic modifications to the initial configuration of the machine with a json file. If this parameter is not set, the default value of qemu will be used.
 
   Here is an example of json config file passed to ``soc-cfg=``:

@@ -1332,6 +1332,25 @@ Connect to Running Target
 
 |image103|
 
+.. _ide_nuclei_qemu_customize_evalsoc:
+
+Nuclei Qemu更新evalsoc配置
+---------------------------
+
+为了方便在不修改Nuclei QEMU源码的基础上，快速修改Nuclei QEMU evalsoc里面的各种外设的地址和大小以及中断编号，以快速
+适配不同的evalsoc版本，Nuclei Qemu在``-M``选项里面扩展了 :ref:`soc-cfg <qemu_opt_soc_cfg>`用于让客户可以直接编写一个
+json配置文件，然后Qemu命令行类似传一个这样的选项 ``-M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json,debug=1``即可修改
+evalsoc的外设配置。
+
+而在 Nuclei Studio中，你只需要将编写好的 ``evalsoc.json`` 放在你的工程所在根目录下，然后修改 **Nuclei Qemu Debug Configuration**
+页面的``Debugger`` Tab里面的``Extra Board Options(-M)``即可，这里修改成了 ``,soc-cfg=${project_loc}/evalsoc.json,debug=1`` 然后
+保存调试配置即可。
+
+接着就可以按照新的evalsoc的配置来进行Nuclei Qemu的功能调试。
+
+|image130|
+
+
 .. |image1| image:: /asserts/nucleistudio/advanceusage/image2.png
 
 .. |image2| image:: /asserts/nucleistudio/advanceusage/image3.png
@@ -1591,6 +1610,8 @@ Connect to Running Target
 .. |image128| image:: /asserts/nucleistudio/advanceusage/image128.png
 
 .. |image129| image:: /asserts/nucleistudio/advanceusage/image129.png
+
+.. |image130| image:: /asserts/nucleistudio/advanceusage/image130.png
 
 .. |image-nice-1| image:: /asserts/nucleistudio/advanceusage/nice-1.png
 
