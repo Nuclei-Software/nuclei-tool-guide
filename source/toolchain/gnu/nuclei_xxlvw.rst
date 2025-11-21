@@ -206,9 +206,11 @@ Nuclei 自定义的 intrinsic
 
 .. note::
 
-    虽然该指令没有 ``vd parameter``，但是该指令的intrinsic使用时是需要一个返回值的，其返回值不为空。具体示例可参考 `Examples`_ 部分。
+    虽然该指令没有 ``vd parameter``，但是该指令的intrinsic使用时是需要一个返回值的，其返回值不为空。
 
     暂时没有 ``vd parameter`` 的指令intrinsic，都需要一个返回值。
+
+    而且如果后续程序没有用到该返回值，需要用 ``volatile`` 关键字来声明该返回值，防止开启 -O2 以及更高级别优化时被优化掉，示例可参考 `Examples`_ 部分。
 
     未来该类型指令的intrinsic的使用方法可能会有变化，目前只是一个workaround版本。
 
@@ -717,8 +719,8 @@ Examples
         vint32m1_t vd = __riscv_xl_vdscmul_vv_i32m1(vs2, vs1, vl);
         __riscv_vse32_v_i32m1(&dst_cmul[0].i32, vd, vl);
 
-        // tmp值可以不被用到，但是需要有，才能保证vdsmacini指令正常使用
-        vint32m1_t tmp = __riscv_xl_vdsmacini_x_i32m1(1, vl);
+        // tmp值可以不被用到，但是需要有，才能保证vdsmacini指令正常使用，且需要用 volatile 修饰，防止被优化
+        volatile vint32m1_t tmp = __riscv_xl_vdsmacini_x_i32m1(1, vl);
 
         vd = __riscv_xl_vdscmaco_vv_i32m1(vs2, vs1, vl);
         __riscv_vse32_v_i32m1(&dst_cmac[0].i32, vd, vl);
