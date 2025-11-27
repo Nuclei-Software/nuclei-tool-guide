@@ -50,7 +50,7 @@ Version 2025.10
 
 - Fixed: Fix unnecessary ``slli/srai`` instruction generation when using int16 type.
 
-- LLVM: Initial implementation of pipeline support for Nuclei processor ``100/200/300/600/900/1000`` series.
+- LLVM: Initial implementation of pipeline support for Nuclei processor ``100/200/300/600/900/1000`` series(RV32 Only).
 
 - LLVM: Added scalar BFloat16 support for Nuclei processors.
 
