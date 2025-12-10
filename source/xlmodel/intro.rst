@@ -19,8 +19,9 @@ SystemC establishes the TLM 2.0 interaction relationships among the components u
 Since this model is also integrated in Nuclei Studio, you can use it to do
 
 - Profiling and Code Coverage
-  - https://doc.nucleisys.com/nuclei_studio_supply/18-demonstrate_NICE_VNICE_acceleration_of_the_Nuclei_Model_through_profiling/
-  - https://doc.nucleisys.com/nuclei_studio_supply/19-rapid_verification_of_NICE_VNICE_acceleration_with_Nuclei_Model_and_NICE_Wizard/
+
+  - Demonstrating the acceleration of Nuclei Model NICE/VNICE instructions through Profiling: https://doc.nucleisys.com/nuclei_studio_supply/18-demonstrate_NICE_VNICE_acceleration_of_the_Nuclei_Model_through_profiling/
+  - Nuclei Model combined with Nice Wizard for rapid verification of NICE/VNICE instruction acceleration: https://doc.nucleisys.com/nuclei_studio_supply/19-rapid_verification_of_NICE_VNICE_acceleration_with_Nuclei_Model_and_NICE_Wizard/
   - :ref:`ide_advanceusage_profiling`
 - NICE Instruction Design and Modeling
   - :ref:`ide_nuclei_nice_wizard`
