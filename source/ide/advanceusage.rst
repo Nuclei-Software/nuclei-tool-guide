@@ -885,15 +885,15 @@ Nuclei Model Debugger是为升级后的Nuclei Near Cycle Model开发的调试运
 - **RVV length** RISC-V 向量扩展
 - **Other Extensions** 其他扩展
 
-勾选了 ``Enable Nuclei Model RVTrace`` 并配置其路径，程序运行时会生成一个 ``*.rvtrave`` 的文件。
+勾选了 ``Enable Nuclei Model RVTrace`` 并配置其路径，程序运行时会生成一个 ``*.rvtrace`` 的文件。
 
-在 ``More options`` 中可以添加 Nuclei Model 所支持的参数。在演示示例的Config options中配置了 ``--gprof=1 --flame=1 `` ,  ``--gprof=1`` 表示开启gprof功能程序运行时，生会产生gprof文件； ``--flame=1`` 表示开启flame功能。
+在 ``More options`` 中可以添加 Nuclei Model 所支持的参数。在演示示例的Config options中配置了 ``--gprof=1 --flame=1`` 。 ``--gprof=1`` 表示开启基于gprof的Profiling功能，程序运行时会产生gprof文件； ``--flame=1`` 表示开启火焰图Flamegraph功能。
 
-关于Nuclei Near Cycle Model的参数具体说明，请参见 :ref:`Description of Parameters <xlmodel_description_of_parameters>` 。
+关于Nuclei Near Cycle Model的参数具体说明，请参见 :ref:`Description of Parameters <xlmodel_description_of_parameters>` 。    
 
-关于gprof功能请参见 :ref:`Code Coverage和Profiling功能 <ide_advanceusage_17>` 。
+关于gprof的Profiling功能请参见 :ref:`Code Coverage和Profiling功能 <ide_advanceusage_17>` 。
 
-关于flame功能请参见 :ref:`Flame View功能的使用 <ide_flame_view>`  。
+关于火焰图flamegraph功能请参见 :ref:`Flame View功能的使用 <ide_flame_view>`  。
 
 配置完参数并保存，然后点击 ``Debug`` ，进入 Nuclei Model 的 Debug 模式。
 
