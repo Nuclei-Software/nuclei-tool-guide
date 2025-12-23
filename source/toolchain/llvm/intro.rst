@@ -152,3 +152,17 @@ If you need to report an issue to the developers, please provide:
 1. The ``gcc/build.txt`` file (located in the GCC directory) for GCC compilation details.
 
 2. The ``gcc/gitrepo.txt`` file to confirm commit IDs of each tool, which helps determine more detailed build information.
+
+Known Issues
+============
+
+The LLVM 2025.10 implementation contains a bug in the nuclei ``-mtune`` support.
+
+-------------------------------------------------
+
+When the LLVM Nuclei scheduling definitions were added, the processor models were declared with the generic ``RISCVProcessorModel`` instead of the architecture-tuned ``RISCVTuneProcessorModel``.
+
+References:
+
+- https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/37
+
