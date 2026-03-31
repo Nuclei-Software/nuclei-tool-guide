@@ -219,6 +219,7 @@ Nuclei 自定义的指令
 * Vector Floating-Point Merge Instruction
     - ``vfmerge.vfm``
 * Vector Floating-Point Move Instruction
+    - ``vmv.v``
     - ``vfmv.v``
 * Single-Width Floating-Point/Integer Type-Convert Instructions
     - ``vfcvt.xu.f.v``
@@ -487,7 +488,7 @@ Examples
     }
 
 
-.. _rvv-intrinsic-doc: https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0.0-rc7
+.. _rvv-intrinsic-doc: https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0-ratified
 .. _vector-bfloat16-spec.adoc: https://github.com/riscv-non-isa/rvv-intrinsic-doc/blob/9328aba3fca494717de08502ff32819a7c168daa/doc/vector-bfloat16-spec.adoc
 .. _bfloat16 intrinsic_funcs: https://github.com/riscv-non-isa/rvv-intrinsic-doc/tree/9328aba3fca494717de08502ff32819a7c168daa/auto-generated/bfloat16/intrinsic_funcs
 .. _riscv-bfloat16 release v1.0: https://github.com/riscv/riscv-bfloat16/releases
