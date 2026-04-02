@@ -486,6 +486,67 @@ Nuclei Studio 2025.10版中更新了菜单显示的逻辑，可以在Debug视图
 
 |image62|
 
+.. _faq_how_to_build_semihosting_project:
+
+如何构建支持Semihosting的工程
+-----------------------------
+
+使用 Nuclei SDK 创建工程时，可以勾选 ``Enable Semihosting`` ，直接生成支持 Semihosting 的工程。
+
+对于已经创建完成的工程，或非 Nuclei SDK 创建的工程，可按以下步骤手动启用 Semihosting。
+
+|projectrun_image63|
+
+这类工程通常已经通过 ``Stubs`` 函数实现了基本 I/O。启用 Semihosting 时，需要将原有的 ``Stubs`` 实现替换为 semihost 库提供的实现。
+
+首先需要屏蔽原有的 ``Stubs`` 代码。以 Nuclei SDK 创建的工程为例，选中 ``SoC\\evalsoc\\Common\\Source\\Stubs`` ，然后右键选择 ``Resource Configurations -> Exclude from Build...`` ，即可将这部分代码排除出构建。当不再需要 Semihosting 时，也可以通过相同方式重新启用，以便快速切换。
+
+下图以 newlib 为例，链接时需要使用 ``semihost`` 库；如果使用的是 libncrt，则需要将 ``fileops_uart`` 替换为 ``fileops_semi`` 。如果使用 ``zcc`` 工具链，链接阶段同样需要额外加入 ``semihost`` 库。
+
+|image63|
+
+.. _faq_debug_semihosting_project_with_jlink:
+
+如何用J-Link调试支持Semihosting的工程
+-------------------------------------
+
+IDE 默认通过 J-Link GDB Server 使用 J-Link 进行调试，但该方式不支持 Semihosting。如果希望在使用 J-Link 作为调试器时启用 Semihosting，可参考以下两种方案：
+
+1. 使用 J-Link 原生的 Semihosting 功能。该方案需要配合 `Ozone <https://www.segger.com/products/development-tools/ozone-j-link-debugger/>`__ 使用，详见 `SEGGER's Ozone offers enhanced debugging with RISC-V Semihosting <https://www.segger.com/news/pr-241015-ozone-riscv-semihosting/>`__ 。
+2. 使用 OpenOCD + J-Link 进行调试，参见 `Using J-Link with OpenOCD <https://kb.segger.com/OpenOCD#Using_J-Link_with_OpenOCD>`__ 。该方案仅支持 JTAG 接口，不支持 cJTAG。
+
+对于 OpenOCD + J-Link 方案，可以使用 JLinkConfig 或 `Zadig <https://zadig.akeo.ie/>`__ 将 J-Link 的 USB 驱动切换为 WinUSB。完成后，在 OpenOCD 配置文件中启用 Semihosting。以下配置可作为参考：
+
+.. code-block:: cfg
+
+   adapter_khz 1000
+   # The below 2 lines configure openocd to work with jlink
+   interface jlink
+   transport select jtag
+   #reset_config trst_only
+   set _CHIPNAME riscv
+   jtag newtap $_CHIPNAME cpu -irlen 5
+   set _TARGETNAME $_CHIPNAME.cpu
+   target create $_TARGETNAME riscv -chain-position $_TARGETNAME
+   $_TARGETNAME configure -work-area-phys 0x80000000 -work-area-size 10000 -work-area-backup 1
+   set _FLASHNAME $_CHIPNAME.flash
+   flash bank $_FLASHNAME fespi 0x20000000 0 0 0 $_TARGETNAME
+   # Set the ILM space also as flash, to make sure it can be add breakpoint with hardware trigger
+   #flash bank onboard_ilm fespi 0x80000000 0 0 0 $_TARGETNAME
+   # Expose Nuclei self-defined CSRS
+   # See https://github.com/riscv/riscv-gnu-toolchain/issues/319#issuecomment-358397306
+   # Then user can view the csr register value in gdb using: info reg csr775 for CSR MTVT(0x307)
+   # riscv expose_csrs 416-496,770-800,835-850,1227-1231,1483-1486,1984-2040,2064-2070,2370-2380,2490-2500,4032-4040
+   init
+   if {[ info exists pulse_srst]} {
+     ftdi_set_signal nSRST 0
+     ftdi_set_signal nSRST z
+   }
+   halt
+   # We must turn on this because otherwise the IDE version debug cannot download the program into flash
+   flash protect 0 0 last off
+   arm semihosting enable
+
 其他未注明版本问题
 ==================
 
@@ -654,3 +715,7 @@ Nuclei Studio 2025.10版中更新了菜单显示的逻辑，可以在Debug视图
 .. |image61| image:: /asserts/nucleistudio/faq/image61.png
 
 .. |image62| image:: /asserts/nucleistudio/faq/image62.png
+
+.. |projectrun_image63| image:: /asserts/nucleistudio/projectrun/image63.png
+
+.. |image63| image:: /asserts/nucleistudio/faq/image63.png
