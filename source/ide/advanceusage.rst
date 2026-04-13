@@ -1350,6 +1350,172 @@ evalsoc的外设配置。
 
 |image130|
 
+GNU GCC工具链切换为Clang/ZCC工具链
+----------------------------------
+
+Nuclei Studio IDE 支持三种工具链：``RISC-V GCC/Newlib``、``RISC-V Clang/Newlib`` 和 ``Terapines ZCC``。
+创建工程时，可以直接在 ``Toolchain`` 下拉框中选择所需工具链。
+
+|image-gcc2llvm-1|
+
+如果当前工程使用的是 GCC 工具链，而你希望切换到 Clang 或 ZCC 工具链，可以按以下步骤完成迁移：
+
+1. :ref:`切换工具链 <change_toolchain>` ;
+2. :ref:`调整编译选项和链接选项 <adjust_flags>` ;
+3. :ref:`调整链接库 <adjust_libs>` ;
+
+.. _change_toolchain:
+
+切换工具链
+~~~~~~~~~~
+
+在 ``Project Explorer`` 中选中工程，右键选择 ``Properties`` 打开工程属性，然后进入 ``C/C++ Build -> Settings -> Toolchains``。在 ``Name`` 下拉框中选择目标工具链即可。
+
+|image-gcc2llvm-2|
+
+.. _adjust_flags:
+
+调整编译和链接选项
+~~~~~~~~~~~~~~~~~~
+
+RISC-V Clang/Newlib
+^^^^^^^^^^^^^^^^^^^
+
+如果切换到 Clang 工具链，需要同步调整编译和链接选项，因为 Clang 并不完全兼容 GCC 的所有参数。
+
+以 CoreMark 工程为例，不同 CPU 系列使用的参数可能略有差异，但通常建议做以下调整：
+
+1. 将 ``Optimization Level`` 从 ``-Ofast`` 调整为 ``-O3``；
+2. 将 ``Extra Common Flags`` 替换为 ``-flto``；
+3. 删除链接选项中的 ``-Wl,--no-warn-rwx-segments``。
+
+|image-gcc2llvm-3|
+
+Terapines ZCC
+^^^^^^^^^^^^^
+
+如果切换到 ZCC 工具链，建议按以下方式调整编译和链接选项：
+
+1. 将 ``Optimization Level`` 从 ``-Ofast`` 调整为 ``-O3``；
+2. 将 ``Extra Common Flags`` 替换为 ``-flto -falign-functions=4 -falign-loops=4 -flate-loop-unroll -malign-branch``；
+3. 删除链接选项中的 ``-Wl,--no-warn-rwx-segments``；
+4. 将链接选项改为 ``-Wl,-mllvm,--align-all-nofallthru-blocks=2``。
+
+|image-gcc2llvm-4|
+
+.. _adjust_libs:
+
+调整链接库
+~~~~~~~~~~
+
+不同工具链依赖的库可能不同，因此切换后还需要检查并调整链接库。链接库可以在工程属性中的 ``C/C++ Build -> Settings -> Tool Settings -> GNU RISC-V Cross C++ Linker -> Libraries`` 中修改。
+
+|image-gcc2llvm-5|
+
+对于 Clang 工具链，Nuclei Studio 使用的仍是同一套 C 标准库，一般不需要额外修改链接库。因此，从 GCC 迁移到 Clang 时，通常只需完成前面的 :ref:`切换工具链<change_toolchain>` 和 :ref:`调整编译和链接选项 <adjust_flags>` 两步，即可尝试重新编译工程。
+
+对于 ZCC 工具链，则需要进一步调整链接库名称。ZCC 仅支持 ``newlib_small`` 库，因此无论当前 GCC 工程使用的是 ``newlib_small`` 还是 ``libncrt_small``，都可以将链接库统一改为 ``c_small`` 和 ``clang_rt.builtins_small``。
+
+|image-gcc2llvm-6|
+
+如果当前工程链接的是 ``libncrt_small``，还需要将 ``stubs.c`` 替换为 newlib 版本；如果工程原本使用的就是 newlib 库，则无需执行这一步。
+
+以基于 Nuclei SDK 创建的 EvalSoC 工程为例，可以先将 libncrt 版本的 ``stubs.c`` 排除构建。选中 ``SoC\\evalsoc\\Common\\Source\\Stubs\\libncrt``，右键选择 ``Resource Configurations -> Exclude from Build...``，然后从其他使用 newlib 库的工程中复制一份 newlib 版本的 ``stubs.c`` 到 ``Stubs`` 目录中。
+
+|image-gcc2llvm-7|
+
+完成 ``stubs.c`` 的调整后，从 GCC 迁移到 ZCC 的过程就完成了，此时可以尝试重新编译工程。
+
+newlib_small 与 libncrt_small 的转换
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+前面提到，ZCC 不支持 ``libncrt_small``。因此，当工具链从 GCC 切换到 ZCC 时，如果工程原本使用的是 ``libncrt_small``，就需要同步切换到 ``newlib_small``。
+
+在 Nuclei Studio 中选择 ``newlib_small`` 时，实际对应的链接库是 ``c_nano`` 并且支持浮点打印。链接选项中会默认添加 ``-u _printf_float``。可以按照下图检查该选项是否已经添加。
+
+|image-gcc2llvm-8|
+
+下表汇总了不同工具链与 C 库组合的支持情况。调整工具链或链接库时，请同时检查 ``库列表``、``链接选项`` 和 ``stubs 文件`` 是否匹配。
+
++------------+----------------+----------+---------------------------+------------------+-----------------+
+| 工具链     | 链接库         | 是否支持 | 库列表                    | 链接选项         | stubs 文件      |
++============+================+==========+===========================+==================+=================+
+| GCC/Clang  | newlib_small   | 支持     | - c++                     | -u _printf_float | newlib/stubs.c  |
+|            |                |          | - c_nano                  |                  |                 |
+|            |                |          | - gcc                     |                  |                 |
++------------+----------------+----------+---------------------------+------------------+-----------------+
+| GCC/Clang  | libncrt_small  | 支持     | - ncrt_small              |                  | libncrt/stubs.c |
+|            |                |          | - heapops_basic           |                  |                 |
+|            |                |          | - fileops_uart            |                  |                 |
++------------+----------------+----------+---------------------------+------------------+-----------------+
+| ZCC        | newlib_small   | 支持     | - c_small                 |                  | newlib/stubs.c  |
+|            |                |          | - clang_rt.builtins_small |                  |                 |
++------------+----------------+----------+---------------------------+------------------+-----------------+
+| ZCC        | libncrt_small  | 不支持   |                           |                  |                 |
++------------+----------------+----------+---------------------------+------------------+-----------------+
+
+常见问题
+~~~~~~~~
+
+Clang/ZCC 与 GCC 的不兼容性
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Clang/ZCC 工具链并不完全兼容 GCC 的编译选项。如果编译时报错，请参考 :ref:`调整编译和链接选项 <adjust_flags>` 进行调整。
+
+.. code-block:: console
+
+    riscv64-unknown-elf-clang: error: unknown argument: '-fno-code-hoisting'
+    riscv64-unknown-elf-clang: error: unknown argument: '-fno-if-conversion'
+    riscv64-unknown-elf-clang: error: unknown argument: '-fno-if-conversion2'
+    riscv64-unknown-elf-clang: error: unknown argument: '-fselective-scheduling'
+    riscv64-unknown-elf-clang: error: unknown argument: '-fno-tree-loop-distribute-patterns'
+    riscv64-unknown-elf-clang: error: unknown argument: '-mbranch-cost=1'
+
+Clang/ZCC 工具链不支持 ``-Wl,--no-warn-rwx-segments`` 链接选项。如果链接时报错，请参考 :ref:`调整编译和链接选项 <adjust_flags>` 进行调整。
+
+.. code-block:: console
+
+    ld.lld: error: unknown argument '--no-warn-rwx-segments'
+    riscv64-unknown-elf-clang++: error: ld command failed with exit code 1 (use -v to see invocation)
+    make: *** [makefile:92: coremark.elf] Error 1
+
+ZCC 链接失败
+^^^^^^^^^^^^
+
+从 GCC 切换到 ZCC 工具链时，如果没有正确调整链接库，可能会出现以下问题。可参考 :ref:`调整链接库 <adjust_libs>` 进行修改。
+
+如果原工程使用的是 ``newlib_small``，但没有修改链接库，可能会出现以下错误：
+
+.. code-block:: console
+
+    ld.lld: error: unable to find library -lstdc++
+    z++: error: ld command failed with exit code 1 (use -v to see invocation)
+    make: *** [makefile:92: coremark.elf] Error 1
+
+如果原工程使用的是 ``libncrt_small``，但没有修改链接库，可能会出现以下错误：
+
+.. code-block:: console
+
+    ld.lld: error: unable to find library -lncrt_small
+    ld.lld: error: unable to find library -lheapops_basic
+    ld.lld: error: unable to find library -lfileops_uart
+    ld.lld: error: unable to find library -lncrt_small
+    z++: error: ld command failed with exit code 1 (use -v to see invocation)
+    make: *** [makefile:92: coremark.elf] Error 1
+
+如果原工程使用的是 ``libncrt_small``，虽然已经修改了链接库，但没有同步替换 ``stubs.c``，则可能出现以下错误：
+
+.. code-block:: console
+
+    ld.lld: error: undefined symbol: _read
+    >>> referenced by ld-temp.o
+    >>>               coremark.elf.lto.o:(sys_semihost_getc)
+    
+    ld.lld: error: undefined symbol: _write
+    >>> referenced by ld-temp.o
+    >>>               coremark.elf.lto.o:(sys_semihost_putc)
+    z++: error: ld command failed with exit code 1 (use -v to see invocation)
+    make: *** [makefile:92: coremark.elf] Error 1
 
 .. |image1| image:: /asserts/nucleistudio/advanceusage/image2.png
 
@@ -1633,5 +1799,18 @@ evalsoc的外设配置。
 
 .. |image-nice-10| image:: /asserts/nucleistudio/advanceusage/nice-10.png
 
+.. |image-gcc2llvm-1| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-1.png
 
+.. |image-gcc2llvm-2| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-2.png
 
+.. |image-gcc2llvm-3| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-3.png
+
+.. |image-gcc2llvm-4| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-4.png
+
+.. |image-gcc2llvm-5| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-5.png
+
+.. |image-gcc2llvm-6| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-6.png
+
+.. |image-gcc2llvm-7| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-7.png
+
+.. |image-gcc2llvm-8| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-8.png
