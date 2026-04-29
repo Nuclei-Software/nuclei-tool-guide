@@ -306,6 +306,8 @@ The JTAG link configuration varies depending on the system architecture:
 
 **Single Core System**
 
+This is a n900 single core system example.
+
 .. code-block:: c
 
     set _CHIPNAME0 riscv0
@@ -316,6 +318,8 @@ The JTAG link configuration varies depending on the system architecture:
 
 **SMP (Symmetric Multiprocessing) System**
 
+This is a n900-smp4 SMP system example.
+
 .. code-block:: c
 
     set _CHIPNAME0 riscv0
@@ -325,17 +329,20 @@ The JTAG link configuration varies depending on the system architecture:
     target create $_TARGETNAME0.0 riscv -chain-position $_TARGETNAME0 -coreid 0 -rtos hwthread
     target create $_TARGETNAME0.1 riscv -chain-position $_TARGETNAME0 -coreid 1
     target create $_TARGETNAME0.2 riscv -chain-position $_TARGETNAME0 -coreid 2
-    target smp $_TARGETNAME0.0 $_TARGETNAME0.1 $_TARGETNAME0.2
+    target create $_TARGETNAME0.3 riscv -chain-position $_TARGETNAME0 -coreid 3
+    target smp $_TARGETNAME0.0 $_TARGETNAME0.1 $_TARGETNAME0.2 $_TARGETNAME0.3
 
 **AMP (Asymmetric Multiprocessing) System**
+
+This is a n300 + n900-smp2 AMP system example.
 
 .. code-block:: c
 
     set _CHIPNAME0 riscv0
-    jtag newtap $_CHIPNAME0 cpu -irlen 5 -expected-id 0x10900a6d
+    jtag newtap $_CHIPNAME0 cpu -irlen 5 -expected-id 0x10300a6d
 
     set _CHIPNAME1 riscv1
-    jtag newtap $_CHIPNAME1 cpu -irlen 5 -expected-id 0x10300a6d
+    jtag newtap $_CHIPNAME1 cpu -irlen 5 -expected-id 0x10900a6d
 
     set _TARGETNAME0 $_CHIPNAME0.cpu
     target create $_TARGETNAME0 riscv -chain-position $_TARGETNAME0 -coreid 0
