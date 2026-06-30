@@ -125,8 +125,8 @@ Usage:
 
    This require **2025.10** version to provide correct path search handling.
 
-- Abosulte path: eg. ``C:\\flashloader\\loader.bin`` or ``/home/loader/loader.bin``
-- Relative path: eg. ``loader.bin``, it wil search under where openocd executed, and ``scripts`` folder of where openocd installed such as ``toolchain/openocd/scripts``
+- Absolute path: eg. ``C:\\flashloader\\loader.bin`` or ``/home/loader/loader.bin``
+- Relative path: eg. ``loader.bin``, it will search under where openocd executed, and ``scripts`` folder of where openocd installed such as ``toolchain/openocd/scripts``
 
 Nuclei-Specific CSRs
 --------------------
@@ -348,8 +348,8 @@ This is a n300 + n900-smp2 AMP system example.
     target create $_TARGETNAME0 riscv -chain-position $_TARGETNAME0 -coreid 0
 
     set _TARGETNAME1 $_CHIPNAME1.cpu
-    target create $_TARGETNAME1.0 riscv -chain-position $_TARGETNAME0 -coreid 0 -rtos hwthread
-    target create $_TARGETNAME1.1 riscv -chain-position $_TARGETNAME0 -coreid 1
+    target create $_TARGETNAME1.0 riscv -chain-position $_TARGETNAME1 -coreid 0 -rtos hwthread
+    target create $_TARGETNAME1.1 riscv -chain-position $_TARGETNAME1 -coreid 1
     target smp $_TARGETNAME1.0 $_TARGETNAME1.1
 
 .. note::
