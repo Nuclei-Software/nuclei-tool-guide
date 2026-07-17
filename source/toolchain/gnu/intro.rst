@@ -22,7 +22,7 @@ Extensions Support
 
     i, m, a, f, d, c, h, q(Assembly only), zaamo, zalrsc, zicsr, zifencei, zicond, zawrs, zfh, zfhmin, zmmul, svinval, svnapot.
 
-- Z*Inx Extensions
+- Z*inx Extensions
 
     zfinx, zdinx, zhinx, zhinxmin.
 
@@ -69,7 +69,7 @@ Extensions Support
 
 .. rubric:: Nuclei Custom Extensions
 
-- Packed SIMD Extension 0.5.4
+- Packed SIMD Extension 0.5.4 + Nuclei Customized DSP Extensions
 
     xxldsp, xxldspn1x, xxldspn2x, xxldspn3x.
 
@@ -82,13 +82,13 @@ Extensions Support
 
     xxlczpstinc, xxlczbmrk, xxlczbitop, xxlczslet, xxlczabs, xxlczmac, xxlczbri, xxlczbitrev, xxlczgp.
 
-- Nuclei custom VPU Extensions
+- Nuclei Custom Vector MAC Extension
 
     :ref:`xxlvqmacc <toolchain_gnu_nuclei_vpu>`
 
-- Nuclei custom XXLVW Extensions
+- Nuclei Custom Xxlvw Vector Wireless DSP Extension
 
-    :ref:`xxlvvw <toolchain_gnu_nuclei_xxlvw>`
+    :ref:`xxlvw <toolchain_gnu_nuclei_xxlvw>`
 
 .. note::
 
