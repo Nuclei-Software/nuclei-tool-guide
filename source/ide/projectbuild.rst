@@ -1,160 +1,160 @@
-.. _projectbuild: 
+.. _projectbuild:
 
-Nuclei Studio 编译工程
-======================
+Build a Project in Nuclei Studio
+================================
 
-在NucleiStudio中，支持多种Toolchain，以便用户在创建工程时，可以选择不同的Toolchain对工程进行编译。NucleiStudio中已经集成了GCC 13、Clang 17、ZCC Lite三款编译器，用户无需下载即可使用。
+Nuclei Studio supports multiple toolchains, so you can choose a different toolchain when creating a project. Nuclei Studio integrates three compilers—GCC 13, Clang 17, and ZCC Lite—which are ready to use without downloading.
 
 |image1|
 
 * **RISC-V Nuclei GCC (riscv-nuclei-elf-gcc)**
 
-早期NucleiStudio对GCC 10编译器的支持，Nuclei Studio 2023.10及之后版本弃用，如果用户需要对GCC 10的支持，需要自行下载Nuclei RISC-V Toolchain 2022.12(gcc10)并替换 ``<NucleiStudio>/toolchain/gcc10`` 目录内容。
+Early versions of Nuclei Studio supported the GCC 10 compiler, which has been deprecated since Nuclei Studio 2023.10. If you need GCC 10 support, download Nuclei RISC-V Toolchain 2022.12 (gcc10) yourself and replace the contents of the ``<NucleiStudio>/toolchain/gcc10`` directory.
 
 * **RISC-V GCC/Newlib (riscv64-unknown-elf-gcc)**
 
-Nuclei Studio 2023.10及之后对GCC 13编译器的支持，对应的软件包存放在 ``<NucleiStudio>/toolchain/gcc`` 目录。
+Nuclei Studio 2023.10 and later supports the GCC 13 compiler. The corresponding package is stored in the ``<NucleiStudio>/toolchain/gcc`` directory.
 
 * **RISC-V Clang/Newlib (riscv64-unknown-elf-clang)**
 
-Nuclei Studio 2023.10及之后对Clang 17编译器的支持，对应的软件包存放在 ``<NucleiStudio>/toolchain/gcc`` 目录。
+Nuclei Studio 2023.10 and later supports the Clang 17 compiler. The corresponding package is stored in the ``<NucleiStudio>/toolchain/gcc`` directory.
 
 * **Terapines ZCC (zcc)**
 
-Nuclei Studio 2024.06版本对ZCC编译器的支持，对应的软件包存放在 ``<NucleiStudio>/toolchain/zcc`` 目录。Terapines ZCC工具链工程的创建需要依赖Nuclei SDK **> 0.6.0之后** 的版本才可以,目前可以通过Nuclei SDK命令行的方式进行测试。
+Nuclei Studio 2024.06 supports the ZCC compiler. The corresponding package is stored in the ``<NucleiStudio>/toolchain/zcc`` directory. Creating a Terapines ZCC toolchain project requires Nuclei SDK **later than 0.6.0** and can currently be tested through the Nuclei SDK command line.
 
-编译工具
---------
+Build Tools
+-----------
 
-Nuclei GNU Toolchain
+Nuclei GNU Toolchain
 ~~~~~~~~~~~~~~~~~~~~
 
-GNU Toolchain 是由 GNU 项目提供的一套完整的软件开发工具链，它包括了编译器、调试器、链接器、库文件等一系列用于软件开发和构建的必需工具。GNU Toolchain 以其开源、跨平台、高度可定制和强大的功能特性，成为了全球开发者社区广泛使用的开发工具集。Nuclei Studio 2023.10之前的版本中集成了 ``GCC 10`` ；Nuclei Studio 2023.10及之后的版本中，集成了 ``GCC 13`` 。
+The GNU Toolchain is a complete set of software development tools provided by the GNU project, including a compiler, debugger, linker, library files, and other essential tools for developing and building software. Thanks to its open-source, cross-platform, highly customizable, and powerful features, the GNU Toolchain is widely used in the global developer community. Versions of Nuclei Studio before 2023.10 integrated ``GCC 10``; Nuclei Studio 2023.10 and later integrates ``GCC 13``.
 
-在nuclei_sdk 0.5.0之后的版中，在创建工程时，用户可以选择Toolchain为 ``RISC-V GCC/Newlib（riscv64-unknown-elf-gcc）`` 则可以创建一个支持 ``GCC 13`` 编译的工程，NucleiStudio将默认将相对应的编译选项配置好。关于 ``GCC 10`` 与 ``GCC 13`` 工程的问题，可以参阅 :ref:`通过工具将工程转换成支持gcc 13的工程 <ide_advanceusage_3>` 。
+In nuclei_sdk versions later than 0.5.0, you can select ``RISC-V GCC/Newlib (riscv64-unknown-elf-gcc)`` as the toolchain when creating a project to enable ``GCC 13`` compilation, and Nuclei Studio configures the corresponding compile options by default. For issues with ``GCC 10`` and ``GCC 13`` projects, see :ref:`Converting a Project to Support GCC 13 Using the Tool <ide_advanceusage_3>`.
 
 |image2|
 
-在工程上 ``右键->Properties->C/C++ Build->Setting->Toolchains`` 中可以看到工程所用到的Toolchains有一些工具，以及Toolchains所在的路径。
+Under ``right-click ->Properties->C/C++ Build->Setting->Toolchains`` on the project, you can see the tools used by the project's toolchain and the path where the toolchain is located.
 
 |image3|
 
-Nuclei LLVM Toolchain
+Nuclei LLVM Toolchain
 ~~~~~~~~~~~~~~~~~~~~~
 
-LLVM Toolchain是一套为C系列编程语言设计的完整工具链，旨在提供从源代码到可执行文件的编译和链接过程。LLVM Toolchain的核心组件包括Clang编译器、LLVM编译器基础设施以及相关的工具和库。LLVM Toolchain是一套功能强大、灵活可扩展的编译工具链，它采用了先进的编译技术和设计理念，为开发者提供了高效、便捷的编译和构建解决方案。Nuclei Studio 2023.10及之后的版本中，集成了LLVM Toolchain。
+The LLVM Toolchain is a complete toolchain designed for the C family of programming languages, covering the compilation and linking process from source code to executable files. Its core components include the Clang compiler, the LLVM compiler infrastructure, and related tools and libraries. Powerful, flexible, and extensible, the LLVM Toolchain adopts advanced compilation technologies and design concepts to provide developers with efficient compilation and build solutions. Nuclei Studio 2023.10 and later integrate the LLVM Toolchain.
 
-在nuclei_sdk 0.5.0之后的版中，在创建工程时，用户可以选择Toolchain为 ``RISC-V Clang/Newlib（riscv64-unknown-elf-clang）`` 则可以创建一个支持 ``Clang 17`` 编译的工程，NucleiStudio将默认将相对应的编译选项配置好。
+In nuclei_sdk versions later than 0.5.0, you can select ``RISC-V Clang/Newlib (riscv64-unknown-elf-clang)`` as the toolchain when creating a project to enable ``Clang 17`` compilation, and Nuclei Studio configures the corresponding compile options by default.
 
 |image4|
 
-在工程上 ``右键->Properties->C/C++ Build->Setting->Toolchains`` 中可以看到工程所用到的Toolchains有一些工具，以及Toolchains所在的路径。
+Under ``right-click ->Properties->C/C++ Build->Setting->Toolchains`` on the project, you can see the tools used by the project's toolchain and the path where the toolchain is located.
 
 |image5|
 
-Terapines ZCC
+Terapines ZCC
 ~~~~~~~~~~~~~
 
-Terapines ZCC是兆松科技研发的高性能RISC-V编译器。Nuclei Studio 2024.06版中对Terapines ZCC进行支持， **集成了ZCC Lite版本的工具链** ，如果需要更新，可以自行下载好Terapines ZCC后，替换 ``<NucleiStudio>/toolchain/zcc`` 目录下的内容，可以在NucleiStudio中直接创建一个支持Terapines ZCC的工程，并使用Terapines ZCC进行编译。
+Terapines ZCC is a high-performance RISC-V compiler developed by Terapines Technology. Nuclei Studio 2024.06 supports Terapines ZCC and **integrates the ZCC Lite version of the toolchain**. If you need an update, download Terapines ZCC yourself and replace the contents of the ``<NucleiStudio>/toolchain/zcc`` directory. You can create a Terapines ZCC project directly in Nuclei Studio and build it with Terapines ZCC.
 
-关于Terapines ZCC参见：https://products.terapines.com/downloads
+For Terapines ZCC, see: https://products.terapines.com/downloads
 
 |image6|
 
-在工程上 ``右键->Properties->C/C++ Build->Setting->Toolchains`` 中可以看到工程所用到的Toolchains有一些工具，以及Toolchains所在的路径。在这里可以配置用户所下载的ZCC编译器的路径。
+Under ``right-click ->Properties->C/C++ Build->Setting->Toolchains`` on the project, you can see the tools used by the project's toolchain and the path where the toolchain is located. Here you can configure the path of a ZCC compiler you downloaded yourself.
 
 |image7|
 
-Nuclei SDK 工程设置工具
------------------------
+Nuclei SDK Project Settings Tool
+--------------------------------
 
-在Nuclei Studio中可以通过Nuclei SDK工程设置工具一键修改通过Nuclei SDK Project Wizard创建的工程的编译链接选项。
+In Nuclei Studio, you can use the Nuclei SDK project settings tool to modify the compile and link options of a project created by the Nuclei SDK Project Wizard with one click.
 
 .. note::
-    本工具目前仅支持Nuclei SDK，HBird SDK，Nuclei Subsystem SDK,不支持无模板手动创建的项目和基于Makefile创建的项目, 或者是自行创建维护的项目
+    This tool currently only supports Nuclei SDK, HBird SDK, and Nuclei Subsystem SDK. It does not support projects created manually without a template, Makefile-based projects, or projects created and maintained by yourself.
 
-单击选中需要修改的工程，之后如图 6‑1打开 ``RV-Tools>SDK Configuration Tools`` ，可以打开修改编译选项的弹窗， **在2023.10版本以后，将直接打开Nuclei Settings页面** 。也可以单击要修改的工程后，点击工具栏的工程设置工具图标。
+Click to select the project to modify, then open ``RV-Tools>SDK Configuration Tools`` as shown in Figure 6-1 to open the dialog for modifying compile options. **In versions after 2023.10, the Nuclei Settings page is opened directly**. Alternatively, click the project and then click the project settings tool icon in the toolbar.
 
 |image8|
 
-或者单击要修改的工程后，键盘按下 ``ctrl+6`` 。
+Alternatively, click the project and press ``ctrl+6`` on the keyboard.
 
 |image9|
 
-也可以单击要修改的工程后，右击打开右键菜单，选择SDK Configuration Tools。
+Alternatively, right-click the project and select SDK Configuration Tools from the context menu.
 
 |image10|
 
-SDK Configuration Tools各选项详细功能如下：
+The function of each option in SDK Configuration Tools is described below:
 
 |image11|
 
--  projectName为当前选中的工程名。
+-  projectName is the name of the currently selected project.
 
--  Core 为当前工程对应的内核。由于工具根据ARCH和ABI选项反推出对应的内核，而不同的内核可能有相同的ARCH和ABI选项，所以显示上可能会有所偏差，只要ARCH与ABI为正确的选项即可。此选项为方便快速切换内核选项使用。
+-  Core is the core corresponding to the current project. Because the tool infers the core from the ARCH and ABI options, and different cores may share the same ARCH and ABI options, the display may deviate slightly. As long as ARCH and ABI are correct, this is not a problem. Use this option to quickly switch core options.
 
--  四个勾选项： ``Bitmanipulation Extension(RVB)`` , ``Cryptography Extension(RVK)`` , ``Packed SIMD/DSP Extension`` , ``Vector Extension(RVV)`` 用于选择对应的扩展指令集 ``(B/K/P/V)`` 。
-   
+-  Four checkboxes—``Bitmanipulation Extension(RVB)``, ``Cryptography Extension(RVK)``, ``Packed SIMD/DSP Extension``, and ``Vector Extension(RVV)``—are used to select the corresponding extension instruction sets ``(B/K/P/V)``.
+
    .. note::
-       
-       本功能在2023.10版本中移除，使用 ``Other Extensions`` 输入框来制定额外的扩展。
 
--  ARCH对应的当前工程的arch选项, 根据Core和勾选项自动组合。
+       This feature was removed in version 2023.10. Use the ``Other Extensions`` input box to specify additional extensions.
 
--  ABI对应的当前工程的abi选项。
+-  ARCH corresponds to the arch option of the current project and is automatically combined according to Core and the checkboxes.
 
--  Tuning根据不同级别处理器优化的gcc选项，选择Core会自动选择正确的Tuning选项，不建议自己调整。
+-  ABI corresponds to the abi option of the current project.
 
--  Code Model针对RV32处理器，自动选择为 ``Medium Low`` ，而针对RV64处理器自动选择为 ``Medium High`` ，选择Core以后会自动选择合适的Code Model，其中RV64处理器必须使用 ``Medium High`` 。
+-  Tuning is the gcc option optimized for different processor levels. Selecting Core automatically selects the correct Tuning option; adjusting it yourself is not recommended.
 
--  Download对应当前工程的下载模式，可以切换选择不同的下载模式，目前仅Nuclei FPGA评估开发板支持切换下载模式，RVSTAR仅有 ``FLASHXIP`` 模式。其中切换到flash模式会额外定义 ``VECTOR_TABLE_REMAPPED`` 宏，其他模式不会定义这个宏
+-  Code Model is automatically set to ``Medium Low`` for RV32 processors and ``Medium High`` for RV64 processors. Selecting Core automatically selects the appropriate Code Model; RV64 processors must use ``Medium High``.
 
--  ``Select C Runtime Library`` 对应的使用标准C库， **本功能在2023.10版本中移除** 。在工程创建的时候，如果创建的工程采用的是Newlib，则这里只能进行newlib版本的切换，如果创建的工程才用的是 ``Nuclei C Runtime Library`` (:ref:`libncrt <libncrt_intro>`) ，则这里只能进行libncrt版本的切换。
+-  Download corresponds to the download mode of the current project. You can switch between download modes. Currently only the Nuclei FPGA evaluation board supports switching download modes; RVSTAR has only the ``FLASHXIP`` mode. Switching to flash mode additionally defines the ``VECTOR_TABLE_REMAPPED`` macro; other modes do not define this macro.
 
--  ``Optimization Level`` 对应编译的优化等级。
+-  ``Select C Runtime Library`` corresponds to the standard C library used. **This feature was removed in version 2023.10**. If the project was created with Newlib, only the newlib version can be switched here; if the project was created with ``Nuclei C Runtime Library`` (:ref:`libncrt <libncrt_intro>`), only the libncrt version can be switched here.
 
--  ``Extra Common Flags`` 对应的是额外的通用编译选项。可以添加额外的通用编译选项。
+-  ``Optimization Level`` corresponds to the compile optimization level.
 
--  ``Extra C Flags`` 对应的是额外的C编译选项。可以添加额外的C编译选项。
+-  ``Extra Common Flags`` corresponds to additional common compile options. You can add extra common compile options.
 
--  ``Extra C++ Flags`` 对应的是额外的C++编译选项。可以添加额外的C++编译选项。
+-  ``Extra C Flags`` corresponds to additional C compile options. You can add extra C compile options.
 
--  ``Extra ASM Flags`` 对应的是额外的汇编编译选项。可以添加额外的汇编编译选项。
+-  ``Extra C++ Flags`` corresponds to additional C++ compile options. You can add extra C++ compile options.
 
--  ``Extra Link Flags`` 对应的是额外的链接选项。如果此选项已经有默认选项并且需要增加编译选项，可以在编译选项开头或结尾处相隔一个空格字符再增加编译选项。
+-  ``Extra ASM Flags`` corresponds to additional assembly compile options. You can add extra assembly compile options.
 
-根据需要修改以上的选项，这里我们修改优化等级为 ``-Os`` 优化生成可执行文件大小。点击 ``save`` 一键修改编译选项， ``save`` 以后一定要先 ``clean project`` ，之后右击修改后的工程打开右键菜单，选择 ``Clean Project`` 清理一下工程，再点击锤子图标即可完成修改编译选项后重新编译工程。
+-  ``Extra Link Flags`` corresponds to additional link options. If this option already contains default options, add your new options at the beginning or end, separated by a space character.
+
+Modify the options above as needed. This example changes the optimization level to ``-Os`` to reduce the size of the generated executable file. Click ``save`` to apply the compile options with one click. After ``save``, you must first clean the project: right-click the project, select ``Clean Project`` from the context menu, and then click the hammer icon to rebuild the project with the modified compile options.
 
 |image12|
 
-这里的SDK Configuration Tool切换不会对Debug Configuration选项做任何改动，因此如果切换了Core以后，对应的调试配置(OpenOCD/QEMU/JLink)也需要手动修改。
+Changes made in SDK Configuration Tools do not affect the Debug Configuration options. Therefore, if you switch the Core, you must also modify the corresponding debug configuration (OpenOCD/QEMU/J-Link) manually.
 
-需要注意的是如果要切换工程从32位变为64位，需要打开调试设置页面，修改 ``command`` 中 ``set arch riscv:rv32`` 为 ``set arch riscv:rv64`` ，从64位切换回32位也应当修改这里的参数为对应的数值。
+Note that if you switch the project from 32-bit to 64-bit, you must open the debug settings page and change ``set arch riscv:rv32`` in ``command`` to ``set arch riscv:rv64``. When switching back from 64-bit to 32-bit, change this parameter back to the corresponding value.
 
 .. _ide_projectbuild_13:
 
-Nuclei Studio中编译Hello World项目
-----------------------------------
+Build the Hello World Project in Nuclei Studio
+----------------------------------------------
 
-在Nuclei Studio中编译Hello World项目的步骤如下。
+To build the Hello World project in Nuclei Studio, follow these steps:
 
-在编译工程前，建议先将项目清理一下。在 ``Project Explorer`` 栏中选中 ``hello_world`` 项目，单击鼠标右键，选择 ``Clean Project`` 。
+Before building, clean the project first. In the ``Project Explorer`` view, select the ``hello_world`` project, right-click, and select ``Clean Project``.
 
 |image13|
 
-单击Launch Bar菜单上的锤子按钮，开始对项目进行编译。如果编译成功，能够看到生成可执行文件的代码体积大小，包括text段、data段和bss段，以及总大小的十进制和十六进制数值。使用Makefile方式新建的工程需要在右键菜单中选择 ``Build Project`` 进行编译。
+Click the hammer button on the Launch Bar to start building the project. If the build succeeds, you can see the code size of the generated executable file, including the text, data, and bss sections, as well as the total size in decimal and hexadecimal. For a project created with the Makefile method, select ``Build Project`` in the context menu to build it.
 
 |image14|
 
-编译成功后可以看到增加了Debug文件夹，各文件作用如下：
+After a successful build, a Debug folder is added. The function of each file is as follows:
 
--  ``hello_world.elf`` 是生成的可执行文件。
+-  ``hello_world.elf`` is the generated executable file.
 
--  ``hello_world.hex`` 是生成的Hex文件。
+-  ``hello_world.hex`` is the generated Hex file.
 
--  ``hello_world.lst`` 是生成的list文件，可以看到反汇编和简单的代码分部信息。
+-  ``hello_world.lst`` is the generated list file, where you can see the disassembly and basic code distribution information.
 
--  ``hello_world.map`` 是生成的map文件，可以详细的看到生成的代码分布情况。
+-  ``hello_world.map`` is the generated map file, where you can see the generated code distribution in detail.
 
 |image15|
 

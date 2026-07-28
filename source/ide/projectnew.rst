@@ -1,423 +1,418 @@
 .. _projectnew: 
 
-Nuclei Studio 创建工程
-======================
+Create a Project in Nuclei Studio
+=================================
 
-这里以开发板为Nuclei FPGA Evaluation Board，评估处理器内核为N300FD(rv32imafdc)为例，详细介绍Nuclei Studio中创建项目的常见方式。
+This chapter uses the Nuclei FPGA Evaluation Board with the N300FD (rv32imafdc) processor core as an example to describe the common ways to create a project in Nuclei Studio.
 
-在Nuclei Studio IDE创建项目可以有以下几种常见方式：
+There are several common ways to create a project in Nuclei Studio IDE:
 
-**使用NPK模板工程自动创建项目**：
+**Automatically create a project using a Nuclei Package (NPK) template project**:
 
-这是最简单快捷的方式，目前模板项目功能依赖于Nuclei Studio NPK功能，在导入对应的SDK NPK Zip包，即可在Nuclei Studio上进行模板工程的创建。芯来科技提供了Nuclei SDK、HBird SDK、SoC IP SDK的NPK Zip包，均可导入到IDE中进行工程的创建和使用。
+This is the simplest and quickest way. The template project feature currently relies on the NPK feature of Nuclei Studio. After importing the corresponding SDK NPK Zip package, you can create template projects in Nuclei Studio. Nuclei System Technology provides NPK Zip packages for Nuclei SDK, HBird SDK, and SoC IP SDK, all of which can be imported into the IDE to create and use projects.
 
-**从已有项目直接导入创建新项目**：
+**Import an existing project directly to create a new project**:
 
-这是最常见的方式，譬如，用户A可以将已有项目的文件夹直接进行打包保存，然后进行分享传播，用户B可以在另外的电脑上直接导入该项目，从而以此为基础创建新的项目，在此基础上直接使用或者开发修改。
+This is the most common way. For example, user A can package the folder of an existing project for sharing, and user B can import the project directly on another computer, then use it as-is or continue developing and modifying it on that basis.
 
-**无模板手动创建项目**：
+**Manually create a project without a template**:
 
-这是最繁琐的方式，该方法除了创建项目之外，还需要手动设置各种选项和路径。由于该方式比较繁琐，所以在实际工作中较少使用，但是通过该方式的详细讲解，用户可以详细了解如何配置各中选项和路径。
+This is the most tedious way: in addition to creating the project, you must set various options and paths manually. It is rarely used in practice, but the detailed walkthrough of this method teaches you how to configure the various options and paths.
 
-**基于已有的Makefile创建项目**：
+**Create a project based on an existing Makefile**:
 
-这种方式比较适合于已经采用Makefile或者其他编译工具的项目，提供一种在IDE中编译工程，清理工程，调试工程的方式。在不修改编译系统的基础上，提供良好的IDE调试环境。
+This method is suitable for projects that already use a Makefile or other build tools. It lets you build, clean, and debug the project in the IDE — a good debugging environment — without modifying the build system.
 
-下文将对这几种方式分别进行介绍。
+The following sections introduce each of these methods.
 
-通过NPK模板工程自动创建项目
----------------------------
+Automatically Create a Project Using an NPK Template Project
+------------------------------------------------------------
 
-本节将介绍如何使用模板自动创建项目的方式，在Nuclei Studio IDE创建一个简单的Hello World项目，详细步骤如下。
+This section describes how to use a template to automatically create a simple Hello World project in Nuclei Studio IDE.
 
-新建一个工程，可以在菜单栏中，选择 ``File --> New --> New Nuclei RISC-V C/C++ Project`` 。
+To create a new project, select ``File -> New -> New Nuclei RISC-V C/C++ Project`` in the menu bar.
 
 |image1|
 
 
-也可以在Project Explorer视图中选中 ``New Nuclei RISC-V C/C++ Project`` 。
+You can also select ``New Nuclei RISC-V C/C++ Project`` in the Project Explorer view.
 
 |image2|
 
-在弹出的窗口中选择项目类型，这里我们在Nuclei FPGA板，内核是N300FD，SDK为nuclei_sdk@0.8.0 版本来做一个测试开发，选对对应的Board下的SDK, 点击 ``Next`` 进入下一步。
+Select the project type in the pop-up window. Here we use a Nuclei FPGA board with the N300FD core and the nuclei_sdk@0.8.0 SDK for test development. Select the SDK under the corresponding Board, and click ``Next`` to proceed to the next step.
 
 |image3|
 
-在弹出的窗口中设定如下参数。
+Set the following parameters in the pop-up window.
 
-   -  Project name：项目命名。这里设置为 ``1_helloworld`` 
+   -  Project name: the project name. Here it is set to ``1_helloworld``
 
-   -  Project Example：选 ``Simple Helloworld Demo`` 。
+   -  Project Example: select ``Simple Helloworld Demo``.
 
-   -  Toolchains：我们使用 ``RISC-V GCC/Newlib`` 。
+   -  Toolchains: we use ``RISC-V GCC/Newlib``.
 
 .. note::
 
-   **注意** ：此页面是通过NPK Configuration字段自动解析并生成的页面，不同的SDK或者不同的开发板或者不同的例子都可能会有不同的选项页面，请注意。
+   This page is automatically parsed and generated from the NPK Configuration field. Different SDKs, different boards, or different examples may produce different option pages.
 
-我们的内核是N300FD，所以 ``Core`` 选择 ``N300FD`` 。
+Our core is N300FD, so select ``N300FD`` for ``Core``.
 
-蜂鸟开发板支持三种下载模式，以下为每种下载模式的简介，这里我们选择ILM模式。
+The HummingBird board supports three download modes, briefly introduced below; here we select the ILM mode.
 
 * **ILM**
 
-ILM下载模式程序将被直接下载在MCU的ILM中，并从ILM开始执行。ILM由SRAM组成，会掉电丢失。
+In ILM download mode, the program is downloaded directly into the MCU's ILM and executed from ILM. ILM consists of SRAM, so its contents are lost when power is off.
 
 * **FLASH**
 
-FLASH下载模式程序代码段的物理地址约束Flash区间，将代码段的逻辑地址约束在ILM的地址区间，意味着程序将被直接下载在MCU的Flash中，但是上电后要通过引导程序将代码段搬运到ILM中，然后从ILM中开始执行。程序被烧写在Flash中，不会掉电丢失。
+In FLASH download mode, the physical address of the program's code section is constrained to the Flash region, while the logical address of the code section is constrained to the ILM address region. This means the program is downloaded directly into the MCU's Flash, but after power-on a boot program moves the code section into ILM, and execution starts from ILM. The program is flashed into Flash, so it is not lost when power is off.
 
 * **FLASHXIP**
 
-FLASHXIP下载模式程序代码段约束Flash区间，意味着程序将被直接下载在MCU的Flash中，并直接从Flash开始执行。程序被烧写在Flash中，不会掉电丢失。
+In FLASHXIP download mode, the program's code section is constrained to the Flash region, which means the program is downloaded directly into the MCU's Flash and executed directly from Flash. The program is flashed into Flash, so it is not lost when power is off.
 
-其他各项可以按需进行配置，点击 ``Finish`` 完成工程创建。
+Configure the other options as needed, then click ``Finish`` to complete project creation.
 
 |image4|
 
-使用模板自动创建Hello World项目已经完成。
+The Hello World project has now been created automatically using the template.
 
 |image5|
 
-用户可以直接使用菜单栏 ``Project—> Build Project`` 或 |image51| 按钮，来对该项目进行编译。
+Build the project directly using the menu bar ``Project -> Build Project`` or the |image51| button.
 
 |image6|
 
-在Hello World项目自动生成过程中，其对应的OpenOCD配置已经同步完成。在项目编译完毕后，用户可以右键点击项目列表 ``Hello  World`` ，点击 ``Debug As —>Debug Configurations`` 开启调试配置面板进行查看。Debug与Run使用相同的配置文件，所以也可通过 ``Run As —>Run Configurations`` 打开。
+During the automatic generation of the Hello World project, the corresponding OpenOCD configuration is synchronized. After the project is built, right-click the project ``Hello World`` in the project list and click ``Debug As -> Debug Configurations`` to open the debug configuration panel. Debug and Run use the same configuration files, so they can also be opened via ``Run As -> Run Configurations``.
 
 |image7|
 
-用于调试使用的配置文件 ``Hello World_Debug_OpenOCD`` 已经自动生成。关于使用芯来蜂鸟调试器结合OpenOCD进行下载和调试的方法，可以查看 :ref:`使用蜂鸟调试器结合OpenOCD调试运行项目 <ide_projectrun_3>` 进行详细了解。
+The configuration file ``Hello World_Debug_OpenOCD`` used for debugging is generated automatically. For details on how to use the Nuclei HummingBird debugger together with OpenOCD to download and debug, see :ref:`Debugging and Running a Project with the HummingBird Debugger and OpenOCD <ide_projectrun_3>`.
 
 |image8|
 
 .. _ide_projectnew_8:
 
-通过应用关联文件导入工程
-------------------------
+Import a Project via an Application Association File
+----------------------------------------------------
 
-本节将介绍如何通过Nuclei Studio IDE的关联文件，将一个Hello World项目导入到IDE中。Nuclei Studio IDE 2022.12版中，新增了应用文件关联的支持，可以将IDE的启动路径注册到系统注册表中，然后通过特定的文件，可以实现IDE的启动、工程导入等功能，极大的方便了Nuclei Studio IDE用户在使用过程中，对工程的分享和快速导入。
+This section describes how to import a Hello World project into the IDE through the association file of Nuclei Studio IDE. Nuclei Studio IDE 2022.12 added support for application file association. The IDE launch path can be registered in the system registry, after which specific files can be used to launch the IDE, import projects, and so on, which greatly simplifies sharing and quickly importing projects for Nuclei Studio IDE users.
 
-将Nuclei Studio IDE写入到注册表
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Register Nuclei Studio IDE in the Registry
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio IDE 2022.12及之后的版本，在安装包中多了两个文件 ``install.bat/install.sh`` ,在windows系统下，双击 ``install.bat`` ,因为这里需要写入注册表，所以需要一个用户授权,授权后安装成功；在linux系统下，需要在shell命令下执行 ``install.sh`` 文件。
+In Nuclei Studio IDE 2022.12 and later versions, the installation package includes two additional files, ``install.bat/install.sh``. On Windows, double-click ``install.bat``. Because this needs to write to the registry, user authorization is required; after authorization, the installation succeeds. On Linux, run the ``install.sh`` file in a shell.
 
 |image9|
 
-``install.sh`` 文件在运行后，有一个用户授权的界面，同意授权。
+After the ``install.sh`` file runs, a user authorization screen appears; agree to the authorization.
 
 |image10|
 
-通过应用关联文件导入工程
-~~~~~~~~~~~~~~~~~~~~~~~~
+Import a Project via an Application Association File
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-使用Nuclei Studio IDE 2022.12及之后的版本创建工程 ``test`` ，在工程中会有一应用关联文件 ``test.nuproject`` ，如果ide的启动路径已写入注册表，双点 ``test.nuproject`` 文件，系统会自动启动Nuclei Studio IDE并将test工程导入到IDE中。
+Use Nuclei Studio IDE 2022.12 or later to create a project ``test``. The project contains an application association file, ``test.nuproject``. If the IDE launch path has been written to the registry, double-clicking the ``test.nuproject`` file automatically starts Nuclei Studio IDE and imports the test project into the IDE.
 
 |image11|
 
 
-从已有项目直接导入创建新项目
-----------------------------
+Import an Existing Project Directly to Create a New Project
+-----------------------------------------------------------
 
-本节将介绍如何使用IDE从已有项目直接导入创建新项目，本文以N307的项目包为例进行导入，项目包存放在（\ https://github.com/riscv-mcu/Nuclei-Studio_IDE-Project-Package\ ）。如需其它项目包请与芯来科技联系。
+This section describes how to use the IDE to import an existing project directly and create a new project from it. This document takes the N307 project package as an example. The project package is available at (https://github.com/riscv-mcu/Nuclei-Studio_IDE-Project-Package). For other project packages, contact Nuclei.
 
-在基于Windows的Nuclei Studio IDE开发环境中，如果用户使用 ``无模板手动创建工程`` ，也需要加载此项目包中的nuclei-sdk文件夹，相关内容会在 :ref:`无模板手动创建项目 <ide_projectnew_16>` 中具体介绍。
+In a Windows-based Nuclei Studio IDE development environment, if you use ``Manually create a project without a template``, you also need to load the nuclei-sdk folder from this project package. For details, see :ref:`Manually Create a Project Without a Template <ide_projectnew_16>`.
 
 |image12|
 
-将nuclei-eclipse_demo.rar压缩包下载解压后，内容分别为：
+After downloading and extracting the nuclei-eclipse_demo.rar archive, the contents are as follows:
 
 |image13|
 
--  项目包的描述文件 ``.setting`` ， ``.project`` 和 ``.cproject`` 
+-  The project description files ``.setting``, ``.project``, and ``.cproject``
 
--  项目包的Debug设置文件 ``*.launch`` 
+-  The project Debug settings files ``*.launch``
 
--  nuclei_sdk文件夹
+-  The nuclei_sdk folder
 
-该文件夹下存放部分SDK源代码。
+This folder contains part of the SDK source code.
 
--  application文件夹
+-  The application folder
 
-此文件夹包含hello_world样例程序的main函数源代码。
+This folder contains the main function source code of the hello_world sample program.
 
-下一步导入下载好的项目包，导入步骤如下：
+Next, import the downloaded project package as follows:
 
--  在菜单栏中选择 ``File—>import`` 。
+-  Select ``File -> Import`` in the menu bar.
 
--  如图所示，选择 ``Existing Project into WorkSpace`` 后，点击 ``Next`` 。
+-  As shown in the figure, select ``Existing Projects into Workspace`` and click ``Next``.
 
 |image14|
 
 
--  点击 ``Browse`` ，选择需要导入的项目路径，如图所示。
+-  Click ``Browse`` and select the path of the project to be imported, as shown in the figure.
 
 |image15|
 
 
--  需要的导入的项目成功被IDE识别，点击 ``Finish`` 。
+-  The IDE recognizes the project to be imported. Click ``Finish``.
 
 |image16|
 
--  在IDE的项目资源管理器中显示导入项目的目录结构如下图所示。已有项目默认为N307的编译选项，Nuclei SDK仅包含helloworld使用到的文件。需要更多的Nuclei SDK源码请访问Github（https://github.com/riscv-mcu/hbird-sdk）获取源码。
+-  The directory structure of the imported project appears in the IDE's Project Explorer as shown in the figure. The existing project uses the N307 build options by default, and the Nuclei SDK only contains the files used by helloworld. For more Nuclei SDK source code, visit GitHub (https://github.com/riscv-mcu/hbird-sdk).
 
 |image17|
 
 .. _ide_projectnew_16:
 
-无模板手动创建项目
-------------------
+Manually Create a Project Without a Template
+--------------------------------------------
 
-本节将介绍如何使用手动方式在Nuclei Studio IDE创建一个用户自定义的Hello World项目。开发板为Nuclei FPGA Evaluation
-Board，内核为N307。该方法除了创建项目之外，还需要手动设置各种选项和路径，详细步骤如下。
+This section describes how to manually create a user-defined Hello World project in Nuclei Studio IDE. The board is the Nuclei FPGA Evaluation Board and the core is N307. In addition to creating the project, this method requires manually setting various options and paths.
 
 .. note::
-    不建议使用，建议使用NPK模板的方式创建工程
+    Not recommended. Use the NPK template method to create a project instead.
 
-手动创建项目
-~~~~~~~~~~~~
+Manually Create a Project
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio的主菜单栏中，依次选择 ``File—> New —> C/C++ Project`` 。
+In the Nuclei Studio main menu bar, select ``File -> New -> C/C++ Project``.
 
 |image18|
 
 
 
-然后在弹出的窗口中设定如下参数。
+Then set the following parameters in the pop-up window.
 
-   -  Project name：项目命名。
+   -  Project name: the project name.
 
-   -  Use default
-      location：如果勾选了此选项，则会使用默认Workspace文件夹存放此项目。
+   -  Use default location: if this option is checked, the default Workspace folder is used to store this project.
 
-   -  Project type：选择 ``Hello World RISC-V C Project`` 。
+   -  Project type: select ``Hello World RISC-V C Project``.
    
 |image19|
 
 
-然后点击Next进入下一步，在弹出的窗口中设置Hello World项目的基本信息。确保 ``Source`` 选项内容为空，直接单击 ``Next`` 进入下一步。
+Then click ``Next`` to proceed to the next step, and set the basic information of the Hello World project in the pop-up window. Leave the ``Source`` option empty and click ``Next`` directly to proceed.
 
 |image20|
 
-在弹出的窗口中设置项目的调试或者发布属性。该步骤可以使用默认信息不做任何修改，直接单击 ``Next`` 进入下一步。
+Set the Debug or Release attributes of the project in the pop-up window. Use the default settings in this step without any modification, and click ``Next`` directly to proceed.
 
 |image21|
 
-在弹出的窗口中设置项目所使用的RISC-V工具链。此处不要配置，直接选择 ``Finish`` ，至此便完成了HelloWorld项目的创建。
+Set the RISC-V toolchain used by the project in the pop-up window. Do not configure anything here; click ``Finish`` directly. The HelloWorld project is now created.
 
 |image22|
 
-创建完成，Hello World项目的展示界面如下。
+After creation, the Hello World project is displayed as follows.
 
 |image23|
 
-新建一个application文件夹。在工程处右击选择 ``New —> Folder`` ，输入application，点击 ``Finish`` 完成新建工程。将main.c拖入application文件夹完成文件分类。
+Create a new application folder. Right-click the project and select ``New -> Folder``, enter ``application``, and click ``Finish``. Then drag ``main.c`` into the application folder to organize the files.
 
 |image24|
 
 
-配置项目的nuclei_sdk
-~~~~~~~~~~~~~~~~~~~~
+Configure nuclei_sdk for the Project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-本节介绍如何将nuclei_sdk加入到项目中，SDK的具体内容本文不做详细介绍，可以参考\ https://doc.nucleisys.com/nuclei_sdk/index.html\ 。如果需要使用SDK的其他源文件，请到Github获取全部的Nuclei
-SDK源码（这里以0.3.9版本为例），链接如下：\ https://github.com/Nuclei-Software/nuclei-sdk/releases
-。本节仅介绍将nuclei_sdk中helloworld需要的文件加入到项目的步骤，如果使用新版本的SDK，对应的目录结构可能有所调整，请自行解决，具体步骤如下：
+This section describes how to add nuclei_sdk to the project. The details of the SDK are not covered here; refer to https://doc.nucleisys.com/nuclei_sdk/index.html. If you need to use other SDK source files, obtain the full Nuclei SDK source code (version 0.3.9 is used here as an example) from GitHub: https://github.com/Nuclei-Software/nuclei-sdk/releases. This section only describes the steps to add the files needed by helloworld in nuclei_sdk to the project. If you use a newer version of the SDK, the corresponding directory structure may have changed; adjust accordingly.
 
-进入Nuclei Studio的 ``2_helloworld`` 项目，按照如下步骤添加nuclei_sdk源文件。
+Open the ``2_helloworld`` project in Nuclei Studio, and add the nuclei_sdk source files as follows.
 
-在Project Explorer栏中选中 ``2_helloworld`` 项目，单击鼠标右键，选择 ``Properties`` 打开工程设置页面。
+In the Project Explorer, select the ``2_helloworld`` project, right-click, and select ``Properties`` to open the project settings page.
 
 |image26|
 
-在弹出的窗口中单击 ``Resource`` ，在右侧的Location栏目中单击其最右侧的箭头图标\ |image25|\ ，则会弹出文件窗口进入 ``2_helloworld`` 项目的文件夹位置。
+In the pop-up window, click ``Resource``, and in the Location column on the right, click the arrow icon |image25| on its far right. A file window pops up at the folder location of the ``2_helloworld`` project.
 
 |image26|
 
-将nuclei-eclipse_demo.rar压缩包中的nuclei_sdk文件夹复制放于 ``2_helloworld`` 项目的目录下。
+Copy the nuclei_sdk folder from the nuclei-eclipse_demo.rar archive into the directory of the ``2_helloworld`` project.
 
 |image27|
 
-回到Nuclei Studio，在Project Explorer栏中选中 ``2_helloworld`` 项目，单击鼠标右键，选择 ``Refresh`` 。
+Return to Nuclei Studio, select the ``2_helloworld`` project in the Project Explorer, right-click, and select ``Refresh``.
 
 |image29|
 
-Refresh之后 ``2_helloworld`` 项目的下便可以看到nuclei_sdk文件夹，至此便完成了nuclei_sdk源文件的导入。
+After refreshing, the nuclei_sdk folder appears under the ``2_helloworld`` project. The import of the nuclei_sdk source files is now complete.
 
 |image30|
 
-配置项目的编译和链接选项
-~~~~~~~~~~~~~~~~~~~~~~~~
+Configure the Compile and Link Options of the Project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-为了使项目源代码能够被正确编译，需要配置编译和链接选项。
+To compile the project source code correctly, you need to configure the compile and link options.
 
 .. note::
-    注意：本节中设置的编译与链接选项均为GCC工具链的常用选项，与在Linux环境中使用时的同名选项含义一致，本节在此不做赘述介绍。
+    The compile and link options set in this section are common options of the GCC toolchain and have the same meaning as the options of the same name used in a Linux environment. They are not described in detail in this section.
 
-配置编译与连接选项的步骤如下：
+Configure the compile and link options as follows:
 
-在Project Explorer栏中选中hello_world项目，单击鼠标右键，选择 ``Properties`` 。
+In the Project Explorer, select the hello_world project, right-click, and select ``Properties``.
 
-在弹出的窗口中，展开C/C++ Build菜单，单击 ``Setting`` ，在右侧的Tool Settings栏目中进行设置。
+In the pop-up window, expand the C/C++ Build menu, click ``Settings``, and configure the options in the Tool Settings column on the right.
 
-选中Target Processor，我们的内核是N307，因此需要按照图所示勾选配置选项，分别如下。
+Select Target Processor. Our core is N307, so check the configuration options as shown in the figure.
 
-   -  Architecture：选择 ``RV32I`` 。
+   -  Architecture: select ``RV32I``.
 
-   -  Multiply extension（RVM）：需勾选。
+   -  Multiply extension (RVM): check this option.
 
-   -  Atomic extension（RVA）：需勾选。
+   -  Atomic extension (RVA): check this option.
 
-   -  Compressed extension（RVC）：需勾选。
+   -  Compressed extension (RVC): check this option.
 
-   -  Integer API：选择 ``ILP32`` 。
+   -  Integer API: select ``ILP32``.
 
-   -  Floting Point ABI：选择 ``single precision`` 
+   -  Floating Point ABI: select ``single precision``
 
-   -  Code model：选择 ``Medium Any`` 。
+   -  Code model: select ``Medium Any``.
 
-   -  单击右下角的 ``Apply`` 按钮。
+   -  Click the ``Apply`` button in the lower-right corner.
    
 |image31|
 
 
-选中 ``Optimization`` ，按照图所示勾选配置选项。
+Select ``Optimization`` and check the configuration options as shown in the figure.
 
-   -  Optimization Level：选择 ``Optimization Most (-O2)`` 。
+   -  Optimization Level: select ``Optimization Most (-O2)``.
 
 .. note::
-    注意：在NucleiStudio 2024.06版本中新增了 ``-Oz``，用来优化编译后程序的尺寸。
+    Nuclei Studio 2024.06 adds ``-Oz``, which is used to optimize the size of the compiled program.
 
-依次勾选：
+Check the following options:
 
    -  Function Sections (-ffunction-sections)
 
    -  Data Sections (-fdata-sections)
 
-   -  No common unitialized (-fno-common)
+   -  No common uninitialized (-fno-common)
 
 .. note::
-    注意：上述选项均为通用的GCC编译优化选项，请用户自行查阅GCC手册了解其含义。
+    The above options are common GCC compile optimization options. Refer to the GCC manual for their meanings.
 
-单击右下角的 ``Apply`` 按钮。
+Click the ``Apply`` button in the lower-right corner.
 
 |image32|
 
 
-选中Debugging，按照图中所示勾选配置选项，分别为：
+Select Debugging and check the configuration options as shown in the figure:
 
-   -  Debug Level：选择 ``Default (-g)`` 。
+   -  Debug Level: select ``Default (-g)``.
 
-   -  单击右下角的 ``Apply`` 按钮。
+   -  Click the ``Apply`` button in the lower-right corner.
 
 |image33|
 
 
 
-选中GNU RISC-V Cross C Linker的General。按照如下步骤设置链接器的所需的链接脚本。
+Select General under GNU RISC-V Cross C Linker. Set the linker script required by the linker as follows.
 
-  -  选中右上角的加号按键。
+  -  Click the plus button in the upper-right corner.
 
-  -  在弹出的窗口中单击 ``Workspace`` 按钮。
+  -  Click the ``Workspace`` button in the pop-up window.
 
-  -  这里我们使用HummingBird评估板，所以可以选择ILM下载模式对应的 ``gcc_hbird_ilm.ld`` 文件。在弹出的窗口中选择Nuclei Studio文件包中的 ``nuclei_sdk/SoC/hbird/Board/hbird_eval/Source/GCC`` 文件夹下 ``gcc_hbird_ilm.ld`` 文件。其他下载模式切换此处文件，各文件详细介绍如下，可根据自己的实际情况选择。
+  -  Here we use the HummingBird evaluation board, so select the ``gcc_hbird_ilm.ld`` file corresponding to the ILM download mode. In the pop-up window, select the ``gcc_hbird_ilm.ld`` file under the ``nuclei_sdk/SoC/hbird/Board/hbird_eval/Source/GCC`` folder of the Nuclei Studio package. For other download modes, switch the file here. Each file is introduced in detail below; choose according to your actual situation.
 
-     -  ``gcc_hbird_ilm.ld`` 脚本将程序代码段约束在ILM的地址区间，意味着程序将被直接下载在MCU的ILM中，并从ILM开始执行。ILM由SRAM组成，会掉电丢失。
+     -  The ``gcc_hbird_ilm.ld`` script constrains the program's code section to the ILM address region, which means the program is downloaded directly into the MCU's ILM and executed from ILM. ILM consists of SRAM, so its contents are lost when power is off.
 
-     -  ``gcc_hbird_flash.ld`` 脚本程序代码段的物理地址约束Flash区间，将代码段的逻辑地址约束在ILM的地址区间，意味着程序将被直接下载在MCU的Flash中，但是上电后要通过引导程序将代码段搬运到ILM中，然后从ILM中开始执行。
+     -  The ``gcc_hbird_flash.ld`` script constrains the physical address of the program's code section to the Flash region and the logical address of the code section to the ILM address region, which means the program is downloaded directly into the MCU's Flash, but after power-on a boot program moves the code section into ILM, and execution starts from ILM.
 
-     -  ``gcc_hbird_flashxip.ld`` 
-        脚本程序代码段约束Flash区间，意味着程序将被直接下载在MCU的Flash中，并直接从Flash开始执行。程序被烧写在Flash中，不会掉电丢失。
+     -  The ``gcc_hbird_flashxip.ld`` 
+        script constrains the program's code section to the Flash region, which means the program is downloaded directly into the MCU's Flash and executed directly from Flash. The program is flashed into Flash, so it is not lost when power is off.
 
-     -  用户可以按照自己的需求选择合适的链接脚本。本节示例选择 ``gcc_hbird_ilm.ld`` 作为演示。
+     -  Select a suitable linker script according to your needs. This section uses ``gcc_hbird_ilm.ld`` as an example.
 
-  -  设置完毕请单击右下角的 ``Apply`` 按钮。
+  -  After the settings are complete, click the ``Apply`` button in the lower-right corner.
 
 |image34|
 
-按下图所示勾选配置选项，分别如下。
+Check the configuration options as shown in the figure below.
 
-   -  Do not use standard start files (-nostartfiles) 。
+   -  Do not use standard start files (-nostartfiles).
 
-   -  Remove unused sections (--gc-sections)。
+   -  Remove unused sections (--gc-sections).
 
-   -  单击右下角的 ``Apply`` 按钮。
+   -  Click the ``Apply`` button in the lower-right corner.
 
-.. note:: 注意：上述选项均为通用的GCC链接选项，请用户自行查阅GCC手册了解其含义。
+.. note:: The above options are common GCC link options. Refer to the GCC manual for their meanings.
 
 |image35|
 
 .. note::
-    注意：在NucleiStudio 2024.06版本中Libraries支持Group功能，如果勾选了Group功能，所有的Libraries在编译时会用 ``-wl,--start-group,……,--end-group,`` ，能解决Libraries内相互依赖的问题。
+    In Nuclei Studio 2024.06, Libraries supports the Group feature. If the Group feature is checked, all Libraries are linked with ``-Wl,--start-group ... --end-group``, which can resolve inter-dependency problems within Libraries.
 
 |image36|
 
-选中GNU RISC-V Cross C Linker的Miscellaneous，按照下图所示勾选配置选项。
+Select Miscellaneous under GNU RISC-V Cross C Linker, and check the configuration options as shown in the figure below.
 
-   -  勾选 ``Use newlib-nano`` 。
+   -  Check ``Use newlib-nano``.
 
-   -  因为Hello World程序的Printf不需要打印浮点数，所以不要勾选 ``Use float with nano printf`` 。
+   -  Because the Hello World program's printf does not need to print floating-point numbers, do not check ``Use float with nano printf``.
 
-   -  单击右下角的 ``Apply`` 按钮。
+   -  Click the ``Apply`` button in the lower-right corner.
 
 |image37|
 
-配置项目的包含路径和文件
-~~~~~~~~~~~~~~~~~~~~~~~~
+Configure the Include Paths and Files of the Project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-为了能够正确编译nuclei_sdk文件夹中的源文件，需要按照如下步骤配置项目的包含路径和包含文件。
+To compile the source files in the nuclei_sdk folder correctly, you need to configure the include paths and include files of the project as follows.
 
-在Project Explorer栏中选中hello_world项目，点击鼠标右键，选择 ``Properties`` 。
+In the Project Explorer, select the hello_world project, right-click, and select ``Properties``.
    
 |image26|
 
-在弹出的窗口中，展开C/C++ Build菜单，单击 ``Setting`` ，在右侧的Tool Settings栏目中进行设置。
+In the pop-up window, expand the C/C++ Build menu, click ``Settings``, and configure the options in the Tool Settings column on the right.
 
-选中GNU RISC-V Cross C Assembler的Includes，按照图中所示配置包含文件，步骤如下。
+Select Includes under GNU RISC-V Cross C Assembler, and configure the include files as shown in the figure.
    
 |image38|
 
-   -  在Include paths栏目单击加号键。
+   -  Click the plus button in the Include paths column.
 
-   -  在弹出的窗口中单击 ``Workspace`` ，弹出Folder selection窗口。
+   -  Click ``Workspace`` in the pop-up window to open the Folder selection window.
 
-   -  在Folder selection窗口中选择项目的nuclei_sdk目录下的NMSIS>Core>Include文件夹。
+   -  In the Folder selection window, select the NMSIS>Core>Include folder under the nuclei_sdk directory of the project.
 
-   -  在右下角单击 ``Apply`` 完成配置。
+   -  Click ``Apply`` in the lower-right corner to complete the configuration.
 
-采用上述方法，依次添加nuclei_sdk目录下的 ``SoC>hbird>Board>hbird_eval>Include`` ， ``SoC>hbird>Common>Include`` 和 ``SoC>hbird>Common>Source>Stubs`` 文件夹作为包含路径，并采用同样的方法为 ``GNU RISC-V Cross C  Compiler`` 的 ``Includes`` 栏目设置包含路径。设置完成后的界面如下图所示。
+Using the same method, add the ``SoC>hbird>Board>hbird_eval>Include``, ``SoC>hbird>Common>Include`` and ``SoC>hbird>Common>Source>Stubs`` folders under the nuclei_sdk directory as include paths, and use the same method to set the include paths for the ``Includes`` column of ``GNU RISC-V Cross C Compiler``. The result after the settings are complete is shown in the figure below.
 
 |image39|
 
-基于已有的Makefile创建项目
---------------------------
+Create a Project Based on an Existing Makefile
+----------------------------------------------
 
-本节将介绍如何使用已有的Makefile在Nuclei Studio IDE创建一个使用Makefile的Hello World项目。开发板为Nuclei FPGA Evaluation Board，内核为N307。请先下载Nuclei SDK，Github链接为：\ https://github.com/Nuclei-Software/nuclei-sdk\ 。该方法除了创建项目之外，还需要手动设置各种选项和路径，这里以helloworld为例，详细步骤如下。
+This section describes how to use an existing Makefile to create a Hello World project in Nuclei Studio IDE. The board is the Nuclei FPGA Evaluation Board and the core is N307. Download the Nuclei SDK first; the GitHub link is: https://github.com/Nuclei-Software/nuclei-sdk. In addition to creating the project, this method requires manually setting various options and paths. Here we take helloworld as an example.
 
-手动新建项目
-~~~~~~~~~~~~
+Manually Create a New Project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在菜单栏中选择 ``File—> New —> Makefile Project with Existing Code`` 。
+Select ``File -> New -> Makefile Project with Existing Code`` in the menu bar.
 
 |image40|
 
-在图标1处输入工程名，这里我们命名为nuclei-sdk。在图标2处输入SDK的实际路径。在图标3处选择 ``RISC-V Cross GCC`` 。点击图标4完成新建项目。
+Enter the project name at icon 1; here we name it nuclei-sdk. Enter the actual path of the SDK at icon 2. Select ``RISC-V Cross GCC`` at icon 3. Click icon 4 to finish creating the project.
 
 |image41|
 
-设置Makefile路径和Build选项
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Set the Makefile Path and Build Options
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-右击新建好的工程，选择 ``Properties`` 打开设置页面，选择 ``C/C++ uild`` ，在 ``Build Location`` 中选择 ``Workspace`` 。在弹出的弹窗中选择 ``application –> baremetal –> helloworld`` 点击 ``OK`` 再点击 ``Apply`` 保存。
+Right-click the newly created project and select ``Properties`` to open the settings page. Select ``C/C++ Build``, and select ``Workspace`` in ``Build Location``. In the pop-up dialog, select ``application -> baremetal -> helloworld``, click ``OK``, and then click ``Apply`` to save.
 
 |image42|
 
-在 ``C/C++ Build`` 中选择 ``Behavior`` 栏目，确保勾选 ``Build（Incremental Build）`` 选项并输入 ``all CORE=n307 DOWNLOAD=ilm`` 。其中 ``CORE`` 选项根据实际的内核变化，这里以n307为例。 ``DOWNLOAD`` 选项可以修改不同的下载模式，详细请参考5.1节，这里以ilm模式为例。因为例程使用HummingBird
-Evaluation Board，所以SoC和Board都不必修改，如果使用其他开发板，以RVSTAR为例，请在此处设置增加 ``SOC=gd32vf103 BOARD=gd32vf103v_rvstar`` ，并且由于RVSTAR仅支持FLASHXIP模式，需要将 ``DOWNLOAD`` 设置为 ``flashxip`` ，同时 ``CORE`` 修改为 ``n205`` 。完成后点击 ``Apply`` 保存修改。
+Select the ``Behavior`` tab in ``C/C++ Build``, make sure the ``Build (Incremental Build)`` option is checked, and enter ``all CORE=n307 DOWNLOAD=ilm``. The ``CORE`` option changes according to the actual core; here n307 is used as an example. The ``DOWNLOAD`` option can be changed to a different download mode; see Section 5.1 for details. Here, ilm mode is used as an example. Because the example uses the HummingBird Evaluation Board, SoC and Board do not need to be modified. If you use another board — taking RVSTAR as an example — add ``SOC=gd32vf103 BOARD=gd32vf103v_rvstar`` here, and because RVSTAR only supports FLASHXIP mode, set ``DOWNLOAD`` to ``flashxip`` and change ``CORE`` to ``n205``. When finished, click ``Apply`` to save the changes.
 
 |image43|
 
-在完成上述操作后，打开工具链配置页，点击 ``Apply`` 保存修改。
+After completing the above steps, open the toolchain configuration page and click ``Apply`` to save the changes.
 
 |image44|
 
@@ -554,5 +549,3 @@ Evaluation Board，所以SoC和Board都不必修改，如果使用其他开发�
 
 
 .. |image44| image:: /asserts/nucleistudio/projectnew/image46.png
-
-

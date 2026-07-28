@@ -1,96 +1,96 @@
-.. _ide_update: 
+.. _ide_update:
 
-Nuclei Studio 升级更新
-======================
+Nuclei Studio Update and Upgrade
+================================
 
-在线更新
------------
+Online Update
+-------------
 
 .. note::
-   Nuclei Studio 2025.10 版本及以后的版本可以使用以下方法对IDE进行在线更新升级。
+   Nuclei Studio 2025.10 and later can use the following methods to update and upgrade the IDE online.
 
-当 Nuclei Studio 发布新版本后，若检测到用户当前使用的 IDE、插件（Plugin）或配套工具链（如编译器、调试器等）存在可用的更新版本，IDE 在启动时将自动弹出版本升级提示。
+When a new version of Nuclei Studio is released and the IDE detects that a newer version is available for the IDE, plugins, or accompanying toolchains (such as compilers and debuggers) currently in use, it automatically displays a version upgrade prompt at startup.
 
-Nuclei Studio IDE的安装
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Installing Nuclei Studio IDE
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在 Nuclei Studio 2025.10 之前的版本中，当有新版本 Nuclei Studio 发布时，仅会提示用户手动下载最新版安装包，升级过程需用户自行完成。自 Nuclei Studio 2025.10 版本起，我们引入了全新的在线升级机制：用户可通过内置的升级工具，直接在线下载并自动完成解压与安装，实现 IDE 的一键升级。该改进显著简化了升级流程，提升了操作便捷性与用户体验。
+In versions before Nuclei Studio 2025.10, when a new version of Nuclei Studio was released, users had to manually download the latest installation package and perform the upgrade themselves. Starting with Nuclei Studio 2025.10, a brand-new online upgrade mechanism is available: the built-in upgrade tool downloads the new version online and automatically completes extraction and installation, upgrading the IDE with one click. This significantly simplifies the upgrade process and improves the user experience.
 
-Nuclei Studio启动时，会检测是否存在新版 Nuclei Studio可供下载升级，如若存在将会弹出升级提示框，用户可以选择需要升级的版本以及新版本安装的路径进行升级安装，也可以设置升级提示的频率。
+When Nuclei Studio starts, it checks whether a new version is available for download and upgrade. If so, an upgrade prompt dialog pops up in which you can select the version to upgrade to and the installation path of the new version, and set the frequency of upgrade prompts.
 
 |image5|
 
--  Updated version 可选升级的Nuclei Studio的版本。
+-  Updated version: the Nuclei Studio versions available for upgrade.
 
--  Check Frequency 是启动时检测新版本的频率，默认为Every Start。
+-  Check Frequency: the frequency of checking for new versions at startup; the default is Every Start.
 
--  Installation Path 为新版本IDE的安装路径。
+-  Installation Path: the installation path of the new IDE version.
 
-除了Nuclei Studio启动时检测到新版本并自动弹窗外，用户也可以通过菜单栏选择 ``Help 🡪 Check for IDE updates`` 来检查IDE的更新。
+In addition to the automatic pop-up at startup when Nuclei Studio detects a new version, you can also select ``Help -> Check for IDE updates`` in the menu bar to check for IDE updates.
 
 
-工具链和插件的安装
-~~~~~~~~~~~~~~~~~~~
+Installing Toolchains and Plugins
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-工具链和插件是 Nuclei Studio 中的重要组成部分，工具链 包括 GCC 编译器、QEMU 模拟器、Nuclei Model 等核心开发组件；插件则用于扩展 Nuclei Studio 功能，支持新特性与调试能力的持续集成。它们的实时更新能带来更好的用户体验。
+Toolchains and plugins are important components of Nuclei Studio. Toolchains include core development components such as the GCC compiler, the QEMU simulator, and Nuclei Model; plugins extend Nuclei Studio functionality and support the continuous integration of new features and debugging capabilities. Keeping them up to date provides a better user experience.
 
-在 Nuclei Studio 2025.10 之前的版本中，当有新版本工具链和插件发布时，也无法做到在线升级。自 Nuclei Studio 2025.10 版本起，我们引入了全新的在线升级机制：用户可通过内置的升级工具，直接在线下载并自动完成升级与安装。
+In versions before Nuclei Studio 2025.10, toolchains and plugins could not be upgraded online either. Starting with Nuclei Studio 2025.10, a brand-new online upgrade mechanism is available: the built-in upgrade tool downloads new versions online and automatically completes the upgrade and installation.
 
-Nuclei Studio启动时，会检测是否存在新版工具链或插件，如若存在将会弹出升级提示框，用户可以选择需要升级的工具链或插件版本并点击升级，就可以实现自动升级工具链和插件了。
+When Nuclei Studio starts, it checks whether new versions of toolchains or plugins are available. If so, an upgrade prompt dialog pops up. Select the toolchain or plugin version to upgrade to, then click Upgrade to update the toolchains and plugins automatically.
 
 |image6|
 
--  Name 对应需要升级的工具链或者插件名称。
+-  Name: the name of the toolchain or plugin to be upgraded.
 
--  Description 对应需要升级的工具链或者插件的描述。
+-  Description: the description of the toolchain or plugin to be upgraded.
 
--  Type 只有Plugin和Toolchain，分别对应为插件和工具链类型。
+-  Type: only Plugin and Toolchain, corresponding to the plugin and toolchain types respectively.
 
--  在选中某一项时，Changelog会显示对应需要升级的工具链或者插件的更新日志。
+-  When an item is selected, Changelog displays the changelog of the corresponding toolchain or plugin to be upgraded.
 
-除了Nuclei Studio启动时检测到新版本工具链和插件并自动弹窗外，用户也可以通过菜单栏选择 ``Help 🡪 Check for component updates`` 来检查IDE的更新。
+In addition to the automatic pop-up at startup when Nuclei Studio detects new versions of toolchains and plugins, you can also select ``Help -> Check for component updates`` in the menu bar to check for component updates.
 
 
-手动更新
------------
-
-.. note::
-   Nuclei Studio 2025.10 之前的版本可以使用以下方法对IDE进行手动更新升级。
-
-当在线更新无法完成时，用户可以手动下载最新的GNU工具链以及其他相关工具和升级IDE Plugins的方式来完成。
-
-工具链的安装
-~~~~~~~~~~~~~~~
-
-Nuclei Studio已经把工具链集成在IDE内部，工具链存放在Nuclei Studio_IDE_XXX文件夹内，路径为： ``Nuclei Studio_IDE_XXX\\NucleiStudio\\toolchain`` 。IDE默认使用此路径的工具链，所以请不要移动 ``toolchain`` 此文件夹，使用IDE创建工程后也不需要进行工具链的相关配置。
-
-由于工具链升级的速度会比IDE快，所以后期需要用户手动升级工具链，工具链升级方法如下：
-
--  首先删除需要更新的GCC或者OpenOCD文件内的内容，然后在芯来科技官网下载最新版本的GCC或者OpenOCD。
-
--  将GCC或者OpenOCD的内容复制到对应的文件夹下，即可完成IDE工具链的更新，IDE自带的工具链的版本号记录在ReadMe.txt中。
+Manual Update
+-------------
 
 .. note::
+   Versions before Nuclei Studio 2025.10 can use the following methods to update and upgrade the IDE manually.
 
-   注意：要保证gcc所在的这一级目录文件夹名字不变，替换后保证bin文件夹所在层级是图中文件夹的子目录，中间不要有其他文件夹。
+When an online update cannot be completed, you can manually download the latest GNU toolchain and other related tools and upgrade the IDE plugins.
+
+Installing the Toolchain
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Nuclei Studio integrates the toolchain inside the IDE. The toolchain is stored in the Nuclei Studio_IDE_XXX folder at the path ``Nuclei Studio_IDE_XXX\\NucleiStudio\\toolchain``. The IDE uses the toolchain at this path by default, so do not move the ``toolchain`` folder. After you create a project with the IDE, no toolchain-related configuration is required.
+
+Because the toolchain is upgraded faster than the IDE, you may need to upgrade the toolchain manually later. To upgrade the toolchain:
+
+-  Delete the contents of the GCC or OpenOCD folder to be updated, then download the latest version of GCC or OpenOCD from the Nuclei System Technology official website.
+
+-  Copy the contents of GCC or OpenOCD into the corresponding folder to complete the IDE toolchain update. The version numbers of the toolchain bundled with the IDE are recorded in ReadMe.txt.
+
+.. note::
+
+   Note: Keep the name of the directory containing gcc unchanged. After replacement, make sure the bin folder is a direct subdirectory of the folder shown in the figure, with no other folders in between.
 
 |image1|
 
 
-IDE Plugins升级
-~~~~~~~~~~~~~~~~~
+Upgrading IDE Plugins
+~~~~~~~~~~~~~~~~~~~~~
 
-Nuclei Studio支持IDE内在线升级，步骤如下。
+Nuclei Studio supports online upgrades within the IDE, as follows.
 
-打开安装软件弹窗，在菜单栏选择 ``Help 🡪 Install New Software`` 。
+Open the software installation dialog by selecting ``Help -> Install New Software`` in the menu bar.
 
 |image2|
 
-点击 ``already installed`` 打开已安装界面。
+Click ``already installed`` to open the installed software page.
 
 |image3|
 
-选择 ``Nuclei Studio`` ，点击 ``update`` 即可自动完成在线更新。
+Select ``Nuclei Studio`` and click ``update`` to automatically complete the online update.
 
 |image4|
 
@@ -110,5 +110,3 @@ Nuclei Studio支持IDE内在线升级，步骤如下。
 
 
 .. |image6| image:: /asserts/nucleistudio/update/image7.png
-
-

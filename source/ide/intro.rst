@@ -1,27 +1,27 @@
 .. _intro:
 
-Nuclei Studio IDE 简介
-=======================
+Introduction to Nuclei Studio IDE
+=================================
 
 .. note::
 
-   - Nuclei Studio出视频教程啦，相关内容在 **芯来科技视频号** 中持续更新中，您可以在微信中搜索 **芯来科技视频号** 并关注，以便获取到我们最新的更新内容。
-   - 在使用Nuclei Studio, Nuclei Tools过程中，如查有问题，可以查阅 `https://doc.nucleisys.com/nuclei_studio_supply/ <https://doc.nucleisys.com/nuclei_studio_supply/>`__\ 内容，也可以向我们提交相关Issue。
+   - Nuclei Studio now has video tutorials. Related content is continuously updated on the **Nuclei System Technology WeChat video channel**. Search for and follow the **Nuclei video channel** in WeChat to get the latest updates.
+   - If you encounter problems while using Nuclei Studio or Nuclei Tools, check the content at https://doc.nucleisys.com/nuclei_studio_supply/, or submit an issue to us.
 
-一款高效易用的集成开发环境（Integrated Development Environment，IDE）对于任何MCU都显得非常重要，软件开发人员需要借助IDE进行实际的项目开发与调试。
-ARM的商业IDE软件Keil，在中国大陆很多嵌入式软件工程师均对其非常熟悉。但是商业IDE软件（譬如Keil）存在着授权以及收费的问题，各大MCU厂商也会推出自己
-的免费IDE供用户使用，譬如瑞萨的e2studio和NXP的LPCXpresso等，这些IDE均是基于开源的Eclipse框架，Eclipse几乎成了开源免费MCU IDE的主流选择。
+An efficient and easy-to-use Integrated Development Environment (IDE) is essential for any MCU; software developers need an IDE for day-to-day project development and debugging.
+Many embedded software engineers in mainland China are familiar with ARM's commercial IDE, Keil. However, because commercial IDEs (such as Keil) involve licensing and cost issues, major MCU vendors also release their own
+free IDEs, such as Renesas e2 studio and NXP LPCXpresso. These IDEs are all based on the open-source Eclipse framework, and Eclipse has become the mainstream choice for free, open-source MCU IDEs.
 
-Nuclei Studio IDE正是芯来公司，基于Eclipse IDE开发的一款针对芯来RISC-V处理器IP核产品的集成开发环境工具。
+Nuclei Studio IDE is an Eclipse-based integrated development environment developed by Nuclei for its RISC-V processor IP core products.
 
-Eclipse平台采用开放式源代码模式运作，并提供公共许可证（提供免费源代码）以及全球发布权利。
-Eclipse本身只是一个框架平台，除了Eclipse平台的运行时内核之外，其所有功能均位于不同的插件中。
-开发人员既可通过Eclipse项目的不同插件来扩展平台功能，也可利用其他开发人员提供的插件。
-一个插件可以插入另一个插件，从而实现最大程度的集成。
+The Eclipse platform is developed under an open-source model and provides a public license (with free source code) and worldwide distribution rights.
+Eclipse itself is only a framework platform; apart from the runtime kernel of the Eclipse platform, all of its functionality resides in plugins.
+Developers can extend the platform's functionality through plugins from the Eclipse project or through plugins provided by other developers.
+One plugin can be plugged into another, enabling a maximum degree of integration.
 
-由于Eclipse IDE已经在社区被大量使用，一些常见的使用方法在Eclipse
-IDE里面，如果没有和硬件或者CPU绑定，一般情况下是可以借鉴其他人写的关于Eclipse
-IDE的使用教程，这里推荐几个常用的教程网站：
+Because the Eclipse IDE is already widely used in the community, for general Eclipse
+IDE usage that is not tied to specific hardware or a CPU, you can refer to tutorials about the Eclipse
+IDE written by others. The following tutorial websites are recommended:
 
 -  https://help.eclipse.org/latest/index.jsp
 
@@ -29,397 +29,397 @@ IDE的使用教程，这里推荐几个常用的教程网站：
 
 -  https://mcuoneclipse.com/
 
-Eclipse IDE平台具备以下几方面的优势。
+The Eclipse IDE platform has the following advantages.
 
--  **社区规模大**
+-  **Large community**
 
-   Eclipse自2001年推出以来，已形成大规模社区，这为设计人员提供了许多资源，包括图书、教程和网站等，
-   以帮助他们利用Eclipse平台与工具提高工作效率。Eclipse平台和相关项目、插件等都能直接从eclipse.org网站下载获得。
+   Since its launch in 2001, Eclipse has built a large community, which provides designers with many resources, including books, tutorials, and websites,
+   to help them work more efficiently with the Eclipse platform and tools. The Eclipse platform and its related projects and plugins can be downloaded directly from the eclipse.org website.
 
--  **持续改进**
+-  **Continuous improvement**
 
-   Eclipse的开放式源代码平台帮助开发人员持续充分发挥大规模资源的优势。Eclipse在以下多个项目上不断改进。
+   Eclipse's open-source platform helps developers continuously take full advantage of large-scale resources. Eclipse is continuously improved through the following projects.
 
-   -  平台项目 —— 侧重于Eclipse本身。
+   -  Platform project — focuses on Eclipse itself.
 
-   -  CDT项目  —— 侧重于C/C++开发工具。
+   -  CDT project — focuses on C/C++ development tooling.
 
-   -  PDE项目  —— 侧重于插件开发环境。
+   -  PDE project — focuses on the plug-in development environment.
 
--  **源码开源**
+-  **Open source code**
 
-   设计人员始终能获得源代码，总能修正工具的错误，它能帮助设计人员节省时间，自主控制开发工作。
+   Designers always have access to the source code and can fix tool errors themselves, which helps them save time and stay in control of their development work.
 
--  **兼容性**
+-  **Compatibility**
 
-   Eclipse平台采用Java语言编写，可在Windows与Linux等多种开发工作站上使用。开放式源代码工具支持多种语言、多种平台以及多种厂商环境。
+   The Eclipse platform is written in Java and can be used on various development workstations such as Windows and Linux. The open-source tools support multiple languages, multiple platforms, and multiple vendor environments.
 
--  **可扩展性**
+-  **Extensibility**
 
-   Eclipse采用开放式、可扩展架构，它能够与ClearCase、SlickEdit、Rational Rose以及其他统一建模语言（UML）套件等第三方扩展协同工作。此外，它还能与各种图形用户接口（GUI）编辑器协同工作，并支持各种插件。
-
-
-Nuclei Studio IDE充分利用上述Eclipse IDE优势，结合社区成熟的Eclipse embedded CDT, Linux Tools等插件，并研发自有插件满足RISC-V嵌入式开发的日常需求:
-
-- 工程创建，管理，编译和调试
-
-- 支持多种调试方案，例如OpenOCD，JLink，Nuclei DLink，Nuclei Qemu等
-
-- 支持扩展调试方案，方便扩展支持更多调试器
-
-- 支持多种编译器，包括gcc, clang, zcc
-
-- 提供快捷的工程常用设置工具 **Nuclei Settings**
-
-- 支持基于Nuclei ETrace软硬件方案的Onchip Trace
-
-- 支持基于gprof、gcov的大幅增强profiling和code coverage方案
-
-- 支持Nuclei PacKage(NPK)软件包方案，可以便捷的扩展支持软件开发包和Nuclei Studio解耦，
-  实现 **软件包导入** -> **Project Wizard** 的便捷方案, 这种方案已经得到广泛的应用，例如
-  芯来科技自有的 **Nuclei SDK**.
-
-- 更快捷的工程和工作空间的打开方式
-
-- 更好用的Launchbar功能
+   Eclipse adopts an open, extensible architecture. It can work with third-party extensions such as ClearCase, SlickEdit, Rational Rose, and other Unified Modeling Language (UML) suites. In addition, it works with various graphical user interface (GUI) editors and supports a wide range of plugins.
 
 
-Nuclei Studio 更新说明
-=======================
+Nuclei Studio IDE takes full advantage of these Eclipse IDE strengths, combines mature community plugins such as Eclipse Embedded CDT and Linux Tools, and adds its own plugins to meet the daily needs of RISC-V embedded development:
+
+- Project creation, management, build, and debug
+
+- Multiple debugging solutions, including OpenOCD, J-Link, Nuclei DLink, and Nuclei QEMU
+
+- Extensible debugging solutions, making it easy to extend support for more debuggers
+
+- Multiple compilers, including gcc, clang, and zcc
+
+- **Nuclei Settings**, a quick tool for common project settings
+
+- On-Chip Trace based on the Nuclei ETrace hardware/software solution
+
+- Enhanced profiling and code coverage solutions based on gprof and gcov
+
+- The Nuclei Package (NPK) software package solution, which makes it easy to extend support for software development kits decoupled from Nuclei Studio,
+  enabling a convenient **software package import** -> **Project Wizard** workflow. This approach has been widely adopted, for example by
+  Nuclei's own **Nuclei SDK**.
+
+- Faster ways to open projects and workspaces
+
+- A more user-friendly Launch Bar
+
+
+Nuclei Studio Release Notes
+===========================
 
 .. note::
 
-   - 如需确认当前 Nuclei Studio 中所集成的RISC-V Toolchain、OpenOCD、QEMU、Nuclei Model的版本集息，可以查看 ``toolchain/ReadMe.txt`` 里面的内容进行了解。
+   - To confirm the versions of the RISC-V Toolchain, OpenOCD, QEMU, and Nuclei Model integrated in the current Nuclei Studio, check the content of ``toolchain/ReadMe.txt``.
 
 .. _ide_changelog_202510:
 
-2025.10版更新说明
------------------
+2025.10 Release Notes
+---------------------
 
-2025.10版本是基于Eclipse Cpp 2024-06开发，升级了芯来科技的工具版本至2025.10，新增了代码调试、代码性能分析以及IDE在线升级等功能，优化了部分原有功能，以及解决了2025.02版中存在的缺陷。
+Version 2025.10 is developed based on Eclipse Cpp 2024-06. It upgrades the Nuclei tools to version 2025.10, adds features such as code debugging, code performance analysis, and IDE online upgrade, optimizes several existing features, and fixes defects present in version 2025.02.
 
-升级RISC-V Toolchain、OpenOCD、QEMU版本
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Upgraded RISC-V Toolchain, OpenOCD, and QEMU Versions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- 在Nuclei Studio 2025.10版本中集成了Nuclei RISC-V Toolchain 2025.10版，具体信息可以查看：:ref:`toolchain_changelog_202510`, 这里Windows版本换成了Win64版本，取代之前的Win32版本，以解决大文件无法编译的问题。
+- Nuclei Studio 2025.10 integrates Nuclei RISC-V Toolchain 2025.10; see :ref:`toolchain_changelog_202510` for details. In this release, the Windows version switches to Win64, replacing the previous Win32 version, to resolve the problem that large files could not be compiled.
 
-- 在Nuclei Studio 2025.10版本中集成了OpenOCD 2025.10版，具体信息可以查看：:ref:`openocd_changelog_202510` 。
+- Nuclei Studio 2025.10 integrates OpenOCD 2025.10; see :ref:`openocd_changelog_202510` for details.
 
-- 在Nuclei Studio 2025.10版本中集成了Nuclei Qemu 2025.10版，具体信息可以查看：:ref:`qemu_changelog_202510` 。
+- Nuclei Studio 2025.10 integrates Nuclei QEMU 2025.10; see :ref:`qemu_changelog_202510` for details.
 
-- 在Nuclei Studio 2025.10版本中集成了Nuclei Near Cycle Model 2025.10版，具体信息可以查看：:ref:`xlmodel_changelog_202510` 。
+- Nuclei Studio 2025.10 integrates Nuclei Near Cycle Model 2025.10; see :ref:`xlmodel_changelog_202510` for details.
 
 
-新增对更多新核的支持
-~~~~~~~~~~~~~~~~~~~~
+Added Support for More New Cores
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-增加了对N300E核配套支持。
+Added support for the N300E core.
 
-优化了Nuclei Studio中常用菜单
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Optimized Frequently Used Menus in Nuclei Studio
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nuclei Studio中有些比较常用的菜单，如 ``New Nuclei RISC-V C/C++ Project`` 在Debug视图中没有显示，用户体验不好。为了更方便用户使用，优化了这些菜单的位置。
+Some frequently used menus in Nuclei Studio, such as ``New Nuclei RISC-V C/C++ Project``, were not shown in the Debug perspective, resulting in a poor user experience. To make them easier to use, the positions of these menus have been optimized.
 
-具体参见 :ref:`Debug视图中没有创建工程菜单 <ide_faq_menu_add>` 。
+See :ref:`No project creation menu in the Debug perspective <ide_faq_menu_add>` for details.
 
-新增了IDE在线升级功能
-~~~~~~~~~~~~~~~~~~~~~
+Added the IDE Online Upgrade Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-新增了在线升级插件、在线升级工具链、在线升级IDE三种不同的升级功能，可根据实际需求，灵活选择对不同组件进行独立升级，无需整体替换或重新安装，大幅提升使用效率与系统稳定性。
+Added three upgrade features: online plugin upgrade, online toolchain upgrade, and online IDE upgrade. You can flexibly upgrade each component independently as needed, without replacing or reinstalling the whole package, greatly improving efficiency and system stability.
 
-具体参见 :ref:`Nuclei Studio 升级更新 <ide_update>` 。
+See :ref:`Nuclei Studio upgrade and update <ide_update>` for details.
 
-优化了IDE Welcome页面
-~~~~~~~~~~~~~~~~~~~~~
+Optimized the IDE Welcome Page
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-优化了原有Welcome页面，将常用的文档与工具的快捷入口放在Welcome页面，方便用户查阅和使用。
+The Welcome page has been optimized to provide quick entries to frequently used documents and tools, making them easier for users to consult and use.
 
-具体参见 :ref:`Welcome页面介绍 <ide_welcome>` 。
+See :ref:`Introduction to the Welcome page <ide_welcome>` for details.
 
-新增了Connect to Running Target功能
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Added the Connect to Running Target Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-为了满足用户直接连接到开发板的需求，Nuclei Studio 新增了 Connect to Running Target 功能。该功能允许用户直接连接到硬件开发板，可以读取开发板的相关信息，极大方便了开发的效率。
+To support connecting directly to a development board, Nuclei Studio added the Connect to Running Target feature. This feature allows users to connect directly to a hardware development board and read board-related information, greatly improving development efficiency.
 
-具体参见 :ref:`Connect to Running Target功能 <ide_connect_to_target>` 。
+See :ref:`Connect to Running Target feature <ide_connect_to_target>` for details.
 
-新增了Flame View功能
-~~~~~~~~~~~~~~~~~~~~~
+Added the Flame View Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-新增的 Flame View（火焰图视图） 是一款直观、高效的性能分析工具，用于可视化嵌入式系统中程序的执行调用栈与时间分布。通过将复杂的跟踪数据转化为层次化堆叠图，Flame View 帮助开发者快速识别热点函数、分析执行路径、定位性能瓶颈。
+The new Flame View (flame graph view) is an intuitive and efficient performance analysis tool used to visualize the execution call stack and time distribution of programs in embedded systems. By converting complex trace data into hierarchical stacked graphs, Flame View helps developers quickly identify hot functions, analyze execution paths, and locate performance bottlenecks.
 
-具体参见 :ref:`Flame View功能的使用 <ide_flame_view>` 。
+See :ref:`Using the Flame View feature <ide_flame_view>` for details.
 
-新增了Nuclei Model 调试功能的使用
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Added Support for Nuclei Model Debugging
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nuclei Model是芯来科技为 Nuclei Near Cycle Model 开发了专门的运行工具，在本次版本更新中，增强了Nuclei Near Cycle Model的功能，用户可以在Nuclei Near Cycle Model对工程进行Debug/Run等操作。增加了全新的Nuclei Model Debug Configuration视图，以更好的支持运行和调试功能。
+Nuclei Model, developed by Nuclei, is a dedicated tool for running the Nuclei Near Cycle Model. In this version update, the functionality of the Nuclei Near Cycle Model has been enhanced, and users can perform Debug/Run operations on projects with the Nuclei Near Cycle Model. A new Nuclei Model Debug Configuration view has been added to better support running and debugging.
 
-关于Nuclei Model Debugger中Flame View的内容可以查看 :ref:`Nuclei Model 中Flame View的使用 <ide_nuclei_model_flame>` 。
+For the Flame View content in the Nuclei Model Debugger, see :ref:`Using Flame View in Nuclei Model <ide_nuclei_model_flame>`.
 
-具体参见 :ref:`Nuclei Model Debugger功能的使用 <ide_nuclei_model_debugger>` 。
+See :ref:`Using the Nuclei Model Debugger feature <ide_nuclei_model_debugger>` for details.
 
-优化了 GDB Custom 调试功能
+Optimized the GDB Custom Debug Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+GDB Custom is a simplified debug configuration developed by Nuclei to accommodate different debugging tools, allowing users to debug programs in Nuclei Studio with their own debugging tools. This version optimizes it on top of the original functionality for a better user experience.
+
+See :ref:`GDB Custom debug feature <ide_nuclei_custom_debugger>` for details.
+
+Optimized the Trace Feature
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-GDB Custom 是芯来科技为适应不同的调试工具，开发的一款简化的调试配置，允许用户在 Nuclei Studio 使用自己定义的调试工具来调试程序。本次版本在原有功能基础上做了优化，使之用户体验更好。
+Based on feedback from previous versions, known bugs in the Trace feature were fixed, the performance of the Trace tool was optimized so that it processes data faster and more stably, and features such as Trace-data-based interrupt query and Flame View were added.
 
-具体参见 :ref:`GDB Custom 调试功能 <ide_nuclei_custom_debugger>` 。
+For an introduction to interrupts in the Trace feature, see :ref:`Querying interrupts in Trace <ide_ide_trace_exceptions>`.
 
-优化Trace功能
-~~~~~~~~~~~~~~
+For the Flame View content in the Trace feature, see :ref:`Using Flame View in Trace <ide_ide_trace_flame>`.
 
-经过前几个版本的实践反馈，我们对Trace功能中的已知bug进行了修复；优化了Trace工具的相关性能，使之在处理数据时更快更稳定；新增了基于Trace数据的中断查功能、Flame View功能等。
+For details on the Trace feature, see :ref:`Using the Trace feature <ide_advanceusage_43>`.
 
-关于Trace功能中中断的介绍可以查看 :ref:`Trace中中断的查询 <ide_ide_trace_exceptions>` 。
+Optimized the Live Watch Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-关于Trace功能中Flame View的内容可以查看 :ref:`Trace中Flame View的使用 <ide_ide_trace_flame>` 。
+Live Watch is a real-time monitoring tool developed by Nuclei, designed to help developers debug and optimize code more efficiently. In Nuclei Studio 2025.10, the Live Watch feature has been optimized, with a higher sampling frequency and drag-to-add-variable support.
 
-Trace功能的详情，具体参见 :ref:`Trace功能的使用 <ide_advanceusage_43>` 
+See :ref:`Using the Live Watch feature <ide_live_watch>` for details.
 
-优化Live Watch功能
-~~~~~~~~~~~~~~~~~~~~
+Optimized and Improved the RVProf Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Live Watch 是芯来科技研发的实时监控工具，专为开发者设计，旨在帮助开发者更高效地调试和优化代码。在Nuclei Studio 2025.10版本中对Live Watch功能做了优化，如提高采样频率、新增拖动添加变量等功能。
+RVProf is a performance analysis tool developed by Nuclei based on the CPU cycle model. Starting with version 2025.10, RVProf can be used on Windows. For details, see :ref:`Using the RVProf feature <ide_adv_rvprof>`. This feature requires support from the corresponding NPK package; to try it, please contact us.
 
-具体参见 :ref:`Live Watch功能的使用 <ide_live_watch>` 。
+ZCC Upgrade
+~~~~~~~~~~~
 
-优化和完善RVProf功能
-~~~~~~~~~~~~~~~~~~~~
+Nuclei Studio 2025.10 integrates ZCC 4.1.7 and includes software libraries supported by Nuclei. For more information, see https://www.terapines.com/products/zcc.
 
-RVProf是芯来科技基于CPU cycle model开发的性能分析工具，从2025.10版开始，RVProf支持在Windows下使用。具体内容参见第 :ref:`RVProf功能的使用 <ide_adv_rvprof>` 。此功能需要有相应的NPK软件包支持，如需体验此功能，请与我们联系。
+Fixed Known Bugs
+~~~~~~~~~~~~~~~~
 
-ZCC升级
-~~~~~~~~~
-
-在Nuclei Studio 2025.10版本中集成了ZCC 4.1.7版，并加入芯来科技支持的软件库。具体信息可以查看：https://www.terapines.com/products/zcc
-
-修复了已知Bug
-~~~~~~~~~~~~~~
-
-- 修复了 Lst View 在某些场景下打开文件导至IDE卡死的情况；
-- 修复了 打开或者删除 ``*.elf、*.o`` 文件时报文件占用的问题；
-- 修复了 Nuclei Studio Linux 版中 Coverage 功能数据为空的问题；
-- 修复了 Flash Programming 功能中无法选择非当前工程下二进制文件的问题；
-- 修复了 OpenOCD 调试蜂鸟工程报错的问题；
-- 修复了其他已知Bug。
+- Fixed an issue where opening a file in Lst View could cause the IDE to freeze in certain scenarios;
+- Fixed an issue where opening or deleting ``*.elf, *.o`` files incorrectly reported that the file was in use;
+- Fixed an issue where Coverage data was empty in the Linux version of Nuclei Studio;
+- Fixed an issue in Flash Programming where binary files outside the current project could not be selected;
+- Fixed an error reported when debugging HummingBird projects with OpenOCD;
+- Fixed other known bugs.
 
 
 .. _ide_changelog_202502:
 
-2025.02版更新说明
------------------
+2025.02 Release Notes
+---------------------
 
-2025.02版本是基于Eclipse Cpp 2024-06开发，CDT版本到Eclipse CDT 2024-06，升级了芯来科技的工具版本至2025.02，优化了部分原有功能，新增了调试及代码性能分析等功能，以及解决了2024.06版中存在的缺陷。
+Version 2025.02 is developed based on Eclipse Cpp 2024-06, with the CDT version updated to Eclipse CDT 2024-06. It upgrades the Nuclei tools to version 2025.02, optimizes several existing features, adds features such as debugging and code performance analysis, and fixes defects present in version 2024.06.
 
-升级Eclipse Cpp版本
-~~~~~~~~~~~~~~~~~~~
+Upgraded the Eclipse Cpp Version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2025.02基于Eclipse Cpp 2024-06版本开发此版本。基础的CDT版本，升级到了11.6.1。
+Nuclei Studio 2025.02 is developed based on Eclipse Cpp 2024-06. The base CDT version has been upgraded to 11.6.1.
 
-升级RISC-V Toolchain、OpenOCD、QEMU版本
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Upgraded RISC-V Toolchain, OpenOCD, and QEMU Versions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2025.02版本中集成了Nuclei RISC-V Toolchain 2025.02版，具体信息可以查看：https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2025.02 。
+Nuclei Studio 2025.02 integrates Nuclei RISC-V Toolchain 2025.02; see https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2025.02 for details.
 
-在Nuclei Studio 2025.02版本中集成了OpenOCD 2025.02版，具体信息可以查看：https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2025.02 。
+Nuclei Studio 2025.02 integrates OpenOCD 2025.02; see https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2025.02 for details.
 
-在Nuclei Studio 2025.02版本中集成了Nuclei Qemu 2025.02版，具体信息可以查看：https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2025.02 。
+Nuclei Studio 2025.02 integrates Nuclei QEMU 2025.02; see https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2025.02 for details.
 
-新增对更多新核的支持
-~~~~~~~~~~~~~~~~~~~~
+Added Support for More New Cores
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-增加了对N200E、N202、N202E、NX1000、NX1000F、NX1000FD、UX1000、UX1000F CPU的核配套支持。
+Added support for the N200E, N202, N202E, NX1000, NX1000F, NX1000FD, UX1000, and UX1000F CPU cores.
 
-新增Flash Programming功能
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Added the Flash Programming Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-为了满足用户将编译好的二进制文件直接下载到硬件开发板的需求，Nuclei Studio 新增了 Flash Programming 功能。该功能允许用户快速、便捷地将编译好的二进制文件直接下载到硬件开发板中，极大提升了开发和调试的效率。
+To support downloading compiled binary files directly to a hardware development board, Nuclei Studio added the Flash Programming feature. This feature allows users to quickly and conveniently download compiled binary files directly to a hardware development board, greatly improving development and debugging efficiency.
 
-具体参见 :ref:`Flash Programming功能 <ide_flash_programming>` 。
+See :ref:`Flash Programming feature <ide_flash_programming>` for details.
 
-新增了Nuclei NICE Wizard
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Added the Nuclei NICE Wizard
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nuclei NICE Wizard 是一个集成在 Nuclei Studio 上的工具，旨在简化和加速 NICE (自定义指令扩展) 和 VNICE (向量化自定义指令扩展) 指令的创建过程。
+Nuclei NICE Wizard is a tool integrated into Nuclei Studio that aims to simplify and accelerate the creation of NICE (custom instruction extensions) and VNICE (vectorized custom instruction extensions) instructions.
 
-具体参见 :ref:`Nuclei NICE Wizard <ide_nuclei_nice_wizard>` 。
+See :ref:`Nuclei NICE Wizard <ide_nuclei_nice_wizard>` for details.
 
-新增Nuclei Model功能的使用
+Added Nuclei Model Support
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nuclei Model是芯来科技为 Nuclei Near Cycle Model 开发了专门的运行工具，为了提供更简洁高效的用户体验，在 RVProf 的基础上进行了功能简化，推出了新的 Model 工具。
+Nuclei Model, developed by Nuclei, is a dedicated tool for running the Nuclei Near Cycle Model. To provide a simpler and more efficient user experience, the new Model tool was introduced with functionality simplified from RVProf.
 
-具体参见 :ref:`Nuclei Model <ide_nuclei_model>` 。
-
-
-升级Nuclei Near Cycle Model版本
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Nuclei Near Cycle Model，是由芯来科技自主研发的仿真测试和性能分析工具，可以帮助研发人员在项目初期进行一些必要的仿真测试和程序性能分析。在此版本中全面支持 Nuclei CPU 200，300，600，900，1000系列的CPU，同时支持Windows和Linux系统下使用。
-
-具体参见 :ref:`Nuclei Near Cycle Model <ide_nuclei_near_cycle_model>` 。
-
-新增Live Watch功能
-~~~~~~~~~~~~~~~~~~~~
-
-Live Watch 是芯来科技研发的实时监控工具，专为开发者设计，旨在帮助开发者更高效地调试和优化代码。
-
-具体参见 :ref:`Live Watch功能的使用 <ide_live_watch>` 。
+See :ref:`Nuclei Model <ide_nuclei_model>` for details.
 
 
-ZCC升级
-~~~~~~~~~
+Upgraded the Nuclei Near Cycle Model Version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2025.02版本中集成了ZCC 3.2.5版，并加入芯来科技支持的软件库。具体信息可以查看：https://www.terapines.com/products/zcc
+Nuclei Near Cycle Model is a simulation testing and performance analysis tool independently developed by Nuclei. It helps developers perform the necessary simulation testing and program performance analysis in the early stages of a project. This version fully supports the Nuclei CPU 200, 300, 600, 900, and 1000 series CPUs, on both Windows and Linux.
+
+See :ref:`Nuclei Near Cycle Model <ide_nuclei_near_cycle_model>` for details.
+
+Added the Live Watch Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Live Watch is a real-time monitoring tool developed by Nuclei, designed to help developers debug and optimize code more efficiently.
+
+See :ref:`Using the Live Watch feature <ide_live_watch>` for details.
+
+
+ZCC Upgrade
+~~~~~~~~~~~
+
+Nuclei Studio 2025.02 integrates ZCC 3.2.5 and includes software libraries supported by Nuclei. For more information, see https://www.terapines.com/products/zcc.
 
 .. _ide_changelog_202406:
 
-2024.06版更新说明
------------------
+2024.06 Release Notes
+---------------------
 
-本版本是一次比较重大的版本升级，2024.06版本升级了CDT版本到Eclipse CDT 2024-06，升级了芯来科技的工具版本至2024.06，优化了部分原有功能，新增了调试及代码性能分析等功能，以及解决了2024.02版中存在的缺陷。
+This version is a relatively major upgrade. Version 2024.06 upgrades CDT to Eclipse CDT 2024-06, upgrades the Nuclei tools to version 2024.06, optimizes several existing features, adds features such as debugging and code performance analysis, and fixes defects present in version 2024.02.
 
-升级Eclipse CDT版本
-~~~~~~~~~~~~~~~~~~~
+Upgraded the Eclipse CDT Version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2024.06版本中基础的CDT版本，升级到了11.6.0，并基于Eclipse CDT 2024-06版本开发此版本。
+In Nuclei Studio 2024.06, the base CDT version has been upgraded to 11.6.0, and this version is developed based on Eclipse CDT 2024-06.
 
-升级RISC-V Toolchain、OpenOCD、QEMU版本
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Upgraded RISC-V Toolchain, OpenOCD, and QEMU Versions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2024.06版本中集成了Nuclei RISC-V Toolchain 2024.06版，具体信息可以查看：https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2024.06 。
+Nuclei Studio 2024.06 integrates Nuclei RISC-V Toolchain 2024.06; see https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2024.06 for details.
 
-在Nuclei Studio 2024.06版本中集成了OpenOCD 2024.06版，具体信息可以查看：https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2024.06 。
+Nuclei Studio 2024.06 integrates OpenOCD 2024.06; see https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2024.06 for details.
 
-在Nuclei Studio 2024.06版本中集成了Nuclei Qemu 2024.06版，具体信息可以查看：https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2024.06 。
+Nuclei Studio 2024.06 integrates Nuclei QEMU 2024.06; see https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2024.06 for details.
 
-新增对U600和UX1000的支持
-~~~~~~~~~~~~~~~~~~~~~~~~
+Added Support for U600 and UX1000
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-配合U600和UX1000核的发布，同步增加了对U600和UX1000核配套支持。
+Support for the U600 and UX1000 cores was added alongside the release of these cores.
 
-优化NPK软件包管理
-~~~~~~~~~~~~~~~~~
+Optimized NPK Package Management
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-优化Nuclei Package Management中对NPK包依赖的管理，使其更易使用；优化了部分NPK包安装的提示信息及日志，提高NPK包管理的使用体验。具体参见 :ref:`NPK软件包管理 <ide_npk_package_management>` 。
+The management of NPK package dependencies in Nuclei Package Management was optimized to make it easier to use, and some NPK package installation prompts and logs were improved for a better NPK package management experience. See :ref:`NPK package management <ide_npk_package_management>` for details.
 
 .. note::
 
-   注意：本次版本升级，变更了NPK包管理的配置，在2024.02版及之前版本中安装的NPK包在2024.06版NucleiStudio无法识别，用户需重新下载安装NPK包。
+   This version upgrade changed the configuration of NPK package management. NPK packages installed in version 2024.02 or earlier cannot be recognized by Nuclei Studio 2024.06; download and install the NPK packages again.
 
-增加和优化部分编译选项
-~~~~~~~~~~~~~~~~~~~~~~
+Added and Optimized Some Compiler Options
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Properties 和 Nuclei Settings页面内，在Optimization Level中新增 -Oz选项；在GNU RISC-V Cross C++ Linker的Libraries页新增对group libraries的支持, 参见 :ref:`工程编译链接C库找不到符号报错 <ide_faq_36>` 。
+In the Properties and Nuclei Settings pages, a new ``-Oz`` option was added to Optimization Level; support for group libraries was added to the Libraries page of GNU RISC-V Cross C++ Linker. See :ref:`Error about missing symbols when linking the C library during project build <ide_faq_36>`.
 
-优化调式模式切换
-~~~~~~~~~~~~~~~~
+Optimized Debug Mode Switching
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-NucleiStudio支持多种调试模式，如OpenOCD、Jlink、Dlink、Custom等，同时还有Qemu等仿真器，为了方便用户在多工程多种模式之间切换，优化了调式模式的切换，具体内容参见 :ref:`调试模式管理 <ide_projectrun_1>` 。
+Nuclei Studio supports multiple debug modes, such as OpenOCD, J-Link, DLink, and Custom, as well as simulators such as QEMU. Debug mode switching has been optimized to make it easier for users to switch between multiple projects and multiple modes. For details, see :ref:`Debug mode management <ide_projectrun_1>`.
 
-优化和完善DLink Debug调试
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Optimized and Improved DLink Debugging
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nuclei DLink是芯来科技基于RV Link，并在RV Link的基础上做了许多功能增加后，所研发的RISC-V调试器，使之更适应于Nuclei Studio的应用场景。具体内容可以查看 :ref:`使用DLink调试运行项目 <ide_projectrun_50>` 。
+Nuclei DLink is a RISC-V debugger developed by Nuclei based on RV Link, with many features added on top of RV Link, making it better suited to Nuclei Studio use cases. For details, see :ref:`Debugging and running a project with DLink <ide_projectrun_50>`.
 
-集成Terapines ZCC Lite编译器
+Integrated the Terapines ZCC Lite Compiler
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Terapines ZCC is a high-performance RISC-V compiler developed by Terapines. Nuclei Studio 2024.06 adds support for Terapines ZCC, which can be used directly in the IDE. See :ref:`Building the Hello World project in Nuclei Studio <ide_projectbuild_13>` for details.
+
+Added the LST View Tool
+~~~~~~~~~~~~~~~~~~~~~~~
+
+LST View is an lst file viewer that makes it easy for users to view files in lst format and provides linkage between \*.lst files and source code. For details, see :ref:`LST View <ide_advanceusage_13>`.
+
+Optimized and Improved the Gprof Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Gprof is a powerful performance analysis tool that helps developers understand the runtime behavior of C/C++ programs. With Gprof, you can obtain call information, call counts, execution time, and more for each function in a program, which is highly valuable for optimizing programs and improving their runtime efficiency. For details, see :ref:`Code Coverage and Profiling features <ide_advanceusage_17>`.
+
+Optimized and Improved the Gcov Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Gcov is a tool for testing C/C++ code coverage. Released together with GCC, it works with GCC to test statement coverage, function coverage, and branch coverage of C/C++ files. For details, see :ref:`Code Coverage and Profiling features <ide_advanceusage_17>`.
+
+Added the Call Graph Feature
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Terapines ZCC是兆松科技研发的高性能RISC-V编译器。Nuclei Studio 2024.06版中对Terapines ZCC进行支持，用户可以在Nuclei Studio中直接使用。具体参见 :ref:`Nuclei Studio中编译Hello World项目 <ide_projectbuild_13>` 。
+Call Graph is a tool for analyzing function call relationships. Used together with Gprof, it helps developers quickly understand a program's execution process and call relationships. For details, see :ref:`Code Coverage and Profiling features <ide_advanceusage_17>`.
 
-新增LST View工具
-~~~~~~~~~~~~~~~~~
+Added Nuclei Near Cycle Model Support
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-LST View 是一个lst文件查看器，可以方便用户查看lst格式的文件，并实现\*.lst文件与源代码的联动，具体请参见 :ref:`LST View <ide_advanceusage_13>` 。
-
-优化和完善Gprof功能
-~~~~~~~~~~~~~~~~~~~
-
-Gprof是一个强大的性能分析工具，可以帮助开发者理解C/C++程序的运行情况，通过Gprof可以获取到程序中各个函数的调用信息、调用次数、执行时间等，对优化程序、提升程序运行效率具有重要的意义。具体请参见 :ref:`Code Coverage和Profiling功能 <ide_advanceusage_17>` 。
-
-优化和完善Gcov功能
-~~~~~~~~~~~~~~~~~~
-
-Gcov是一个测试C/C++代码覆盖率的工具，伴随GCC发布，配合GCC共同实现对C/C++文件的语句覆盖、功能函数覆盖和分支覆盖测试。具体请参见 :ref:`Code Coverage和Profiling功能 <ide_advanceusage_17>` 。
-
-新增Call Graph功能
-~~~~~~~~~~~~~~~~~~
-
-Call Graph是分析函数调用关系图的工具，结合Gprof使用，便于开发者快速了解程序执行的过程及调用关系。具体请参见 :ref:`Code Coverage和Profiling功能 <ide_advanceusage_17>` 。
-
-新增Nuclei Near Cycle Model支持
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Nuclei Near Cycle Model，它是由芯来科技自主研发的仿真测试和性能分析工具，可以帮助研发人员在项目初期进行一些必要的仿真测试和程序性能分析，具体请参见 :ref:`使用Nuclei Near Cycle Model仿真性能分析 <ide_advanceusage_71>` 。
+Nuclei Near Cycle Model is a simulation testing and performance analysis tool independently developed by Nuclei. It helps developers perform the necessary simulation testing and program performance analysis in the early stages of a project. For details, see :ref:`Simulation performance analysis with Nuclei Near Cycle Model <ide_advanceusage_71>`.
 
 .. _ide_changelog_202402:
 
-2024.02.dev版更新说明
----------------------
+2024.02.dev Release Notes
+-------------------------
 
-本版本是开发版本（您下载到的链接内容随时可能会变更），本版本解决了Nuclei Studio 2023.10版中存在的缺陷，并优化了部分原有功能如ETrace特性，新增了一些功能如对N100的支持、Dlink的支持等，更好为满足客户评估和更新使用。
+This version is a development version (the content at the download link may change at any time). It fixes defects present in Nuclei Studio 2023.10, optimizes some existing features such as the ETrace feature, and adds some new features such as support for N100 and DLink, to better meet customer evaluation and update needs.
 
-升级Eclipse CDT版本
-~~~~~~~~~~~~~~~~~~~
+Upgraded the Eclipse CDT Version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2024.02.dev版本中基础的Eclipse CDT版本，升级到了Eclipse CDT 2023.12版。
+In Nuclei Studio 2024.02.dev, the base Eclipse CDT version has been upgraded to Eclipse CDT 2023.12.
 
-新增对N100的支持
-~~~~~~~~~~~~~~~~
+Added Support for N100
+~~~~~~~~~~~~~~~~~~~~~~
 
-配合N100核的发布，同步增加了对N100的配套支持。
+Support for N100 was added alongside the release of the N100 core.
 
-新增批量转换Gcc13工程工具
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Added a Batch GCC 13 Project Conversion Tool
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在2023.10版Nuclei Studio中，升级GCC 13后，当有大量工程需要转换时，单个转换效率低，为方便开发者，提供了一个批量转换GCC 13工具。具体内容参见 :ref:`批量将工程转换成支持gcc 13的工程 <ide_advanceusage_4>` 。
+In Nuclei Studio 2023.10, after upgrading to GCC 13, converting a large number of projects one by one was inefficient. To make this easier for developers, a batch GCC 13 conversion tool is provided. For details, see :ref:`Batch converting projects to support gcc 13 <ide_advanceusage_4>`.
 
-优化和完善Trace功能
-~~~~~~~~~~~~~~~~~~~
+Optimized and Improved the Trace Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nuclei Studio中Trace功能升级，实现了在OpenOCD模式下对单核应用、SMP多核应用、AMP多核应用的支持，具体内容参见 :ref:`Trace功能的使用 <ide_advanceusage_43>` ；在Dlink模式下，仅对单核应用支持。Trace功能需要有对应CPU IP的支持，如需体验此功能，请与我们联系。
+The Trace feature in Nuclei Studio has been upgraded to support single-core applications, SMP multi-core applications, and AMP multi-core applications in OpenOCD mode; for details, see :ref:`Using the Trace feature <ide_advanceusage_43>`. In DLink mode, only single-core applications are supported. The Trace feature requires support from the corresponding CPU IP; to try it, please contact us.
 
-优化和完善RVProf功能
-~~~~~~~~~~~~~~~~~~~~
+Optimized and Improved the RVProf Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-RVProf是芯来科技基于CPU cycle model开发的性能分析工具，具体内容参见第 :ref:`RVProf功能的使用 <ide_adv_rvprof>` 。此功能需要有相应的NPK软件包支持，如需体验此功能，请与我们联系。
+RVProf is a performance analysis tool developed by Nuclei based on the CPU cycle model. For details, see :ref:`Using the RVProf feature <ide_adv_rvprof>`. This feature requires support from the corresponding NPK package; to try it, please contact us.
 
-新增对DLlink Debug的支持
-~~~~~~~~~~~~~~~~~~~~~~~~
+Added Support for DLink Debug
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Dlink是芯来自主研发的调试解决方案，在本次版本中得到支持。此功能需要有相应的Dlink调试器的支持，如需体验此功能，请与我们联系。
+DLink is a debugging solution independently developed by Nuclei and is supported in this version. This feature requires a DLink debugger; to try it, please contact us.
 
 .. _ide_changelog_202310:
 
-2023.10版更新说明
------------------
+2023.10 Release Notes
+---------------------
 
-本版本是一次比较重大的版本升级，集成了Nuclei 2023.10版本的Toolchain, QEMU, OpenOCD, 且Eclipse CDT版本进行了升级，GCC版本也做了重大迭代，升级到了GCC 13, NPK部分也做了大量的新功能的增加以支持GCC或者CLANG的工程创建，并且增加很多新的Configuration字段类型，方便在Project Wizard中更灵活的进行工程配置。
+This version is a relatively major upgrade. It integrates the Nuclei 2023.10 versions of the Toolchain, QEMU, and OpenOCD; the Eclipse CDT version has been upgraded; and GCC has also undergone a major iteration to GCC 13. Many new features have been added to NPK to support project creation with GCC or Clang, and many new Configuration field types have been added to allow more flexible project configuration in the Project Wizard.
 
-升级Eclipse CDT版本
-~~~~~~~~~~~~~~~~~~~
+Upgraded the Eclipse CDT Version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2023.10版本中基础的Eclipse CDT版本，升级到了Eclipse CDT 2023.06版; Eclipse CDT 2023-06 版本是 Eclipse 基金会 2023 年第二个季度同步版本，有 64 个参与项目，于 2023 年 6 月 14 日发布。
+In Nuclei Studio 2023.10, the base Eclipse CDT version has been upgraded to Eclipse CDT 2023.06. Eclipse CDT 2023-06 is the Eclipse Foundation's second-quarter 2023 simultaneous release, with 64 participating projects, released on June 14, 2023.
 
-参考地址：\ `Eclipse IDE for C/C++ Developers <https://www.eclipse.org/downloads/packages/release/2023-06/r/eclipse-ide-cc-developers>`__
+Reference: `Eclipse IDE for C/C++ Developers <https://www.eclipse.org/downloads/packages/release/2023-06/r/eclipse-ide-cc-developers>`__
 
-升级后打开之前版本创建的workspace,会弹出不兼容的警告，使用时可能会有异常，建议更换新的workspace目录。
+After the upgrade, opening a workspace created by a previous version displays an incompatibility warning, and anomalies may occur during use. Switching to a new workspace directory is recommended.
 
 |image1|
 
-升级build-tools版本
-~~~~~~~~~~~~~~~~~~~
+Upgraded the build-tools Version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2023.10版将toolchain中的build-tools更新到4.4版本，并额外增加了bash.exe、cp.exe、mv.exe、tar.exe工具。
+In Nuclei Studio 2023.10, the build-tools in the toolchain have been updated to version 4.4, and the ``bash.exe``, ``cp.exe``, ``mv.exe``, and ``tar.exe`` tools have been added.
 
 |IMG_256|
 
 
-支持GCC 13和Clang 17
-~~~~~~~~~~~~~~~~~~~~
+Support for GCC 13 and Clang 17
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2023.10版本中实现了对GCC 13的支持，相对于之前的gcc10版本GCC 13在对RISC-V指令扩展的支持更加完备，且在我们维护的版本中，支持完整的RVV Intrinsic API v0.12版本。同时Nuclei Studio 2023.10版本中也实现了对Clang 17的支持（参考地址：\ https://releases.llvm.org/17.0.1/docs/RISCVUsage.html\ ）。当然，如果有用户依然想使用GCC 10时行项目开发，我们也保留了相关的配置，但是工具链并没有集成到IDE中，用户需要自行下载并放置在gcc10目录中，参见里面的README.txt，并且我们也提供了老版本采用gcc10的Nuclei Studio创建的工程升级到gcc13工具链上，具体使用可以参考 :ref:`导入旧版本Nuclei Studio创建的工程 <ide_advanceusage_0>` 。Nuclei RISC-V Toolchain 2023.10更详细的说明，请参阅: https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2023.10
+Nuclei Studio 2023.10 adds support for GCC 13. Compared with the previous gcc10 version, GCC 13 provides more complete support for RISC-V instruction extensions, and the version maintained by Nuclei supports the full RVV Intrinsic API v0.12. Nuclei Studio 2023.10 also adds support for Clang 17 (reference: https://releases.llvm.org/17.0.1/docs/RISCVUsage.html). If you still want to use GCC 10 for project development, the related configuration has been kept, but the toolchain is not integrated into the IDE; download it yourself and place it in the gcc10 directory (see the README.txt inside). A migration path is also provided for upgrading projects created with older versions of Nuclei Studio that use gcc10 to the gcc13 toolchain; for details, see :ref:`Importing projects created by older versions of Nuclei Studio <ide_advanceusage_0>`. For a more detailed description of Nuclei RISC-V Toolchain 2023.10, see https://github.com/riscv-mcu/riscv-gnu-toolchain/releases/tag/nuclei-2023.10
 
 |image2|
 
@@ -429,10 +429,10 @@ Dlink是芯来自主研发的调试解决方案，在本次版本中得到支持
 
 .. _ide_intro_4:
 
-RISC-V指令扩展使用变更
-~~~~~~~~~~~~~~~~~~~~~~~
+Changes in RISC-V Instruction Extension Usage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-因gcc和clang的变更，在扩展的使用上，有了较大的变化。原来的bpkv扩展与新的规则对应关系如下，更详细的说明，请参阅\ https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#arch-ext
+Due to changes in GCC and Clang, extension usage has changed significantly. The mapping between the original bpkv extensions and the new rules is as follows. For a more detailed description, see https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#arch-ext
 
 
 -  ``b`` -> ``_zba_zbb_zbc_zbs``
@@ -441,235 +441,234 @@ RISC-V指令扩展使用变更
 
 -  ``k`` -> ``_zk_zks``
 
--  ``v`` -> rv32f/d : ``_zve32f``, rv64f: ``_zve64f``, rv64fd: ``v``
+-  ``v`` -> rv32f/d: ``_zve32f``, rv64f: ``_zve64f``, rv64fd: ``v``
 
-以N307FD + B + V + Nuclei DSP with N1 extension为例，创建一个使用扩展的应用，在创建工程的引导中，需要Nuclei ARCH Extensions中填入对的扩展字段，如需要使用bpv扩展，根据以上规则，需要填入 ``_zba_zbb_zbc_zbs_zve32f_xxldspn1x`` 。
+Take N307FD + B + V + Nuclei DSP with the N1 extension as an example: to create an application that uses extensions, enter the correct extension string in Nuclei ARCH Extensions in the project creation wizard. For example, to use the bpv extension, enter ``_zba_zbb_zbc_zbs_zve32f_xxldspn1x`` according to the rules above.
 
 |image5|
 
-生成的工程中，可以看到在工程的 **Nuclei Settings** 。
+In the generated project, you can view the project's **Nuclei Settings**.
 
 |image7|
 
-同样的查看工程的属性，在 ``C/C++ Build->Settings->Target Processor`` 中也是有关于RISC-V指令扩展的配置项。
+Similarly, the project properties also contain configuration items related to RISC-V instruction extensions under ``C/C++ Build->Settings->Target Processor``.
 
 |image6|
 
-同时在QEMU的配置中也会有相对应的RISC-V指令扩展的配置项。
+The QEMU configuration also has corresponding RISC-V instruction extension configuration items.
 
 |image8|
 
-NPK包的使用变更
-~~~~~~~~~~~~~~~
+Changes in NPK Package Usage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-为了支持GCC 13和Clang 17，Nuclei SDK包升级到了0.5.0版本，使用SDK包创建工程时，用户可以根据需要，选择创建一个GCC 13或者Clang 17的工程。因为版本变动较大，0.5.0之前的sdk可能有部分功能在Nuclei Studio 2023.10版中使用异常，所我们提供了工具帮助您快速进行工程迁移和升级， **请自行备份老版本的工程** ，具体可能参考 :ref:`导入旧版本Nuclei Studio创建的工程 <ide_advanceusage_0>` 。
+To support GCC 13 and Clang 17, the Nuclei SDK package has been upgraded to version 0.5.0. When creating a project with the SDK package, users can choose to create a GCC 13 or Clang 17 project as needed. Because the version changes are significant, some features of SDK versions earlier than 0.5.0 may not work properly in Nuclei Studio 2023.10, so a migration tool is provided to help you quickly migrate and upgrade your projects. **Back up your old projects first**. For details, see :ref:`Importing projects created by older versions of Nuclei Studio <ide_advanceusage_0>`.
 
 |image9|
 
-另外Nuclei Studio 2023.10中会对npk在线组件包做适配版本的校验（上传阶段需要填写测在什么版本的Nuclei Studio上测试使用），不同的组件包所适配的Nuclei Studio版本号会在Package Management页面展示，在下载安装的时候如果版本不匹配，会给与提示，但是导入离线包不会有任何提示，请自行甄别是否被所使用的Nuclei Studio IDE版本所支持，具体如下。
+In addition, Nuclei Studio 2023.10 validates the compatible version of online NPK component packages (uploading a package requires specifying the Nuclei Studio version on which it was tested). The Nuclei Studio version that each component package is compatible with is shown on the Package Management page, and a prompt is displayed if the version does not match during download and installation. However, no prompt is given when importing offline packages; verify yourself whether the package is supported by the Nuclei Studio IDE version you are using, as shown below.
 
 |image10|
 
-升级OpenOCD
-~~~~~~~~~~~
+Upgraded OpenOCD
+~~~~~~~~~~~~~~~~
 
-OpenOCD版本升级至2023.10版，增加了一些额外的调试特性，例如查看cpu信息，etrace实验性的支持。关于OpenOCD变更更详细的说明，请参阅：\ https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2023.10
+OpenOCD has been upgraded to version 2023.10, with some additional debugging features added, such as viewing CPU information and experimental etrace support. For a more detailed description of the OpenOCD changes, see https://github.com/riscv-mcu/riscv-openocd/releases/tag/nuclei-2023.10
 
-升级QEMU
-~~~~~~~~
+Upgraded QEMU
+~~~~~~~~~~~~~
 
-在Nuclei Studio 2023.10中集成Nuclei QEMU 2023.10版本，而Nuclei QEMU 2023.10基于QEMU 8.0进行二次开发（参考地址：https://wiki.qemu.org/ChangeLog/8.0）。本版本的QEMU和2022.10版本使用方面有比较大的变化，不再支持gd32vf103_rvstar这块开发板，转而只支持Nuclei EvalSoC, 可以配置Nuclei SDK/Nuclei Linux SDK无缝使用。且支持的machine由nuclei_n/nuclei_u 转而统一变为 nuclei_evalsoc。关于详细Nuclei QEMU更详细的说明，请参阅：https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2023.10
+Nuclei Studio 2023.10 integrates Nuclei QEMU 2023.10, which is developed based on QEMU 8.0 (reference: https://wiki.qemu.org/ChangeLog/8.0). This version of QEMU differs significantly from version 2022.10 in terms of usage: it no longer supports the ``gd32vf103_rvstar`` board and now supports only Nuclei EvalSoC, which can be configured to work seamlessly with Nuclei SDK/Nuclei Linux SDK. The supported machine has also been unified from ``nuclei_n``/``nuclei_u`` to ``nuclei_evalsoc``. For a more detailed description of Nuclei QEMU, see https://github.com/riscv-mcu/qemu/releases/tag/nuclei-2023.10
 
 |image11|
 
 .. _my_internal_link_label:
 
-新增了elf文件查看器
-~~~~~~~~~~~~~~~~~~~
+Added an ELF File Viewer
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2023.10新增elf文件编辑器，方便用户查看编译后产生 ``.elf`` 、 ``.o`` 文件。
+Nuclei Studio 2023.10 adds an ELF file viewer, making it easy for users to view the compiled ``.elf`` and ``.o`` files.
 
 |image12|
 
 |image13|
 
-新增Code Coverage和Profiling功能
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Added Code Coverage and Profiling Features
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2023.10新增了对Code Coverage和Profiling功能的支持，具体参考 :ref:`Code Coverage和Profiling功能 <ide_advanceusage_17>` 。
+Nuclei Studio 2023.10 adds support for the Code Coverage and Profiling features. For details, see :ref:`Code Coverage and Profiling features <ide_advanceusage_17>`.
 
-新增trace功能
-~~~~~~~~~~~~~
+Added the Trace Feature
+~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2023.10 **实验性** 新增了trace功能，因使用此功能需要带有Nuclei Trace IP的CPU，如需体验此功能，请与我们联系。
+Nuclei Studio 2023.10 **experimentally** adds the Trace feature. Using this feature requires a CPU with Nuclei Trace IP; to try it, please contact us.
 
-Nuclei Settings功能优化
-~~~~~~~~~~~~~~~~~~~~~~~~
+Nuclei Settings Feature Optimization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-为了应对更个性化的配置，我们修改了Nuclei Settings部分功能。
+To accommodate more personalized configuration, some Nuclei Settings functionality was modified.
 
-Nuclei Studio 2023.10去掉了原来的B/P/K/V的单选框，换成Other Extensions输入框，用户可以根据自己的需求自定义填写。而关于B/P/K/V的使用，可以参考 :ref:`RISC-V指令扩展使用变更 <ide_intro_4>` 。
+Nuclei Studio 2023.10 removes the original B/P/K/V radio buttons and replaces them with an Other Extensions input box, which users can fill in according to their own needs. For the use of B/P/K/V, see :ref:`Changes in RISC-V instruction extension usage <ide_intro_4>`.
 
 |image14|
 
-Nuclei Studio 2023.10去掉了原来的Select C Runtime Library单选框，在项目中如果需要使用，可能过项目配置传入的 ``--specs=`` 选项，或者Libraries选项,来实现。
+Nuclei Studio 2023.10 removes the original Select C Runtime Library radio buttons. If a project needs this setting, use the ``--specs=`` option in the project configuration or the Libraries option instead.
 
 |image15|
 
-Nuclei Settings增强了其通用性，使它不仅仅能对Nuclei的工程进行快速修改，也新增以对通用riscv和arm创建的static和shared的library工程的支持。下面为shared对应示图。
+Nuclei Settings is now more versatile: in addition to quickly modifying Nuclei projects, it supports static and shared library projects created with generic RISC-V and Arm toolchains. The figure below shows the shared library case.
 
 |image16|
 
 |image17|
 
-新增指定工作空间快速打开
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Added Quick Open for a Specified Workspace
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-类似双击项目下的 ``*.nuproject`` 文件可快速打开Nuclei Studio并导入该项目，现在Nuclei Studio会在使用过的工作空间目录下创建 ``work.nuworkspace`` 文件，双击该文件可以直接打开Nuclei Studio，但该功能暂时只支持windows版本。这个功能需要解压IDE后，在windows上执行 ``install.bat`` 来设置文件关联。
+Similar to double-clicking a ``*.nuproject`` file in a project to quickly open Nuclei Studio and import that project, Nuclei Studio now creates a ``work.nuworkspace`` file in workspace directories that have been used. Double-clicking this file opens Nuclei Studio directly. This feature is currently supported only on Windows; to use it, run ``install.bat`` on Windows after extracting the IDE to set up the file association.
 
 |image18|
 
 .. _ide_changelog_202212:
 
-2022.12版更新说明
------------------
+2022.12 Release Notes
+---------------------
 
-Nuclei Studio自2021.09版后，将IDE与SDK完全分离，将采用全新的Nuclei Package(NPK)的包管理的方式进行模板工程的管理和使用，方便用户进行不同SDK的导入并且在IDE上创建示例工程并使用，针对Nuclei SDK和HBird SDK以及我们公司的SoC IP产品提供的SDK，均可以打包成Zip包的方式以通过Nuclei Package Management方式进行导入使用。
+Since version 2021.09, Nuclei Studio has completely separated the IDE from the SDK and adopted the brand-new Nuclei Package (NPK) package management approach to manage and use template projects, making it easy for users to import different SDKs and create example projects in the IDE. The SDKs for Nuclei SDK, HBird SDK, and Nuclei's SoC IP products can all be packaged as Zip files and imported through Nuclei Package Management.
 
-Nuclei Studio 下载与安装
-=========================
+Nuclei Studio Download and Installation
+=======================================
 
-Nuclei Studio IDE 下载
-----------------------
+Nuclei Studio IDE Download
+--------------------------
 
-为了方便用户快速上手使用，本文档推荐使用预先整理好的Nuclei Studio IDE软件压缩包。芯来公司已经将该软件压缩包上传至公司网站，具体地址为\ https://www.nucleisys.com/download.php\ 。
+To help users get started quickly, this document recommends using the pre-packaged Nuclei Studio IDE software archive, which Nuclei has uploaded to the company website at https://www.nucleisys.com/download.php.
 
-用户可以在芯来科技公司网站的“下载中心”，根据用户开发环境，下载对应Windows或Linux的Nuclei Studio压缩包（注意：芯来科技公司网站的下载中心，其内容会不断更新，用户请自行选择使用最新版本或继续使用当前版本）。
+Go to the Download Center on the Nuclei website and download the Nuclei Studio archive for Windows or Linux, according to your development environment (note: the content of the Download Center is continuously updated; you can use the latest version or continue using the current version).
 
-目前已在Win 10 64位系统，Ubuntu 18.04/20.04和 Redhat7.6 64位版本上验证测试，推荐使用以上版本的系统。
+Nuclei Studio has been verified and tested on 64-bit Windows 10, Ubuntu 18.04/20.04, and 64-bit Red Hat 7.6; these system versions are recommended.
 
 |image19|
 
-Nuclei Studio IDE 安装
-----------------------
+Nuclei Studio IDE Installation
+------------------------------
 
-当完成Nuclei Studio IDE压缩软件包下载，解压后包含若干文件，分别介绍如下。
+After downloading the Nuclei Studio IDE archive, extract it; the extracted files are described below.
 
--  Nuclei Studio软件包
+-  Nuclei Studio software package
 
-   -  该软件包中包含了Nuclei Studio IDE的软件。注意：具体版本以及文件名可能会不断更新。
+   -  This package contains the Nuclei Studio IDE software. Note: The specific version and file name may change over time.
 
--  HBird_Driver.exe（2021.02版本起不再提供）
+-  HBird_Driver.exe (no longer provided since version 2021.02)
 
-   -  **仅Windows版提供，** 此文件为芯来蜂鸟调试器的USB驱动安装文件。
+   -  **Windows version only.** This file is the USB driver installer for the Nuclei HummingBird debugger.
 
-   -  当在Windows环境下，使用该调试器时，需要安装此驱动使该USB设备能够被系统识别。
+   -  When using this debugger in a Windows environment, you need to install this driver so that the USB device can be recognized by the system.
 
-   -  由于2021.02版本中更新的openocd引入了免驱功能。
+   -  This is because the OpenOCD update in version 2021.02 introduced driver-free functionality.
 
--  SerialDebugging_Tool（2021.02版本起不再提供）
+-  SerialDebugging_Tool (no longer provided since version 2021.02)
 
-   -  **仅Windows版提供** ，此文件为“串口调试助手”软件。此软件可以用于后续软件示例调试时通过串口打印信息。
+   -  **Windows version only.** This file is a serial port debugging assistant tool. Use it to print information over the serial port when debugging the software examples later.
 
 |image20|
 
 
-Nuclei Studio IDE 启动
-----------------------
+Launching Nuclei Studio IDE
+---------------------------
 
-启动Nuclei Studio的要点如下（windows和linux均按照如下操作）：
+To launch Nuclei Studio (the same steps apply on both Windows and Linux):
 
-直接双击Nuclei Studio IDE文件包中Nuclei Studio文件夹下面的可执行文件，即可启动Nuclei Studio。
+Double-click the executable file under the Nuclei Studio folder in the Nuclei Studio IDE package to launch Nuclei Studio.
 
 |image21|
 
-第一次启动Nuclei Studio后，将会弹出对话框要求设置Workspace目录路径，该目录将用于存放后续创建的项目工程文件。
+When you launch Nuclei Studio for the first time, a dialog prompts you to set the Workspace directory path, which is used to store the project files created later.
 
 |image22|
 
 .. _ide_welcome:
 
-设置好Workspace目录之后，单击“Launch”按钮，将会启动Nuclei Studio。
+After setting the Workspace directory, click the Launch button to launch Nuclei Studio.
 
 .. note::
-   Nuclei Studio 2025.10 版本对 Welcome 页面内容进行了更新。
+   Nuclei Studio 2025.10 has updated the content of the Welcome page.
 
-首次启动 Nuclei Studio 时，将显示 ``Welcome（欢迎）`` 页面。该页面提供了常用功能的快捷入口，包括项目创建、示例工程导入、软件包（NPK）管理等，同时集成了芯来科技提供的技术文档链接和教学视频教程，帮助开发者快速上手并掌握开发流程。
+When Nuclei Studio is launched for the first time, the ``Welcome`` page is displayed. This page provides quick entries to frequently used functions, including project creation, example project import, and software package (NPK) management, and integrates technical documentation links and tutorial videos provided by Nuclei to help developers get started quickly and master the development process.
 
-后续如需再次访问 ``Welcome（欢迎）`` 页面，可通过菜单栏选择 ``Help → Welcome`` 重新打开欢迎页面。
+To reopen the ``Welcome`` page later, select ``Help → Welcome`` from the menu bar.
 
 |image23|
 
 
 .. |image1| image:: /asserts/nucleistudio/intro/image2.png
-   :alt: workspace弹出不兼容的警告
+   :alt: Incompatibility warning dialog when opening the workspace
 
 .. |IMG_256| image:: /asserts/nucleistudio/intro/image3.png
-   :alt: build-tools更新到4.4版
+   :alt: build-tools updated to version 4.4
 
 .. |image2| image:: /asserts/nucleistudio/intro/image4.png
-   :alt: GCC和Clang的目录结构
+   :alt: Directory structure of GCC and Clang
 
 .. |image3| image:: /asserts/nucleistudio/intro/image5.png
-   :alt: 工程对GCC 13的支持
+   :alt: Project support for GCC 13
 
 .. |image4| image:: /asserts/nucleistudio/intro/image6.png
-   :alt: 项目对Clang 17的支持
+   :alt: Project support for Clang 17
 
 .. |image5| image:: /asserts/nucleistudio/intro/image7.png
-   :alt: 创建工程时使用RISC-V扩展
+   :alt: Using RISC-V extensions when creating a project
 
 .. |image6| image:: /asserts/nucleistudio/intro/image8.png
-   :alt: 项目中对RISC-V扩展的支持
+   :alt: RISC-V extension support in the project
 
 .. |image7| image:: /asserts/nucleistudio/intro/image9.png
-   :alt: Nuclei Settings中对RISC-V扩展的支持
+   :alt: RISC-V extension support in Nuclei Settings
 
 .. |image8| image:: /asserts/nucleistudio/intro/image10.png
-   :alt: QEMU中对RISC-V扩展的支持
+   :alt: RISC-V extension support in QEMU
 
 .. |image9| image:: /asserts/nucleistudio/intro/image11.png
-   :alt: 创建工程时选择合适的工具链
+   :alt: Selecting the appropriate toolchain when creating a project
 
 .. |image10| image:: /asserts/nucleistudio/intro/image12.png
-   :alt: 组件包所适配的Nuclei Studio版本号
+   :alt: The Nuclei Studio version a component package is compatible with
 
 .. |image11| image:: /asserts/nucleistudio/intro/image13.png
-   :alt: QEMU 8.0所在的目录
+   :alt: The directory where QEMU 8.0 is located
 
 .. |image12| image:: /asserts/nucleistudio/intro/image14.png
-   :alt: elf文件编辑器查看.elf文件
+   :alt: Viewing a .elf file in the ELF file viewer
 
 .. |image13| image:: /asserts/nucleistudio/intro/image15.png
-   :alt: elf文件编辑器查看.o文件
+   :alt: Viewing a .o file in the ELF file viewer
 
 .. |image14| image:: /asserts/nucleistudio/intro/image16.png
-   :alt: Nuclei Settings页面修改
+   :alt: Changes to the Nuclei Settings page
 
 .. |image15| image:: /asserts/nucleistudio/intro/image17.png
-   :alt: Select C Runtime Library在新版IDE中已不存在
+   :alt: Select C Runtime Library no longer exists in the new IDE
 
 .. |image16| image:: /asserts/nucleistudio/intro/image18.png
-   :alt: Shared 项目Nuclei Settings(Arm)
+   :alt: Nuclei Settings of a shared project (Arm)
 
 .. |image17| image:: /asserts/nucleistudio/intro/image19.png
-   :alt: Shared 项目Nuclei Settings(Riscv)
+   :alt: Nuclei Settings of a shared project (RISC-V)
 
 .. |image18| image:: /asserts/nucleistudio/intro/image20.png
-   :alt: work.nuworkspace文件
+   :alt: The work.nuworkspace file
 
 .. |image19| image:: /asserts/nucleistudio/intro/image21.png
-   :alt: Nuclei Studio IDE软件包的下载界面
+   :alt: Download page of the Nuclei Studio IDE package
 
 .. |image20| image:: /asserts/nucleistudio/intro/image22.png
-   :alt: Nuclei Studio IDE压缩包文件内容
+   :alt: Contents of the Nuclei Studio IDE archive
 
 .. |image21| image:: /asserts/nucleistudio/intro/image23.png
-   :alt: 双击“Nuclei Studio.exe”启动Nuclei Studio
+   :alt: Double-click Nuclei Studio.exe to launch Nuclei Studio
 
 .. |image22| image:: /asserts/nucleistudio/intro/image24.png
-   :alt: 公司Logo
+   :alt: Company logo
 
 .. |image23| image:: /asserts/nucleistudio/intro/image25.png
-   :alt: 首次启动Nuclei Studio界面
-
+   :alt: Nuclei Studio interface on first launch
