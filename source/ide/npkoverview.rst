@@ -45,8 +45,7 @@ The following example shows a package description file with detailed annotations
 
 .. code-block:: yaml
 
-    Package Base Information
-    --------------------------
+    ## Package Base Information
     name: your_package_name                 # <MUST> Package name ID, no spaces, must follow C naming conventions, English name, unique name ID, used for dependency management
                                             # Naming rules for name: unique, all English, no special characters
                                             # csp type package: csp-xxxx
@@ -78,7 +77,6 @@ The following example shows a package description file with detailed annotations
     homepage:                               # <OPTIONAL> Homepage of the package, if any; must be a link
 
     ## Package Information
-    -----------------------
 
     packinfo:                               # <MUST> Only for bsp/ssp type, optional for other types. Used to describe SoC-level information
       core_vendor: Nuclei                   # <MUST> only for ssp, the English name of the processor core vendor. If the core is based on a Nuclei processor core, fill in Nuclei
@@ -101,8 +99,6 @@ The following example shows a package description file with detailed annotations
 
 
     ## Package Dependency
-    ----------------------
-
     dependencies:                           # <OPTIONAL> List the dependent packages in the form owner/name:version
       - name: csp-nsdk_nmsis                # <MUST> when defined        # 1. For sdk type packages, there is an implicit dependency: they depend on exactly one bsp type package,
         owner: nuclei # <OPTIONAL> if not defined, it will use the owner definition above. Used to depend on a package of a specific owner, in the form owner/name:version; the package is ultimately looked up this way
@@ -127,8 +123,6 @@ The following example shows a package description file with detailed annotations
                                             # 5. An sdk type package cannot depend on another sdk package, but app/bsp/ssp/csp/osp/mwp packages can depend on multiple sdk type packages
 
     ## Package Configurations
-    --------------------------
-
     configuration:                          # <OPTIONAL> Options for package configuration, used for Project Wizard creation and internal parameter settings
                                             # The sdk type does not currently support configuration parameter definitions
                                             # Configurations defined in configuration can override each other
@@ -178,8 +172,6 @@ The following example shows a package description file with detailed annotations
             description: AI Library
 
     ## Source Code Management
-    -------------------------
-
     codemanage:                                 # <MUST> This is mandatory
       installdir: demosoc                       # <MUST> The directory name where the code should be installed, English only, must follow C naming format
                                                 # For sdk type packages, installed to <sdk_installdir>; if installdir is not defined, it defaults to SDK; if no sdk type package is referenced, sdk_installdir is also set to SDK by default
@@ -202,11 +194,8 @@ The following example shows a package description file with detailed annotations
           - libs:
 
     ## Set Configuration for other packages
-    ----------------------------------------
-
     setconfig:                                                # <OPTIONAL> Used to set options of other packages
-
-    # The following options follow the override rule: app > mwp  > osp > bsp > ssp > csp
+                                                              # The following options follow the override rule: app > mwp  > osp > bsp > ssp > csp
       - config: nmsislibarch
         value : ${nuclei_core.arch}p                          # <OPTIONAL> Directly set options in Configuration
         condition: $( ${dsp_present} == 1 )                   # <OPTIONAL> Determine whether to set the nmsislibarch value based on dsp_present here
@@ -215,8 +204,6 @@ The following example shows a package description file with detailed annotations
         condition: $( ${dsp_present} == 0 )
 
     ## Build Configuration
-    -----------------------
-
     buildconfig:                                 # <OPTIONAL> Configuration of build options
                                                  # Currently, build options from all packages are concatenated or overridden
                                                  # The following options are overridden: app > mwp  > osp > bsp > ssp > csp
@@ -269,8 +256,6 @@ The following example shows a package description file with detailed annotations
           description:                           # <OPTIONAL> Description of the executed command
 
     ## Debug Configuration
-    ------------------------
-
     debugconfig:                            # <MUST> For bsp type, optional for app/ssp type
     # Currently, debug options from all packages are concatenated or overridden
     # type is a special field used to describe a specific debugger; openocd and qemu are currently supported
@@ -300,7 +285,7 @@ The following example shows a package description file with detailed annotations
            - key: machine   # QEMU Machine
              value: gd32vf103v_rvstar
 
-    ##Extended variable
+    ## Extended Sections
     ## Only works on tool type
     ## Each package has a package path, referenced as npk name-version, e.g. ${tool-cmlink-1.0.0};
     ## other variables are referenced as npk name-version-variable name, e.g. ${tool-cmlink-1.0.0-proxy}
