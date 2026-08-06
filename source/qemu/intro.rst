@@ -67,9 +67,7 @@ For the sake of generality, all Nuclei IPs have been mapped and implemented on Q
   +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
   |                     | SRAM                  | 0xA0000000            | 0x20000000            | SRAM address space.                   |
   +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  | Peripherals (Fixed) | IINFO                 | 0                     | 0x1000                | IINFO address space.                  |
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  |                     | MROM                  | 0x1000                | 0xf000                | MROM address space.                   |
+  | Peripherals (Fixed) | MROM                  | 0x1000                | 0xf000                | MROM address space.                   |
   +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
   |                     | TEST                  | 0x100000              | 0x10000               | Space for Eval_SoC exit mechanism.    |
   +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
@@ -85,7 +83,9 @@ For the sake of generality, all Nuclei IPs have been mapped and implemented on Q
   +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
   |                     | QSPI2                 | 0x10034000            | 0x1000                | QSPI2 address space.                  |
   +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  | Peripherals (Offset)| DEBUG                 | 0x10000               | 0x1000                | DEBUG address space.                  |
+  | Peripherals (Offset)| IINFO                 | 0                     | 0x1000                | IINFO address space.                  |
+  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+  |                     | DEBUG                 | 0x10000               | 0x1000                | DEBUG address space.                  |
   +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
   |                     | ECLIC                 | 0x20000               | 0x10000               | ECLIC address space.                  |
   +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
@@ -281,10 +281,12 @@ Let's describe the meaning of this complete command:
             },
             "uart0": {
                     "base":"0x20013000",
+                    "size":"0x1000",
                     "irq":"34"
             },
             "uart1": {
                     "base":"0x20023000",
+                    "size":"0x1000",
                     "irq":"35"
             },
             "qspi0": {
@@ -293,10 +295,12 @@ Let's describe the meaning of this complete command:
             },
             "qspi2": {
                     "base":"0x20034000",
-                    "irq":"37"
+                    "irq":"37",
+                    "enable":"0"
             },
             "iregion": {
-                    "base":"0x1000000"
+                    "base":"0x1000000",
+                    "plic":"0"
             },
             "cpu_freq":"50000000",
             "timer_freq":"32768",
@@ -329,9 +333,13 @@ Let's describe the meaning of this complete command:
 
   **irq**: peripheral interrupt id, dec format
 
+  **iregion**: the **debug**, **eclic**, **smpcc**, **cidu** and **plic** modules in iregion support configuring whether qemu is implemented through flag bits. By default, all modules are fully implemented in qemu. If a certain module, such as **plic**, is not needed, then it can be removed by configuring ``"plic":"0"`` as in the example. In addition, the memory map of modules in iregion is fixed and does not support configuration through ``base`` and ``size``.
+
+  **enable**: configure whether other peripherals other than **iregion** are implemented, all these peripherals are implemented by default.
+
   **download**: firmware startup address
 
-  **irqmax**: number of external interrupts supported by evalsoc, maximum can be set to 1024. In addition, it is necessary to ensure that both the custom irq number and the irq number of the peripheral devices supported by default in qemu are less than this.
+  **irqmax**: number of external interrupts supported by evalsoc, maximum can be set to 1024. In addition, the total number of default supported custom IRQs and peripheral device IRQs is 40, it is necessary to ensure the given irqmax is greater than this.
 
   The following is a list of interrupt id for all interrupts implemented in qemu in both PLIC and ECLIC, users should follow this rule when configuring irq.
 
@@ -377,10 +385,6 @@ Let's describe the meaning of this complete command:
          }
 
   Other configurations follow this rule as well.
-
-  .. note::
-
-        In the **general_config** JSON configuration script, the **base** attribute must coexist with either **size** or **irq**, and the format requires **base** to be written first, followed by either **size** or **irq**.
 
   ``debug=1`` list the start address of the current device's peripherals and memory distribution information or irq info for debugging purposes. It is generally not recommended to enable this feature under normal circumstances.
 
