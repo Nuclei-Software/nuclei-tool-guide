@@ -6,20 +6,20 @@ Nuclei Custom VPU Extension
 Introduction
 *************
 
-为了加快矩阵运算,Nuclei GCC 工具链添加了自定义的VPU 扩展 ``Xxlvqmacc``, 引入了整数矩阵乘加指令,可以将8位整数输入值扩展为32位。
+为了加快矩阵运算，Nuclei GCC 工具链添加了自定义的 VPU 扩展 ``Xxlvqmacc``，引入了整数矩阵乘加指令，可以将 8 位整数输入值扩展为 32 位。
 
 扩展
 *****
 
-使用该扩展时,需要打开 ``V`` 扩展和 ``xxlvqmacc`` 扩展
+使用该扩展时，需要打开 ``V`` 扩展和 ``xxlvqmacc`` 扩展。
 
-示例：`-march=rv64imafdcv_xxlvqmacc`
+示例：``-march=rv64imafdcv_xxlvqmacc``
 
 .. attention::
 
-    使用该扩展的相关 intrinsic 时，需要添加以下头文件:
+    使用该扩展的相关 intrinsic 时，需要添加以下头文件：
 
-    ``#include<riscv_vector.h>``
+    ``#include <riscv_vector.h>``
 
 支持的指令
 **********
@@ -33,7 +33,7 @@ Introduction
 
     这些指令是有符号或无符号整数矩阵乘加指令，可将 8 位整数输入值扩展至 32 位。
 
-    为了更好的理解这些指令的功能,示例如下:
+    为了更好地理解这些指令的功能，示例如下：
 
     # Dest (C) += Input (A) * Input (B)
 
@@ -45,30 +45,30 @@ Introduction
 
     int32 += int8   *  uint8     //xl.vqmaccsu.vv vd, vs2, vs1
 
-    其中(u)int8 矩阵 A 和 B 和 int32 矩阵 C 均为 4x4。
+    其中 (u)int8 矩阵 A、B 与 int32 矩阵 C 均为 4x4。
 
-    这些指令的设计旨在高效地处理8位整数的矩阵运算,同时通过扩展到32位来避免中间结果的溢出。
+    这些指令旨在高效地处理 8 位整数的矩阵运算，同时通过扩展到 32 位来避免中间结果的溢出。
 
-intrinsic 命名规则    
+intrinsic 命名规则
 *******************
 
-rvv intrinsic 命名规则: https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0.0-rc7 ``v-intrinsic-spec.pdf``-> **Chapter 6**.
+rvv intrinsic 命名规则：https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0.0-rc7 中的 ``v-intrinsic-spec.pdf`` -> **Chapter 6**。
 
-我们的命名规则遵循上述的命名规则,并在此基础上为了区分我们自定义的intrinsic,对名字进行了一些更改。示例如下:
+我们的命名规则遵循上述命名规则，并在此基础上对名字进行了一些更改，以区分我们自定义的 intrinsic。示例如下：
 
 ``vint32m1_t __riscv_xl_vqmacc_4x4x4_i32m1(vint32m1_t vd, vint8m1_t vs1, vint8mf4_t vs2, size_t vl);``
 
-``vint32m1_t`` int32_t的数据类型
+``vint32m1_t`` int32_t 的数据类型
 
 ``__riscv_xl`` Nuclei 自定义 intrinsic 名称前缀
 
 ``vqmacc`` intrinsic 所代表的操作的名字
 
-``4x4x4``  输入输出矩阵的维度,输入矩阵A是 ``4x4``,输入矩阵B是 ``4x4``,输出矩阵C是 ``4x4``
+``4x4x4``  输入/输出矩阵的维度，输入矩阵 A 是 ``4x4``，输入矩阵 B 是 ``4x4``，输出矩阵 C 是 ``4x4``
 
 ``i32``    int32 数据类型的缩写
 
-``m1``     lmul的值
+``m1``     LMUL 的值
 
 Nuclei 自定义的 intrinsic
 **************************
@@ -160,8 +160,8 @@ Nuclei 自定义的 intrinsic
 Examples
 **********
 
-.. code-block:: c 
-    :caption: xl.vqmacc.vv 所对应的intrinsic函数使用样例
+.. code-block:: c
+    :caption: xl.vqmacc.vv 所对应的 intrinsic 函数使用样例
 
     #include <stdio.h>
     #include <riscv_vector.h>
@@ -171,7 +171,7 @@ Examples
     #define ARRAY_CNT   (4)
     #define DATA_CNT    (ARRAY_CNT * MATRIX_SIZE)
 
-    /* Case dose matrix multiply-add like below:
+    /* Case does matrix multiply-add like below:
     *   C[j] += A * B[j], for j in [0, vl/16)
     */
 
