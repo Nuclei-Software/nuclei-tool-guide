@@ -5,6 +5,11 @@
 Welcome to Nuclei Tool User Guide!
 ==================================
 
+.. warning::
+
+   **This documentation is under active development for the upcoming 2026.10 release.**
+   Its content is **not** a formal release and is subject to change at any time.
+
 .. toctree::
    :maxdepth: 3
    :numbered:

@@ -28,6 +28,11 @@ it supports near cycle-level simulation and SystemC TLM 2.0 Nuclei EvalSoC model
 
 .. _Nuclei Development Tool User Guide: ../nuclei_tool_user_guide.pdf
 
+.. warning::
+
+    This documentation is under active development for the upcoming 2026.10 release,
+    it is not a formal release yet and the content may change at any time.
+
 You can also find our **Nuclei Studio Supply Documents** in https://doc.nucleisys.com/nuclei_studio_supply/,
 which is used for application notes using Nuclei Studio and Nuclei Tools.
 
