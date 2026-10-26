@@ -1,4 +1,4 @@
-.. _openocd_usage_guide:
+.. _openocd_intro:
 
 OpenOCD Usage Guide
 ===================
@@ -596,9 +596,9 @@ In this release, Nuclei OpenOCD bump openocd code base from **0.11** to **0.12**
 
 **New Features:**
 
-- Live watch feature implementation
+- Live watch feature implementation, see :ref:`ide_live_watch`
 - Nuclei CTI command group support
-- Enhanced ETrace command group functionality
+- Enhanced ETrace command group functionality, see :ref:`ide_etrace`
 - Optimized CPU information command
 
 **Improvements:**
@@ -642,6 +642,10 @@ CSR Renaming:
 Other Debuggers
 ---------------
 
+For information on debugging Nuclei RISCV CPU with JLink and Lauterbach, please refer to the links below:
+
 `Jlink <https://doc.nucleisys.com/nuclei_tools/ide/projectrun.html#debugging-and-running-a-project-with-j-link>`_.
 
 `Lauterbach <https://github.com/Nuclei-Software/lauterbach-startup>`_.
+
+.. _cpuinfo: https://doc.nucleisys.com/nuclei_sdk/design/app.html#cpuinfo

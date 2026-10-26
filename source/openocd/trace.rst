@@ -21,10 +21,25 @@ After downloading and extracting to the installation directory, add the followin
 
 - ``Nuclei\OpenOCD\xxx\bin``
 
+ETrace Version Overview
+-----------------------
+
+Nuclei processors support different versions of ETrace functionality. The command group you should use depends on the ETrace version implemented in your Core:
+
+- **ETrace-v1.x**: Uses the ATB2AXI component as the SoC system bridge. This version supports instruction Trace capture only. If your Core implements etrace-v1.x, use the **Etrace Command Reference** commands below.
+- **ETrace-v2.x**: Uses the TraceBundle component as the SoC system bridge. This version supports both instruction Trace and data Trace capture. If your Core implements etrace-v2.x, use the **Trace Command Reference** commands instead.
+
+To determine which ETrace version your Core supports, check the processor documentation or the Trace module configuration in your SoC.
+
 Etrace Command Reference
 ------------------------
 
 This command group is for Cores with etrace-v1.x version Trace functionality, where the SoC system component is ATB2AXI. It is used for instruction Trace capture on such systems.
+
+.. note::
+    The commands in this section are OpenOCD commands executed in the OpenOCD Tcl shell.
+    If you are accessing these commands from GDB, please add the ``monitor`` prefix,
+    for example: ``monitor nuclei etrace config <atb2axi-addr> <buffer-addr> <buffer-size> <wrap>``
 
 etrace config
 ~~~~~~~~~~~~~
@@ -265,6 +280,11 @@ Trace Command Reference
 -----------------------
 
 This command group is for Cores with etrace-v2.x version Trace functionality, where the SoC system component is TraceBundle. It is used for instruction Trace or data Trace capture on such systems.
+
+.. note::
+    The commands in this section are OpenOCD commands executed in the OpenOCD Tcl shell.
+    If you are accessing these commands from GDB, please add the ``monitor`` prefix,
+    for example: ``monitor nuclei trace config <tracebundle-addr> <buffer-addr> <buffer-size> <wrap> <core-mask> <timestamp> <datatrace>``
 
 trace config
 ~~~~~~~~~~~~
