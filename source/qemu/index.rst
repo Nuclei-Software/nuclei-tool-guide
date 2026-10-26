@@ -8,3 +8,4 @@ Nuclei QEMU
    :maxdepth: 3
 
    intro.rst
+   nuclei_xec.rst
