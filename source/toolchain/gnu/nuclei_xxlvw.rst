@@ -257,7 +257,7 @@ Nuclei 自定义的 intrinsic
 
     而且如果后续程序没有用到该返回值，需要用 ``volatile`` 关键字来声明该返回值，避免在 -O2 及更高优化级别下被优化器删除。
 
-    2026.09 版本：
+    2026.10 版本：
 
     没有 vd 参数的指令，其 intrinsic 使用时可以选择不使用返回值（有需要时也可以用），不再需要用 ``volatile`` 关键字来声明，使用方法参考 `Examples`_。
 
@@ -742,7 +742,7 @@ Examples
         vint32m1_t vd = __riscv_xl_vdscmul_vv_i32m1(vs2, vs1, vl);
         __riscv_vse32_v_i32m1(&dst_cmul[0].i32, vd, vl);
 
- //     vint32m1_t tmp = __riscv_xl_vdsmacini_x_i32m1(1, vl); 需要返回值时的使用方法
+        // vint32m1_t tmp = __riscv_xl_vdsmacini_x_i32m1(1, vl); 需要返回值时的使用方法
         __riscv_xl_vdsmacini_x_i32m1(1, vl);
 
         vd = __riscv_xl_vdscmaco_vv_i32m1(vs2, vs1, vl);
