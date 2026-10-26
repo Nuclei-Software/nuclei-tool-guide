@@ -9,6 +9,7 @@ Table of Contents
 -----------------
 
 - `Tool Installation and Environment Setup`_
+- `ETrace Version Overview`_
 - `Etrace Command Reference`_
 - `Trace Command Reference`_
 
