@@ -1,79 +1,79 @@
 .. _advanceusage:
 
-Nuclei Studio 高级功能
-======================
+Nuclei Studio Advanced Features
+===============================
 
-我们在 https://doc.nucleisys.com/nuclei_studio_supply 这里提供了很多且不断完善的Nuclei Studio和Nuclei Tools使用问题和案例，帮助你更好的使用Nuclei Studio以及Tools，可以点进去了解下。
+At https://doc.nucleisys.com/nuclei_studio_supply we maintain an extensive and continuously growing collection of usage questions and case studies for Nuclei Studio and Nuclei Tools to help you use them more effectively. Feel free to take a look.
 
 .. _ide_advanceusage_0:
 
-导入旧版本创建的工程
----------------------
+Importing Projects Created by Older Versions
+--------------------------------------------
 
-Nuclei Studio 2023.10版导导入旧工程
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Importing Old Projects Into Nuclei Studio 2023.10
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio 2023.10版本中，因为工具链、sdk等增均做了较大的修改，如果用户在新的Nuclei Studio中想要使用旧版的Nuclei Studio创建的工程，或者使用旧的sdk，需要参考本章节内容进行操作。
+In Nuclei Studio 2023.10, the toolchain, SDK, and other components have changed significantly. To use a project created with an older version of Nuclei Studio, or an older SDK, in the new Nuclei Studio, follow the instructions in this section.
 
-将旧的Nuclei Studio中的工程导入到Nuclei Studio 2023.10中时（具体导入工程的方法，可以阅读 :ref:`Nuclei Studio 2022.12之后版本导入旧工程 <ide_advanceusage_7>` ），或者使用旧的sdk（旧的sdk指的是在Nuclei Studio 2023.10发布之前所发布的sdk）所创建的工程，因为工程配置使用使用的是gcc 10，当找不到对应的工具链，会出现编译报错等问题，导致工程无法正常使用。
+When you import a project created with an older version of Nuclei Studio into Nuclei Studio 2023.10 (for the detailed import procedure, see :ref:`Importing Old Projects in Nuclei Studio 2022.12 and Later <ide_advanceusage_7>`), or use a project created with an older SDK (that is, any SDK released before the Nuclei Studio 2023.10 release), the project is configured to use GCC 10. If the corresponding toolchain cannot be found, build errors and other problems occur, and the project does not work normally.
 
 |image1|
 
-我们提供了两种解决方案，第一种方案是手动导入gcc 10工具链，第二种方案是通过Nuclei Studio 2023.10所带的转换工具进行转换。在此推荐使用第二种方案，能比较好的将工程转换成Nuclei Studio 2023.10所支持的工程，并能使用其最新特性。
+There are two solutions: manually import the GCC 10 toolchain, or convert the project with the conversion tool shipped with Nuclei Studio 2023.10. The second solution is recommended because it converts the project more thoroughly to a format supported by Nuclei Studio 2023.10 and lets you use its latest features.
 
 
 
-手动导入GCC 10工具链
-^^^^^^^^^^^^^^^^^^^^
+Manually Importing the GCC 10 Toolchain
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-为了方便用户使用，在Nuclei Studio 2023.10中保留了GCC 10相关的配置，但没有将GCC 10打包到IDE中，如果用户想要继续在GCC 10下进行开发，可以手动将GCC导入进来。
+For convenience, Nuclei Studio 2023.10 retains the GCC 10 configuration, but GCC 10 is not packaged with the IDE. To continue developing with GCC 10, import GCC manually.
 
-首先，在旧版Nuclei Studio的安装目录中的 ``toolchain\gcc\`` 目录找到GCC 10 ,并将其中内容复制到Nuclei Studio 2023.10的安装目录下的 ``toolchain\gcc10\`` 内。然后重新编译工程，工程可以正常编译，但这种方法，Nuclei QEMU是无法正常使用，如果有Nuclei QEMU需求的项目，需要收到修改下QEMU对应的调试配置。
+Locate GCC 10 in the ``toolchain\gcc\`` directory of the old Nuclei Studio installation and copy its contents into the ``toolchain\gcc10\`` directory under the Nuclei Studio 2023.10 installation directory, then rebuild the project. The project should now build normally. However, Nuclei QEMU does not work with this method; if your project requires Nuclei QEMU, manually modify the corresponding QEMU debug configuration.
 
 |image2|
 
 .. _ide_advanceusage_3:
 
-通过工具将工程转换成支持GCC 13的工程
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Converting a Project to Support GCC 13 with the Tool
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-为了方便用户导入旧的工程，并能正常使用Nuclei Studio 2023.10特性，我们提供了快速转换工具 ``Convert GCC 10 Project to GCC 13`` ，选中工程点击鼠标右键，在弹出的菜单中找到 ``Convert GCC 10 Project to GCC 13`` 并点击。
+Nuclei Studio 2023.10 provides a quick conversion tool, ``Convert GCC 10 Project to GCC 13``, that makes it easier to import old projects. Right-click the project and select ``Convert GCC 10 Project to GCC 13`` from the context menu.
 
 |image3|
 
-工程转换成功后，重新编译工程，此时Nuclei Studio将调用GCC 13编译工程，并且QEMU等功能也能正常使用。
+After the project is converted, rebuild it. Nuclei Studio then builds the project with GCC 13, and features such as QEMU work normally.
 
 |image4|
 
 .. _ide_advanceusage_4:
 
-批量将工程转换成支持GCC 13的工程
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Batch Converting Projects to Support GCC 13
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-为了方便用户导入旧的工程，并能正常使用Nuclei Studio 2023.10以上版本的特性，批量将工程转换成支持GCC 13的工程。
+You can also batch convert projects to support GCC 13 in Nuclei Studio 2023.10 and later versions.
 
 |image5|
 
-打开转换工具，然后选择需要转换的工程，开始转换。
+Open the conversion tool, select the projects you want to convert, and start the conversion.
 
 |image6|
 
-工程转换完成后，页面会显示工程转换成GCC 13后的结果。
+When the conversion is complete, the page displays the conversion results for each project.
 
 |image7|
 
 .. _ide_advanceusage_7:
 
-Nuclei Studio 2022.12之后版本导入旧工程
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Importing Old Projects in Nuclei Studio 2022.12 and Later
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-为了方便工程共享，Nuclei Studio 2022.12版对工程的导入做了优化，在IDE中将一个工程导出后，可以双击打开 ``.nuproject`` 的方式，快速将工程在Nuclei Studio中导入并打开。
+Nuclei Studio 2022.12 optimized project import to make project sharing easier. After a project is exported from the IDE, double-click the ``.nuproject`` file to quickly import and open it in Nuclei Studio.
 
-首先，在Nuclei Studio 2022.12版中导出一个工程，在需要导出的工程上右键，选中Export。
+First, export the project in Nuclei Studio 2022.12: right-click the project and select Export.
 
 |image8|
 
-在弹出的Export对话框中 ``General->File System`` ,按向导依次操作，可以把工程导出到指定文件夹。
+In the Export dialog, select ``General->File System`` and follow the wizard to export the project to the specified folder.
 
 |image9|
 
@@ -81,108 +81,105 @@ Nuclei Studio 2022.12之后版本导入旧工程
 |image10|
 
 
-其次，导入工程。查看导出的工程，可以看到工程中有一个test.nuproject文件，点击这个文件，就可以将工程导入到Nuclei Studio中去了，具体的可以参考 :ref:`通过应用关联文件导入工程 <ide_projectnew_8>` 。
+Next, import the project. The exported project contains a test.nuproject file; click this file to import the project into Nuclei Studio. For details, see :ref:`Import a Project via an Application Association File <ide_projectnew_8>`.
 
 |image11|
 
-Nuclei Studio 2022.12之前版本导入旧工程
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Importing Old Projects in Versions Earlier Than Nuclei Studio 2022.12
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nuclei Studio 2023.10版本工具链名称从 ``riscv-nuclei-elf-gcc`` 更名为 ``riscv64-unknown-elf-gcc`` ,且gcc版本从gcc10升级到gcc13。
+In Nuclei Studio 2023.10, the toolchain name was changed from ``riscv-nuclei-elf-gcc`` to ``riscv64-unknown-elf-gcc``, and the GCC version was upgraded from GCC 10 to GCC 13.
 
-Nuclei Studio从2020.08版本开始，官方工具链从 ``RISC-V Nuclei GCC (riscv-nuclei-elf-gcc)`` 升级到 ``GNU MCU RISC-V GCC (riscv-none-embed-gcc)`` ，因为编译前缀发生变化，所以使用201909及其之前版本的IDE生成的工程，经过调整设置后才可以在新版本IDE中使用。这里以201909版本的Nuclei Studio生成的helloworld工程为例，其导入及修改设置的详细步骤如下：
+Starting with version 2020.08, Nuclei Studio upgraded its official toolchain from ``RISC-V Nuclei GCC (riscv-nuclei-elf-gcc)`` to ``GNU MCU RISC-V GCC (riscv-none-embed-gcc)``. Because the compiler prefix changed, projects created with IDE version 201909 or earlier must have their settings adjusted before they can be used in the new IDE. The following example uses a helloworld project generated with Nuclei Studio 201909 to describe the import procedure and the required settings changes:
 
--  导入201909版本生成的helloworld工程，详细的导入方式请参考5.2节，这里不做赘述。
+-  Import the helloworld project generated with version 201909. For the detailed import procedure, see Section 5.2.
 
--  导入工程后右击选择 ``Properties`` 打开设置页面，选择 ``C/C++ Build ?? Settings`` ，打开Toolchains栏目然后修改Name下拉选项为 ``RISC-V Nuclei GCC (riscv-nuclei-elf-gcc)`` 。修改后点击Apply保存修改。
+-  After importing the project, right-click it and select ``Properties`` to open the settings page. Select ``C/C++ Build -> Settings``, open the Toolchains tab, and change the Name drop-down option to ``RISC-V Nuclei GCC (riscv-nuclei-elf-gcc)``. Click Apply to save the change.
 
 |image12|
 
--  修改后右击工程选择 ``Clean Project`` 再选择 ``Build Project`` 即可。
+-  Right-click the project again and select ``Clean Project``, then ``Build Project``.
 
 .. _ide_advanceusage_13:
 
 LST View
 --------
 
-在Nuclei Studio 2024.06版本中，集成了LST View工具，LST View可以单独使用，也可以在Trace工具或GProf工具中被呼起，主要功能，是帮助用户方便的查看LST文件，并实现LST文件与源码的联动。
+Nuclei Studio 2024.06 integrates the LST View tool. LST View can be used on its own or invoked from the Trace tool or the GProf tool. It helps you view LST files and link them with the source code.
 
-在Nuclei Studio中依次 ``Window -> Show View -> Other`` ，在弹出的Show View中搜索 ``LST View`` 。
+In Nuclei Studio, go to ``Window -> Show View -> Other`` and search for ``LST View`` in the Show View dialog.
 
 |image13|
 
-打开LST View工具。
+Open the LST View tool.
 
 |image14|
 
-LST View的顶部有一个工具栏，在工具栏中有搜索下接框，可以输入您想要搜索的Addr；Open File菜单，点击会弹出一个文件选择器，可以选择想要打开的 ``.lst`` 文件；Find菜单，可以查找任意您想从LST View中查找的内容。
+LST View has a toolbar at the top with a search drop-down box for entering an Addr to search for, an Open File menu that opens a file selector for choosing the ``.lst`` file to open, and a Find menu for searching within LST View.
 
 |image15|
 
-Open File菜单，在弹出的文件选择器中，找到我们想要查看的lst文件，一般在工程编译后的Debug目录。
+Use the Open File menu to locate the lst file in the file selector. The file is usually located in the Debug directory after the project is built.
 
 |image16|
 
-打开文件后，可以进行查找操作，同时，当我们选中某行文字，并且文字中包含一个正确的Addr时，LST View会通过这个Addr定位到对应的源码所在的文件及行数，并通过程序打开对应的源码文件，并将光标定位到对应的行，通过lst文件反定位的源文件，实现两种文件的联动查看。
+After opening the file, you can search within it. When you select a line of text that contains a valid Addr, LST View uses that Addr to locate the corresponding source file and line number, opens the source file in the editor, and places the cursor on the corresponding line. This links the source file to the lst file so you can view the two together.
 
 |image17|
 
 .. _ide_advanceusage_17:
 
-Code Coverage和Profiling功能
-----------------------------
+Code Coverage and Profiling
+---------------------------
 
-在Nuclei Studio 2023.10版以上版本中，集成了\ `Eclipse Linux
-Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__\ ，并对\ `Eclipse
-Linux
-Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__\ 工具进行了部分优化，使其可以支持Nuclei
-Studio工程使用Code Coverage和Profiling相关功能。在Nuclei Studio
-2024.06版本中对\ `Eclipse Linux
-Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__\ 的功能做了进一步的优化和升级，使其更容使用。
+Nuclei Studio 2023.10 and later integrates `Eclipse Linux
+Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__, whose features have been partially optimized so that Nuclei
+Studio projects can use the Code Coverage and Profiling related features. In Nuclei Studio
+2024.06, these features were further optimized and upgraded to make them easier to use.
 
-关于Coverage、Profiling和Call Graph的使用教程请查看 :ref:`Coverage、Profiling和Call Graph使用 <ide_advanceusage_21>` 。
+For tutorials on using Coverage, Profiling, and Call Graph, see :ref:`Using Coverage, Profiling, and Call Graph <ide_advanceusage_21>`.
 
-关于Eclipse Linux Tools的详细参见
-`Eclipse Linux Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__\
+For details about Eclipse Linux Tools, see
+`Eclipse Linux Tools <https://github.com/eclipse-linuxtools/org.eclipse.linuxtools/blob/master/RELEASE_NOTES.md#eclipse-linux-tools-release-notes>`__
 
-在使用过程，如有问题，可以查看 `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__  相关内容，也可以向我们提交相关issue。
+If you encounter any problems during use, check `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__ or submit an issue.
 
 .. note::
 
-   在 **芯来科技视频号** 中有 **如何在Nuclei Studio中使用Code Coverage和Profiling功能** 的视频，您可以在微信中搜索 **芯来科技视频号** 点击查看相关内容。
+   The **Nuclei System Technology WeChat Channel** contains a video on **How to Use Code Coverage and Profiling in Nuclei Studio**. Search for the **Nuclei System Technology WeChat Channel** in WeChat to view it.
 
-关于Code Coverage功能
-~~~~~~~~~~~~~~~~~~~~~
+About Code Coverage
+~~~~~~~~~~~~~~~~~~~
 
-Nuclei Studio中的Code Coverage功能是借助于gcc编译器提供gcov工具来查看指定源码文件的代码覆盖率，可以帮助开发人员确定他们的测试用例是否足够充分，是否覆盖了被测代码的所有分支和路径。
+The Code Coverage feature in Nuclei Studio relies on the gcov tool provided by the GCC compiler to view the code coverage of specified source files. It helps developers determine whether their test cases are sufficient and cover all branches and paths of the code under test.
 
-在Nuclei Studio中，通过给工程中的文件或者文件夹添加 ``--coverage`` 或者 ``-coverage`` 编译选项编译，在实际开发板上运行时，可以配合semihost功能实现文件读写到主机电脑上，就可以收集到需要的coverage文件(gcda/gcno文件)，或者通过 `Nuclei SDK提供的profiling库 <https://github.com/Nuclei-Software/nuclei-sdk/tree/master/Components/profiling>`__ 来实现将coverage数据打印到串口上，然后通过IDE来解析并保存到主机上。
+In Nuclei Studio, build the file or folder you want to analyze with the ``--coverage`` or ``-coverage`` compile option. When the program runs on a real development board, the semihost feature reads and writes files on the host computer, so the required coverage files (gcda/gcno files) can be collected. Alternatively, use the `profiling library provided by Nuclei SDK <https://github.com/Nuclei-Software/nuclei-sdk/tree/master/Components/profiling>`__ to print the coverage data to the serial port; the IDE then parses the data and saves it to the host.
 
 .. caution::
-   - 注意：此处只需要将编译选项 ``--coverage`` 或者 ``-coverage``  加到特定的应用目录或者源码文件上，而不能加到整个工程，否则在程序运行时将会消耗大量内存，导致运行失败。
-   - 注意: 在使用2025.02-gcc 14.x及后续版本的编译器配合Nuclei SDK Profiling库(<=0.8.0)的时候，会存在coverage功能不正常，没有任何coverage信息的问题，需要参考这个修改 https://github.com/Nuclei-Software/nuclei-sdk/commit/5aaae0d5a7629013a235657ed3bce3dce18e8e0b
+   - The compile option ``--coverage`` or ``-coverage`` should only be added to a specific application directory or source file, not to the entire project. Otherwise, the program consumes a large amount of memory at runtime and fails to run.
+   - When the 2025.02-gcc 14.x or later compilers are used together with the Nuclei SDK Profiling library (<=0.8.0), the coverage feature does not work properly and no coverage information is produced. For the fix, see https://github.com/Nuclei-Software/nuclei-sdk/commit/5aaae0d5a7629013a235657ed3bce3dce18e8e0b
 
 .. note::
 
-   截止到Nuclei Studio 2025.10版本发布时，Nuclei SDK 0.9.0 [Profiling/Coverage](https://github.com/Nuclei-Software/nuclei-sdk/tree/master/Components/profiling) 的库实现，暂时没有增加clang编译器的支持，因此如果使用clang编译器进行测试，会报错如下，这个未来Nuclei SDK升级相关支持以后理论上就可以正常使用了。
+   As of the Nuclei Studio 2025.10 release, the library implementation of Nuclei SDK 0.9.0 `Profiling/Coverage <https://github.com/Nuclei-Software/nuclei-sdk/tree/master/Components/profiling>`__ does not yet support the clang compiler. If you use the clang compiler for testing, an error is reported. This should work normally once Nuclei SDK adds the related support in a future release.
 
 .. note::
 
-   由于 GCC 版本升级，使用最新 SDK 创建的工程在启用代码覆盖率（Code Coverage）功能时可能出现异常。该问题已在 Nuclei Studio 2025.10 版本中修复。
-   
-   **注意**：此修复仅支持 SDK 版本 0.8.1 及以上。不向下兼容旧版工程：对于此前创建的旧工程，需手动修改配置以适配新版本。请参考以下 GitHub 提交记录中的修改内容，对您的工程进行相应调整：https://github.com/Nuclei-Software/nuclei-sdk/commit/5aaae0d5a7629013a235657ed3bce3dce18e8e0b
+   Due to the GCC version upgrade, projects created with the latest SDK may behave abnormally when the Code Coverage feature is enabled. This issue has been fixed in Nuclei Studio 2025.10.
 
--  ``.gcno`` 文件是在使用 GCC 编译器的 ``-ftest-coverage`` 选项编译源代码时生成的。它包含了重构基本块图和为块分配源代码行号的信息。
+   **Note**: This fix only supports SDK version 0.8.1 and above and is not backward compatible with older projects. For projects created with an older SDK, manually modify the configuration to adapt to the new version. Refer to the changes in the following GitHub commit and adjust your project accordingly: https://github.com/Nuclei-Software/nuclei-sdk/commit/5aaae0d5a7629013a235657ed3bce3dce18e8e0b
 
--  ``.gcda`` 文件是在使用 GCC 编译器的 ``-fprofile-arcs`` 选项编译的目标文件运行时生成的。每个使用该选项编译的目标文件都会生成一个单独的 ``.gcda`` 文件。它包含了弧转移计数、值分布计数以及一些摘要信息。
+-  The ``.gcno`` file is generated when source code is compiled with the ``-ftest-coverage`` option of the GCC compiler. It contains information for reconstructing the basic block graph and assigning source line numbers to blocks.
 
-而一般情况下直接使用 ``--coverage`` 或者 ``-coverage``  选项就可以让指示编译器产生上述文件，注意 ``*.gcda`` 文件是运行时产生的，也就是说需要实际运行的环境支持文件的读写才可以产生这样的文件，这里我们采用的是semihost技术，通过openocd的semihost功能，将文件写到主机上。
+-  The ``.gcda`` file is generated when an object file compiled with the ``-fprofile-arcs`` option of the GCC compiler runs. A separate ``.gcda`` file is generated for each object file compiled with this option. It contains arc transition counts, value profile counts, and some summary information.
+
+In general, the ``--coverage`` or ``-coverage`` option alone instructs the compiler to produce the files described above. Note that ``*.gcda`` files are produced at runtime, so the runtime environment must support file reading and writing. Here we use semihosting: the files are written to the host through the semihost feature of OpenOCD.
 
 .. note::
 
-   注意：进行coverage的时候，建议是使用 ``O0`` 编译，这样coverage的信息才会尽可能的准确。
+   When collecting coverage, compile with ``O0`` so that the coverage information is as accurate as possible.
 
-关于Code Coverage的功能详细参见
+For details about the Code Coverage feature, see
 
 -  `Gcov Intro (Using the GNU Compiler Collection
    (GCC)) <https://gcc.gnu.org/onlinedocs/gcc/Gcov-Intro.html>`__
@@ -194,19 +191,19 @@ Nuclei Studio中的Code Coverage功能是借助于gcc编译器提供gcov工具�
    on
    Eclipse <https://mcuoneclipse.com/2014/12/26/code-coverage-for-embedded-target-with-eclipse-gcc-and-gcov/>`__
 
-关于Profiling功能
-~~~~~~~~~~~~~~~~~
+About Profiling
+~~~~~~~~~~~~~~~
 
-Nuclei Studio中的Profiling功能是借助于gcc编译器和binutils中的gprof工具，来查看指定文件中函数的运行时间和调用次数，以及调用关系。gprof可以用来确定程序的瓶颈，以便进行性能优化。gprof通过在程序运行时收集数据来工作，然后生成一个报告，该报告显示每个函数在程序中占用CPU时间的百分比以及函数之间的调用关系。
+The Profiling feature in Nuclei Studio relies on the gprof tool in the GCC compiler and binutils to view the running time and call counts of functions in a specified file, as well as their call relationships. gprof helps identify program bottlenecks for performance optimization. It collects data while the program runs and generates a report showing the percentage of CPU time each function occupies and the call relationships between functions.
 
-在Nuclei Studio中，通过带特定的编译选项 ``-pg`` 编译指定源码文件，在实际开发板上运行时，可以配合semihost功能实现文件读写到主机电脑上，就可以收集到需要的coverage文件(gcda/gcno文件)，或者通过 `Nuclei SDK提供的profiling库 <https://github.com/Nuclei-Software/nuclei-sdk/tree/master/Components/profiling>`__ 来实现将coverage数据打印到串口上，然后通过IDE来解析并保存到主机上。
+In Nuclei Studio, build the specified source files with the ``-pg`` compile option. When the program runs on a real development board, the semihost feature reads and writes files on the host computer, so the required coverage files (gcda/gcno files) can be collected. Alternatively, use the `profiling library provided by Nuclei SDK <https://github.com/Nuclei-Software/nuclei-sdk/tree/master/Components/profiling>`__ to print the coverage data to the serial port; the IDE then parses the data and saves it to the host.
 
 .. note::
-   注意：此处只需要将编译选项 ``-pg`` 加到特定的应用目录或者源码文件上，而不能加到整个工程，否则在程序运行时将会消耗大量内存，导致运行失败。
+   The compile option ``-pg`` should only be added to a specific application directory or source file, not to the entire project. Otherwise, the program consumes a large amount of memory at runtime and fails to run.
 
-产生这个 ``gmon.out`` 文件需要配合编译器并且实际上板运行，并且运行环境支持文件的读写，才可以进行有效的Profiling功能。
+Producing the ``gmon.out`` file requires compiler support, and the program must actually run on a board whose runtime environment supports file reading and writing before Profiling can produce useful results.
 
-关于Profiling的功能详细参见
+For details about the Profiling feature, see
 
 -  `Introduction (GNU
    gprof) <https://sourceware.org/binutils/docs/gprof/Introduction.html>`__
@@ -216,38 +213,38 @@ Nuclei Studio中的Profiling功能是借助于gcc编译器和binutils中的gprof
 
 .. _ide_advanceusage_18:
 
-关于Call Graph功能
-~~~~~~~~~~~~~~~~~~
+About Call Graph
+~~~~~~~~~~~~~~~~
 
-Call Graph（调用图）是一个强大的工具，它允许开发人员直观地理解程序中函数或方法之间的调用关系。通过Call Graph，开发人员可以迅速识别出哪些函数被频繁调用，哪些函数是关键的入口点，以及函数之间的依赖关系。Nuclei Studio中Call Graph主要是通过分析Profiling的数据，来获取到程序的调用关系。
+Call Graph is a powerful tool that gives developers an intuitive view of the call relationships between functions or methods in a program. With Call Graph, developers can quickly identify frequently called functions, key entry points, and dependencies between functions. In Nuclei Studio, Call Graph obtains the program's call relationships mainly by analyzing Profiling data.
 
-在NucleiStudio中依次 ``Window -> Show View -> Other`` ，在弹出的Show View中搜索 ``Call Graph`` ，打开 ``Call Graph`` 工具。 ``Call Graph`` 工具中提供了多处视图，其中常用到的视图有以下几个。
+In Nuclei Studio, go to ``Window -> Show View -> Other``, search for ``Call Graph`` in the Show View dialog, and open the ``Call Graph`` tool. The ``Call Graph`` tool provides multiple views; the most commonly used are described below.
 
 Radial View
 ^^^^^^^^^^^
 
-本视图中展示了程序的调用关系，在左侧的菜点中，双击选中某个父节点，在右侧的区域将显示以这个父节点开始的所有的调用关系，也可以通过菜单在其他视图中以不同的方式查看所选中的调用关系。
+This view shows the call relationships of the program. Double-click a parent node in the menu on the left, and the area on the right displays all call relationships starting from that parent node. You can also use the menu to view the selected call relationship in the other views.
 
 |image18|
 
 Tree View
 ^^^^^^^^^
 
-展示了Radial View中所选中的程序的调用关系、耗时所占比率、调用次数等信息；选中某一个函数，可以查看到它的父节点以及子节点等信息。
+Shows the call relationships, time consumption percentages, call counts, and other information for the program selected in Radial View. Select a function to view its parent nodes, child nodes, and other information.
 
 |image19|
 
 Level View
 ^^^^^^^^^^
 
-与Tree View有点类似，展示了程序的调用关系以及调用次数。
+Similar to Tree View, it shows the call relationships and call counts of the program.
 
 |image20|
 
 Aggregate View
 ^^^^^^^^^^^^^^
 
-以方图的方式，非常直观的展示了程序的耗时关系。
+Shows the program's time consumption visually as a square diagram.
 
 |image21|
 
@@ -255,115 +252,115 @@ Aggregate View
 
 .. _ide_advanceusage_profiling:
 
-Coverage、Profiling和Call Graph使用
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Using Coverage, Profiling, and Call Graph
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在NucleiSudio 2024.06版中使用Coverage、Profiling和Call Graph方法很简单，下面以NucleiSudio 2024.06、nuclei_sdk 0.6.0为例，通过两种方式分别演示如何使用Coverage、Profiling和Call Graph工具。
+Using Coverage, Profiling, and Call Graph in Nuclei Studio 2024.06 is straightforward. The following examples use Nuclei Studio 2024.06 and nuclei_sdk 0.6.0 to demonstrate two ways of using the Coverage, Profiling, and Call Graph tools.
 
-通过串口使用
-^^^^^^^^^^^^
+Using via Serial Port
+^^^^^^^^^^^^^^^^^^^^^
 
-nuclei_sdk 0.6.0及以上版本的nuclei_sdk中，包含一个 ``Profiling demo to show how to use gprof and gcov`` 测试工程，在NucleiSudio安装了nuclei_sdk 0.6.0后，可以创建此测试工程。关于 ``Profiling demo to show how to use gprof and gcov`` 测试工程,可参考 `demo_profiling <https://doc.nucleisys.com/nuclei_sdk/design/app.html#demo-profiling>`__ 。
+nuclei_sdk 0.6.0 and later versions include a ``Profiling demo to show how to use gprof and gcov`` test project. After installing nuclei_sdk 0.6.0 in Nuclei Studio, you can create this test project. For details about the ``Profiling demo to show how to use gprof and gcov`` test project, see `demo_profiling <https://doc.nucleisys.com/nuclei_sdk/design/app.html#demo-profiling>`__.
 
 |image22|
 
-工程创建后，需要对想要进行代码分析的文件或文件夹设置一个 ``-pg`` 、 ``--coverage`` 或者 ``-coverage``  的编译选项，然后编译工程。
+After the project is created, set the ``-pg``, ``--coverage``, or ``-coverage`` compile option for the files or folders you want to analyze, then build the project.
 
 .. note::
-   注意：此处只需要将编译选项  ``-pg`` 、 ``--coverage`` 或者 ``-coverage``   加到特定的应用目录或者源码文件上，而不能加到整个工程，否则在程序运行时将会消耗大量内存，导致运行失败。
+   The compile options ``-pg``, ``--coverage``, or ``-coverage`` should only be added to a specific application directory or source file, not to the entire project. Otherwise, the program consumes a large amount of memory at runtime and fails to run.
 
 |profiling_options_in_ide|
 
-在编译通过的工程的Debug目录中，可以看到，已经生成了几个 ``.gcno`` 的文件。
+In the Debug directory of the successfully built project, you can see that several ``.gcno`` files have been generated.
 
 |image23|
 
-工程编译完后，可以运行或调试工程，我们可以选择在QEMU下进行，也可以调试实际的开发板。本例以QEMU为例进行运行程序，在NucleiStudio的Console窗口中可以看到Profiling信息输出，如果是在开发板上调试，则是在串口输出中可以找到Profiling信息输出。
+After the project is built, run it under QEMU or debug it on a real development board. This example runs the program under QEMU; the Profiling information is output in the Nuclei Studio Console window. When debugging on a development board, the Profiling information appears in the serial port output.
 
 |image24|
 
-输出的Profiling信息需要解析后NucleiStudio才可以正确读取，在Console框内点击鼠标右键，然后在弹出的菜单中点击Select All，来选中所有输出，再次击鼠标右键，在弹出菜单中选择 ``Parse and Generate HexDump`` 菜单。
+The output Profiling information must be parsed before Nuclei Studio can read it. Right-click in the Console window and select Select All from the context menu to select all output, then right-click again and select ``Parse and Generate HexDump``.
 
 |image25|
 
-此时NucleiStudio会对输出的文件进行分析，并将结果分别存放在对应的文件中。
+Nuclei Studio then analyzes the output and stores the results in the corresponding files.
 
 |image26|
 
-再次查看工程的Debug目录，可以看到产生了对应的 ``.gcda`` 文件。
+Check the Debug directory of the project again; the corresponding ``.gcda`` files have been produced.
 
 |image27|
 
-双击 ``.gcda`` 文件，打开Gcov工具，就可以看到对应用程序的分析结果，在结果中显示了某个文件或某个方法在程序执行过程中是否执行到，以及代码执行覆盖比等数据。
+Double-click a ``.gcda`` file to open the Gcov tool and view the analysis results for the application. The results show whether each file or method was executed during program execution, as well as data such as the code execution coverage ratio.
 
 |image28|
 
-双击Gcov中的某一行，NucleiStudio就会自动打开对应的文，并对文件中的代码着色，绿色表示在程序执行过程中有执行到，红色代表在程序过程中没有被执行到。开发者可以参考Gcov的结果，并对代码做出相应的优化。
+Double-click a row in Gcov, and Nuclei Studio automatically opens the corresponding file and colors its code: green indicates code that was executed during program execution, and red indicates code that was not. Use the Gcov results to optimize the code accordingly.
 
 |image29|
 
-code coverage也提供了以直方图的方式查看数据，选中想要查看的数据项，点击菜单中的直方图菜单，并按需求配置。
+Code coverage also provides a histogram view of the data. Select the data item you want to view, click the histogram menu item, and configure it as needed.
 
 |image30|
 
-就可以在Nuclei Studio中查看code coverage直方图信息了。
+The code coverage histogram is then displayed in Nuclei Studio.
 
 |image31|
 
-双击 ``gmon.out`` 文件，弹出一个文件选择框，提示填写与选中与 ``gmon.out`` 文件相关的elf文件和 ``*.lst`` 文件，默认会根据当 ``gmon.out`` ，自动填入对应的工程内的 ``elf文件`` 和 ``*.lst`` 文件，点击OK按钮。
+Double-click the ``gmon.out`` file. A file selection dialog pops up, prompting you to select the elf file and ``*.lst`` file related to the ``gmon.out`` file. By default, the ``elf file`` and ``*.lst`` file in the corresponding project are filled in automatically based on the current ``gmon.out``. Click OK.
 
 |image32|
 
-Gprof工具会启动，就可以看到对应用程序的分析结果，显示了文件、方法的调用关系等。
+The Gprof tool starts and shows the analysis results for the application, including the call relationships of files and methods.
 
-双击Gprof中的某一行，NucleiStudio就会自动打开对应的源文件并定位到对应的行，同时打开LST View工具，并根据addr定位那一行，实现Gprof、源代码、反汇编码的联系，帮用户快速了解程序结构及调用关系。
+Double-click a row in Gprof, and Nuclei Studio automatically opens the corresponding source file at the corresponding line. It also opens the LST View tool and locates the line by addr, linking Gprof, the source code, and the disassembly code so you can quickly understand the program structure and call relationships.
 
 |image33|
 
-同样在Nuclei Studio中，可以查看profiling数据的直方图信息。
+Likewise, you can view a histogram of the profiling data in Nuclei Studio.
 
 |image34|
 
-打开Gprof的同时，NucleiStudio会根据gmon.out文件解析出程序的Call Graph并生成 ``callgraph.out`` 文件。双击 ``callgraph.out`` 文件，也可以点击Gprof工具的菜单栏中 ``Open Call Graph View`` 按钮，来启动Call Graph工具。关于Call Graph的具体使用，可以参考 :ref:`关于Call Graph功能 <ide_advanceusage_18>` 。
+When Gprof is opened, Nuclei Studio parses the program's call graph from the gmon.out file and generates a ``callgraph.out`` file. Double-click the ``callgraph.out`` file, or click the ``Open Call Graph View`` button in the Gprof toolbar, to start the Call Graph tool. For details on using Call Graph, see :ref:`About Call Graph <ide_advanceusage_18>`.
 
 |image35|
 
-通过Semihosting使用
-^^^^^^^^^^^^^^^^^^^
+Using via Semihosting
+^^^^^^^^^^^^^^^^^^^^^
 
-NucleiSudio安装了nuclei_sdk 0.6.0后，可以创建一个 ``Profiling demo to show how to use gprof and gcov`` 的测试工程，此时需要选中 ``Enable Semihosting`` 。关于 ``Profiling demo to show how to use gprof and gcov`` 测试工程,可参考 `demo_profiling <https://doc.nucleisys.com/nuclei_sdk/design/app.html#demo-profiling>`__ 。
+After installing nuclei_sdk 0.6.0 in Nuclei Studio, create a ``Profiling demo to show how to use gprof and gcov`` test project, this time selecting ``Enable Semihosting``. For details about the ``Profiling demo to show how to use gprof and gcov`` test project, see `demo_profiling <https://doc.nucleisys.com/nuclei_sdk/design/app.html#demo-profiling>`__.
 
 |image36|
 
-工程创建后，需要对想要进行代码分析的文件或者文件夹设置一个 ``-pg --coverage`` 的编译选项，然后编译工程。
+After the project is created, set the ``-pg --coverage`` compile option for the files or folders you want to analyze, then build the project.
 
 |profiling_options_in_ide|
 
-同时，需要修改程序中 ``gprof_collect(2);`` 为 ``gprof_collect(1);`` 、 ``gcov_collect(2);`` 为 ``gcov_collect(1);`` （测试工程中在main函数的最后），则在运行过程中，将会通过Semihosting将结果输出为文件。
+Also change ``gprof_collect(2);`` to ``gprof_collect(1);`` and ``gcov_collect(2);`` to ``gcov_collect(1);`` in the program (at the end of the main function in the test project). During execution, the results are then output as files through Semihosting.
 
 |image37|
 
-开始编译工程，在编译通过的工程的Debug目录中，可以看到，已经生成了几个 ``.gcno`` 的文件。
+Build the project. In the Debug directory of the successfully built project, you can see that several ``.gcno`` files have been generated.
 
 |image38|
 
-工程编译完成后，可以运行或调试工程，我们可以选择在QEMU下进行，也可以调试实际的开发板。
+After the project is built, run it under QEMU or debug it on a real development board.
 
 |image39|
 
-本例以QEMU为例进行运行程序，程序运行结束后，刷新工程，可以看到工程下多出了几个文件， ``*.gcda`` 文件以及 ``*.out`` 文件。至此，后面查看结果与上面类似。
+This example runs the program under QEMU. After the program finishes running, refresh the project; several new files appear under the project: ``*.gcda`` files and ``*.out`` files. View the results as described above.
 
 |image40|
 
-在Nuclei Studio中通过gcov工具查看应用程序的Code Coverage信息。
+View the Code Coverage information of the application with the gcov tool in Nuclei Studio.
 
 |image41|
 
-在Nuclei Studio中通过gprof工具查看应用程序的Profiling信息。
+View the Profiling information of the application with the gprof tool in Nuclei Studio.
 
 |image42|
 
-在Nuclei Studio中通过Call Graph查看调用关系信息。
+View the call relationship information with Call Graph in Nuclei Studio.
 
 |image43|
 
@@ -371,193 +368,192 @@ NucleiSudio安装了nuclei_sdk 0.6.0后，可以创建一个 ``Profiling demo to
 
 .. _ide_etrace:
 
-Trace功能的使用
----------------
+Using the Trace Feature
+-----------------------
 
-Trace技术是一种强大的调试工具，它能够帮助开发人员跟踪和记录程序执行过程中的关键信息，从而有效地诊断问题、优化性能和提升系统的稳定性。
+Trace is a powerful debugging technology that helps developers track and record key information during program execution, so they can effectively diagnose problems, optimize performance, and improve system stability.
 
-Nuclei Studio集成了Trace工具，结合相应硬件和Nuclei OpenOCD，用户在工程Debug时可查看Trace日志，并结合源码进行问题排查。
-
-.. note::
-
-   在 **芯来科技视频号** 中有 **如何在Nuclei Studio中使用Trace功能** 的视频，您可以在微信中搜索 **芯来科技视频号** 点击查看相关内容。
+Nuclei Studio integrates a Trace tool. Combined with the corresponding hardware and Nuclei OpenOCD, it lets you view Trace logs while debugging a project and troubleshoot problems together with the source code.
 
 .. note::
 
-   关于OpenOCD的Nuclei ETrace的一些命令，请参加OpenOCD下的openocd.pdf手册。
+   The **Nuclei System Technology WeChat Channel** contains a video on **How to Use the Trace Feature in Nuclei Studio**. Search for the **Nuclei System Technology WeChat Channel** in WeChat to view it.
 
-在使用过程，如有问题，可以查看 `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__  相关内容，也可以向我们提交相关issue。
+.. note::
 
-Trace界面介绍
-~~~~~~~~~~~~~
+   For the Nuclei ETrace commands of OpenOCD, see the openocd.pdf manual under OpenOCD.
+
+If you encounter any problems during use, check `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__ or submit an issue.
+
+Trace UI Overview
+~~~~~~~~~~~~~~~~~
 
 .. rubric:: Trace View
 
-在Nuclei Studio中，通过菜单 ``Window->Show View->Other`` 打开View管理器，在里面找到RV Trace->Trace菜单，点击打开Trace菜单。
+In Nuclei Studio, open the Show View dialog via ``Window->Show View->Other``, find the RV Trace->Trace menu item, and click it to open the Trace view.
 
 |image44|
 
-Trace的视图分两部分，上面为Trace工具栏，下面是Trace记录表格。Trace工具栏的介绍和功能分别如下：
+The Trace view consists of two parts: the Trace toolbar on top and the Trace record table below. The Trace toolbar provides the following items:
 
 - **Trace setting**
 
-trace的配置信息，在这里配置Trace ATB2AXI Config Addr、Trace Buffer Base Addr、Trace Buffer Size in Bytes、Trace Wrap
+Opens the trace configuration, where you configure Trace ATB2AXI Config Addr, Trace Buffer Base Addr, Trace Buffer Size in Bytes, and Trace Wrap.
 
 - **Start trace/stop trace**
 
-设置开始/停止trace操作。
+Starts or stops trace recording.
 
 - **Trace clear**
 
-清空硬件上的所有的trace设置。
+Clears all trace settings on the hardware.
 
 - **Dump trace file**
 
-从硬件上Dump trace文件。
+Dumps the trace file from the hardware.
 
 - **Reload trace file**
 
-本地重新加载trace记录表内容。
+Reloads the contents of the trace record table locally.
 
 - **Clear viewer**
 
-清空trace记录表内容，以及Trace Decode相关的配置，如HartID和Thread的关系等。
+Clears the contents of the trace record table, as well as Trace Decode related configuration, such as the relationship between HartID and Thread.
 
 - **Save trace log**
 
-将trace记录表保存为csv表格。
+Saves the trace record table as a CSV file.
 
 - **Toggle instruction stepping**
 
-当选种某条记录时，可以打开并定位到该条记录所对应的源码和反汇编码。
+Opens the source code and disassembly code corresponding to the selected record.
 
 - **Decode trace into flame**
 
-从Trace记录中解析出火焰图信息
+Parses flame graph information from the Trace records.
 
 - **step into previous line**
 
-当选种某条记录时，跳转到该条记录的上一条记录，并定位到所对应的源码和反汇编码。
+When a record is selected, jumps to the previous record and locates the corresponding source code and disassembly code.
 
 - **step into next line**
 
-当选种某条记录时，跳转到该条记录的下一条记录，并定位到所对应的源码和汇编码。
+When a record is selected, jumps to the next record and locates the corresponding source code and assembly code.
 
 - **Search for Addr**
 
-搜索框，可以通过Addr 搜索到对应的那一行trace记录。
+A search box for finding the trace record row with a given Addr.
 
 - **search backward**
 
-搜索结果的记录是多条时，可以查看上一条搜索结果。
+Views the previous result when there are multiple search results.
 
 - **search forward**
 
-搜索结果的记录是多条时，可以查看下一条搜索结果。
+Views the next result when there are multiple search results.
 
 - **search exceptions or interruptions**
 
-搜索结果的记录是多条时，可以查看下一条搜索结果。
+Views the next result when there are multiple search results.
 
 - **Page**
 
-多页的翻页，trace如果条数很多时，为了方便查看，会采用多页显示。
+Pagination controls. When there are many trace records, they are displayed across multiple pages for easier viewing.
 
-Trace记录表格，是Nuclei Studio将dump到的trace文件进行解密之后，生成的记录进行展示，并且当用户点击某条记录时，会自动定位到对应的源代码和反汇编代码的行数。
+The Trace record table displays the records generated after Nuclei Studio decodes the dumped trace file. When you click a record, Nuclei Studio automatically locates the corresponding source code and disassembly code.
 
-- **Record：** 记录id
+- **Record:** record ID
 
-- **CoreId：** Coreid，主要是在多核时可以用于区分不同的Core
+- **CoreId:** Core ID, mainly used to distinguish between different Cores in multi-core scenarios
 
-- **Addr：** 指令地址
+- **Addr:** instruction address
 
-- **CPU Clock：** 时钟Cycle计数
+- **CPU Clock:** clock cycle count
 
-- **Clock Diff：** 时钟Cycle差
+- **Clock Diff:** clock cycle difference
 
-- **Instruction Code：** 十六进制表示的指令码
+- **Instruction Code:** instruction code in hexadecimal
 
-- **Instruction：** 指令码
+- **Instruction:** instruction code
 
-- **File：** 指令码对应的源码所在的文件
+- **File:** the file containing the source code corresponding to the instruction
 
-- **File Line：** 指令码对应的源码所在的文件的行数
+- **File Line:** the line number of the source code corresponding to the instruction
 
 .. rubric:: Trace Configuration
 
-用户可以在这里配置Trace的Trace ATB2AXI Config Addr、Trace Buffer Base Addr、Trace Buffer Size in Bytes、Trace Wrap。具体的信息，根据不同的硬件而不同。
+Here you can configure Trace ATB2AXI Config Addr, Trace Buffer Base Addr, Trace Buffer Size in Bytes, and Trace Wrap. The specific values depend on the hardware.
 
 |image45|
 
-- **Check core support for Trace：**  如果勾选，在下发Trace命令前会检测CPU是否支持Trace功能；如果不勾选，则在下发Trace命令时忽略CPU是否支持Trace。
+- **Check core support for Trace:** If checked, the CPU is checked for Trace support before the Trace command is issued; if unchecked, the CPU support check is ignored when the Trace command is issued.
 
-- **Trace need to be configured:** 如果需要配置Trace模块就勾选，如果其他地方已经配置过了，就千万不要勾选了，例如多核SMP/AMP的情况下，SoC上只有一个Trace模块，假设其中一个核心已经勾选配置了，其他的核心就不能勾选了，或者是配置是在C代码中或者其他地方做了，也千万不要勾选。
+- **Trace need to be configured:** Check this option if the Trace module must be configured. If it has already been configured elsewhere, do not check it. For example, in multi-core SMP/AMP scenarios the SoC has only one Trace module; if one core has already checked this option and configured the module, the other cores must not check it. Likewise, do not check it if the configuration has been done in C code or elsewhere.
 
-- **Trace ATB2AXI Config Addr：** ATB2AXI模块控制器的基地址。
+- **Trace ATB2AXI Config Addr:** Base address of the ATB2AXI module controller.
 
-- **Trace Buffer Base Addr：** 存放trace记录的开始地址，例如：针对某个SoC, 举例如下在flashxip模式，使用ilm（0x1c000000）作为缓存buffer；在sramxip模式，使用dlm（0x08010000）作为缓存buffer。
+- **Trace Buffer Base Addr:** The starting address where trace records are stored. For example, for a certain SoC: in flashxip mode, ilm (0x1c000000) is used as the buffer; in sramxip mode, dlm (0x08010000) is used as the buffer.
 
-- **Trace Buffer Size in Bytes：** 存放trace记录的Buffer大小，单位为字节。
+- **Trace Buffer Size in Bytes:** The size of the buffer where trace records are stored, in bytes.
 
-- **Trace Wrap：** 是否允许自动复盖，允许则在Buffer满时，将再次从头开始覆盖记录。
+- **Trace Wrap:** Whether automatic overwriting is allowed. If allowed, recording starts over from the beginning when the buffer is full.
 
 .. rubric:: Trace Decoder Configuration
 
-Set Current Debug hart Configuration弹框中，用户可以自定义trace decoder的参数，具体如下。
+In the Set Current Debug hart Configuration dialog, you can customize the following trace decoder parameters.
 
 |image46|
 
-- **ELF File Path：** trace生产时执行的elf文件的地址。
+- **ELF File Path:** The path of the elf file executed when the trace was produced.
 
-- **Trace File Path：** 需要解析的trace文件的地址。
+- **Trace File Path:** The path of the trace file to be parsed.
 
-- **Objdump Path：** trace decode过程中，需要用到objdump工具，所以这里需要指定所使用到的objdump工具的地址。
+- **Objdump Path:** The objdump tool is used during trace decode, so the path of the objdump tool must be specified here.
 
-- **HartID：** trace decode时需要指定当前需要查看的trace对应的HartID，单核工程默认HartID=0。
+- **HartID:** During trace decode, the HartID corresponding to the trace to be viewed must be specified. For single-core projects, the default is HartID=0.
 
-- **Trace Data Align Size：** 跟踪数据对齐大小，一般与硬件的trace输出位宽对齐，默认有8、32、64。如果Trace Wrap没有勾选，该值设置为8。
+- **Trace Data Align Size:** The alignment size of the trace data, generally aligned with the hardware trace output width. The default values are 8, 32, and 64. If Trace Wrap is not checked, set this value to 8.
 
-- **Display Address Bits：** trace decode后显示地址的位数，一般是32、64、128位。
+- **Display Address Bits:** The number of address bits displayed after trace decode, generally 32, 64, or 128 bits.
 
-- **Decode Mode：** trace decode扩展功能，默认情况下选0。
+- **Decode Mode:** An extended trace decode feature. The default is 0.
 
-- **Decode Limit：** trace decode的条数限制默认下是500万条，条数越多对用户PC的要求越高。
+- **Decode Limit:** The limit on the number of trace decode entries, 5 million by default. The more entries, the higher the demands on your PC.
 
-Trace的使用
+Using Trace
 ~~~~~~~~~~~
 
-在使用trace功能时，必须在工程Debug时，通过Nuclei OpenOCD或者Dlink将Trace命令下发到硬件，目前通过OpenOCD，可以实现在单核、多核SMP和多核AMP应用下进行Trace记录，而Dlink仅支持在单核应用下的trace记录。
+When using the trace feature, the Trace commands must be issued to the hardware through Nuclei OpenOCD or DLink while the project is being debugged. Currently, OpenOCD supports Trace recording in single-core, multi-core SMP, and multi-core AMP applications, while DLink only supports trace recording in single-core applications.
 
-下面我们以OpenOCD为例，演示如何使用Trace功能。
+The following example uses OpenOCD to demonstrate the Trace feature.
 
-在单核应用中使用Trace
-^^^^^^^^^^^^^^^^^^^^^
+Using Trace in a Single-Core Application
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-如果您已获取到芯来授权的CPU和相关配套硬件并准备好硬件环境，这里不详细说明。然后创建好对应工程并确保它能在硬件上运行和调试。以下示例是在我们自己构建的一个测试环境上的流程举例说明。
+This document does not describe how to obtain the Nuclei-licensed CPU and the related supporting hardware or how to set up the hardware environment. Create the corresponding project and make sure it can run and debug on the hardware. The following example illustrates the process in a test environment we built ourselves.
 
-我们在这里创建了一个U900的单核、demo timer模板工程的应test，并让它跑在FLASHXIP模式下。
+In this example, we create a U900 single-core application named test from the demo timer template project and run it in FLASHXIP mode.
 
 |image47|
 
-我们可以记录整个应用运行完的trace，也可以记录某一段Debug断点之间的trace。进入Debug模式后，打开Trace视图。
+You can record the trace of the entire application run, or only the trace between two Debug breakpoints. After entering Debug mode, open the Trace view.
 
 |image48|
 
-设置Trace Configuration，设置trace配置信息并保存(Save)，如果不想保存，就关闭窗口。
+Open the Trace Configuration, configure the trace information, and click Save. If you do not want to save the configuration, close the window.
 
 |image49|
 
-Trace配置完毕后，可以设置两个断点，一个断点用于Trace开始点，一个断点用于Trace结束点，在开始点断点停下后就可以点击 ``start trace`` 按钮，就可以继续debug操作(如单步或者运行等)了，在结束点断电停下后，就可以点击 ``stop trace`` 按钮来结束Trace。
-上面只是Start/Stop
-Trace的一种使用示例，也可以更灵活一些，请根据自己需要进行使用。当trace结束时（多核情况下请确保每个CPU的Trace都结束了），就可以点 ``Dump trace file`` 按钮，将trace文件从硬件上下载到本地，默认下载的trace文件存在工程目下的debug目录下，有一个 ``工程名.trace`` 的文件。
+After Trace is configured, set two breakpoints, one as the Trace start point and one as the Trace end point. When the program stops at the start-point breakpoint, click the ``start trace`` button and continue debugging (such as stepping or running). When the program stops at the end-point breakpoint, click the ``stop trace`` button to end Trace.
+This is only one way to use Start/Stop Trace; adapt it to your needs. When the trace ends (in multi-core scenarios, make sure Trace has ended on every CPU), click the ``Dump trace file`` button to download the trace file from the hardware to the local machine. By default, the downloaded trace file is stored in the debug directory under the project directory as ``<projectname>.trace``.
 
 |image50|
 
-Trace文件下载完后，Nuclei Studio会弹出一个 ``Set current debug hart configuration`` 框。
+After the trace file is downloaded, Nuclei Studio pops up a ``Set current debug hart configuration`` dialog.
 
 |image51|
 
-在框中填写确正信息（这里的HartID指的是对应的Thread的hartid，请不要填错了）并确认，Nuclei Studio对trace文件开始解析，并生成trace记录表格。在trace记录表格，选中任意一条记录，Nuclei Studio会自动找到源码和反汇编码，并定位那对应的那一行（因反汇编码与源码在同一个视图中打开，需要用户自己把反汇编码移到另一个视图中）。
+Fill in the correct information in the dialog (the HartID must be the hartid of the corresponding Thread) and confirm. Nuclei Studio then parses the trace file and generates the trace record table. Select any record in the table, and Nuclei Studio automatically finds the source code and disassembly code and locates the corresponding line (because the disassembly code and the source code open in the same view, move the disassembly code to another view yourself).
 
 |image52|
 
@@ -565,241 +561,241 @@ Trace文件下载完后，Nuclei Studio会弹出一个 ``Set current debug hart 
 
 .. note::
 
-   中断与异常的查询是Nuclei Studio 2025.10版中新增的功能。
+   Querying interrupts and exceptions is a new feature in Nuclei Studio 2025.10.
 
-在Trace列表中如果存在中断，该条记录的背景色将变成绿色；如果存在异常，该记录的背景色将变成黄色；以帮助用户快速分辨中断或异常。
+If a record in the Trace list contains an interrupt, the background color of that record turns green; if it contains an exception, the background color turns yellow. This helps you quickly distinguish interrupts from exceptions.
 
 |image122|
 
-通过点击search exceptions or interruptions,可以查看当前工程中存在的所有中断或异常情况。
+Click search exceptions or interruptions to view all interrupts or exceptions in the current project.
 
 |image123|
 
-双击某条中断或异常，Trace列表会自动跳转到该条记录。鼠标悬停在该条记录上，将会显示该条记录的详细信息。
+Double-click an interrupt or exception, and the Trace list automatically jumps to that record. Hover the mouse over the record to display its detailed information.
 
 |image124|
 
-也可以双击 ``工程名.trace`` 文件，以文本的方式查看trace文件。
+You can also double-click the ``<projectname>.trace`` file to view the trace file as text.
 
 |image53|
 
 
-在SMP多核应用中使用Trace
-^^^^^^^^^^^^^^^^^^^^^^^^
+Using Trace in an SMP Multi-Core Application
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-在SMP多核应用中使用trace与单核大体相似，差别在于SMP多核在Debug时，不同的thread共用一个Trace Configuration， 且需要通过选择不同的Thread来对不同的CPU Hart核心单独 ``start trace/stop trace`` 。在Debug视图中，点击任意一个Thread,然后点击Trace工具栏中的 ``trace setting`` 来设置Trace Configuration。
+Using trace in an SMP multi-core application is similar to the single-core case. The difference is that in an SMP multi-core Debug session, all threads share one Trace Configuration, and you must select different Threads to ``start trace/stop trace`` for the individual CPU harts. In the Debug view, click a Thread, then click ``trace setting`` in the Trace toolbar to set up the Trace Configuration.
 
 |image54|
 
-在Debug视图中，可以通过点击不同的Thread,来切换不同的Core,如下图点击Thread #1或者Thread #1下对应的函数名来选中对应的是SMP多核应用中的Core 0,可以对Core
-0开启或者关闭Trace，在SMP多核应用中，只要有一个Core在完成start trace操作时,Trace Configuration中的信息就会在硬件中设置好，其他的core在 ``start trace`` 操作时，就不会重复设置trace Configuration。
+In the Debug view, switch between Cores by clicking different Threads. As shown below, clicking Thread #1 or the function name under Thread #1 selects Core 0 in the SMP multi-core application, and you can enable or disable Trace for Core
+0. Once any Core has performed the start trace operation, the Trace Configuration is set in the hardware, and the other cores do not set it again when they perform ``start trace``.
 
 |image55|
 
-同理，在Debug视图中点击Thread #2或者Thread #2下对应的函数名，来切换到Core 1上进行 ``start trace/stop trace`` 的操作。
+Similarly, click Thread #2 or the function name under Thread #2 in the Debug view to switch to Core 1 and perform the ``start trace/stop trace`` operations.
 
 |image56|
 
-在 ``dump trace file`` 操作时，在SMP多核应用中，只有当所有的Core都 ``stop trace`` ，才可以执行 ``dump trace file`` 的指令并成功下载Trace文件。Trace文件的下载，在SMP多核应用中，只需要下载一份，在对trace文件进行decode时，注意设置Hart ID，就可以解析出不同的trace记录表，如下图，当 ``HardID=0`` 时，就可以查看到Core 0对应的Trace记录。
+In an SMP multi-core application, the ``dump trace file`` command succeeds only after all Cores have performed ``stop trace``. Only one copy of the Trace file needs to be downloaded. When decoding the trace file, set the Hart ID correctly to parse the trace record table for each core. As shown below, when ``HartID=0``, you can view the Trace records corresponding to Core 0.
 
 |image57|
 
-同理当 ``HardID=1`` 时，就可以查看到Core 1对应的Trace记录。
+Similarly, when ``HartID=1``, you can view the Trace records corresponding to Core 1.
 
 |image58|
 
-在AMP多核应用中使用Trace
-^^^^^^^^^^^^^^^^^^^^^^^^
+Using Trace in an AMP Multi-Core Application
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-在AMP多核应用中使用trace也类似，trace配置也是共享。不同的thread共用一个trace configuration，但可以通过不同的thread，对不同的核单独 ``start trace/stop trace`` 。如下图，在Debug视图，点击 ``Thread #1`` 或者 ``Thread #1`` 下的函数名，切换到AMP多核应用中 ``Core 0`` ，然后点击Trace工具栏中的 ``trace setting`` 来设置Core 0对应的Trace Configuration。
+Using trace in an AMP multi-core application is also similar, and the trace configuration is shared as well: different threads share one trace configuration, but you can ``start trace/stop trace`` for each core individually through its thread. As shown below, in the Debug view, click ``Thread #1`` or the function name under ``Thread #1`` to switch to ``Core 0`` in the AMP multi-core application, then click ``trace setting`` in the Trace toolbar to set up the Trace Configuration for Core 0.
 
 |image59|
 
-在Debug视图，点击 ``Thread #2`` 或者 ``Thread #2`` 下的函数名，切换到AMP多核应用中 ``Core 1`` ，然后点击Trace工具栏中的 ``trace setting`` 来设置 ``Core 1`` 对应的Trace Configuration，因为在AMP多核应用中trace配置是共用，所以此处设置需要将 ``Trace need to be configured`` 的勾去掉，表示可以使用trace功能，但不需要有任何设置。
+In the Debug view, click ``Thread #2`` or the function name under ``Thread #2`` to switch to ``Core 1`` in the AMP multi-core application, then click ``trace setting`` in the Trace toolbar to set up the Trace Configuration for ``Core 1``. Because the trace configuration is shared in an AMP multi-core application, uncheck ``Trace need to be configured`` here so that the trace feature is used without applying new settings.
 
 |image60|
 
-Trace Configuration设置完成后，同样的通过Debug视图的Thread来切换不同的Core，进行 ``start trace/stop trace/dump trace file`` 操作,注意，设置了Trace Configuration的Core需要优先于其它Core开始 ``start trace`` ，并将Trace Configuration的信息设置好，其他的Core才可以正常的 ``start trace/stop trace/dump trace file`` 操作。
+After the Trace Configuration is set, switch between Cores through the Threads in the Debug view to perform the ``start trace/stop trace/dump trace file`` operations. Note that the Core for which the Trace Configuration is set must ``start trace`` first, so that the configuration is written to the hardware; only then can the other Cores perform the ``start trace/stop trace/dump trace file`` operations normally.
 
-在 ``dump trace file`` 操作时，在AMP多核应用中，请确定所有的Core都 ``stop trace`` ，才执行 ``dump trace file`` 的指令，否则可能在某一下Core在 ``dump trace file`` ，其他的Core还在记录trace，最后得到的Trace文件并与预期不符。Trace文件下载，在AMP多核应用中，需要每一个工程应用单独dump一份trace文件，其实dump到的trace文件内容是一样的，在对trace文件进行decoder时，同样需要注意设置 ``Core Hart ID`` ，就可以解析出对应的trace记录表。其他操作与上文内容中所述类似。
+In an AMP multi-core application, make sure all Cores have performed ``stop trace`` before executing ``dump trace file``. Otherwise, one Core may dump the trace file while the other Cores are still recording, and the resulting Trace file will not match expectations. Each project application must dump its own copy of the trace file, although the contents of the dumped files are identical. When decoding the trace file, also set the ``Core Hart ID`` correctly so that the corresponding trace record table can be parsed. The remaining operations are the same as described above.
 
-查看脱机Trace
-^^^^^^^^^^^^^
+Viewing Offline Trace
+^^^^^^^^^^^^^^^^^^^^^
 
-在某些场景下，用户可能通过命令行或其他方式，得到了一个trace文件，这时只需打开 ``Set Current Debug hart Configuration``，并按要求配置好参数，即可通过NucleiStudio的trace工具解析这个trace文件了。
+If you have obtained a trace file through the command line or other means, open ``Set Current Debug hart Configuration``, configure the parameters as required, and the trace tool in Nuclei Studio parses the trace file.
 
 |image61|
 
 .. _ide_ide_trace_flame:
 
-Trace中Flame View的使用
-~~~~~~~~~~~~~~~~~~~~~~~
+Using Flame View with Trace
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
-   在 Nuclei Studio 2025.10 中，我们推出了 Flame View 功能，通过可视化火焰图清晰展现程序运行时的调用栈与时间消耗，让开发者能够更高效地分析性能热点，加速问题排查。
+   In Nuclei Studio 2025.10, we introduced the Flame View feature, which clearly presents the call stack and time consumption during program execution through a visual flame graph, enabling developers to analyze performance hotspots more efficiently and accelerate troubleshooting.
 
-Trace本身记录的是程序执行的过程，所以天然的适合解析出程序的执行火焰图。假设用户已经获取到 ``工程名.trace`` 文件，点击 ``Decode trace into flame`` 按钮。
+Trace inherently records the program execution process, so it is well suited for parsing into a flame graph. Assuming you have already obtained the ``<projectname>.trace`` file, click the ``Decode trace into flame`` button.
 
-若 ``工程名.trace`` 文件尚未解析，系统将首先弹出 Trace 解析配置页面（相关配置项详见前文说明）。用户完成配置后，点击 ``Decode`` 开始解析。
+If the ``<projectname>.trace`` file has not been parsed yet, the Trace parsing configuration page pops up first (see the previous sections for the configuration items). Complete the configuration and click ``Decode`` to start parsing.
 
 |image125|
 
-同时IDE将自动进入 Flame View 导入向导页面。此时会提示用户即将生成对应的 ``工程名.trace`` 文件。文件生成后，用户可通过双击该文件将其导入 Flame View 进行可视化分析。系统会要求用户输入当前 CPU 的运行频率（例如本次测试中为 50 MHz），以便准确还原时间信息。
+At the same time, the IDE opens the Flame View import wizard, which prompts that the corresponding ``<projectname>.trace`` file is about to be generated. Once the file is generated, double-click it to import it into Flame View for visual analysis. The wizard asks you to enter the current CPU operating frequency (for example, 50 MHz in this test) so that the timing information can be restored accurately.
 
 |image126|
 
-若 ``工程名.trace`` 文件已解析过，将直接从已有的 Trace 列表中提取对应的 ``工程名.trace`` 文件，并立即弹出 Flame View 导入向导页面，跳过重复解析步骤，提升操作效率。
+If the ``<projectname>.trace`` file has already been parsed, the corresponding trace data is extracted directly from the existing Trace list, and the Flame View import wizard pops up immediately, skipping the repeated parsing step.
 
 |image127|
 
-待解析Trace list并生成 ``工程名.gtef`` 文件后，IDE 将自动提示操作完成。
+After the Trace list is parsed and the ``<projectname>.gtef`` file is generated, the IDE automatically prompts that the operation is complete.
 
 |image128|
 
-此时在Debug目录下有一个 ``工程名.gtef`` 文件，双击该文件就可以查看工程的火焰图了。 **注意** ：如果 ``工程名.gtef`` 文件更新了，需要再次双击该文件以导入到Flame View中。具体Flame View功能，可以参见 :ref:`Flame View功能的使用 <ide_flame_view>` 。
+A ``<projectname>.gtef`` file now exists in the Debug directory. Double-click the file to view the flame graph of the project. **Note**: if the ``<projectname>.gtef`` file is updated, double-click the file again to re-import it into Flame View. For details about the Flame View feature, see :ref:`Using Flame View <ide_flame_view>`.
 
 |image129|
 
 .. _ide_adv_rvprof:
 
-RVProf功能的使用
-----------------
+Using RVProf
+------------
 
 .. note::
 
-   Nuclei Studio 2025.10版开始，RVProf功能支持在Windows下使用，使用方法与Linux下使用相同。
+   Starting with Nuclei Studio 2025.10, the RVProf feature is supported on Windows, with the same usage as on Linux.
 
-RVProf是芯来科技针对cpu cycle model开发的性能分析工具，Nuclei Studio在2024.02.dev版本中，完成对RVProf的支持。在实际使用中，RVProf功能分三步完成，首先通过Cycle model工具，运行代码，产生 ``.rvtrace`` 文件，然后RVProf工具，将 ``.rvtrace`` 解析成对应的 ``.json`` 文件，最后通过google的开源工具Perfetto Trace Viewer对 ``.json`` 文件进行解析并展示。因为cpu cycle model当前仅提供了linux版本，所以本文档均是在linux环境下演示此功能。
+RVProf is a performance analysis tool developed by Nuclei System Technology for the CPU cycle model. Nuclei Studio has supported RVProf since version 2024.02.dev. Using RVProf involves three steps: the Cycle model tool runs the code and produces a ``.rvtrace`` file; the RVProf tool parses the ``.rvtrace`` file into a ``.json`` file; and Google's open-source Perfetto Trace Viewer parses and displays the ``.json`` file. Because the CPU cycle model is currently only available for Linux, this document demonstrates the feature in a Linux environment.
 
-在使用过程，如有问题，可以查看 `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__  相关内容，也可以向我们提交相关issue。
+If you encounter any problems during use, check `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__ or submit an issue.
 
-测试环境
-~~~~~~~~~
+Test Environment
+~~~~~~~~~~~~~~~~
 
-cpu cycle model在运行过程中，对硬件环境的性能要求较高，在实际使用，四核及以上的系统中运行效果较好，一般不建议在虚拟机环境下使用。为了较好的体验效果，本测试在工作站上进行。
+The CPU cycle model places high demands on the hardware at runtime. It runs better on systems with four or more cores, and using it in a virtual machine is generally not recommended. For a better experience, this test was performed on a workstation.
 
 |image62|
 
-准备测试NPK软件或者工具包
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Preparing the Test NPK Packages
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-目前此功能仅提供测试用的NPK包，将相关的包安装到Nuclei Studio中，关于安装NPK包，可以查看Nuclei Studio手册中相关章节，因为RVProf测试包没有公开，请联系我们索取。
+Currently, this feature requires test packages in Nuclei Package (NPK) format. Install the related packages into Nuclei Studio; for the installation procedure, see the NPK package sections of the Nuclei Studio manual. Because the RVProf test packages are not public, contact us to obtain them.
 
--  cymodel.zip cymodel的NPK Tools包
+-  cymodel.zip: the NPK Tools package for cymodel
 
--  rvprof.zip RVProf的NPK Tools包
+-  rvprof.zip: the NPK Tools package for RVProf
 
--  Rvprof helloworld.zip 测试demo NPK App包
+-  Rvprof helloworld.zip: the test demo NPK App package
 
-创建rvprof测试工程
-^^^^^^^^^^^^^^^^^^^
+Creating the RVProf Test Project
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-创建工程前，先查看Nuclei Package Management中NPK是否安装正确，因为测试demo是依赖于nuclei_sdk，所以也要先安装sdk-nuclei_sdk，具体如下：
+Before creating a project, check in Nuclei Package Management that the NPKs are installed correctly. Because the test demo depends on nuclei_sdk, sdk-nuclei_sdk must also be installed first, as shown below:
 
 |image63|
 
-然后创建一个test测试工程,在创建工程的向导中，依次 ``New Nuclei RISC-V C/C++ Project -> sdk-nuclei_sdk@0.5.0 -> next`` ,在工程配置页面，依次填写工程名、选择Project Example： ``rvprof helloworld@app-nsdkrvprof_helloworld`` ,Nuclei RISC-V Core: ``N307FD`` （这里的code要跟cpu cycle model对应）。
+Then create a test project. In the project creation wizard, go through ``New Nuclei RISC-V C/C++ Project -> sdk-nuclei_sdk@0.5.0 -> next``. On the project configuration page, enter the project name, select Project Example ``rvprof helloworld@app-nsdkrvprof_helloworld``, and set Nuclei RISC-V Core to ``N307FD`` (the core must match the CPU cycle model).
 
 |image64|
 
-在Project Example可以看到我们导入的demo NPK App中的Rvprof helloworld工程，选择此工程，然后下一步，完成工程的创建。
+Under Project Example, select the Rvprof helloworld project from the imported demo NPK App, then click Next to complete the project creation.
 
 |image65|
 
-在创建的test工程中，可以看到多了一个 ``test_debug_rvprof.launch`` 文件，rvprof相关的配置在此文件中，可以查看内容如下。其中Cycle Model的time out时间，用来设置Cycle Model超时时间，因为Cycle Model运行时比较耗时，如果工程比较简单，可以设置一个较短的起始时间，到时间后，可以及时中断Cycle Model的运行；RVProf中的超时时间的功能也是类似。
+The created test project contains an additional ``test_debug_rvprof.launch`` file with the RVProf configuration, as shown below. The Cycle Model timeout value sets the Cycle Model timeout. Because Cycle Model takes a long time to run, set a short timeout for a relatively simple project so that the Cycle Model run is interrupted promptly when the time is up. The timeout in RVProf serves a similar purpose.
 
 |image66|
 
-查看rvprof的结果
-~~~~~~~~~~~~~~~~~
+Viewing the RVProf Results
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-创建完工程后，在Nuclei Studio的launch bar上，选中 ``test_debug_rvprof.launch`` ，并点击工具栏中的运行按钮，Nuclei Studio依次完成以下任务，并将最终的结果在在Perfetto Trace Viewer中展示。
+After the project is created, select ``test_debug_rvprof.launch`` in the Launch Bar and click the run button in the toolbar. Nuclei Studio then completes the following tasks in sequence and displays the final results in Perfetto Trace Viewer.
 
--  编译工程代码
+-  Build the project code
 
--  启动Cycle Model并产生trace文件
+-  Start Cycle Model and produce the trace file
 
--  启动RVProf解析trace文件生成json文件
+-  Start RVProf to parse the trace file and generate the json file
 
--  启动Perfetto Trace Viewer展示结果
+-  Start Perfetto Trace Viewer to display the results
 
-Cycle Model启动及log输出
+Cycle Model startup and log output
 
 |image67|
 
-perfetto启动本地服务
+perfetto starting the local service
 
 |image68|
 
-Perfetto Trace Viewer的官方地址是https://ui.perfetto.dev/ 。Nuclei Studio默认会尝试打开https://ui.perfetto.dev/ ，同时自动载入json文件并解析。如果因为网络原因（国外服务器）打开失败，Nuclei Studio会在本地启一个Perfetto Trace Viewer本地服务，并自动打开本地localhost:5000/，此时需要用户手动载入工程目录下的 ``Debug/test.json`` 文件。在Perfetto Trace Viewer中可以看到trace的展示结果。
+The official address of Perfetto Trace Viewer is https://ui.perfetto.dev/. By default, Nuclei Studio tries to open https://ui.perfetto.dev/ and automatically loads and parses the json file. If the site cannot be opened due to network issues (it is an overseas server), Nuclei Studio starts a local Perfetto Trace Viewer service and automatically opens localhost:5000/. In this case, manually load the ``Debug/test.json`` file under the project directory. The trace results are then displayed in Perfetto Trace Viewer.
 
-Nuclei Studio会在本地启一个web服务，同时打开Perfetto Trace Viewer。
+Nuclei Studio starts a web service locally and opens Perfetto Trace Viewer at the same time.
 
 |image69|
 
-点击Open trace file，找到工程中生成的json文件，手动将json文件load到Perfetto Trace Viewer中。
+Click Open trace file, locate the json file generated in the project, and load it manually into Perfetto Trace Viewer.
 
 |image70|
 
-些时，在Perfetto Trace Viewer就可以查看到rvprof trace结果展示了，用户可以通过键盘的 ``W/A/S/D`` 按键查看更详细的信息。
+You can now view the RVProf trace results in Perfetto Trace Viewer. Use the ``W/A/S/D`` keys to navigate and view more detailed information.
 
 |image71|
 
 .. _ide_nuclei_nice_wizard:
 
 Nuclei NICE Wizard
----------------------
+------------------
 
 .. note::
 
-   在 **芯来科技视频号** 中有 **Nuclei NICE Wizard** 的视频，您可以在微信中搜索 **芯来科技视频号** 点击查看相关内容。
+   The **Nuclei System Technology WeChat Channel** contains a video on **Nuclei NICE Wizard**. Search for the **Nuclei System Technology WeChat Channel** in WeChat to view it.
 
-Nuclei NICE Wizard 是一个集成在 Nuclei Studio 上的工具，旨在简化和加速 NICE (自定义指令扩展) 和 VNICE (向量化自定义指令扩展) 指令的创建过程。它允许用户通过图形界面快速配置并生成自定义指令所需的代码框架，从而实现对特定应用算法的硬件加速。具体来说：
+Nuclei NICE Wizard is a tool integrated into Nuclei Studio that simplifies and accelerates the creation of NICE (custom instruction extensions) and VNICE (vectorized custom instruction extensions) instructions. Through a graphical interface, you can quickly configure custom instructions and generate the required code framework, enabling hardware acceleration of specific application algorithms:
 
-- **简化开发流程**：减少从构思到实现自定义指令的时间。
+- **Simplified development process**: reduces the time from concept to implementation of custom instructions.
 
-- **提高效率**：通过生成优化后的指令代码，提高应用程序的执行效率。
+- **Improved efficiency**: improves the execution efficiency of applications by generating optimized instruction code.
 
-- **易于集成**：生成的代码可以直接整合到现有项目中，减少了额外的工作量。
+- **Easy integration**: the generated code can be integrated directly into existing projects.
 
 
-创建.nice文件，打开Nuclei NICE Wizard
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Creating a .nice File and Opening Nuclei NICE Wizard
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在 Nuclei Studio 中打开目标工程，并在项目根目录下创建一个 ``*.nice`` 文件（例如 aicc.nice），双击打开Nuclei NICE Wizard。
+Open the target project in Nuclei Studio, create a ``*.nice`` file (for example aicc.nice) in the project root directory, and double-click it to open Nuclei NICE Wizard.
 
 |image-nice-1|
 
 |image-nice-2|
 
-新增指令
-~~~~~~~~
+Adding an Instruction
+~~~~~~~~~~~~~~~~~~~~~
 
-点击 ``Add...`` ,根据需要修改指令内容后，点击右上角 ``save`` 即可。
+Click ``Add...``, modify the instruction content as needed, and click ``save`` in the upper right corner.
 
-这里举例先创建两条指令，同时左侧被选中的指令会变灰，对应内容显示在右侧。
+The following example creates two instructions. The instruction selected on the left turns gray, and its content is displayed on the right.
 
 |image-nice-3|
 
-删除指令
-~~~~~~~~~
+Deleting an Instruction
+~~~~~~~~~~~~~~~~~~~~~~~
 
-左侧选择对应指令，点击Remove，确认后删除对应指令。
+Select the instruction on the left, click Remove, and confirm the deletion.
 
 |image-nice-4|
 
-修改指令
-~~~~~~~~
+Modifying an Instruction
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-左侧选择对应指令，修改指令内容后，右上save和discard按钮变红，可保存修改或放弃修改。
+Select the instruction on the left. After you modify the instruction content, the save and discard buttons in the upper right corner turn red; click them to save or discard the changes.
 
 |image-nice-5|
 
-文件生成
-~~~~~~~~
+File Generation
+~~~~~~~~~~~~~~~
 
-可定义insn.h（包含内嵌汇编头文件）和 nice.cc（包含指令实现逻辑）文件的保存地址，点击Save and Generate File，会生成对应文件。
+Define the save locations of the insn.h file (the inline assembly header) and the nice.cc file (the instruction implementation logic), then click Save and Generate File to generate the files.
 
 |image-nice-6|
 
@@ -807,275 +803,275 @@ Nuclei NICE Wizard 是一个集成在 Nuclei Studio 上的工具，旨在简化�
 
 |image-nice-8|
 
-NICE指令模板说明
-~~~~~~~~~~~~~~~~
+NICE Instruction Template Description
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 |image-nice-9|
 
-单个指令模板如上图所示，
- * opcode: 可选custome-0,custome-1,custome-2,custome-3
- * funct3: 3位功能字段，通常用来区分不同类型的指令。
- * funct7: 7 位功能字段，可以用来进一步细分指令类型或提供额外的功能选项。
- * rd: 返回值寄存器或类型（例如 void, int, vint8m8_t 等）。
- * rs1, rs2: 输入源寄存器或类型。
+A single instruction template is shown in the figure above:
+ * opcode: custom-0, custom-1, custom-2, or custom-3
+ * funct3: 3-bit function field, usually used to distinguish between different types of instructions.
+ * funct7: 7-bit function field, which can be used to further subdivide instruction types or provide additional function options.
+ * rd: return value register or type (for example void, int, vint8m8_t, etc.).
+ * rs1, rs2: input source registers or types.
 
-指令内容编辑说明
-~~~~~~~~~~~~~~~~
+Instruction Content Editing Description
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 |image-nice-10|
 
-如上图，Instruction content显示默认内容。
+As shown above, the Instruction content area displays the default content.
 
-  * **Instruction name** ：指令名称，具体定义规范如下
+  * **Instruction name**: the instruction name. The naming rules are as follows:
 
-      * **字母和数字** ：函数名可以包含字母 ``(A-Z，a-z)`` 和数字 ``(0-9)`` ，但是不能以数字开头。
+      * **Letters and digits**: the function name can contain letters ``(A-Z, a-z)`` and digits ``(0-9)``, but cannot start with a digit.
 
-      * **下划线** ：函数名中可以使用下划线 ``_`` 来提高可读性，尤其是在多单词组合的情况下。例如，``get_user_name`` 是一个有效的函数名， ``<  ， >  ， …  ， ?  ， /`` 都不允许出现在函数名中。
+      * **Underscore**: underscores ``_`` can be used in the function name to improve readability, especially in multi-word combinations. For example, ``get_user_name`` is a valid function name; ``<  , >  , ...  , ?  , /`` are not allowed in a function name.
 
-      * **特殊字符** ：除了下划线以外，其他特殊字符如 ``! ， @ ， # ， $ ， % ， ^ ， & ， * ， ( ， ) ， { ， } ， [ ， ] ， \ ， : ， ; ，`` 。
+      * **Special characters**: except for the underscore, other special characters such as ``! , @ , # , $ , % , ^ , & , * , ( , ) , { , } , [ , ] , \ , : , ; ,`` are not allowed.
 
-      * **关键字** ：函数名不能是C语言的关键字或保留字，比如 ``int ， char ， float ， double ， if ， else ， while ， for , return``  等等。
+      * **Keywords**: the function name cannot be a C language keyword or reserved word, such as ``int , char , float , double , if , else , while , for , return``.
 
-  * **Function name** ：函数名称，在不勾选的情况下生成的对应函数名为指令名称，命名规范与 ``Instruction name`` 相同。
+  * **Function name**: the function name. When not checked, the generated function name is the instruction name. The naming rules are the same as for ``Instruction name``.
 
-  * **funct7** ：对应模板的 ``funct7`` ，可通过勾选Binary对应项设置。
+  * **funct7**: corresponds to the ``funct7`` of the template, and can be set by checking the corresponding Binary items.
 
-  * **funct3** ：对应模板的 ``funct3`` ，可通过勾选Binary对应项设置。
+  * **funct3**: corresponds to the ``funct3`` of the template, and can be set by checking the corresponding Binary items.
 
-  * **Return Value Type** ：对应模板的rd，可点击Edit Type进行设置，如果rd为void。
+  * **Return Value Type**: corresponds to the rd of the template. Click Edit Type to set it, for example to void.
 
-  * **Number of Function Parameters** ：参数个数，可设置传入参数rs1、rs2以及rs3（rs3既为参数也为返回值）的对应类型。
+  * **Number of Function Parameters**: the number of parameters. You can set the types of the input parameters rs1, rs2, and rs3 (rs3 serves as both a parameter and a return value).
 
-      * 参数为0时，Edit Type不可设置，rs1和rs2可在下方指定寄存器，如rd为void类型，rd也可在下方指定寄存器。
+      * When the number of parameters is 0, Edit Type cannot be set. rs1 and rs2 can be assigned registers below; if rd is of void type, rd can also be assigned a register below.
 
-      * 参数为1时，Edit Type可设置rs1类型，rs2可在下方指定寄存器，如rd为void类型，rd也可在下方指定寄存器。
+      * When the number of parameters is 1, Edit Type can set the rs1 type. rs2 can be assigned a register below; if rd is of void type, rd can also be assigned a register below.
 
-      * 参数为2时，Edit Type可设置rs1、rs2类型，如rd为void类型，rd也可在下方指定寄存器。
+      * When the number of parameters is 2, Edit Type can set the rs1 and rs2 types. If rd is of void type, rd can also be assigned a register below.
 
-      * 参数为3时，Edit Type可设置rs1、rs2、rs3类型。
+      * When the number of parameters is 3, Edit Type can set the rs1, rs2, and rs3 types.
 
 .. _ide_nuclei_model_debugger:
 
-Nuclei Model Debugger功能的使用
-----------------------------------
+Using the Nuclei Model Debugger
+-------------------------------
 
-Nuclei Model Debugger是为升级后的Nuclei Near Cycle Model开发的调试运行工具。
+Nuclei Model Debugger is a debugging and running tool developed for the upgraded Nuclei Near Cycle Model.
 
-自 Nuclei Studio 2025.10 版本起，Nuclei Near Cycle Model提供了更丰富功能，实现了在 Nuclei Near Cycle Model 中对程序进行调试、运行等操作，并能接收自定义的参数。为了方便用户使用这些功能，参考 Qemu Debugger 功能的使用而开发了 Nuclei Model Debugger 功能。
+Starting with Nuclei Studio 2025.10, Nuclei Near Cycle Model provides richer features: it can debug and run programs and accepts custom parameters. To make these features easier to use, the Nuclei Model Debugger was developed based on the QEMU Debugger feature.
 
-创建一个测试工程并编译，在 Nuclei Studio 的主菜单找到 ``Run`` 菜单并点击，找到 ``Run Configurations`` 或者 ``Debug Configurations`` ，以 Debug 为例，点击 ``Debug Configurations`` 。
+Create a test project and build it. In the Nuclei Studio main menu, click ``Run``, then ``Run Configurations`` or ``Debug Configurations``. This example uses Debug: click ``Debug Configurations``.
 
 |image104|
 
-在弹出的 ``Debug Configurations`` 中，找到 ``GDB Nuclei Model riscv Debugging`` 。
+In the ``Debug Configurations`` dialog, find ``GDB Nuclei Model riscv Debugging``.
 
 |image105|
 
-双击 ``GDB Nuclei Model riscv Debugging`` ，Nuclei Studio 就会自动新建一个 Nuclei Model Debugger 的配置页面，用户可以在配置页面中配置 Model Debug 的命令相关参数。
+Double-click ``GDB Nuclei Model riscv Debugging``, and Nuclei Studio creates a new Nuclei Model Debugger configuration page where you can configure the command parameters for Model Debug.
 
 |image106|
 
-其中在 ``Debugger`` 页面中的值的配置需与工程对应
+The values configured on the ``Debugger`` page must match the project.
 
 |image107|
 
-- **Nuclei RISC-V Core** CPU的Core，需与程序中对应
-- **Download** 程序下载模式
-- **Nuclei SMP Count CPU** 核心数量
-- **RVV length** RISC-V 向量扩展
-- **Other Extensions** 其他扩展
+- **Nuclei RISC-V Core** The CPU core, which must match the program
+- **Download** Program download mode
+- **Nuclei SMP Count CPU** Number of cores
+- **RVV length** RISC-V vector extension
+- **Other Extensions** Other extensions
 
-勾选了 ``Enable Nuclei Model RVTrace`` 并配置其路径，程序运行时会生成一个 ``*.rvtrace`` 的文件。
+If ``Enable Nuclei Model RVTrace`` is checked and its path is configured, a ``*.rvtrace`` file is generated when the program runs.
 
-在 ``More options`` 中可以添加 Nuclei Model 所支持的参数。在演示示例的Config options中配置了 ``--gprof=1 --flame=1`` 。 ``--gprof=1`` 表示开启基于gprof的Profiling功能，程序运行时会产生gprof文件； ``--flame=1`` 表示开启火焰图Flamegraph功能。
+In ``More options``, you can add parameters supported by Nuclei Model. In this example, ``--gprof=1 --flame=1`` is configured in Config options: ``--gprof=1`` enables the gprof-based Profiling feature, so a gprof file is produced when the program runs, and ``--flame=1`` enables the Flamegraph feature.
 
-关于Nuclei Near Cycle Model的参数具体说明，请参见 :ref:`Description of Parameters <xlmodel_description_of_parameters>` 。    
+For details about the parameters of Nuclei Near Cycle Model, see :ref:`Description of Parameters <xlmodel_description_of_parameters>`.
 
-关于gprof的Profiling功能请参见 :ref:`Code Coverage和Profiling功能 <ide_advanceusage_17>` 。
+For the gprof Profiling feature, see :ref:`Code Coverage and Profiling <ide_advanceusage_17>`.
 
-关于火焰图flamegraph功能请参见 :ref:`Flame View功能的使用 <ide_flame_view>`  。
+For the Flamegraph feature, see :ref:`Using Flame View <ide_flame_view>`.
 
-配置完参数并保存，然后点击 ``Debug`` ，进入 Nuclei Model 的 Debug 模式。
+After configuring and saving the parameters, click ``Debug`` to enter the Nuclei Model Debug mode.
 
 |image108|
 
-程序在 Nuclei Near Cycle Model 中成功执行，输出了对应的 Log 信息。
+The program runs successfully in Nuclei Near Cycle Model and outputs the corresponding log information.
 
 |image77|
 
-在工程的 Debug 目录中可以查看到已经生成 ``.rvtrace`` 文件、 ``.gmon`` 文件。
+In the Debug directory of the project, you can see that the ``.rvtrace`` file and the ``.gmon`` file have been generated.
 
 |image78|
 
-Nuclei Near Cycle Model 中支持通过 gprof 来分析程序，所以当我们配置了 ``--gprof`` ，在程序运行时，也会在Debug目录（ ``--logdir=XX`` 所配置的目录）下同步产生一个 ``.gmon`` 文件，双击 ``.gmon`` 文件，将调用 gprof 工具来分析程序执行所消耗的cycle数及调用关系；同时也会产生对应的 ``callgraph.out`` 文件，双击 ``callgraph.out`` 文件，调用Call Graph查看程序的调用关系。
+Nuclei Near Cycle Model supports analyzing programs with gprof. Therefore, when ``--gprof`` is configured, a ``.gmon`` file is also produced in the Debug directory (the directory configured with ``--logdir=XX``) while the program runs. Double-click the ``.gmon`` file to invoke the gprof tool and analyze the number of cycles consumed by program execution and the call relationships; a corresponding ``callgraph.out`` file is also produced. Double-click the ``callgraph.out`` file to view the program's call relationships with Call Graph.
 
-调用 gprof 工具，可以查看生成的 ``.gmon`` 文件中的内容。
+The gprof tool displays the contents of the generated ``.gmon`` file.
 
 |image80|
 
-gprof 工具在查看 ``.gmon`` 文件的同时，会根据其内容，解析出程序的调用关系，并生成 ``callgraph.out`` 文件，双击 ``callgraph.out`` 调用Call Graph工具查看。
+While viewing the ``.gmon`` file, the gprof tool parses the program's call relationships based on its contents and generates a ``callgraph.out`` file. Double-click ``callgraph.out`` to view it with the Call Graph tool.
 
 |image43|
 
 .. _ide_nuclei_model_flame:
 
-因为配置了 ``--flame=1`` ，在工程的根目录下会产生一个 ``xlmodel_flame_0.gtef`` 文件，双击该文件，会调用Flame View工具解析并生成火焰图。
+Because ``--flame=1`` is configured, an ``xlmodel_flame_0.gtef`` file is produced in the project root directory. Double-click the file to invoke the Flame View tool to parse it and generate a flame graph.
 
 |image114|
 
-同一个配置是可以支持 Debug 和 Run ，如需要直接执行程序，可以在 Launch Bar 中进行切换。
+The same configuration supports both Debug and Run. To execute the program directly, switch in the Launch Bar.
 
 |image109|
 
-点击 Run ，进入 Nuclei Model 的 Run 模式，程序就会直接执行完。
+Click Run to enter Nuclei Model Run mode; the program executes directly to completion.
 
 |image110|
 
-也可以将配置文件导出并存放在工程的根目录下，这样就可以将配置分享给其他的用户。
+You can also export the configuration file to the project root directory so that it can be shared with other users.
 
-打开 Debug Configurations 页面，找到刚才的配置，然后在右键菜单中点击 `` Export... `` 。
+Open the Debug Configurations page, right-click the configuration just created, and select `` Export... `` from the context menu.
 
 |image111|
 
-在弹出的 ``Export Launch Configurations`` 页面中选中要导出的配置和导出的位置，点击 ``Finish`` 完成导出
+In the ``Export Launch Configurations`` page, select the configuration to export and the export location, and click ``Finish`` to complete the export.
 
 |image112|
 
-刷新工程，在工程下存在一个 ``*.launch`` 文件，同时在 Launch Bar 中也出现了对应的配置，此时就可就可以使用该配置进行程序的 Debug/Run 等操作。
+Refresh the project. A ``*.launch`` file exists under the project, and the corresponding configuration also appears in the Launch Bar. You can now use this configuration for Debug/Run operations on the program.
 
 |image113|
 
 
 .. _ide_nuclei_model:
 
-Nuclei Model功能的使用
-----------------------
+Using Nuclei Model
+------------------
 
-芯来科技为 Nuclei Near Cycle Model 开发了专门的运行工具——Model。自 Nuclei Studio 2024.06 版本起，Nuclei Near Cycle Model最初是通过 RVProf 工具运行的。随着 Nuclei Near Cycle Model 的不断迭代和发展，为了提供更简洁高效的用户体验，我们在 RVProf 的基础上进行了功能简化，推出了新的 Model 工具。
+Nuclei has developed a dedicated running tool for Nuclei Near Cycle Model called Model. In Nuclei Studio 2024.06, Nuclei Near Cycle Model was originally run through the RVProf tool. As Nuclei Near Cycle Model continued to evolve, we simplified the RVProf-based functionality and launched the new Model tool to provide a simpler, more efficient user experience.
 
-新工具的主要特点包括：
+The main features of the new tool include:
 
-**简化功能** ：移除不必要的复杂功能，使用户能够更专注于 Nuclei Near Cycle Model 的核心功能。
+**Simplified functionality**: removes unnecessary complex features so you can focus on the core functionality of Nuclei Near Cycle Model.
 
-**提升效率** ：优化操作流程，减少用户配置和使用的时间成本。
+**Improved efficiency**: optimizes the operation flow and reduces configuration time.
 
-**兼容性好** ：确保与现有工作流无缝集成，同时支持最新的 Nuclei Near Cycle Model 特性。
+**Good compatibility**: ensures seamless integration with existing workflows while supporting the latest Nuclei Near Cycle Model features.
 
-通过这些改进，用户可以更加高效地利用 Nuclei Near Cycle Model 进行开发和调试。通过Nuclei Studio菜单 ``Run -> Run Configuration`` 打开Run Configuration，然找后到 ``Nuclei Model`` ,双击 ``Nuclei Model`` 菜单，就会生成对应工程的配置。
+With these improvements, you can use Nuclei Near Cycle Model for development and debugging more efficiently. Open Run Configuration via the Nuclei Studio menu ``Run -> Run Configuration``, find ``Nuclei Model``, and double-click it to generate the configuration for the project.
 
 |image82|
 
-关于Nuclei Model的使用，将在Nuclei Near Cycle Model章节中详细介绍。
+The use of Nuclei Model is described in detail in the Nuclei Near Cycle Model chapter.
 
 .. _ide_nuclei_near_cycle_model:
 
 .. _ide_advanceusage_71:
 
-Nuclei Near Cycle Model
-------------------------
+Nuclei Near Cycle Model
+-----------------------
 
-在Nuclei Studio 2024.06版中，集成了Nuclei Near Cycle Model，它是由芯来科技自主研发的仿真测试和性能分析工具，可以帮助研发人员在项目初期进行一些必要的仿真测试和程序性能分析。
+Nuclei Studio 2024.06 integrates Nuclei Near Cycle Model, a simulation testing and performance analysis tool independently developed by Nuclei. It helps R&D personnel perform simulation testing and program performance analysis in the early stages of a project.
 
-Nuclei Near Cycle Model在Nuclei Studio 2024.06版中只有Linux版本，从2025.02版开始，已实现对Windows的支持。其具体介绍和命令行上使用参见 （https://doc.nucleisys.com/nuclei_tools/xlmodel/intro.html ） ，下面将在Nuclei Studio上演示如何使用Nuclei Near Cycle Model进行仿真和性能分析。
+Nuclei Near Cycle Model is only available for Linux in Nuclei Studio 2024.06; Windows support was added in version 2025.02. For a detailed introduction and command line usage, see https://doc.nucleisys.com/nuclei_tools/xlmodel/intro.html. The following sections demonstrate how to use Nuclei Near Cycle Model for simulation and performance analysis in Nuclei Studio.
 
 .. note::
 
-   Nuclei Near Cycle Model 已支持 Windows/Linux 版本，此文档测试都是基于 Nuclei Studio IDE 2025.02的 Windows 版本完成的。
+   Nuclei Near Cycle Model now supports both Windows and Linux. The tests in this document were all performed with the Windows version of Nuclei Studio IDE 2025.02.
 
-在使用过程，如有问题，可以查看 `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__  相关内容，也可以向我们提交相关issue。
+If you encounter any problems during use, check `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__ or submit an issue.
 
-创建测试工程
-~~~~~~~~~~~~
+Creating a Test Project
+~~~~~~~~~~~~~~~~~~~~~~~
 
-Nuclei Near Cycle Model对芯来全类型的Core都有支持，可以创建任意一个demo工程并编译。创建任意一个demo工程并编译。
+Nuclei Near Cycle Model supports all types of Nuclei cores. Create any demo project and build it.
 
 |image72|
 
-Nuclei Near Cycle Model采用Nuclei Studio中的Model运行配置来进行运行测试，选中编译好的测试工程，然后打开NucleiStudio的Run Configurations。
+Nuclei Near Cycle Model runs tests using the Model run configuration in Nuclei Studio. Select the built test project, and then open Run Configurations in Nuclei Studio.
 
 |image73|
 
-并创建一个Nuclei Near Cycle Model的配置，具体的配置及参数说明如下。
+Create a Nuclei Near Cycle Model configuration. The configuration parameters are described below.
 
 |image74|
 
-在演示示例的Config options中配置了 ``--trace=1 --gprof=1 --logdir=Debug --cpu=n300fd`` , ``--trace=1`` 表示开启rvtrace， ``--gprof=1`` 表示开启gprof功能， ``--logdir=Debug`` 则表示最终生成的 ``.rvtrace`` 文件、 ``.gmon`` 文件存放的路径为当前工程下的Debug目录, ``--cpu=n300fd`` 表示当前模拟的cpu核是n300fd。
+In this example, ``--trace=1 --gprof=1 --logdir=Debug --cpu=n300fd`` is configured in Config options: ``--trace=1`` enables rvtrace, ``--gprof=1`` enables the gprof feature, ``--logdir=Debug`` stores the generated ``.rvtrace`` and ``.gmon`` files in the Debug directory under the current project, and ``--cpu=n300fd`` sets the simulated CPU core to n300fd.
 
 .. note::
 
-   ``--cpu=<core type>`` 必须配置且与Nuclei Setting中配置的Core的值一致。
+   ``--cpu=<core type>`` must be configured and must be consistent with the Core value configured in Nuclei Setting.
 
-   ``--ext=<extension type>`` 与Nuclei Setting中配置的Other extensions的值一致。
+   ``--ext=<extension type>`` must be consistent with the Other extensions value configured in Nuclei Setting.
 
-关于Nuclei Near Cycle Model的参数具体说明，请参见 :ref:`Description of Parameters <xlmodel_description_of_parameters>` 。
+For details about the parameters of Nuclei Near Cycle Model, see :ref:`Description of Parameters <xlmodel_description_of_parameters>`.
 
-运行工程并生成性能分析结果
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Running the Project and Generating Profiling Results
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-点击Run按钮，开始运行程序。程序在Nuclei Near Cycle Model中成功执行，输出了对应的Log信息。
+Click the Run button to run the program. The program runs successfully in Nuclei Near Cycle Model and outputs the corresponding log information.
 
 |image77|
 
-在工程的Debug目录中可以查看到已经生成 ``.rvtrace`` 文件、 ``.gmon`` 文件。
+In the Debug directory of the project, you can see that the ``.rvtrace`` file and the ``.gmon`` file have been generated.
 
 |image78|
 
-Nuclei Near Cycle Model中支持通过gprof来分析程序，所以当我们配置了 ``--gprof`` ，在程序运行时，也会在Debug目录（ ``--logdir=XX`` 所配置的目录）下同步产生一个 ``.gmon`` 文件，双击 ``.gmon`` 文件，将调用gprof工具来分析程序执行所消耗的cycle数及调用关系；同时也会产生对应的 ``callgraph.out`` 文件，双击 ``callgraph.out`` 文件，调用Call Graph查看程序的调用关系。
+Nuclei Near Cycle Model supports analyzing programs with gprof. Therefore, when ``--gprof`` is configured, a ``.gmon`` file is also produced in the Debug directory (the directory configured with ``--logdir=XX``) while the program runs. Double-click the ``.gmon`` file to invoke the gprof tool and analyze the number of cycles consumed by program execution and the call relationships; a corresponding ``callgraph.out`` file is also produced. Double-click the ``callgraph.out`` file to view the program's call relationships with Call Graph.
 
-调用gprof工具，可以查看生成的 ``.gmon`` 文件中的内容。
+The gprof tool displays the contents of the generated ``.gmon`` file.
 
 |image80|
 
-gprof工具在查看 ``.gmon`` 文件的同时，会根据其内容，解析出程序的调用关系，并生成 ``callgraph.out`` 文件，双击 ``callgraph.out`` 调用Call Graph工具查看。
+While viewing the ``.gmon`` file, the gprof tool parses the program's call relationships based on its contents and generates a ``callgraph.out`` file. Double-click ``callgraph.out`` to view it with the Call Graph tool.
 
 |image43|
 
 
 .. _ide_nuclei_custom_debugger:
 
-GDB Custom 调试功能的使用
---------------------------
+Using the GDB Custom Debugging Feature
+--------------------------------------
 
-GDB Custom 是芯来科技为适应不同的调试工具，开发的一款简化的调试配置，允许用户在 Nuclei Studio 使用自己定义的调试工具来调试程序。GDB Custom 支持通过Commands、Generic Serial、Dlink的调试方式来调试工程，用户可以根据自己的实际情况选择使用。
+GDB Custom is a simplified debug configuration developed by Nuclei to accommodate different debugging tools. It lets you debug programs in Nuclei Studio with your own custom debugging tools. GDB Custom supports debugging projects through Commands, Generic Serial, and DLink; choose the method that fits your setup.
 
-关于GDB Custom 调试功能的使用，将以芯来科技自研的调试工具Dlink举例。具体参见 :ref:`使用DLink调试运行项目 <ide_projectrun_50>` 。
+The GDB Custom debugging feature is illustrated with DLink, a debugging tool developed by Nuclei. For details, see :ref:`Debugging and Running a Project with DLink <ide_projectrun_50>`.
 
 .. _ide_live_watch:
 
-Live Watch功能的使用
----------------------
+Using Live Watch
+----------------
 
-Live Watch 是一款强大的实时监控工具，专为开发者设计，旨在帮助您更高效地调试和优化代码。通过 Live Watch，您可以即时查看程序运行过程中变量的变化情况，无需打断执行流程或手动添加日志语句。在Nuclei Studio 2025.02版中实现了Live Watch 功能，它支持自动刷新变量值，确保始终看到最新的数据变化。直观的图形化界面，能轻松管理需要监控的变量。
+Live Watch is a real-time monitoring tool that helps you debug and optimize code more efficiently. With Live Watch, you can view variable changes instantly while the program is running, without interrupting execution or adding log statements manually. Live Watch was introduced in Nuclei Studio 2025.02. It refreshes variable values automatically so that you always see the latest data, and its intuitive graphical interface makes it easy to manage the variables you want to monitor.
 
 .. note::
 
-   Live Watch功能依赖Nuclei OpenOCD >= 2025.02版本。仅支持Nuclei CPU配置了RISC-V SBA功能。
+   The Live Watch feature depends on Nuclei OpenOCD >= 2025.02. It is only supported on Nuclei CPUs configured with the RISC-V SBA feature.
 
-Live Watch功能介绍
-~~~~~~~~~~~~~~~~~~
+Live Watch Overview
+~~~~~~~~~~~~~~~~~~~
 
-通过Nuclei Studio菜单 ``Window -> Show View -> Live Watch`` 可以打开Live Watch视图。
+Open the Live Watch view via the Nuclei Studio menu ``Window -> Show View -> Live Watch``.
 
 |image83|
 
-Live Watch 视图提供了一系列功能菜单，帮助用户更高效地管理和监控变量：
+The Live Watch view provides several function menus to help you manage and monitor variables:
 
 |image84|
 
 **Remove**
 
-   - 删除 Live Watch 视图中指定的变量行。
+   - Deletes the selected variable row from the Live Watch view.
 
 **Remove All**
 
-   - 清除 Live Watch 视图中所有添加的变量。
+   - Clears all variables added to the Live Watch view.
 
 **Show Live Plot**
 
-   - 显示 Live Plot 视图，用于对采样的数据进行实时绘图。
+   - Shows the Live Plot view, which plots the sampled data in real time.
 
 
-在隐藏的菜单栏中，有两个设置菜单用于配置全局属性：
+The hidden menu bar contains two settings menus for configuring global properties:
 
 |image85|
 
@@ -1083,29 +1079,29 @@ Live Watch 视图提供了一系列功能菜单，帮助用户更高效地管理
 
 |image86|
 
- - Live Watch中的一些常用设置，包含：
+ - Common settings in Live Watch:
 
-     - 包含以下常用设置：
+     - The following settings are available:
 
-        - Live Watch Speed : 设定 Live Watch 的采样频率,最快为1 ms每次，建议采样频率在5 ms以上，如果采样频率过快可能会导致Live Plot绘制图形异常。
+        - Live Watch Speed : sets the sampling frequency of Live Watch, up to once every 1 ms. A sampling period of 5 ms or longer is recommended; if the sampling frequency is too high, Live Plot may draw abnormally.
 
-        - Live Watch Varible Limit : 限制同时采样的变量数量，最多为10个。
+        - Live Watch Variable Limit : limits the number of variables sampled at the same time, up to 10.
 
-        - Live Plot Limit : 设定 Live Plot 同时绘制的最大样本数，最多同时绘制10个样本。
+        - Live Plot Limit : sets the maximum number of samples that Live Plot draws at the same time, up to 10.
 
-        - Save Data Path : 指定 Live Watch 采样的数据自动保存路径，供后续分析使用。
+        - Save Data Path : specifies the path where the data sampled by Live Watch is automatically saved, for subsequent analysis.
 
-        - Save Data Speed : 设定 Live Watch 数据自动保存的频率，默认为每10分钟保存一次。
+        - Save Data Speed : sets the frequency at which Live Watch data is automatically saved. The default is once every 10 minutes.
 
 **Number Format**
 
-   - Live Watch视图变量的值的显示方式。
+   - Sets the display format of variable values in the Live Watch view.
 
 
-Live Watch使用演示
-~~~~~~~~~~~~~~~~~~
+Live Watch Demo
+~~~~~~~~~~~~~~~
 
-创建一个测试工程，并在工程内实现一个正弦计算。打开Live Watch视图，找到Live Watch Settings并根据需要设置相关参数（无可不设置，直接使用默认值）。
+Create a test project and implement a sine calculation in it. Open the Live Watch view, find Live Watch Settings, and set the related parameters as needed (or keep the default values).
 
 |image87|
 
@@ -1117,31 +1113,31 @@ Live Watch使用演示
 
    #define PI 3.14159265358979323846
    /**
-   * 获取随时间变化的正弦波形变量
+   * Get a sine wave variable that varies with time
    */
    double get_sine_wave_value(double amplitude, double frequency) {
-      // 获取当前周期计数器的值
+      // Get the value of the current cycle counter
       uint64_t current_cycle = __get_rv_cycle();
 
-      // 计算当前时间（单位：秒）
+      // Calculate the current time (in seconds)
       double currentTime = (double)current_cycle / SystemCoreClock;
 
-      // 提前计算频率相关的因子
+      // Precompute the frequency-related factor
       double omega = frequency * 2 * PI;
 
-      // 计算相位
+      // Calculate the phase
       double phase = currentTime * omega;
 
-      // 返回正弦值
+      // Return the sine value
       return sin(phase) * amplitude;
    }
 
    int main(void)
    {
 
-      double amplitude = 100.0; // 波形的振幅
+      double amplitude = 100.0; // amplitude of the waveform
 
-      double frequency = 0.1;  // 波形的频率（每秒周期数）
+      double frequency = 0.1;  // frequency of the waveform (cycles per second)
 
       double sine_value = 0;
 
@@ -1155,71 +1151,71 @@ Live Watch使用演示
       return 0;
    }
 
-测试demo中运用了数学函数，所以需要在编译选项中添加 ``-lm`` ，在工程的属性中，找到 ``Settings -> GNU RISC-V Cross C++ Linker -> Libraries``，并添加 ``-lm`` 。
+The test demo uses math functions, so you need to add ``-lm`` to the linker options. In the project properties, go to ``Settings -> GNU RISC-V Cross C++ Linker -> Libraries`` and add ``-lm``.
 
 |image99|
 
-通过菜单 ``Windows -> Show VIew -> Live Watch`` ，打开Live Watch视图。
+Open the Live Watch view via ``Windows -> Show View -> Live Watch``.
 
 |image88|
 
-编译工程并Debug运行程序后，在Live Watch视图中添加需要查看的变量，添加变量的方式有两种。可以通过在Live Watch窗口中点击 ``add new variable`` 来手动添加；也可以在工程中选中想要添加的变量，然后按住鼠标左键拖动至Live Watch窗口进行添加。
+After building the project and running the program in Debug mode, add the variables you want to view in the Live Watch view. There are two ways to add variables: click ``add new variable`` in the Live Watch window to add them manually, or select a variable in the project and drag it into the Live Watch window with the left mouse button.
 
 |image89|
 
-让工程全速运行时，可以看到变量的值，以设定的Live Watch Speed变化，如果想要通过Live Plot查看变量的变化曲线，可以选中该条记录，并点击鼠标右键，在弹出的菜单中选中 ``Toggle Live Plot`` ,Live Plot工具就会弹出，并适应的画出变量的变化曲线。
+When the program runs at full speed, the variable values change at the configured Live Watch Speed. To view a variable's change curve with Live Plot, select the record, right-click, and select ``Toggle Live Plot`` from the context menu. The Live Plot tool opens and draws the variable's change curve.
 
 |image90|
 
-Live Plot绘制的曲线图如下
+The curve drawn by Live Plot is shown below.
 
 |image91|
 
-在Live Plot中点击鼠标右键弹出菜单，有 ``Suspend``、``Continue`` 两个功能菜单，点击 ``Suspend``，Live Plot会暂停画图。
+Right-click in Live Plot to open a menu with two items, ``Suspend`` and ``Continue``. Click ``Suspend`` to pause drawing.
 
 |image92|
 
-用户可以通过滚动鼠标放大曲线，查看数据详情；点击 ``Continue`` Live Plot会继续绘制曲线。
+Scroll the mouse wheel to zoom in on the curve and view data details; click ``Continue`` to resume drawing.
 
 |image93|
 
 
-如果不想查看该变量的变化曲线，可以再次点击 ``Toggle Live Plot`` ，将该变量从Live Plot踢除。
+If you no longer want to view the change curve of a variable, click ``Toggle Live Plot`` again to remove the variable from Live Plot.
 
 |image94|
 
-Live Watch视图中的某个变量，点击鼠标右键，可以修改数据显示的格式。
+Right-click a variable in the Live Watch view to modify the display format of its data.
 
 |image97|
 
-Live Watch视图中的某个变量，点击鼠标右键，将该变量的结果存存为CSV格式文件，方便查阅和使用。
+Right-click a variable in the Live Watch view to save its sampled results as a CSV file for later use.
 
 |image96|
 
-Live Watch也会自动将查询到的数据结果保存到 ``Save Data Path`` 中，用户可以在Save Data Path找到对应的CSV格式的数据文件。
+Live Watch also automatically saves the sampled data to ``Save Data Path``, where you can find the corresponding CSV files.
 
 |image98|
 
-如果不想继续查看该变量的值，也可以选中该条记录，并点击鼠标右键，在弹出的菜单中选中 ``Toggle Live Watch`` ,Live Watch就不再适时查询该变量的值。
+To stop watching a variable, select the record, right-click, and select ``Toggle Live Watch`` from the context menu. Live Watch then stops querying the variable's value in real time.
 
 |image95|
 
-Live Watch使用时的一些问题总结
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Troubleshooting Live Watch
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**对RISC-V SBA的依赖**
+**Dependency on RISC-V SBA**
 
-前文已经提到，Live Watch对RISC-V SBA的依赖，如果在使用Live Watch时，无法获取到对应的值，有可能是当前CPU不支持RISC-V SBA，如何确认当前CPU是否支持RISC-V SBA，可以尝试以下方法。
+As mentioned earlier, Live Watch depends on RISC-V SBA. If Live Watch cannot obtain a variable's value, the current CPU may not support RISC-V SBA. Use the following method to confirm whether the CPU supports RISC-V SBA.
 
-在工程处理Debug状态时，获取到将要在Live Watch查看的变量的地址。可以参考如下图。
+While the project is in the Debug state, obtain the address of the variable in Live Watch, as shown below.
 
 |image100|
 
-打开telnet工具，配置并连接。如无法连接，请检查OpenOCD服务是否启功正常，telnet端口是否正常开启。
+Open the telnet tool, configure it, and connect. If the connection fails, check whether the OpenOCD service has started properly and whether the telnet port is open.
 
 |image101|
 
-依然是在Debug状态下，在telnet工具中，使用命令 ``riscv set_mem_access sysbus`` 将riscv的memory access设置为sysbus(SBA)访问模式，并且尝试读取变量的值。
+While still in the Debug state, use the command ``riscv set_mem_access sysbus`` in the telnet tool to set the riscv memory access mode to sysbus (SBA), and try to read the value of the variable.
 
 .. code-block:: c
 
@@ -1227,7 +1223,7 @@ Live Watch使用时的一些问题总结
    > mdw 0x9000ffd8 4
    0x9000ffd8: 000ab156 404e8df0 9999999a 3fb99999 
 
-如果上述操作能读取到变量的值，那么在全速运行程序的状态下，再次尝试读取变量的值，如果没有报错并且能读取到变量的值，说明当前CPU是支持SBA功能。
+If the operation above reads the variable's value, run the program at full speed and read the value again. If no error is reported and the value can be read, the current CPU supports the SBA feature.
 
 .. code-block:: c
 
@@ -1246,9 +1242,9 @@ Live Watch使用时的一些问题总结
    > mdw 0x9000ffd8 4
 
 
-**优化级别太高Live Watch读取不到变量的值**
+**Live Watch Cannot Read Variable Values When the Optimization Level Is Too High**
 
-当工程优化级别较高时，Live Watch可能无法获取到某些变量的值，有demo如下。
+When the project's optimization level is high, Live Watch may not be able to obtain the values of some variables, as demonstrated below.
 
 .. code-block:: c
 
@@ -1261,7 +1257,7 @@ Live Watch使用时的一些问题总结
       }
    }
 
-当工程的优化级变为O3或其他更高级别的，Live Watch无法获取到 ``live_watch`` 的值。可以调整工程的优化等级；也可以将需要监控的变量设置为全局变量或者static静态变量，且需要避免被编译器优化，工程代码修改如下。
+When the project's optimization level is set to O3 or higher, Live Watch cannot obtain the value of ``live_watch``. You can lower the project's optimization level, or declare the monitored variable as a global or static variable so that it is not optimized away by the compiler. Modify the project code as follows.
 
 .. code-block:: c
 
@@ -1276,80 +1272,241 @@ Live Watch使用时的一些问题总结
 
 .. _ide_flame_view:
 
-Flame View功能的使用
----------------------
+Using Flame View
+----------------
 
-Flame View（火焰图视图） 是一款直观、高效的性能分析工具，用于可视化嵌入式系统中程序的执行调用栈与时间分布。通过将复杂的跟踪数据转化为层次化堆叠图，Flame View 帮助开发者快速识别热点函数、分析执行路径、定位性能瓶颈。
+Flame View is an intuitive and efficient performance analysis tool for visualizing the execution call stack and time distribution of programs in embedded systems. By converting complex trace data into a hierarchical stacked graph, Flame View helps developers quickly identify hot functions, analyze execution paths, and locate performance bottlenecks.
 
-其中 ``*.gtef`` 文件，是我们在IDE中专为Flame View（火焰图视图）工具定义的一种文件格式。在IDE中目前可以通过Trace数据解析出 ``*.gtef`` 文件（具体参见 :ref:`Trace中Flame View的使用 <ide_ide_trace_flame>` ），也可以通过Nuclei Model直接产生 ``*.gtef`` 文件（具体参见 :ref:`Nuclei Model 中Flame View的使用 <ide_nuclei_model_flame>` ）。
+The ``*.gtef`` file is a file format defined in the IDE specifically for the Flame View tool. Currently, a ``*.gtef`` file can be parsed from Trace data (see :ref:`Using Flame View with Trace <ide_ide_trace_flame>`) or produced directly by Nuclei Model (see :ref:`Using Flame View in Nuclei Model <ide_nuclei_model_flame>`).
 
-如果你已经有一个 ``*.gtef`` 文件，只需要双击该文件来启动Flame View工具，首先会弹出一个引导提示，告知用户IDE将会把 ``*.gtef`` 文件导入到Traces目录中。
+If you already have a ``*.gtef`` file, simply double-click the file to start the Flame View tool. A guide prompt pops up first, informing you that the IDE will import the ``*.gtef`` file into the Traces directory.
 
 |image115|
 
-同时IDE会打开Flame Chart视图和Flame Graph视图。
+At the same time, the IDE opens the Flame Chart view and the Flame Graph view.
 
 |image116|
 
-Flame Chart视图以列表的形式展示了函数的相关信息，如开始时间、执行耗时等。
+The Flame Chart view shows function-related information in list form, such as start time and execution duration.
 
 |image117|
 
-Flame Graph视图以火焰图的方式展示了程序中各函数执行的时间、调用层次、执行耗时等数据，在Flame Graph视图中，用户可以通过 ``A D W S`` 来对火焰图进行方大缩小，以便查看更多详细的信息。
+The Flame Graph view shows the execution time, call hierarchy, execution duration, and other data of each function as a flame graph. In the Flame Graph view, use ``A D W S`` to zoom in and out and view more detailed information.
 
 |image118|
 
-当鼠标点击火焰图中某段时，会显示该段的更多详细信息。
+Click a segment in the flame graph to display more detailed information about it.
 
 |image119|
 
-通过火焰图，可以帮助用户了解程序的执行情况以及耗时情况快速识别热点函数、分析执行路径、定位性能瓶颈。
+With the flame graph, you can understand the execution and time consumption of the program, quickly identify hot functions, analyze execution paths, and locate performance bottlenecks.
 
-``*.gtef`` 文件也可通过google的开源工具 Perfetto Trace Viewer 进行展示。打开 ``https://ui.perfetto.dev/`` 网址，点击 ``Open trace file`` ，找到工程中生成的 ``*.gtef`` 文件，手动将json文件load到Perfetto中。
+The ``*.gtef`` file can also be displayed with Google's open-source Perfetto Trace Viewer. Open ``https://ui.perfetto.dev/``, click ``Open trace file``, find the ``*.gtef`` file generated in the project, and load it into Perfetto.
 
 |image120|
 
-在生成的火焰图中，用户可以通过 ``A D W S`` 来对火焰图进行方大缩小，以便查看到更详细的信息。
+In the flame graph, use ``A D W S`` to zoom in and out and view more detailed information.
 
 |image121|
 
 Flash Programming
-------------------
+-----------------
 
-为了满足用户将编译好的二进制文件直接下载到硬件开发板的需求，Nuclei Studio 新增了 Flash Programming 功能。该功能允许用户快速、便捷地将编译好的二进制文件直接下载到硬件开发板中，极大提升了开发和调试的效率；简化操作流程，用户只需点击一次即可完成二进制文件的下载。工程编译好后，找到Flash Programming，并点击，即可完成二进制文件的下载。
+Nuclei Studio provides the Flash Programming feature for downloading compiled binary files directly to hardware development boards quickly and conveniently, greatly improving development and debugging efficiency. The operation flow is simple: after the project is built, click Flash Programming to download the binary file in one step.
 
-具体参见 :ref:`Flash Programming功能 <ide_flash_programming>` 。
+For details, see :ref:`Flash Programming <ide_flash_programming>`.
 
 |image102|
 
 
 Connect to Running Target
----------------------------
+-------------------------
 
-为了满足用户直接连接到开发板的需求，Nuclei Studio 新增了 Connect to Running Target 功能。该功能允许用户直接连接到硬件开发板，可以读取开发板的相关信息，极大方便了开发的效率。
+Nuclei Studio provides the Connect to Running Target feature for connecting directly to a running development board. It connects to the running board and reads board information, greatly improving development efficiency.
 
-具体参见 :ref:`Connect to Running Target功能 <ide_connect_to_target>` 。
+For details, see :ref:`Connect to Running Target <ide_connect_to_target>`.
 
 |image103|
 
 .. _ide_nuclei_qemu_customize_evalsoc:
 
-Nuclei Qemu更新evalsoc配置
----------------------------
+Updating evalsoc Configuration in Nuclei QEMU
+---------------------------------------------
 
-为了方便在不修改Nuclei QEMU源码的基础上，快速修改Nuclei QEMU evalsoc里面的各种外设的地址和大小以及中断编号，以快速
-适配不同的evalsoc版本，Nuclei Qemu在 ``-M`` 选项里面扩展了 :ref:`soc-cfg <qemu_opt_soc_cfg>` 用于让客户可以直接编写一个
-json配置文件，然后Qemu命令行类似传一个这样的选项 ``-M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json,debug=1`` 即可修改
-evalsoc的外设配置。
+To let you quickly modify the addresses and sizes of peripherals and the interrupt numbers in the Nuclei QEMU evalsoc — without modifying the Nuclei QEMU source code — and thus adapt to different evalsoc versions, Nuclei QEMU extends the ``-M`` option with the :ref:`soc-cfg <qemu_opt_soc_cfg>` option. You write a json configuration file and pass an option such as ``-M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json,debug=1`` on the QEMU command line to modify the evalsoc peripheral configuration.
 
-而在 Nuclei Studio中，你只需要将编写好的 ``evalsoc.json`` 放在你的工程所在根目录下，然后修改 **Nuclei Qemu Debug Configuration**
-页面的 **Debugger Tab** 里面的 ``Extra Board Options(-M)`` 即可，这里修改成了 ``,soc-cfg=${project_loc}/evalsoc.json,debug=1`` 然后
-保存调试配置即可。
+In Nuclei Studio, place the ``evalsoc.json`` file in the root directory of your project, then modify ``Extra Board Options(-M)`` on the **Debugger Tab** of the **Nuclei QEMU Debug Configuration** page. Change it to ``,soc-cfg=${project_loc}/evalsoc.json,debug=1`` and save the debug configuration.
 
-接着就可以按照新的evalsoc的配置来进行Nuclei Qemu的功能调试。
+You can then debug Nuclei QEMU features according to the new evalsoc configuration.
 
 |image130|
 
+Switching From the GNU GCC Toolchain to the Clang/ZCC Toolchain
+---------------------------------------------------------------
+
+Nuclei Studio IDE supports three toolchains: ``RISC-V GCC/Newlib``, ``RISC-V Clang/Newlib``, and ``Terapines ZCC``.
+When creating a project, select the desired toolchain in the ``Toolchain`` drop-down box.
+
+|image-gcc2llvm-1|
+
+If the current project uses the GCC toolchain and you want to switch to the Clang or ZCC toolchain, you can complete the migration with the following steps:
+
+1. :ref:`Switching the Toolchain <change_toolchain>`;
+2. :ref:`Adjusting Compile and Link Options <adjust_flags>`;
+3. :ref:`Adjusting Linked Libraries <adjust_libs>`;
+
+.. _change_toolchain:
+
+Switching the Toolchain
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Select the project in ``Project Explorer``, right-click and select ``Properties`` to open the project properties, then go to ``C/C++ Build -> Settings -> Toolchains`` and select the target toolchain in the ``Name`` drop-down box.
+
+|image-gcc2llvm-2|
+
+.. _adjust_flags:
+
+Adjusting Compile and Link Options
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RISC-V Clang/Newlib
+^^^^^^^^^^^^^^^^^^^
+
+If you switch to the Clang toolchain, you need to adjust the compile and link options accordingly, because Clang is not fully compatible with all GCC parameters.
+
+Taking the CoreMark project as an example, the parameters used by different CPU series may vary slightly, but the following adjustments are generally recommended:
+
+1. Change ``Optimization Level`` from ``-Ofast`` to ``-O3``;
+2. Replace ``Extra Common Flags`` with ``-flto``;
+3. Remove ``-Wl,--no-warn-rwx-segments`` from the link options.
+
+|image-gcc2llvm-3|
+
+Terapines ZCC
+^^^^^^^^^^^^^
+
+If you switch to the ZCC toolchain, it is recommended to adjust the compile and link options as follows:
+
+1. Change ``Optimization Level`` from ``-Ofast`` to ``-O3``;
+2. Replace ``Extra Common Flags`` with ``-flto -falign-functions=4 -falign-loops=4 -flate-loop-unroll -malign-branch``;
+3. Remove ``-Wl,--no-warn-rwx-segments`` from the link options;
+4. Change the link options to ``-Wl,-mllvm,--align-all-nofallthru-blocks=2``.
+
+|image-gcc2llvm-4|
+
+.. _adjust_libs:
+
+Adjusting Linked Libraries
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Different toolchains may depend on different libraries, so you also need to check and adjust the linked libraries after switching. The linked libraries can be modified in the project properties under ``C/C++ Build -> Settings -> Tool Settings -> GNU RISC-V Cross C++ Linker -> Libraries``.
+
+|image-gcc2llvm-5|
+
+For the Clang toolchain, Nuclei Studio still uses the same C standard library, and generally no additional modification of the linked libraries is required. Therefore, when migrating from GCC to Clang, you usually only need to complete the previous two steps, :ref:`Switching the Toolchain <change_toolchain>` and :ref:`Adjusting Compile and Link Options <adjust_flags>`, and then try to rebuild the project.
+
+For the ZCC toolchain, the linked library names must also be adjusted. ZCC only supports the ``newlib_small`` library, so whether the current GCC project uses ``newlib_small`` or ``libncrt_small``, change the linked libraries to ``c_small`` and ``clang_rt.builtins_small``.
+
+|image-gcc2llvm-6|
+
+If the current project links ``libncrt_small``, you also need to replace ``stubs.c`` with the newlib version; if the project originally uses the newlib library, this step is not needed.
+
+For example, in an EvalSoC project created based on Nuclei SDK, first exclude the libncrt version of ``stubs.c`` from the build: select ``SoC\evalsoc\Common\Source\Stubs\libncrt``, right-click and select ``Resource Configurations -> Exclude from Build...``, then copy a newlib version of ``stubs.c`` from another project that uses the newlib library into the ``Stubs`` directory.
+
+|image-gcc2llvm-7|
+
+After completing the ``stubs.c`` adjustment, the migration from GCC to ZCC is complete, and you can try to rebuild the project.
+
+Converting Between newlib_small and libncrt_small
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+As mentioned earlier, ZCC does not support ``libncrt_small``. Therefore, when switching the toolchain from GCC to ZCC, a project that originally uses ``libncrt_small`` must also be switched to ``newlib_small``.
+
+When ``newlib_small`` is selected in Nuclei Studio, the actual linked library is ``c_nano`` and floating-point printing is supported. ``-u _printf_float`` is added to the link options by default. You can check whether this option has been added as shown in the figure below.
+
+|image-gcc2llvm-8|
+
+The table below summarizes the supported toolchain and C library combinations. When adjusting the toolchain or linked libraries, also check that the ``Library List``, ``Link Options``, and ``stubs File`` match.
+
++------------+----------------+---------------+---------------------------+------------------+-----------------+
+| Toolchain  | Linked Library | Supported     | Library List              | Link Options     | stubs File      |
++============+================+===============+===========================+==================+=================+
+| GCC/Clang  | newlib_small   | Supported     | - c++                     | -u _printf_float | newlib/stubs.c  |
+|            |                |               | - c_nano                  |                  |                 |
+|            |                |               | - gcc                     |                  |                 |
++------------+----------------+---------------+---------------------------+------------------+-----------------+
+| GCC/Clang  | libncrt_small  | Supported     | - ncrt_small              |                  | libncrt/stubs.c |
+|            |                |               | - heapops_basic           |                  |                 |
+|            |                |               | - fileops_uart            |                  |                 |
++------------+----------------+---------------+---------------------------+------------------+-----------------+
+| ZCC        | newlib_small   | Supported     | - c_small                 |                  | newlib/stubs.c  |
+|            |                |               | - clang_rt.builtins_small |                  |                 |
++------------+----------------+---------------+---------------------------+------------------+-----------------+
+| ZCC        | libncrt_small  | Not Supported |                           |                  |                 |
++------------+----------------+---------------+---------------------------+------------------+-----------------+
+
+Common Issues
+~~~~~~~~~~~~~
+
+Clang/ZCC Incompatibility with GCC
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Clang/ZCC toolchain is not fully compatible with GCC compile options. If errors are reported during compilation, refer to :ref:`Adjusting Compile and Link Options <adjust_flags>` for adjustments.
+
+.. code-block:: console
+
+    riscv64-unknown-elf-clang: error: unknown argument: '-fno-code-hoisting'
+    riscv64-unknown-elf-clang: error: unknown argument: '-fno-if-conversion'
+    riscv64-unknown-elf-clang: error: unknown argument: '-fno-if-conversion2'
+    riscv64-unknown-elf-clang: error: unknown argument: '-fselective-scheduling'
+    riscv64-unknown-elf-clang: error: unknown argument: '-fno-tree-loop-distribute-patterns'
+    riscv64-unknown-elf-clang: error: unknown argument: '-mbranch-cost=1'
+
+The Clang/ZCC toolchain does not support the ``-Wl,--no-warn-rwx-segments`` link option. If errors are reported during linking, refer to :ref:`Adjusting Compile and Link Options <adjust_flags>` for adjustments.
+
+.. code-block:: console
+
+    ld.lld: error: unknown argument '--no-warn-rwx-segments'
+    riscv64-unknown-elf-clang++: error: ld command failed with exit code 1 (use -v to see invocation)
+    make: *** [makefile:92: coremark.elf] Error 1
+
+ZCC Link Failures
+^^^^^^^^^^^^^^^^^
+
+When switching from GCC to the ZCC toolchain, the following problems may occur if the linked libraries are not adjusted correctly. Refer to :ref:`Adjusting Linked Libraries <adjust_libs>` for modifications.
+
+If the original project uses ``newlib_small`` but the linked libraries are not modified, the following error may occur:
+
+.. code-block:: console
+
+    ld.lld: error: unable to find library -lstdc++
+    z++: error: ld command failed with exit code 1 (use -v to see invocation)
+    make: *** [makefile:92: coremark.elf] Error 1
+
+If the original project uses ``libncrt_small`` but the linked libraries are not modified, the following error may occur:
+
+.. code-block:: console
+
+    ld.lld: error: unable to find library -lncrt_small
+    ld.lld: error: unable to find library -lheapops_basic
+    ld.lld: error: unable to find library -lfileops_uart
+    ld.lld: error: unable to find library -lncrt_small
+    z++: error: ld command failed with exit code 1 (use -v to see invocation)
+    make: *** [makefile:92: coremark.elf] Error 1
+
+If the original project uses ``libncrt_small`` and the linked libraries have been modified, but ``stubs.c`` has not been replaced accordingly, the following error may occur:
+
+.. code-block:: console
+
+    ld.lld: error: undefined symbol: _read
+    >>> referenced by ld-temp.o
+    >>>               coremark.elf.lto.o:(sys_semihost_getc)
+    
+    ld.lld: error: undefined symbol: _write
+    >>> referenced by ld-temp.o
+    >>>               coremark.elf.lto.o:(sys_semihost_putc)
+    z++: error: ld command failed with exit code 1 (use -v to see invocation)
+    make: *** [makefile:92: coremark.elf] Error 1
 
 .. |image1| image:: /asserts/nucleistudio/advanceusage/image2.png
 
@@ -1633,5 +1790,18 @@ evalsoc的外设配置。
 
 .. |image-nice-10| image:: /asserts/nucleistudio/advanceusage/nice-10.png
 
+.. |image-gcc2llvm-1| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-1.png
 
+.. |image-gcc2llvm-2| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-2.png
 
+.. |image-gcc2llvm-3| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-3.png
+
+.. |image-gcc2llvm-4| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-4.png
+
+.. |image-gcc2llvm-5| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-5.png
+
+.. |image-gcc2llvm-6| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-6.png
+
+.. |image-gcc2llvm-7| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-7.png
+
+.. |image-gcc2llvm-8| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-8.png

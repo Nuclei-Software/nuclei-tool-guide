@@ -77,9 +77,9 @@ Extensions Support
 
     xxlvqmacc
 
-- Nuclei custom Scalar BFloat16 Extensions
+- Nuclei custom BFloat16 Extensions
 
-    :ref:`Xxlfbf <toolchain_gnu_nuclei_bf16>`
+    :ref:`Xxlfbf <toolchain_gnu_nuclei_bf16>`, :ref:`Xxlvfbf <toolchain_gnu_nuclei_bf16>`
 
 .. rubric:: Experimental Extensions
 

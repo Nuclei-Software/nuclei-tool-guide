@@ -1,36 +1,36 @@
 .. _npkmanage:
 
-Nuclei Studio NPK 创建与共享
-============================
+Nuclei Studio NPK Creation and Sharing
+======================================
 
-Nuclei Studio 2022.04版中，提供了一个非常重要的功能，该功能主要通过提供的各种初始模板，方便开发者去创建自己的NPK组件包，并可以通过平台将自己的NPK组件包贡献出来，供其他开发者使用。
+Nuclei Studio 2022.04 provides an important feature: using the initial templates provided, developers can easily create their own NPK component packages and contribute them through the platform for other developers to use.
 
 .. _npkmanage_develop_package:
 
-开发NPK组件包
----------------
+Develop an NPK Component Package
+--------------------------------
 
 .. _npkmanage_auth_developer:
 
-认证开发者
-~~~~~~~~~~~
+Authenticate as a Developer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在创建NPK组件包前，先需要认证一个开发者帐号，获取一个唯一的owner ID,这在owner ID对应的就是前文中介绍的owner，它能方便我们对NPK进行管理。
+Before creating an NPK component package, you must first authenticate a developer account to obtain a unique owner ID. This owner ID corresponds to the owner described earlier and makes NPKs easier to manage.
 
-首先，登陆芯来科技的 `RVMCU社区的网站  <https://www.rvmcu.com/user-login.html>`__ ，登陆成功后，依次进入Nuclei Studio->贡献页面，就可以看到认证按钮。
+First, log in to Nuclei System Technology's `RVMCU community website <https://www.rvmcu.com/user-login.html>`__. After logging in, go to the Nuclei Studio -> Contribute page, where you can see the authentication button.
 
 |image1|
 
 .. |image1| image:: /asserts/nucleistudio/developer/authenticate.png
 
 
-或者直接访问 `认证地址 <https://www.rvmcu.com/nucleistudio-developer.html>`__ ，按提示分别填写相关信息，其中 **开发者** 对应的开发者空间地址的后辍将会是您的owner ID。
+Alternatively, visit the `authentication page <https://www.rvmcu.com/nucleistudio-developer.html>`__ directly and fill in the required information. The suffix of the developer space address corresponding to **Developer** is your owner ID.
 
 |image2|
 
 .. |image2| image:: /asserts/nucleistudio/developer/authenticate2.png
 
-填写完相关内容后提交，系统审核通过后，即可完成认证。
+After filling in the required information, submit it. Once the system review is approved, the authentication is complete.
 
 |image3|
 
@@ -38,69 +38,69 @@ Nuclei Studio 2022.04版中，提供了一个非常重要的功能，该功能�
 
 .. _npkmanage_create_package:
 
-创建NPK组件包
-~~~~~~~~~~~~~~
+Create an NPK Component Package
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-完成开发者认证后，在Nuclei Studio中新建一个Nuclei Studio组件工程,在菜单栏中，选择 ``File-> New-> Project-> C/C++-> New Nuclei NPK Project`` 。
+After completing developer authentication, create a new Nuclei Studio component project by selecting ``File-> New-> Project-> C/C++-> New Nuclei NPK Project`` in the menu bar.
 
 |image4|
 
 .. |image4| image:: /asserts/nucleistudio/developer/image140.png
 
 
-首次使用需要登录开发者帐号，且登录后7天有效，超过时间后需要再次登录，登录需要使用微信扫描二维码，见下图。登录成功后，owner可选框会列出绑定的相关开发者账号，其他的根据提示输入相关信息。需要变更账号时，可点击login again重新登录。
+For first-time use, log in with a developer account. The login is valid for 7 days; after that, you must log in again. Login requires scanning a QR code with WeChat, as shown in the figure below. After a successful login, the owner drop-down box lists the bound developer accounts; fill in the remaining information. To switch accounts, click login again.
 
 |image5|
 
 .. |image5| image:: /asserts/nucleistudio/developer/image141.png
 
 
-开发者帐号登陆成功后，依据工程向导依次填入工程名、工程类型等等相关信息。
+After the developer account is logged in, fill in the project name, project type, and other related information following the project wizard.
 
 |image6|
 
 .. |image6| image:: /asserts/nucleistudio/developer/image143.png
 
 
-选择Type时，无对应模板时，会跳出对应提示，点击确定，进入Nuclei Package Management页面，根据需要下载Template Package的对应模板，或点击下图右下角Import自行导入。
+When you select a Type for which no corresponding template exists, a prompt appears. Click OK to open the Nuclei Package Management page and download the corresponding Template Package as needed, or click Import in the lower right corner of the figure below to import it yourself.
 
-下面以ssp类型模板为例,假设你的公司名称为GreenTech, 你的SoC名称为 gt25nv, 适配的开发板为gt25nv_fpga_eval, 采用了我们的n307FD处理器(rv32imafdc)配置, 并且配置了dsp特性， 并且提供了ilm, flash,flashxip三种下载方式。
+The following example uses the ssp type template. Suppose your company name is GreenTech, your SoC name is gt25nv, the adapted board is gt25nv_fpga_eval, it uses the N307FD processor (rv32imafdc) configuration with DSP features configured, and it provides three download modes: ilm, flash, and flashxip.
 
-Type选择ssp: ``Soc Support Package``
+Select ssp for Type: ``SoC Support Package``
 
 |image7|
 
 .. |image7| image:: /asserts/nucleistudio/developer/image147.png
 
-在选择Type时，如果没有相关的模板，会进入Nuclei Package Management页面，在该页面选择 ``tpp-nuclei_sdk`` 的1.1.0版本，点击 ``Download`` 下载，下载完成后关闭该页面
+When you select a Type with no related template, you are taken to the Nuclei Package Management page. On this page, select version 1.1.0 of ``tpp-nuclei_sdk``, click ``Download``, and close the page after the download is complete.
 
 |image8|
 
 .. |image8| image:: /asserts/nucleistudio/developer/image148.png
 
 
-点击Next，在 ``Select a Template`` 中选择刚才下载的模板 ``tpp-nuclei_sdk`` ，左侧为模板描述和相关的文件预览，右侧为模板中部分可自定义的内容。
+Click Next, and select the ``tpp-nuclei_sdk`` template you just downloaded in ``Select a Template``. The left side shows the template description and a preview of the related files; the right side shows part of the customizable content in the template.
 
 |image9|
 
 .. |image9| image:: /asserts/nucleistudio/developer/image145.png
 
 
-我们这里举例，公司名称为 ``GreenTech`` ，SoC名称为 ``gt25nv`` ，适配的开发板为 ``gt25nv_fpga_eval`` ，采用了我们的n307FD处理器( ``rv32imafdc`` )配置，并且配置了dsp特性，并且提供了ilm，flash，flashxip三种下载方式。经过修改后如图。
+In this example, the company name is ``GreenTech``, the SoC name is ``gt25nv``, the adapted board is ``gt25nv_fpga_eval``, the configuration uses the N307FD processor (``rv32imafdc``) with DSP features configured, and it provides three download modes: ilm, flash, and flashxip. The result after modification is shown in the figure.
 
 |image10|
 
 .. |image10| image:: /asserts/nucleistudio/developer/image149.png
 
-然后点击Finish即成功生成对应NPK组件包，再根据需要，可以打开目录查看并修改对应的文件和结构，修改完成后再导入该NPK组件包。
+Click Finish to generate the NPK component package. You can then open the directory to view and modify the files and structure as needed, and import the NPK component package after the modification is complete.
 
-修改项目，根据需要自行修改。项目修改完成，导入NPK组件包。
+Modify the project as needed, then import the NPK component package once the modification is complete.
 
 |image11|
 
 .. |image11| image:: /asserts/nucleistudio/developer/image146.png
 
-按照示例创建的soc在导入时，提示缺少依赖 ``sdk-nuclei_sdk`` ，点击确定，进入 ``Nuclei Package Management`` 页面，根据提示，选中 ``sdk-nuclei_sdk`` ，点击 ``Download`` 。
+When importing the SoC package created in the example, a prompt indicates that the dependency ``sdk-nuclei_sdk`` is missing. Click OK to open the ``Nuclei Package Management`` page, select ``sdk-nuclei_sdk``, and click ``Download``.
 
 |image12|
 
@@ -111,7 +111,7 @@ Type选择ssp: ``Soc Support Package``
 
 .. |image13| image:: /asserts/nucleistudio/developer/image150.png
 
-下载完成后，NPK组件包工程导入成功后结果如下图 。
+After the download is complete and the NPK component package project has been imported successfully, the result is shown in the figure below.
 
 |image14|
 
@@ -119,39 +119,39 @@ Type选择ssp: ``Soc Support Package``
 
 .. _npkmanage_test_package:
 
-NPK组件包的检测和问题处理
------------------------------
+Checking and Troubleshooting NPK Component Packages
+---------------------------------------------------
 
 .. _npkmanage_install_test_project:
 
-新创建组件包导入前的检测
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Checking a Newly Created Package Before Import
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-创建完成的软件包，在导入之前，可以先使用检查工具检测npk组件包的合法性，避免导入失败。其核心功能聚焦于代码风格、变量命名、函数结构以及依赖关系的合规性检查，确保代码质量。
+Before importing a completed package, you can use the checking tool to verify the validity of the NPK component package and avoid import failures. Its core functions focus on compliance checks of code style, variable naming, function structure, and dependency relationships to ensure code quality.
 
-关于该工具的内容请参见: `软件包检查工具  <https://github.com/Nuclei-Software/npk-checker>`__ 
+For details about this tool, see: `Package checking tool <https://github.com/Nuclei-Software/npk-checker>`__
 
 
 .. _npkmanage_install_err_project:
 
-软件包导入失败的处理 
-~~~~~~~~~~~~~~~~~~~~
+Handling Package Import Failures
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在软件包导入失败的情况下，可以根据相关日志去判断问题所在，这里主要针对npk文件格式错误、依赖不满足等问题。
+When a package fails to import, you can identify the problem from the relevant logs. This section covers issues such as NPK file format errors and unsatisfied dependencies.
 
-点击Package Management 页面右下角的View log，会弹出对应日志页面，简略的告知导入失败的原因。
+Click View log in the lower right corner of the Package Management page to open a log page that briefly describes the reason for the import failure.
 
 |image29|
 
 .. |image29| image:: /asserts/nucleistudio/developer/image168.png
 
-    
+
 |image30|
 
 .. |image30| image:: /asserts/nucleistudio/developer/image169.png
 
 
-当日志中出现类似There are file parsing exceptions提示时，可以去对应的 ``<用户目录>\nuclei-pack-npk-v2\CFGs\logs\sys\`` 路径下看当天的日志文件，进一步了解相关npk文件的问题点，以便进行相应的修正。
+When a message such as "There are file parsing exceptions" appears in the log, check the log file of that day under the ``<user directory>\nuclei-pack-npk-v2\CFGs\logs\sys\`` path for details about the problems in the related NPK files, and make the corresponding corrections.
 
 |image31|
 
@@ -168,22 +168,22 @@ NPK组件包的检测和问题处理
 
 .. _npkmanage_create_test_project:
 
-创建测试项目
-~~~~~~~~~~~~~~
+Create a Test Project
+~~~~~~~~~~~~~~~~~~~~~
 
-使用导入的NPK组件包工程创建一个工程，可以在菜单栏中，选择 ``File-> New-> Project-> C/C++-> New Nuclei RISC-V C/C++ Project`` 。
+To create a project using the imported NPK component package project, select ``File-> New-> Project-> C/C++-> New Nuclei RISC-V C/C++ Project`` in the menu bar.
 
 |image15|
 
 .. |image15| image:: /asserts/nucleistudio/developer/image153.png
 
-点击Next，选择上面创建的soc内所包含的soc和board
+Click Next, and select the SoC and board contained in the package created above.
 
 |image16|
 
 .. |image16| image:: /asserts/nucleistudio/developer/image154.png
 
-点击Next，填入Project Name，并选择Project Example为 ``Simple Helloworld Demo`` ，点击 ``Finish`` ，完成测试工程的创建。
+Click Next, fill in the Project Name, select ``Simple Helloworld Demo`` for Project Example, and click ``Finish`` to complete the creation of the test project.
 
 |image17|
 
@@ -191,12 +191,12 @@ NPK组件包的检测和问题处理
 
 .. _npkmanage_workwith_test_project:
 
-编译调试测试工程
-~~~~~~~~~~~~~~~~~~
+Build and Debug the Test Project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-上文步骤中创建的一个工程，就是根据开发者的NPK组件包创建出来的一个测试工程，开发者可以按一个正常的工程进行对应的编码、调式、运行等操作。
+The project created in the steps above is a test project based on the developer's NPK component package. The developer can code, debug, run, and perform other operations on it as with a normal project.
 
-鼠标点击选中上一步生成的项目N307FD，然后编译成功，后续运行等步骤略去，至此已成功创建了一个NPK组件包，并使用此NPK组件包进行了导入使用。
+Click to select the N307FD project generated in the previous step and build it; the build succeeds. Subsequent steps such as running are omitted here. At this point, an NPK component package has been successfully created and imported for use.
 
 |image18|
 
@@ -205,17 +205,17 @@ NPK组件包的检测和问题处理
 
 .. _npkmanage_share_package:
 
-共享NPK组件包
----------------
+Share an NPK Component Package
+------------------------------
 
 .. _npkmanage_share_npk:
 
-NPK组件包共享
-~~~~~~~~~~~~~~
+Sharing an NPK Component Package
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-经过测试通过后，可以将您创建的NPK组件包分享出去，首先需要将您的NPK组件包工程导出为一个zip包，具体操作如下。
+After passing the tests, you can share the NPK component package you created. First, export your NPK component package project as a zip package as follows.
 
-打开NPK组件包项目，双击最外层的 ``npk.yml`` ，找到其Name为 ``ssp-nsdk_gt25nv`` ，右键点击NPK组件包项目，点击 ``Export`` ，选择 ``Archive File`` ，选择需要导出的工程，然后根据提示指定导出zip文件存放的位置。
+Open the NPK component package project, double-click the outermost ``npk.yml`` file, and confirm that its Name is ``ssp-nsdk_gt25nv``. Then right-click the NPK component package project, click ``Export``, select ``Archive File``, select the project to export, and specify where to save the exported zip file.
 
 |image19|
 
@@ -227,7 +227,7 @@ NPK组件包共享
 .. |image20| image:: /asserts/nucleistudio/developer/image161.png
 
 
-导出的zip包，可以通过rvmcu社区进行分享贡献。进入 `社区分享页面 <https://www.rvmcu.com/nucleistudio-developer.html>`__ ，依据提示信息，依次填写需要分享的NPK组件包的名称、所属类型、描述待信息，并上传刚导出的zip文件，信息提交后，待管理员审核通过后，该NPK组件包就成功贡献了，其他的开发者就可以通过Nuclei Studio的 ``Nuclei Package Management`` 页面找到您的NPK组件包，并下载使用。具体操作如下图
+The exported zip package can be shared and contributed through the RVMCU community. Go to the `community sharing page <https://www.rvmcu.com/nucleistudio-developer.html>`__, fill in the name, type, description, and other information of the NPK component package to be shared, and upload the zip file you just exported. After the information is submitted and approved by the administrator, the NPK component package is successfully contributed. Other developers can then find your NPK component package on the ``Nuclei Package Management`` page of Nuclei Studio and download it for use. The procedure is shown in the figures below.
 
 |image21|
 
@@ -245,7 +245,7 @@ NPK组件包共享
 
 
 
-分享的npk组件包通过审核后，在Nuclei Studio中打开 ``Nuclei Package Management`` 页面，然后点击 ``Refresh`` ，刷新后即可找到刚分享的组件包。
+After the shared NPK component package is approved, open the ``Nuclei Package Management`` page in Nuclei Studio and click ``Refresh``. The component package you just shared appears in the list.
 
 |image24|
 
@@ -254,10 +254,10 @@ NPK组件包共享
 
 .. _npkmanage_update_npk:
 
-NPK组件包升级
-~~~~~~~~~~~~~~
+Upgrade an NPK Component Package
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在NPK组件包共享后，如果有新的版本需要维护，在创建测试打包完成后，可以对原有的NPK组件包进行升级。共入 `Nuclei Studio <https://www.rvmcu.com/nucleistudio.html>`__ 页面， 找到管理组件包入口，然后进组件包管理页面，点击升级组件包，然后之前的步骤，上传NPK组件包，等待审核通过，则组件包升级完成。
+After an NPK component package is shared, if a new version needs to be maintained, you can upgrade the existing NPK component package once creation, testing, and packaging are complete. Go to the `Nuclei Studio <https://www.rvmcu.com/nucleistudio.html>`__ page, find the component package management entry, open the component package management page, click Upgrade Component Package, and upload the NPK component package following the previous steps. After the review is approved, the component package upgrade is complete.
 
 |image25|
 
@@ -275,16 +275,13 @@ NPK组件包升级
 
 .. _npkmanage_using_npk_in_ide:
 
-NPK组件包在Nuclei Studio中的使用
----------------------------------
+Using NPK Component Packages in Nuclei Studio
+---------------------------------------------
 
-NPK组件包在Nuclei Studio中，丰富了其用户体验，通过NPK组件包我们可以定义各种不同的创建工程流程，也能很方便的将成熟的工程或者组件共享给其人。
+NPK component packages enrich the user experience in Nuclei Studio. With NPK component packages, you can define various project creation workflows and easily share mature projects or components with others.
 
-我们所有贡献的NPK包，都在Nuclei Studio的 ``NPK Package Managment`` 中进行管理，用户可以在这里进行NPK的下载、导入、删除等操作。
+All contributed NPK packages are managed in ``NPK Package Management`` of Nuclei Studio, where users can download, import, delete, and perform other operations on NPKs.
 
 |image28|
 
 .. |image28| image:: /asserts/nucleistudio/developer/168.jpg
-
-
-

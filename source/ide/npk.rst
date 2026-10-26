@@ -1,175 +1,174 @@
 .. _npk:
 
-Nuclei Studio NPK 应用
-=======================
+Nuclei Studio NPK Applications
+==============================
 
-Nuclei Studio 中内建了对Nuclei Package（NPK）功能的完整支持，方便开发者或者创建不同的软件开发包，并且通过Nuclei Package Management方式导入到Nuclei Studio中使用，如果是CPU IP客户，可以将自己的芯片SDK略作改造以支持NPK，并导入到Nuclei Studio中使用，如果是SoC IP客户，可以将提供的SDK打包成Zip包，导入使用，如果是开发者，也可以依赖某个特定的NPK，创建对应的BSP包或者APP包并提供给第三方使用，关于NPK功能的详细介绍，以及后续更新说明参见 https://github.com/Nuclei-Software/nuclei-sdk/wiki/Nuclei-Studio-NPK-Introduction 。通过在原有的SDK中引入npk功能，编写npk.yml可以达到Project Wizard功能的部分定制化。
+Nuclei Studio provides full built-in support for the Nuclei Package (NPK) feature, making it easy for developers to create software development packages and import them into Nuclei Studio through Nuclei Package Management. CPU IP customers can adapt their own chip SDK to support NPK and import it into Nuclei Studio; SoC IP customers can package the provided SDK into a Zip package and import it; developers can also build a BSP package or APP package on top of a specific NPK and distribute it to third parties. For a detailed introduction to the NPK feature and its update notes, see https://github.com/Nuclei-Software/nuclei-sdk/wiki/Nuclei-Studio-NPK-Introduction. Adding NPK support and an npk.yml file to an existing SDK also enables partial customization of the Project Wizard functionality.
 
-开发者要使用Nuclei Studio进行工程的创建，需先将对应的SDK NPK Zip包安装到IDE中，方可根据不同的开发板快速新建不同的模板工程，并根据不同的模板添加需要的SDK源码，根据选项生成不同的编译链接选项设置。
+To create projects with Nuclei Studio, developers must first install the corresponding SDK NPK Zip package into the IDE. They can then quickly create template projects for different boards, include the required SDK source code based on the selected template, and generate the corresponding compile and link options based on the selected options.
 
 .. _npk_package_management:
 
 .. _ide_npk_package_management:
 
-NPK软件包管理
--------------
+NPK Package Management
+----------------------
 
 .. _npk_import_local_package:
 
-导入本地NPK软件包
-~~~~~~~~~~~~~~~~~
+Import a Local NPK Package
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**导入zip软件包**
+**Import a zip package**
 
-当用户拿到一个zip格式的软件包时，可以通过Nuclei Package Management导入一个zip格式的软件包，你可以按照以下的步骤操作：
+When you have a software package in zip format, import it through Nuclei Package Management as follows:
 
-首先，点击Nuclei Studio IDE工具栏上的 **Nuclei Package Management** 按钮，这将打开npk软件包管理页面。在这个页面上，你可以管理和浏览已安装的软件包，以及导入新的软件包。在这里，我们找到并点击 **Import** 选项。这个选项用于从本地文件系统选择zip类型的软件包。
+Click the **Nuclei Package Management** button on the Nuclei Studio IDE toolbar to open the NPK package management page, where you can browse and manage installed packages and import new ones. On this page, click **Import** to select a zip package from the local file system.
 
 |image19|
 
-在点击 **Import** 后，系统会提示你选择一个要导入的软件包文件。此时，你需要浏览到你的zip格式软件包所在的目录，并选中它。确保选中的是一个有效的zip包,点击 **打开** ,系统会开始处理并导入这个软件包。
+After you click **Import**, the system prompts you to select a package file to import. Browse to the directory containing your zip package and select it. Make sure a valid zip package is selected, then click **Open**. Nuclei Studio starts processing and importing the package.
 
 |image20|
 
 |image21|
 
-导入完成后，你应该能够在Nuclei Studio IDE的Package Management页面中看到新导入的软件包。
+After the import is complete, the newly imported package appears on the Package Management page of Nuclei Studio IDE.
 
 |image22|
 
-**导入未压缩的npk软件包**
+**Import an uncompressed NPK package**
 
-当用户拿到一个未压缩的npk软件包工程时，如果想将它导入到NucleiStudio中，最简单的方式就是通过压缩软件，将其压缩成为一个.zip压缩包，然后通过上述操作导入到NucleiStudio中，如果想一边修改这个npk软件包工程，修改完后快速导入到NucleiStudio中进行测试，可以通过如下操作实现。
+When you have an uncompressed NPK package project to import into Nuclei Studio, the simplest way is to compress it into a .zip archive and import it using the procedure above. If you want to modify the NPK package project and quickly re-import it into Nuclei Studio for testing after each modification, do the following instead.
 
-直接导入未压缩的软件包，先要将软件包导入到Project Exlorer视图中。点击菜单栏上的File选项，在下拉菜单中，找到并点击 **Import...** 选项。这将打开导入向导，帮助你从本地文件系统或其他来源导入新的项目或文件。
+To import an uncompressed package directly, first import it into the Project Explorer view. Click File in the menu bar and select **Import...** from the drop-down menu. This opens the import wizard, which imports projects or files from the local file system or other sources.
 
 |image23|
 
-然后选择General下的 **Projects from Folder or Archive** 选项,点击Next按钮。
+Select the **Projects from Folder or Archive** option under General, and click Next.
 
 |image24|
 
-接下来，点击 **Directory...** ，这里浏览到你的软件包所在的目录，并选择要导入的文件或文件夹。确保你选择了正确的路径和文件，然后点击 **Finish** 按钮。
+Click **Directory...**, browse to the directory containing your package, and select the file or folder to import. Verify that the correct path and files are selected, then click **Finish**.
 
 |image25|
 
-此时软件包已导入到 **Project Explorer** 视图中，右键点击这个文件夹（代表你的软件包），在弹出的上下文菜单中选择 **Export to Package Management** 并点击，系统会开始处理并导入这个软件包。
+The package is now imported into the **Project Explorer** view. Right-click the folder representing your package and select **Export to Package Management** from the context menu. Nuclei Studio starts processing and importing the package.
 
 |image26|
 
 |image27|
 
-导入过程中，会自动打开Package Management页面。待导入完成后，你应该能够在Nuclei Studio IDE的Package Management页面中看到新导入的软件包。
+During the import, the Package Management page opens automatically. After the import is complete, the newly imported package appears on the Package Management page of Nuclei Studio IDE.
 
 |image28|
 
 
 .. _npk_download_cloud_package:
 
-下载云端NPK软件包
-~~~~~~~~~~~~~~~~~
+Download a Cloud NPK Package
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio中最大的更新，就是将npk云端化，用户直接在Nuclei Studio中就可以下查看到所有的npk并自行安装，在菜单栏选择 ``RV-Tools-->Nuclei Package Management`` 在弹出的 **Nuclei Package Management** 管理页进行npk管理。
+The biggest update in Nuclei Studio is moving NPK to the cloud. You can view all available NPKs directly in Nuclei Studio and install them yourself. Select ``RV-Tools-->Nuclei Package Management`` in the menu bar to manage NPKs on the **Nuclei Package Management** page.
 
 |image1|
 
-在Nuclei Package Management页面，先点击一下Refresh获取最新的npk信息，npk安装前状态为Not Installed。
+On the Nuclei Package Management page, click Refresh to get the latest NPK information. Before installation, the NPK status is Not Installed.
 
 |image2|
 
-然后选中自己想要安装的npk,点击Download进行安装，本教程安装sdk-nuclei_sdk的0.8.0版本，请使用最新版本的NucleiStudio进行安装，最新版本支持gcc14工具链，之前的版本有支持gcc13/gcc10。
+Select the NPK you want to install and click Download to install it. This example installs version 0.8.0 of sdk-nuclei_sdk. Use the latest version of Nuclei Studio for installation; the latest version supports the gcc14 toolchain, while previous versions supported gcc13/gcc10.
 
 |image3|
 
-安装完成后npk状态变为Installed。
+After installation, the NPK status changes to Installed.
 
 |image4|
 
-在NucleiStudio 2024.06及后续的版本中，升级了Nuclei Package Management管理页中关于依赖的管理，大大简化了使用者关于NPK包依赖的问题。
+Nuclei Studio 2024.06 and later upgrades dependency management on the Nuclei Package Management page, greatly simplifying NPK package dependency handling.
 
 |image5|
 
-当用户在下载/安装某个NPK包时，NucleiStudio会根据当前NPK包信息的依赖关系，再结合本地已安装的包信息及云端共享的NPK信息，给出其的所有依赖，并提示用户进行关联下载安装。
+When you download or install an NPK package, Nuclei Studio determines all of its dependencies based on the dependency relationships in the current NPK package information, combined with locally installed package information and NPK information shared in the cloud, and prompts you to download and install them together.
 
 |image6|
 
-当NPK包安装完成后，会提示用户，此安共计安装了多少个NPK包，每个NPK包安装的后状态以及出错的原因。方便用户排查问题。极大的解决的之前版中用户因NPK包依赖的不正确而无法使用的问题。
+After the NPK packages are installed, Nuclei Studio reports how many packages were installed in total, the status of each package after installation, and the reason for any errors, making it easy to troubleshoot problems. This largely resolves the problem in previous versions where incorrect dependencies prevented NPK packages from being used.
 
 |image7|
 
-通过NPK创建工程
----------------
+Create a Project via NPK
+------------------------
 
-本章将在RVSTAR开发板上，以新建和修改GD32VF103的工程为例快速介绍Nuclei Studio功能，RVSTAR开发板开发需要使用nuclei_sdk的npk包，详细的流程请参考之后的章节。
+This chapter uses creating and modifying a GD32VF103 project for the RVSTAR board as an example to introduce Nuclei Studio features. Developing with the RVSTAR board requires the nuclei_sdk NPK package; for details, see the following chapters.
 
 .. _npk_create_project:
 
-创建NPK示例工程
-~~~~~~~~~~~~~~~
+Create an NPK Example Project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-新建一个工程，可以在菜单栏中，选择 ``File --> New --> New Nuclei RISC-V C/C++ Project`` 。
+To create a new project, select ``File --> New --> New Nuclei RISC-V C/C++ Project`` in the menu bar.
 
 |image8|
 
-也可以在Project Explorer视图中选中 ``New Nuclei RISC-V C/C++ Project`` 。
+Alternatively, select ``New Nuclei RISC-V C/C++ Project`` in the Project Explorer view.
 
 |image9|
 
-在弹出的窗口中可以不同的厂商提供的不同版本的SDK,选种某一Board下的SDK,看到相关SoC及Board的介绍。这里以RVSTAR开发板为例，所以这一项选择 ``GigaDevice->GD32VF103->Nuclei GD32VF103 RVSTAR Board->sdk-nuclei_sdk@0.5.0``  。点击 ``Next`` 进入下一步。
+In the pop-up window, you can see different versions of SDKs provided by different vendors. Select an SDK under a Board to view an introduction to the related SoC and Board. This example uses the RVSTAR board, so select ``GigaDevice->GD32VF103->Nuclei GD32VF103 RVSTAR Board->sdk-nuclei_sdk@0.5.0``. Click ``Next`` to continue.
 
 .. note::
-    **注意**：这里的sdk版本号会随着版本迭代做相应的更新，并且也可能依赖特定版本的Nuclei Studio使用
-    
+    **Note**: The SDK version number shown here changes as versions iterate and may also depend on a specific version of Nuclei Studio.
+
 |image10|
 
-进入具体的项目配置页如图所示，因为RVSTAR的内核是固定的N205，其对应的arch和abi分别是rv32imac和ilp32，所以Core选项不能修改。同样，RVSTAR开发板仅支持一种FLASHXIP下载模式，所以DOWNLOAD这一选项也不能修改。点击 ``Finish`` 完成工程创建。在2023.10版本，增加了对Arm项目的支持。
+The project configuration page opens as shown in the figure. Because the RVSTAR core is fixed at N205 and its corresponding arch and abi are rv32imac and ilp32 respectively, the Core option cannot be modified. Similarly, the RVSTAR board supports only the FLASHXIP download mode, so the DOWNLOAD option cannot be modified either. Click ``Finish`` to complete project creation. Version 2023.10 adds support for Arm projects.
 
 |image11|
 
-Nuclei Studio可以根据不同的工程模板添加不同的SDK源码，例如FreeRTOS模板工程会添加对应的OS内容，Demo_dsp模板工程可以添加NMSIS库文件。关于NMSIS详细信息请参考（\ https://doc.nucleisys.com/nmsis/index.html\ ）。这里以Demo_dsp为例， ``Project Example`` 选择 ``Nuclei NMSIS DSP Library Demo`` 。因为使用dsp工程，需要添加NMSIS库，所以 ``Libraries`` 选择 ``NMSIS DSP Library`` 。
+Nuclei Studio adds different SDK source code depending on the selected project template. For example, the FreeRTOS template project adds the corresponding OS content, and the Demo_dsp template project adds NMSIS library files. For detailed information about NMSIS, refer to (https://doc.nucleisys.com/nmsis/index.html). This example uses Demo_dsp: select ``Nuclei NMSIS DSP Library Demo`` for ``Project Example``. Because the DSP project requires the NMSIS library, select ``NMSIS DSP Library`` for ``Libraries``.
 
-Nuclei Studio可以根据新建工程时的选项自动设置工程的选项。这里选择使用浮点打印，所以 ``NEWLIB`` 选择 ``newlib nano with printf float`` 。之后一直选择 ``Next`` 直到 ``Finish`` 。
+Nuclei Studio automatically sets project options based on the options selected during project creation. This example uses floating-point printing, so select ``newlib nano with printf float`` for ``NEWLIB``. Then keep clicking ``Next`` until ``Finish``.
 
 .. _npk_sdk_config_tool:
 
-SDK Configuration Tools更改工程配置
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Change Project Configuration with SDK Configuration Tools
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-在Nuclei Studio可以快速修改工程的设置选项，提供了 ``SDK Configuration Tools`` 工具，Nuclei Studio IDE 2022.12版后，对 ``SDK Configuration Tools`` 工具进行了重构，变更为用户体验更好的Nuclei Settings菜单。
+In Nuclei Studio, you can quickly modify project settings using the ``SDK Configuration Tools`` tool. Starting with Nuclei Studio IDE 2022.12, the ``SDK Configuration Tools`` tool was refactored into the Nuclei Settings menu, which provides a better user experience.
 
-新建好的工程，单击要修改的工程名，右击打开右键菜单，选择 ``SDK Configuration Tools`` 打开设置选项工具。
+For a newly created project, click the project name, right-click to open the context menu, and select ``SDK Configuration Tools`` to open the settings tool.
 
 |image12|
 
 
-如果要修改编译优化等级，修改 ``Optimization Level`` 为 ``None（-O0）`` ，点击 ``Save`` 修改选项。
+To change the compile optimization level, set ``Optimization Level`` to ``None (-O0)`` and click ``Save`` to apply the change.
 
 |image13|
 
-修改成功后在修改后的工程处右击打开右键菜单，选择 ``clean`` 清除一下工程，再点击锤子图标编译工程。
+After the modification succeeds, right-click the project, select ``clean`` in the context menu to clean the project, and then click the hammer icon to build the project.
 
 |image14|
 
 .. note::
 
-    - **注意：** SDK Configuration Tools修改编译配置后对调试配置（Debug Configurations）不生效，请手动修改对应的调试配置。
+    - **Note:** After SDK Configuration Tools modifies the compile configuration, the debug configuration (Debug Configurations) is not affected; modify the corresponding debug configuration manually.
 
-    - **注意：** 后续版本中，将不再维护 ``SDK Configuration Tools`` 功能，由Nuclei Settings菜单功能替代。
+    - **Note:** In later versions, the ``SDK Configuration Tools`` feature is no longer maintained and has been replaced by the Nuclei Settings menu feature.
 
 
-为了更好的用户使用体验，Nuclei Studio IDE 2022.12版对 ``SDK Configuration Tools`` 进行了重构，新创建的工程中会多一个Nuclei Settings菜单，双击Nuclei Settings菜单，将打开工程配置工具其在功能上与 ``SDK Configuration Tools`` 无异，在2023.10版本及其后续版本，SDK Configuration
-Tools将直接打开这个Nuclei Settings界面。
+For a better user experience, Nuclei Studio IDE 2022.12 refactored ``SDK Configuration Tools``. Newly created projects have an additional Nuclei Settings menu. Double-clicking the Nuclei Settings menu opens the project configuration tool, which is functionally identical to ``SDK Configuration Tools``. In version 2023.10 and later, SDK Configuration Tools opens this Nuclei Settings page directly.
 
 |image15|
 
 .. _npk_import_tool_package:
 
-通过NPK导入工具
----------------
+Import Tools via NPK
+--------------------
 
-NPK包除了可以导入SDK,还可以方便的导入各种工具包，来扩展Nuclei Studio的能力，2022.08版本的Nuclei Studio增加NPK Tools的支持，为增加组件包的可扩展性，以及在编译和调试上使用更便捷，增加类型为tool的npk组件包。tool组件包可包含gcc,qemu,cmlink-gdb等内容，以zip包的形式导入到IDE去使用。
+In addition to SDKs, NPK packages can also import various tool packages to extend the capabilities of Nuclei Studio. Nuclei Studio 2022.08 added support for NPK Tools. To improve the extensibility of component packages and make compilation and debugging more convenient, an NPK component package of type tool was introduced. A tool component package can contain gcc, qemu, cmlink-gdb, and other content, and is imported into the IDE as a zip package.
 
-以tool-cmlink包为例，一个工具包中有该工具的执行文件及npk.yml，开发者在npk.yml文件中对该工具做了一些简单的描述，如工具包的开发者、版本、支持的操作系统、可执行文件的路径等，包结构和npk.yml内容如下示例。然后将工具包压缩成一个zip文件，可以参考 :ref:`npk_import_local_package` 的内容，将npk tools导入到ide中，或共享到\ `www.rvmcu.com <http://www.rvmcu.com>`__\ 网站上。
+Take the tool-cmlink package as an example. A tool package contains the tool's executable files and an npk.yml file. In the npk.yml file, the developer provides a brief description of the tool, such as the tool package's developer, version, supported operating systems, and the path of the executable files. The package structure and npk.yml content are shown in the example below. Compress the tool package into a zip file, then refer to :ref:`npk_import_local_package` to import the NPK tools into the IDE, or share them on the `www.rvmcu.com <http://www.rvmcu.com>`__ website.
 
 - ``bin``
 
@@ -180,12 +179,12 @@ NPK包除了可以导入SDK,还可以方便的导入各种工具包，来扩展N
 |image16|
 
 
-在Nuclei Package Management管理页中同样可以对npk tools进行管理，下载该组件包后，打开任意调试界面，点击 Variables可以查看到该npk tools对应的参数，直接选中对应的参数就可以使用该工具了。
+NPK tools can also be managed on the Nuclei Package Management page. After downloading the component package, open any debug page and click Variables to view the parameters corresponding to the NPK tools; selecting the corresponding parameter lets you use the tool.
 
 |image17|
 
 
-一般我们在npk tool中为该组件包扩展变量有4个，每个包存在一个包路径，引用为npk名称-版本号，例如 ``${tool-cmlink-1.0.0}`` ,其他变量的引用为npk名称-版本号-变量名，例如 ``${tool-cmlink-1.0.0-proxy}``, ``${tool-cmlink-1.0.0-system_proxy}`` ,当变量的system值为true时，额外新增一个不带版本号的变量，取最高版 本的该变量，例如 ``${tool-cmlink-system_proxy}`` 。
+Generally, four extended variables are defined for the component package in an NPK tool. Each package has a package path, referenced as npk name-version number, for example ``${tool-cmlink-1.0.0}``. Other variables are referenced as npk name-version number-variable name, for example ``${tool-cmlink-1.0.0-proxy}`` and ``${tool-cmlink-1.0.0-system_proxy}``. When the system value of a variable is true, an additional variable without a version number is added, which resolves to the highest version of that variable, for example ``${tool-cmlink-system_proxy}``.
 
 |image18|
 
@@ -243,22 +242,32 @@ NPK包除了可以导入SDK,还可以方便的导入各种工具包，来扩展N
 
 .. |image18| image:: /asserts/nucleistudio/npk/image19.png
 
+
 .. |image19| image:: /asserts/nucleistudio/npk/image20.png
+
 
 .. |image20| image:: /asserts/nucleistudio/npk/image21.png
 
+
 .. |image21| image:: /asserts/nucleistudio/npk/image22.png
+
 
 .. |image22| image:: /asserts/nucleistudio/npk/image23.png
 
+
 .. |image23| image:: /asserts/nucleistudio/npk/image24.png
+
 
 .. |image24| image:: /asserts/nucleistudio/npk/image25.png
 
+
 .. |image25| image:: /asserts/nucleistudio/npk/image26.png
+
 
 .. |image26| image:: /asserts/nucleistudio/npk/image27.png
 
+
 .. |image27| image:: /asserts/nucleistudio/npk/image28.png
+
 
 .. |image28| image:: /asserts/nucleistudio/npk/image29.png

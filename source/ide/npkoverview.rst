@@ -1,287 +1,272 @@
 .. _npkoverview:
 
-Nuclei Studio NPK 介绍
-======================
+Nuclei Studio NPK Overview
+==========================
 
-在芯来RISC-V嵌入式软件开发里面引入组件(Package)的理念，主要是借鉴于npm包管理，开发出方便开发者开发，使用，分发设计好的软件组件，可以大大加快软件的迭代速度。
+Nuclei RISC-V embedded software development introduces the concept of the Nuclei Package (NPK), inspired by npm package management. Packages make it easy for developers to develop, use, and distribute well-designed software components, greatly speeding up software iteration.
 
-组件包主要由以下文件组成：
+A package consists of the following files:
 
-- 组件描述文件(基于YAML语言)： ``npk.yml`` 
+- Package description file (based on YAML): ``npk.yml``
 
-- 组件相关代码以及说明文档
+- Package-related code and documentation
 
-组件包会以zip包形式存在，组件包在导入使用时，需要被IDE或者其他工具进行包完整性以及可用性检查，才予以导入。
+A package is distributed as a ZIP file. Before a package can be imported and used, the IDE or other tools must verify its integrity and usability.
 
 .. note::
 
-   - 我们提供了一个开源的NPK软件包检查工具，参见 https://github.com/Nuclei-Software/npk-checker
-   - 最好的NPK软件包参考项目可以参见 Nuclei SDK 以及其他线上的软件包(搜索 npk.yml 文件) https://www.rvmcu.com/nucleistudio-npk.html
-   - 组件包后期会提供签名机制，在发布前先签名，然后导入软件包会验证签名，确保导入的开发包是合法身份发布，不导入不可信的开发包。
+   - We provide an open-source NPK package checking tool; see https://github.com/Nuclei-Software/npk-checker
+   - The best reference projects for NPK packages are Nuclei SDK and the other packages available online (search for the npk.yml file): https://www.rvmcu.com/nucleistudio-npk.html
+   - A package signing mechanism will be provided in the future: packages will be signed before release, and the signature will be verified when a package is imported, so that only packages published with a legitimate identity are imported and untrusted packages are rejected.
 
-组件描述文件(npk.yml)
-----------------------
+Package Description File (npk.yml)
+----------------------------------
 
-组件主要分为以下几大类型，分别是：
+Packages are divided into the following major types:
 
-- **csp:** Core Support Package, 例如NMSIS
-- **ssp:** SoC Support Package, 例如gd32vf103的SoC的支持包
-- **bsp:** Board Support Package，例如rvstar开发板板级支持的代码包
-- **osp:** RTOS Support Package， 例如各类RTOS支持包
-- **app:** Application Package，例如各类上层应用
-- **mwp:** Middleware Package，各类第三方中间件，例如语音识别，算法库之类的
-- **sdk:** Software Development Kit，一组预设定好的软件开发包，一般情况下里面会包含了CSP, SSP, BSP, APP类型的包，OSP和MWP类型的包可选加入
-- **bdp:** Bundle Package, 一组package，目前仅对app有效
+- **csp:** Core Support Package, e.g. NMSIS
+- **ssp:** SoC Support Package, e.g. the SoC support package for the gd32vf103
+- **bsp:** Board Support Package, e.g. the board-level support package for the rvstar development board
+- **osp:** RTOS Support Package, e.g. various RTOS support packages
+- **app:** Application Package, e.g. various high-level applications
+- **mwp:** Middleware Package, e.g. third-party middleware such as speech recognition and algorithm libraries
+- **sdk:** Software Development Kit, a predefined software development package that generally contains CSP, SSP, BSP, and APP packages, and optionally OSP and MWP packages
+- **bdp:** Bundle Package, a group of packages; currently only valid for app
 
-以下是比较特殊的类型，主要用于工具包和模版包
+The following special types are used for tool packages and template packages:
 
-- **tool:** Tool Package，各类工具组件包，可放入其他需要引用或参考的文件
-- **tpp:** Template Package, 模板类型，可以用于创建csp/ssp/bsp/osp/app/mwp/sdk的模板工程,该类型比较特殊，描述文件名称为 **npk_template.yml**
+- **tool:** Tool Package, e.g. various tool component packages, which may contain other files that need to be referenced
+- **tpp:** Template Package, a template type used to create template projects for csp/ssp/bsp/osp/app/mwp/sdk. This type is special: its description file is named **npk_template.yml**
 
-描述文件通用定义
-~~~~~~~~~~~~~~~~~~~~~
+Common Description File Definitions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-组件描述文件示例以及详细说明参见如下：
+The following example shows a package description file with detailed annotations:
 
 .. code-block:: yaml
 
-    Package Base Information
-    --------------------------
-    name: your_package_name                 # <MUST> 组件包名称ID，不要有空格，符合C语言命名规范，英文名称，唯一名称ID，用于dependency管理
-                                            # name命名规则：唯一性，全英文，不支持特殊字符
-                                            # csp类型package: csp-xxxx
-                                            # ssp类型package: ssp-xxxx
-                                            # bsp类型package: bsp-xxxx
-                                            # osp类型package: osp-xxxx
-                                            # app类型package: app-xxxx
-                                            # mwp类型package: mwp-xxxx
-                                            # sdk类型package: sdk-xxxx
-                                            # tpp类型package: tpp-xxxx
-                                            # tool类型package: tool-xxxx
-    description: 简要描述软件包的功能       # <MUST> 一句话描述清楚包的主要特性与功能, English only, 20字符以内
-    details: 详细描述软件包的功能           # <MUST> 描述清楚包的主要特性与功能, English only
-    version: 1.2.3                          # <OPTIONAL> 可选，如不填，默认为空，建议采用SEMVER2.0版本号管理，只能数字打头, 例如1.2.3
-                                            # <MUST> 针对sdk类型的package必须包含一个version tag
-    type: ssp                               # <MUST> 包类型， 可选类型有csp, ssp, bsp, osp, app, mwp, sdk, tpp, tool
-    os: win64                               # <MUST> OS类型，例如win32、win64、lin64、lin32,但目前组件包上传页面只支持win64和lin64,该字段只存在tool类型package
-    category:                               # <OPTIONAL> 包分类，按照上面的包类型进行二次分类，主要是针对package进行分类
-    keywords:                               # <MUST> 包关键字，主要用于索引与搜索
+    ## Package Base Information
+    name: your_package_name                 # <MUST> Package name ID, no spaces, must follow C naming conventions, English name, unique name ID, used for dependency management
+                                            # Naming rules for name: unique, all English, no special characters
+                                            # csp type package: csp-xxxx
+                                            # ssp type package: ssp-xxxx
+                                            # bsp type package: bsp-xxxx
+                                            # osp type package: osp-xxxx
+                                            # app type package: app-xxxx
+                                            # mwp type package: mwp-xxxx
+                                            # sdk type package: sdk-xxxx
+                                            # tpp type package: tpp-xxxx
+                                            # tool type package: tool-xxxx
+    description: Brief package description  # <MUST> Describe the main features and functionality of the package in one sentence, English only, within 20 characters
+    details: Detailed package description   # <MUST> Clearly describe the main features and functionality of the package, English only
+    version: 1.2.3                          # <OPTIONAL> Optional; if not set, defaults to empty. SEMVER 2.0 versioning is recommended, must start with a digit, e.g. 1.2.3
+                                            # <MUST> A version tag is mandatory for sdk type packages
+    type: ssp                               # <MUST> Package type; available types are csp, ssp, bsp, osp, app, mwp, sdk, tpp, tool
+    os: win64                               # <MUST> OS type, e.g. win32, win64, lin64, lin32; however, the package upload page currently only supports win64 and lin64. This field only exists in tool type packages
+    category:                               # <OPTIONAL> Package category, a secondary classification based on the package types above, mainly used to classify packages
+    keywords:                               # <MUST> Package keywords, mainly used for indexing and searching
       - soc
       - risc-v
       - nuclei
-    license: Apache-2.0                     # <OPTIONAL> 对应包代码所用的许可证，可选列表 GPL, GPLv2, MIT, Apache License v2, BSP等
-    owner: nuclei                           # <MUST>    组件包的拥有者，便于后期进行权限查找匹配
-                                            # 后期在整合到网站以后，用户在发布新的开发包的时候，需要先注册一个唯一的owner名称
-                                            # 然后申请一个package name，确保name可用的情况下才可以发布新的该name的包，同时限制单用户发布的包个数。
-    contributors:                           # <OPTIONAL> 组件包的代码贡献者列表
+    license: Apache-2.0                     # <OPTIONAL> The license used by the package code; available options include GPL, GPLv2, MIT, Apache License v2, BSP, etc.
+    owner: nuclei                           # <MUST>    The owner of the package, used for permission matching later
+                                            # After integration with the website, users must first register a unique owner name before publishing a new package,
+                                            # then apply for a package name. A new package with that name can only be published if the name is available; the number of packages a single user can publish is also limited.
+    contributors:                           # <OPTIONAL> List of code contributors of the package
         - author_name, author_email
-    homepage:                               # <OPTIONAL> 组件包的主页, 如果有的话，必须是链接
+    homepage:                               # <OPTIONAL> Homepage of the package, if any; must be a link
 
     ## Package Information
-    -----------------------
 
-    packinfo:                               # <MUST> Only for bsp/ssp type, optional for other types 用于描述SoC层面的一些信息
-      core_vendor: Nuclei                   # <MUST> only for ssp, 处理器内核的供应商英文名称，如果是基于芯来的处理器内核，这里填写Nuclei
+    packinfo:                               # <MUST> Only for bsp/ssp type, optional for other types. Used to describe SoC-level information
+      core_vendor: Nuclei                   # <MUST> only for ssp, the English name of the processor core vendor. If the core is based on a Nuclei processor core, fill in Nuclei
       vendor: Nuclei                        # <MUST> For ssp/bsp, <OPTIONAL> for others
-                                            # For ssp, SoC或者芯片的供应商英文名称，填写对应的厂商的名称，例如 GigaDevice
-                                            # For bsp, 表示板子的提供商英文名称
-                                            # For others, OPTIONAL, 表示该package提供商
-      name: demosoc                         # <MUST> 这里name和package name作用不一样, 用来显示具体的包名称
-                                            # For ssp, 表示本组件包中SoC的具体英文名称，可以是一个系列名称，例如GD32VF103
-                                            # For bsp, 板子的名称
-                                            # For others, 表示该package显示名称，中英文均可，不写的话，默认使用根字段name
-      doc:                                  # <OPTIONAL>, 不填的话，这里为空，不做展示
-        website:                            # <OPTIONAL>, Package对应的网站
-        sch:                                # <OPTIONAL> only for bsp, 表示板子的电路图
-        datasheet:                          # <OPTIONAL>, package datasheet 本地地址或者是网址
+                                            # For ssp, the English name of the SoC or chip vendor; fill in the corresponding vendor name, e.g. GigaDevice
+                                            # For bsp, the English name of the board provider
+                                            # For others, OPTIONAL, the provider of this package
+      name: demosoc                         # <MUST> The name here serves a different purpose than the package name; it is used to display the specific package name
+                                            # For ssp, the specific English name of the SoC in this package; it can be a series name, e.g. GD32VF103
+                                            # For bsp, the name of the board
+                                            # For others, the display name of this package, Chinese or English; if not set, the root-level name field is used by default
+      doc:                                  # <OPTIONAL>, if not set, this is empty and not displayed
+        website:                            # <OPTIONAL>, the website corresponding to the package
+        sch:                                # <OPTIONAL> only for bsp, the circuit schematic of the board
+        datasheet:                          # <OPTIONAL>, package datasheet, local path or URL
         usermanual:                         # <OPTIONAL>, Package User Manual
-        extra:                              # <OPTIONAL>, 额外的一些资料，列表形式(URI + DESCRIPTION)
+        extra:                              # <OPTIONAL>, additional materials, in list form (URI + DESCRIPTION)
           - uri:                            # <OPTIONAL>, file path or web link
             description:                    # <MUST> when uri is defined, description for file
 
 
     ## Package Dependency
-    ----------------------
-
-    dependencies:                           # <OPTIONAL> 列出依赖的组件包列表 owner/name:version
-      - name: csp-nsdk_nmsis                # <MUST> when defined        # 1. 针对sdk类型的包，内部有一个隐形的依赖，依赖有且仅有一个bsp类型的包，
-        owner: nuclei # <OPTIONAL> if not defined, it will use the owner definiton above. 用于依赖特定所有者的package， owner/name:version， 最终查找的包按照这样来找的
-          version: # <OPTIONAL> when defined empty, use default as version number #    并且会自动查找当前路径下所有的npk.yml文件，并作为sdk包中一部分
-                                            # 2. 除了sdk类型的包之外的其他的包，如果不是放在sdk包下面的目录，则依赖于
-                                            #    sdk，则需要显式加上dependency
-                                            # 3. bsp类型的package肯定会依赖一个ssp类型的package
-                                            # 4. 依赖包也可以带上版本号，支持版本号条件比对, 如果不带版本号，则优先选择不带版本号的包，其次最新的包
-                                            # 参考 https://docs.platformio.org/en/latest/librarymanager/config.html#version
+    dependencies:                           # <OPTIONAL> List the dependent packages in the form owner/name:version
+      - name: csp-nsdk_nmsis                # <MUST> when defined        # 1. For sdk type packages, there is an implicit dependency: they depend on exactly one bsp type package,
+        owner: nuclei # <OPTIONAL> if not defined, it will use the owner definition above. Used to depend on a package of a specific owner, in the form owner/name:version; the package is ultimately looked up this way
+          version: # <OPTIONAL> when defined empty, use default as version number #    and all npk.yml files under the current path are automatically found and included as part of the sdk package
+                                            # 2. For packages other than sdk type, if they are not placed under the directory of an sdk package but depend on
+                                            #    an sdk, the dependency must be declared explicitly
+                                            # 3. A bsp type package always depends on one ssp type package
+                                            # 4. Dependencies can also carry a version number, and version condition matching is supported. If no version is specified, packages without a version are preferred, then the latest package
+                                            # See https://docs.platformio.org/en/latest/librarymanager/config.html#version
                                             # https://docs.npmjs.com/about-semantic-versioning
                                             # 1.2.3 - an exact version number. Use only this exact version
                                             # ^1.2.3 - any compatible version (exact version for 1.x.x versions
                                             # ~1.2.3 - any version with the same major and minor versions, and an equal or greater patch version
                                             # >1.2.3 - any version greater than 1.2.3. >=, <, and <= are also possible
                                             # >0.1.0,!=0.2.0,<0.3.0 - any version greater than 0.1.0, not equal to 0.2.0 and less than 0.3.0
-                                            #    例如 version: master, version: 1.2.3, version: >0.1.0
-                                            # 依赖关系处理规则
-                                            # 1. sdk，app类型的包可以依赖多个ssp、bsp类型的包，但是最终只会根据project wizard选择具体使用到package
-                                            # 2. app/bsp/ssp/csp/osp/mwp类型的包可以依赖sdk，如果依赖了sdk类型的包，则表述该包隶属于sdk下
-                                            # 3. bsp类型的包只能依赖一个ssp/csp类型的包，ssp类型的包只能依赖一个csp类型的包
-                                            # 4. sdk类型的包可以依赖多个app/bsp/ssp/csp/osp/mwp类型，但是这种依赖只是建立从属关系，表示该sdk包含了这些包
-                                            # 5. 一个sdk类型的包不可以依赖另一个sdk包，但是app/bsp/ssp/csp/osp/mwp却可以依赖多个sdk类型的包
+                                            #    e.g. version: master, version: 1.2.3, version: >0.1.0
+                                            # Dependency handling rules
+                                            # 1. sdk and app type packages can depend on multiple ssp and bsp type packages, but ultimately only the packages selected in the project wizard are used
+                                            # 2. app/bsp/ssp/csp/osp/mwp type packages can depend on sdk; if a package depends on an sdk type package, it means the package belongs to that sdk
+                                            # 3. A bsp type package can only depend on one ssp/csp type package; an ssp type package can only depend on one csp type package
+                                            # 4. An sdk type package can depend on multiple app/bsp/ssp/csp/osp/mwp types, but this dependency only establishes a membership relationship, indicating that the sdk contains these packages
+                                            # 5. An sdk type package cannot depend on another sdk package, but app/bsp/ssp/csp/osp/mwp packages can depend on multiple sdk type packages
 
     ## Package Configurations
-    --------------------------
-
-    configuration:                          # <OPTIONAL> 关于包配置的一些选项，用于Project Wizard创建以及内部参数设置
-                                            # 其中sdk类型暂不支持configuration参数定义
-                                            # configuration定义的配置可以互相覆盖
-                                            # 覆盖规则为 app > mwp  > osp > bsp > ssp > csp
-      nuclei_core:                          # <OPTIONAL> 一个配置选项，类型为choice
-        default: n307fd                     # <MUST> 如果这个配置定义了，针对choice类型，默认值选择必须是choices里面列举的
-        type: choice                        # <MUST> 配置类型，可选有choice, list, checkbox, multicheckbox，text
-        global: true                        # <OPTIONAL> 可选为true或者false，默认为true
-        description: Nuclei RISC-V Core     # <MUST> 该配置项的描述，20字以内
-        choices:                            # <MUST> 当配置项type == choice时
-          - name: n201                      # <MUST> item中必须包含name和description
-            arch: rv32iac                   # <OPTIONAL> 仅用于表示RISC-V CORE中的ARCH信息，不建议随意使用
-            abi: ilp32                      # <OPTIONAL> 仅用于表示RISC-V CORE中的ABI信息，不建议随意使用
-            tune:                           # <OPTIONAL> 仅用于表示RISC-V CORE中的TUNE信息，不建议随意使用
-            info:                           # <OPTIONAL> 用于自定义key-value数据的访问，例如 ${nuclei_core.info.key1} 返回的是 value1
-                - name: key1                # <MUST> key in pair with value, 字符串类型，不包含任意空格
-                  value: value1             # <MUST> value in pair with key，字符串类型
+    configuration:                          # <OPTIONAL> Options for package configuration, used for Project Wizard creation and internal parameter settings
+                                            # The sdk type does not currently support configuration parameter definitions
+                                            # Configurations defined in configuration can override each other
+                                            # The override rule is app > mwp  > osp > bsp > ssp > csp
+      nuclei_core:                          # <OPTIONAL> A configuration option of type choice
+        default: n307fd                     # <MUST> If this configuration is defined, for the choice type, the default value must be one of the choices listed below
+        type: choice                        # <MUST> Configuration type; available options are choice, list, checkbox, multicheckbox, text
+        global: true                        # <OPTIONAL> Can be true or false, defaults to true
+        description: Nuclei RISC-V Core     # <MUST> Description of this configuration item, within 20 characters
+        choices:                            # <MUST> When the configuration item type == choice
+          - name: n201                      # <MUST> Each item must contain name and description
+            arch: rv32iac                   # <OPTIONAL> Only used to indicate the ARCH information of the RISC-V CORE; not recommended for arbitrary use
+            abi: ilp32                      # <OPTIONAL> Only used to indicate the ABI information of the RISC-V CORE; not recommended for arbitrary use
+            tune:                           # <OPTIONAL> Only used to indicate the TUNE information of the RISC-V CORE; not recommended for arbitrary use
+            info:                           # <OPTIONAL> Used to access custom key-value data, e.g. ${nuclei_core.info.key1} returns value1
+                - name: key1                # <MUST> key in pair with value, string type, must not contain any spaces
+                  value: value1             # <MUST> value in pair with key, string type
                 - name: key2                # <MUST>
                   value: value2             # <MUST>
-            description: N201 Core(ARCH=rv32iac, ABI=ilp32)    # <MUST> 描述这个item具体含义
-                                            # 除了name, description之外，可能会定义其他items, 名称不定
-                                            # 例如在这里就定义了 arch和abi
-          - name: n201e                     # 另一个item
+            description: N201 Core(ARCH=rv32iac, ABI=ilp32)    # <MUST> Describes the specific meaning of this item
+                                            # Besides name and description, other items may be defined with arbitrary names
+                                            # For example, arch and abi are defined here
+          - name: n201e                     # Another item
             arch: rv32eac
             abi: ilp32e
             description: N201E Core(ARCH=rv32eac, ABI=ilp32e)
-      extra_flags:                                 # <OPTIONAL> 一个配置选项, 当前这个为text类型
-        value:                                     # <MUST>, 仅接受英文字符串
-        description: Extra compiler flags          # <MUST> 该配置项的描述，30字以内
-      dsp_present:                                 # <OPTIONAL> 一个配置选项, 当前这个为checkbox类型
-        default: 0                                 # <MUST>, 默认为0，可选0或者1
-        type: checkbox                             # <MUST>, 配置类型，当前为checkbox
-        global: true                               # <OPTIONAL> 可选为true或者false，默认为true
-        description: P-Extension(DSP) Present      # <MUST> 该配置项的描述，30字以内
-      libraries:                                   # <OPTIONAL> 一个配置选项，当前这个为multicheckbox类型
-        default: [dsp, nn]                         # <MUST> 默认值, 为choices里面的组合
-        type: multicheckbox                        # <MUST>, 配置类型，当前为multicheckbox
-        global: true                               # <OPTIONAL> 可选为true或者false，默认为true
-        description: Libraries Used                # <MUST> 该配置项的描述，30字以内
-        choices:                                   # <MUST> 当配置项type == multicheckbox时
-          - name: dsp                              # <MUST> item中必须包含name和description
-            description: DSP Library               # <MUST> 描述这个item具体含义
-                                                   # 除了name, description之外，可能会定义其他items, 名称不定
+      extra_flags:                                 # <OPTIONAL> A configuration option, this one is of type text
+        value:                                     # <MUST>, only accepts English strings
+        description: Extra compiler flags          # <MUST> Description of this configuration item, within 30 characters
+      dsp_present:                                 # <OPTIONAL> A configuration option, this one is of type checkbox
+        default: 0                                 # <MUST>, defaults to 0, can be 0 or 1
+        type: checkbox                             # <MUST>, configuration type, checkbox here
+        global: true                               # <OPTIONAL> Can be true or false, defaults to true
+        description: P-Extension(DSP) Present      # <MUST> Description of this configuration item, within 30 characters
+      libraries:                                   # <OPTIONAL> A configuration option, this one is of type multicheckbox
+        default: [dsp, nn]                         # <MUST> Default value, a combination from choices
+        type: multicheckbox                        # <MUST>, configuration type, multicheckbox here
+        global: true                               # <OPTIONAL> Can be true or false, defaults to true
+        description: Libraries Used                # <MUST> Description of this configuration item, within 30 characters
+        choices:                                   # <MUST> When the configuration item type == multicheckbox
+          - name: dsp                              # <MUST> Each item must contain name and description
+            description: DSP Library               # <MUST> Describes the specific meaning of this item
+                                                   # Besides name and description, other items may be defined with arbitrary names
           - name: nn
             description: NN Library
           - name: ai
             description: AI Library
 
     ## Source Code Management
-    -------------------------
-
-    codemanage:                                 # <MUST> 这个为必选项
-      installdir: demosoc                       # <MUST> 希望代码安装的目录名称，仅限英文，满足C语言命名格式
-                                                # 针对sdk类型的package,会被安装到<sdk_installdir>, 如果installdir未定义，默认为SDK，如果没有任何sdk类型的package被引用，sdk_installdir也被默认设置为SDK
-                                                # 针对csp类型的package，会被安装到<sdk_installdir>/<csp_installdir>目录下，TBD
-                                                # 针对ssp类型的package,会被安装到<sdk_installdir>/SoC/<ssp_installdir>/Common下面
-                                                # 针对bsp类型的package,会被安装到<sdk_installdir>/SoC/<ssp_installdir>/Board/<bsp_installdir>下面，如果不依赖于任何ssp类型，则安装到<sdk_installdir>/BSP/<bsp_installdir>
-                                                # 针对osp类型的package,会被安装到<sdk_installdir>/OS/<osp_installdir>下面
-                                                # 针对app类型的package,会被安装到<app_installdir>/目录下， 如果installdir未定义，默认为application
-                                                # 针对mwp类型的package,会被安装到<sdk_installdir>/Components/<mwp_installdir>目录下
-      copyfiles:                                # <MUST>待拷贝的文件或者文件夹，支持glob pattern匹配，这里是指所有的目录或者文件
-        - path: ["Source/", "Include/", "demosoc.svd"]        # <MUST>待拷贝的文件或者文件夹的路径列表，支持glob pattern匹配
+    codemanage:                                 # <MUST> This is mandatory
+      installdir: demosoc                       # <MUST> The directory name where the code should be installed, English only, must follow C naming format
+                                                # For sdk type packages, installed to <sdk_installdir>; if installdir is not defined, it defaults to SDK; if no sdk type package is referenced, sdk_installdir is also set to SDK by default
+                                                # For csp type packages, installed to <sdk_installdir>/<csp_installdir>, TBD
+                                                # For ssp type packages, installed under <sdk_installdir>/SoC/<ssp_installdir>/Common
+                                                # For bsp type packages, installed under <sdk_installdir>/SoC/<ssp_installdir>/Board/<bsp_installdir>; if it does not depend on any ssp type, installed to <sdk_installdir>/BSP/<bsp_installdir>
+                                                # For osp type packages, installed under <sdk_installdir>/OS/<osp_installdir>
+                                                # For app type packages, installed under <app_installdir>/; if installdir is not defined, it defaults to application
+                                                # For mwp type packages, installed to <sdk_installdir>/Components/<mwp_installdir>
+      copyfiles:                                # <MUST> Files or folders to be copied, glob pattern matching supported; refers to all directories or files
+        - path: ["Source/", "Include/", "demosoc.svd"]        # <MUST> List of paths of files or folders to be copied, glob pattern matching supported
         - path: ["DSP_Source", "DSP_Include"]
-          condition: $( ${dsp_present} == 1 )                 # <OPTIONAL> 这里的if 是一个固定的标识符，如果出现则表示要做判定，判定的方式如下
-                                                              # 如dsp_present是在configuration里面定义的，根据wizard或者其他package选定而定
-      incdirs:                                                # <OPTIONAL> 需要加入头文件目录列表
-        - path: ["Include/"]                                  # <OPTIONAL> 需要加入头文件的目录
-      libdirs:                                                # <OPTIONAL> 可选的lib库所在目录
+          condition: $( ${dsp_present} == 1 )                 # <OPTIONAL> The "if" here is a fixed identifier; if present, a condition check is performed as follows
+                                                              # For example, dsp_present is defined in configuration, and its value is determined by the wizard or other selected packages
+      incdirs:                                                # <OPTIONAL> List of header file directories to be added
+        - path: ["Include/"]                                  # <OPTIONAL> Directories of header files to be added
+      libdirs:                                                # <OPTIONAL> Optional directories where lib libraries are located
           - path:
-      ldlibs:                                                 # <OPTIONAL> 可选的需要链接的库
+      ldlibs:                                                 # <OPTIONAL> Optional libraries to be linked
           - libs:
 
     ## Set Configuration for other packages
-    ----------------------------------------
-
-    setconfig:                                                # <OPTIONAL> 这个用于设置其他Package的选项
-
-    # 以下选项是覆盖关系，规则app > mwp  > osp > bsp > ssp > csp
+    setconfig:                                                # <OPTIONAL> Used to set options of other packages
+                                                              # The following options follow the override rule: app > mwp  > osp > bsp > ssp > csp
       - config: nmsislibarch
-        value : ${nuclei_core.arch}p                          # <OPTIONAL> 直接设置Configuration里面的选项
-        condition: $( ${dsp_present} == 1 )                   # <OPTIONAL> 根据这里dsp_present来判断是否设置nmsislibarch值
+        value : ${nuclei_core.arch}p                          # <OPTIONAL> Directly set options in Configuration
+        condition: $( ${dsp_present} == 1 )                   # <OPTIONAL> Determine whether to set the nmsislibarch value based on dsp_present here
       - config: nmsislibarch
         value: ${nuclei_core.arch}
         condition: $( ${dsp_present} == 0 )
 
     ## Build Configuration
-    -----------------------
-
-    buildconfig:                                 # <OPTIONAL> 编译选项的配置
-                                                 # 目前编译选项会将package中定义的所有的拼接在一起或者覆盖
-                                                 # 以下选项是覆盖方式，app > mwp  > osp > bsp > ssp > csp
-                                                 # type是一个特殊字段，用于标识特定的编译器, 目前支持gcc
+    buildconfig:                                 # <OPTIONAL> Configuration of build options
+                                                 # Currently, build options from all packages are concatenated or overridden
+                                                 # The following options are overridden: app > mwp  > osp > bsp > ssp > csp
+                                                 # type is a special field used to identify a specific compiler; gcc is currently supported
                                                  # cross_prefix, prebuild_steps, postbuild_steps, description
-                                                 # 其余选项是拼接的
-      - type: gcc                                # <OPTIONAL> 目前只有gcc，预留其他接口
+                                                 # The remaining options are concatenated
+      - type: gcc                                # <OPTIONAL> Currently only gcc; other interfaces are reserved
         description: Nuclei GNU Toolchain        # <MUST> For ssp
-          cross_prefix: riscv-nuclei-elf-        # <OPTIONAL> 如果不写或者留空，就自动按照系统里面提供的工具链来定
-        common_flags:                            # <OPTIONAL> 通用的编译选项，将会添加到cflags, asmflags, cxxflags上
+          cross_prefix: riscv-nuclei-elf-        # <OPTIONAL> If not set or left empty, the toolchain provided by the system is used automatically
+        common_flags:                            # <OPTIONAL> Common build options, which will be added to cflags, asmflags, and cxxflags
           - flags: -g -fno-common -ffunction-sections -fdata-sections
           - flags: -march=${nuclei_core.arch} -mabi=${nuclei_core.abi} -mcmodel=medany
-        ldflags:                                 # <OPTIONAL> 链接选项列表，留空表示没有任何选项
+        ldflags:                                 # <OPTIONAL> List of linker options; empty means no options
           - flags: -nostartfiles --specs=nosys.specs
           - flags: --specs=nano.specs
             condition: $(${newlib} != "normal")
           - flags: -u _printf_float
             condition: $(${newlib} != "nano_with_printfloat")
           - flags: -u _isatty -u _write -u _sbrk -u _read -u _close -u _fstat -u _lseek
-        linkscript:                              # <MUST> 链接脚本的定义，必须在bsp/ssp中定义
+        linkscript:                              # <MUST> Definition of the link script, must be defined in bsp/ssp
           - script: "Source/GCC/gcc_demosoc_${.download}.ld"
-              condition: $(check pattern)        # <OPTIONAL> 进行条件判断
-        cflags:                                  # <OPTIONAL> C编译选项，留空表示没有任何选项
+              condition: $(check pattern)        # <OPTIONAL> Perform a conditional check
+        cflags:                                  # <OPTIONAL> C build options; empty means no options
           - flags: -O3
-        asmflags:                                # <OPTIONAL> ASM编译选项，留空表示没有任何选项
+        asmflags:                                # <OPTIONAL> ASM build options; empty means no options
           - flags: -O2
-        cxxflags:                                # <OPTIONAL> CXX编译选项，留空表示没有任何选项
+        cxxflags:                                # <OPTIONAL> CXX build options; empty means no options
           - flags: -O1
-        common_defines:                          # <OPTIONAL> 通用的宏定义
+        common_defines:                          # <OPTIONAL> Common macro definitions
           - defines: __RISCV_FEATURE_DSP=1
             condition: $(${dsp_present} == 1)
           - defines: DOWNLOAD_MODE_STRING=\"flashxip\"
-        cdefines:                                # <OPTIONAL> C的宏定义
+        cdefines:                                # <OPTIONAL> C macro definitions
           - defines: __RISCV_FEATURE_DSP=1
             condition: $(${dsp_present} == 1)
           - defines: DOWNLOAD_MODE_STRING=\"flashxip\"
-        asmdefines:                              # <OPTIONAL> ASM的宏定义
+        asmdefines:                              # <OPTIONAL> ASM macro definitions
           - defines: __RISCV_FEATURE_DSP=1
             condition: $(${dsp_present} == 1)
           - defines: DOWNLOAD_MODE_STRING=\"flashxip\"
-        cxxdefines:                              # <OPTIONAL> CXX的宏定义
+        cxxdefines:                              # <OPTIONAL> CXX macro definitions
           - defines: __RISCV_FEATURE_DSP=1
             condition: $(${dsp_present} == 1)
           - defines: DOWNLOAD_MODE_STRING=\"flashxip\"
-        prebuild_steps:                          # <OPTIONAL> 编译前执行的命令
-          command:                               # <OPTIONAL> 执行的命令行
-          description:                           # <OPTIONAL> 执行的命令的描述
-        postbuild_steps:                         # <OPTIONAL> 编译完成后执行的命令
-          command:                               # <OPTIONAL> 执行的命令行
-          description:                           # <OPTIONAL> 执行的命令的描述
+        prebuild_steps:                          # <OPTIONAL> Commands executed before build
+          command:                               # <OPTIONAL> The command line to execute
+          description:                           # <OPTIONAL> Description of the executed command
+        postbuild_steps:                         # <OPTIONAL> Commands executed after the build completes
+          command:                               # <OPTIONAL> The command line to execute
+          description:                           # <OPTIONAL> Description of the executed command
 
     ## Debug Configuration
-    ------------------------
-
     debugconfig:                            # <MUST> For bsp type, optional for app/ssp type
-    # 目前Debug选项会将package中定义的所有的拼接在一起或者覆盖
-    # type是一个特殊的字段，用于描述特定的调试器，目前支持openocd, qemu
-    # 以下字段是覆盖关系：app > mwp  > osp > bsp > ssp > csp
+    # Currently, debug options from all packages are concatenated or overridden
+    # type is a special field used to describe a specific debugger; openocd and qemu are currently supported
+    # The following fields are overridden: app > mwp  > osp > bsp > ssp > csp
     # description, svd
-    # configs字段下面的key, value是合并关系，如果对应的key存在就覆盖，覆盖规则同上，如果不存在就合并
-      - type: openocd   # <MUST> 选择的工具
+    # The key-value pairs under the configs field are merged: if the corresponding key exists, it is overridden (following the same override rule); otherwise it is merged
+      - type: openocd   # <MUST> The selected tool
         description: Nuclei OpenOCD # <MUST> For bsp type
-        svd: gd32vf103.svd  # <OPTIONAL> 可选的SVD文件
+        svd: gd32vf103.svd  # <OPTIONAL> Optional SVD file
         configs:
-          - key: config  # openocd配置文件
+          - key: config  # openocd configuration file
             value: "openocd_gd32vf103.cfg"
 
       - type: qemu
@@ -300,18 +285,18 @@ Nuclei Studio NPK 介绍
            - key: machine   # QEMU Machine
              value: gd32vf103v_rvstar
 
-    ##Extended variable
-    ## Only works on tool类型
-    ## 每个包存在一个包路径，引用为npk名称-版本号，例如${tool-cmlink-1.0.0}，
-    ## 其他变量的引用为npk名称-版本号-变量名，例如 ${tool-cmlink-1.0.0-proxy}
-    environment:            # 扩展变量
-      - key: proxy            # 变量名,
-        value: bin/cmlink_gdbserver.exe        # 实际引用结果为 npk文件父路径+value，例如C:\Users\jj\nuclei-pack-npk\NPKs\XinShengTech\Tool_Package\tool-cmlink\1.0.0\cmlink\bin\cmlink_gdbserver.exe
+    ## Extended Sections
+    ## Only works on tool type
+    ## Each package has a package path, referenced as npk name-version, e.g. ${tool-cmlink-1.0.0};
+    ## other variables are referenced as npk name-version-variable name, e.g. ${tool-cmlink-1.0.0-proxy}
+    environment:            # Extended variables
+      - key: proxy            # Variable name
+        value: bin/cmlink_gdbserver.exe        # The actual resolved result is the npk file's parent path + value, e.g. C:\Users\jj\nuclei-pack-npk\NPKs\XinShengTech\Tool_Package\tool-cmlink\1.0.0\cmlink\bin\cmlink_gdbserver.exe
         description: proxy location
-        system: true    # 默认为false，当system为true时，该变量引用时直接使用变量名，例如${proxy}
+        system: true    # Defaults to false; when system is true, the variable is referenced directly by its name, e.g. ${proxy}
 
     ## Template File Management
-    ## Only works on tpp类型，该类型比较特殊，描述文件为npk_template.yml，是基于npk.yml做的扩展
+    ## Only works on tpp type. This type is special; its description file is npk_template.yml, which is an extension of npk.yml
     templatemanage:
       installdir: ${soc}
       files:
@@ -337,378 +322,378 @@ Nuclei Studio NPK 介绍
         Board/nuclei_fpga_eval/Include/nuclei_sdk_hal.h.ftl: Board/${board}/Include/nuclei_sdk_hal.h
 
 
-内容约定
-~~~~~~~~~~~~~~
-
-为了保证 ``npk.yml`` 文件的可读性与简约性，对 ``npk.yml`` 文件的存储制定如下约定：
-
-* 各字段的存储顺序请保持与模板一致，数据与DICT 按读入时顺序保存
-* 各字段建议适当加上注释，尤其是那种需要解释的地方
-* **MUST** 类型的字段需要按照上述注释描述的规则进行检查，如果不合规请报错提示，并不予导入
-* 缩进建议采用2个空格字符
-* 针对一些 **OPTIONAL** 的字段可以留空或者不写该字段
-* 一级字段之间增加一行空行，二级及以下字段不使用空行，第一部分基础信息一级字段间不使用空行
-* 字符串建议不使用引号，除特殊语法需要
-* 所有的`description`字段建议控制在20字符以内，方便排版展示，仅限英文
-* 关于yaml里面多行的约定如下： https://yaml-multiline.info/
-
-包导入规则
-~~~~~~~~~~~~~~~
-
-下面定义合法的包导入规则：
-
-* 如果存在导入包中存在一些依赖的包(带版本匹配)，并没有被导入，则不允许导入，并提示缺乏依赖的包，请导入该包。
-   * 后续包管理联网了，则可以提示是否从网上下载依赖的包，或者手动导入zip包
-* 如果删除包，并且该包被其他包依赖，则提示哪些包依赖于该包，询问是否删除，如果删除以后，则在包管理中显示缺少的包
-   * 后续包管理联网了，支持点击按钮下载缺失的包，或者手动导入zip包
-* 如果导入相同版本的包，则提示该包已经存在，是否替换
-* 如果导入不同版本的包，则提示已经存在其他版本的包，是否继续导入
-* 导入的包，按照定义的类型分类显示，显示包的版本，包的name，owner，description, homepage, license
-
-zip包内容规范
-~~~~~~~~~~~~~~~~~~
-
-下面定义合法的zip包的内容规则：
-
-* 一个zip包中必须包含至少1个npk文件
-* 包类型的判定：如果包内存在多个类型的npk文件，npk类型判定条件如下
-    * sdk > ssp > bsp > osp > mwp >  csp > app
-    * 如果判定出包的类型存在多个相同的npk，则该包不合法，不允许导入，并提示
-* 该类型的包不允许存在多个该类型的npk文件
-* 如果是 ``sdk`` 类型的包，则必须包含至少一个 ``ssp`` 和依赖于该 ``ssp`` 的 ``bsp`` 文件，以及至少一个 ``app`` 类型的文件，允许存在其他类型的包
-* 如果是其他类型的包，则里面包含的其他npk，必须显式依赖于该包
-
-包依赖关系处理
+Content Conventions
 ~~~~~~~~~~~~~~~~~~~
 
-包依赖关系的处理涉及到如何能够将包拆分并形成合理的依赖关系，便于包的独立维护。这里对不同类型的包的依赖处理进行详细的分析。
+To keep the ``npk.yml`` file readable and simple, the following conventions apply to how it is written:
 
-依赖通过 ``dependencies`` 字段下的依赖列表来控制，支持依赖特定owner的某个name，某个version版本的包，查找规则为 ``owner/name:version`` ，如果owner未定义，则默认为该npk文件中定义的owner，如果 ``version`` 未定义，则优先在同组件包查找，否则取最新的包。
+* Field order should be consistent with the template; data and DICT entries are saved in the order they are read
+* Add comments to fields, especially where explanation is needed
+* Fields marked **MUST** are checked against the rules described in the comments above; if a field does not comply, an error is reported and the package is not imported
+* Use 2 space characters for indentation
+* **OPTIONAL** fields can be left empty or omitted entirely
+* Add one blank line between first-level fields; do not use blank lines for second-level and lower fields; do not use blank lines between first-level fields in the first part (base information)
+* Do not use quotation marks for strings, except where special syntax requires them
+* Keep all ``description`` fields within 20 characters, English only, for layout and display purposes
+* For the conventions on multi-line strings in YAML, see: https://yaml-multiline.info/
 
-csp Core Support Package依赖
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Package Import Rules
+~~~~~~~~~~~~~~~~~~~~
 
-csp类型的包是处理器内核CORE支持的软件包，目前针对Nuclei RISC-V内核，我们主要推广NMSIS这样的开源软件支持包。
+The package import rules are defined below:
 
-一般情况下，csp类型的包是非常底层的包，这里不支持依赖 ``ssp/bsp/mwp/rtos/app`` 这样的类型的包。但是可以依赖sdk类型的包，表示该包属于依赖的sdk包的环境中。
+* If the package being imported depends on other packages (with version matching) that have not been imported, the import is rejected, and the user is prompted that dependent packages are missing and must be imported first.
+   * Once package management goes online in the future, the user can be prompted to download the dependent packages from the network or to import ZIP packages manually
+* If a package being deleted is depended on by other packages, the user is shown which packages depend on it and asked whether to delete it; after deletion, the missing packages are shown in package management
+   * Once package management goes online in the future, downloading missing packages with one click will be supported, or ZIP packages can be imported manually
+* If a package of the same version is imported, the user is informed that the package already exists and asked whether to replace it
+* If a package of a different version is imported, the user is informed that another version of the package already exists and asked whether to continue with the import
+* Imported packages are displayed grouped by their defined type, showing the package version, name, owner, description, homepage, and license
 
-ssp SoC Support Package依赖
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ZIP Package Content Rules
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-ssp类型的包是SoC或者芯片的支持的软件包，例如 ``gd32vf103`` , ``demosoc`` 这样SoC的支持软件包。
+The content rules for a ZIP package are defined below:
 
-ssp软件包仅可以依赖 ``csp/mwp/osp`` 这样的软件包，如果依赖了这三种类型的软件包，则表示在工程创建的时候或者是代码引入的时候，这三类软件包需要导入代码。 **而如果依赖sdk类型的软件包，则表示该ssp类型的包属于依赖的sdk类型的软件包的环境。**
+* A ZIP package must contain at least one NPK file
+* Package type determination: if a package contains NPK files of multiple types, the package type is determined as follows
+    * sdk > ssp > bsp > osp > mwp >  csp > app
+    * If multiple NPKs of the determined package type exist, the package is invalid, the import is rejected, and the user is prompted
+* A package of a given type must not contain multiple NPK files of that type
+* For an ``sdk`` type package, it must contain at least one ``ssp`` package, one ``bsp`` package that depends on that ``ssp``, and at least one ``app`` type package; packages of other types are allowed
+* For packages of other types, any other NPKs they contain must explicitly depend on that package
 
-理论上用户可以创建一个ssp软件包，不依赖任何 ``csp/mwp/rtos`` 的软件包，也不属于sdk类型的软件包。 **osp** 类型软件包仅可以依赖一个。
-
-bsp Board Support Package依赖
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-bsp类型的包是针对基于某款SoC/芯片做的开发板而推出的软件支持包，例如 ``gd32vf103-rvstar`` 这款开发板的bsp软件包。
-
-bsp软件包仅可以依赖 ``ssp/csp/mwp/osp`` 这样的软件包, 如果依赖了这几种类型的软件包，则表示在工程创建的时候或者是代码引入的时候，这类软件包需要导入代码。 **而如果依赖sdk类型的软件包，则表示该ssp类型的包属于依赖的sdk类型的软件包的环境。**
-
-理论上用户可以创建一个bsp软件包，不依赖任何软件包。 **osp** 类型软件包仅可以依赖一个。
-
-osp OS Support Package依赖
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-osp类型的包是指特定的RTOS的软件支持包，例如freertos，ucosii之类的。
-
-osp类型的包仅可以依赖 ``ssp/csp/mwp`` 类型的软件包，如果依赖了这几种类型的软件包，则表示在工程创建的时候或者是代码引入的时候，这类软件包需要导入代码。 **而如果依赖sdk类型的软件包，则表示该ssp类型的包属于依赖的sdk类型的软件包的环境。**
-
-mwp Middleware Support Package依赖
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-mwp类型的软件包是指中间件类型的软件包，例如某个语音算法的库，某种物联网连接库如 ``mqtt`` , ``coap`` 之类。
-
-mwp类型的包仅可以依赖 ``bsp/ssp/csp/mwp/osp`` 类型的软件包，但是不建议直接依赖 ``bsp/ssp`` ，在创建middleware的时候尽量保证其通用性，可以很好被集成到其他的软件中。
-
-sdk Software Development Kit Package依赖
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-sdk类型的软件包是一类非常特殊的软件包，本身并不会有额外的代码引入，而是通过依赖其他类型的软件包而组织的一个特殊的包。如果是sdk类型的软件包，导入是会强制检查软件包目录下所有的 ``npk.yml`` 文件以查找其他的软件包并引入该SDK依赖中，无需 ``npk.yml`` 文件显示进行依赖，这种依赖关系并不会直接导致创建工程时的代码的导入，更多的是软件包的集合。
-
-一个sdk类型的软件包可能会依赖多个ssp，多个bsp，多个csp，多个app，多个mwp和多个osp。更详细的内容请参见[构建SDK开发包](#构建SDK开发包)
-
-对于属于sdk类型的软件包的其他软件包里面的依赖，优先使用都属于统一sdk软件包内部的软件包。例如：
-
-* sdk-nuclei-sdk是一个sdk类型的软件包，内部包含了csp-nsdk_nmsis, bsp-nsdk_nuclei_fpga_eval, ssp-nsdk_demosoc, ssp-nsdk_gd32vf103, osp-nsdk_freertos, osp-nsdk_ucosii这些软件包
-* 而外部也有csp-nsdk_nmsis，osp-nsdk_freertos这类的软件包，在工程创建阶段，在版本匹配满足的情况下，优先使用内部的csp-nsdk_nmsis和osp-nsdk_freertos，只有在版本匹配不满足要求的情况下，才会使用
-* 在工程创建完成后，用户可以手动升级特定的包到其他版本。
-
-
-模块说明
------------
-
-从上述描述文件中可以看出，一个标准的 ``npk.yml`` 实际是上由几个大块组成的，而在实现应用中，我们并不一定会完全用到，一个合规的 ``npk.yml`` 文件，只要拥有基本的信息，就是可以正常给Nuclei Studio使用。
-
-Package Base Information
+Package Dependency Handling
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-这一块分信息，是NPK的基础的信息，很多关键的信息在这部分内容中需要描述清楚。其中着重说明几个字段。
+Package dependency handling defines how packages can be split and organized into sensible dependency relationships so that packages can be maintained independently. The dependency rules for each package type are described in detail below.
+
+Dependencies are declared in the dependency list under the ``dependencies`` field, which supports depending on a package with a specific name and version from a specific owner. The lookup rule is ``owner/name:version``; if owner is not defined, it defaults to the owner defined in the npk file; if ``version`` is not defined, the package is first looked up within the same package bundle, otherwise the latest package is used.
+
+csp Core Support Package Dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A csp type package is a software package that supports processor cores (CORE). For Nuclei RISC-V cores, the recommended csp is the open-source NMSIS software support package.
+
+A csp type package is a very low-level package, and it must not depend on packages of types such as ``ssp/bsp/mwp/rtos/app``. However, it can depend on sdk type packages, which means the package belongs to the environment of the sdk package it depends on.
+
+ssp SoC Support Package Dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An ssp type package is a software package that supports an SoC or chip, such as the SoC support packages for ``gd32vf103`` and ``demosoc``.
+
+An ssp software package can only depend on packages of types ``csp/mwp/osp``. Such a dependency means that the code of these packages is imported when the project is created or when code is introduced. **If it depends on an sdk type package, it means the ssp type package belongs to the environment of the sdk type package it depends on.**
+
+In theory, a user can create an ssp software package that does not depend on any ``csp/mwp/rtos`` package and does not belong to any sdk type package. It can depend on at most one **osp** type package.
+
+bsp Board Support Package Dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A bsp type package is a software support package released for a development board based on a specific SoC or chip, such as the bsp software package for the ``gd32vf103-rvstar`` development board.
+
+A bsp software package can only depend on packages of types ``ssp/csp/mwp/osp``. Such a dependency means that the code of these packages is imported when the project is created or when code is introduced. **If it depends on an sdk type package, it means the bsp type package belongs to the environment of the sdk type package it depends on.**
+
+In theory, a user can create a bsp software package that does not depend on any package. It can depend on at most one **osp** type package.
+
+osp OS Support Package Dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An osp type package is a software support package for a specific RTOS, such as freertos or ucosii.
+
+An osp type package can only depend on packages of types ``ssp/csp/mwp``. Such a dependency means that the code of these packages is imported when the project is created or when code is introduced. **If it depends on an sdk type package, it means the osp type package belongs to the environment of the sdk type package it depends on.**
+
+mwp Middleware Support Package Dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An mwp type package is a middleware software package, such as a speech algorithm library or an IoT connectivity library like ``mqtt`` or ``coap``.
+
+An mwp type package can only depend on packages of types ``bsp/ssp/csp/mwp/osp``, but depending directly on ``bsp/ssp`` is not recommended. When creating middleware, keep it generic so that it can be easily integrated into other software.
+
+sdk Software Development Kit Package Dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An sdk type package is a special kind of software package. It contains no code of its own; instead, it is composed entirely of dependencies on other package types. When an sdk type package is imported, all ``npk.yml`` files under the package directory are scanned for other packages, which are included in the SDK dependency without having to declare the dependency explicitly. This dependency relationship does not directly cause code to be imported when a project is created; an sdk type package is essentially a collection of packages.
+
+An sdk type package may depend on multiple ssp, multiple bsp, multiple csp, multiple app, multiple mwp, and multiple osp packages. For more details, see *Building an SDK Development Package*.
+
+When resolving the dependencies of packages that belong to an sdk type package, packages inside the same sdk package are preferred. For example:
+
+* sdk-nuclei-sdk is an sdk type package that internally contains the packages csp-nsdk_nmsis, bsp-nsdk_nuclei_fpga_eval, ssp-nsdk_demosoc, ssp-nsdk_gd32vf103, osp-nsdk_freertos, and osp-nsdk_ucosii
+* External versions of packages such as csp-nsdk_nmsis and osp-nsdk_freertos also exist. During project creation, the internal csp-nsdk_nmsis and osp-nsdk_freertos are preferred as long as version matching is satisfied; the external ones are used only when the version matching requirements are not met
+* After the project is created, users can manually upgrade a specific package to another version.
+
+
+Section Overview
+----------------
+
+As the example above shows, a standard ``npk.yml`` file consists of several major blocks, though not all of them are used in practice. A compliant ``npk.yml`` file works in Nuclei Studio as long as it contains the basic information.
+
+Package Base Information
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+This block contains the basic information of the NPK; most of the key information must be described clearly here. The key fields are described below.
 
 * **name** 
 
-必填，NPK的名称ID，不要有空格，符合C语言命名规范，英文名称，是唯一名称ID。
+Mandatory. The name ID of the NPK. No spaces; must follow C naming conventions; English name; a unique name ID.
 
 * **version** 
 
-选填，如不填，默认为空，建议采用SEMVER2.0版本号管理，只能数字打头, 例如1.2.3
+Optional. If not set, defaults to empty. SEMVER 2.0 versioning is recommended; must start with a digit, e.g. 1.2.3
 
 * **type** 
 
-必填， 可选类型值有csp, ssp, bsp, osp, app, mwp, sdk, tpp, tool
+Mandatory. Available type values are csp, ssp, bsp, osp, app, mwp, sdk, tpp, tool
 
 * **os** 
 
-选填，标明该NPK适用于什么类型的Nuclei Studio，目前我们发行的Nuclei Studio有win64和lin64两个版本。OS类型可以填win32、win64、lin64、lin32,但目前组件包上传页面只支持win64和lin64,该字段只存在tool类型package
+Optional. Indicates which variant of Nuclei Studio the NPK applies to. The Nuclei Studio releases currently distributed come in win64 and lin64 versions. The OS type can be win32, win64, lin64, or lin32, but the package upload page currently only supports win64 and lin64. This field only exists in tool type packages
 
 
 * **owner** 
 
-必填，组件包的拥有者，该ID一般为认证开发者ID，便于后期进行权限查找匹配。如果该NPK仅作本地测试，可以随意。
+Mandatory. The owner of the package. This ID is generally an authenticated developer ID, used for permission matching later. If the NPK is only for local testing, any value is acceptable.
 
 Package Information
-^^^^^^^^^^^^^^^^^^^^
-
-**packinfo** 这一块分信息，主要是对NPK做一些说明，包括一些文档等信息，最终在Nuclei Studio中使用该NPK时，这部分信息，会在New Project的导引中显示。
-
-Package Dependency
 ^^^^^^^^^^^^^^^^^^^
 
-**dependencies** 描述的是NPK的依赖关系，为了实现NPK的复用性，减少NPK的维护成本，我们在设计时，是允许NPK实现依赖关系，一个NPK可以依赖0个以上的NPK，所以在这里dependencies是以组对象出现，每个依赖对象内需要明确NPK的 **name** **owner** **version**
+The **packinfo** block provides descriptive information about the NPK, including documentation and other materials. When the NPK is used in Nuclei Studio, this information is displayed in the New Project wizard.
+
+Package Dependency
+^^^^^^^^^^^^^^^^^^
+
+**dependencies** describes the dependency relationships of the NPK. To enable NPK reuse and reduce maintenance costs, an NPK can declare dependencies: an NPK can depend on zero or more NPKs. The dependencies field therefore appears as a group of objects, and each dependency object must specify the **name**, **owner**, and **version** of the NPK.
 
 Package Configurations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
-**Configuration** 字段是个非常特殊的字段，主要用于提供一些可配置项，以满足在工程创建时的交互场景。
+The **Configuration** field is a special field, mainly used to provide configurable items that support interactive scenarios during project creation.
 
-不同包里面的configuration字段的下的二级字段名称可以一样，如果使用一样的名称则具备一样的含义，如果定义了一样的名称则按照如下的规则进行覆盖。
+The second-level field names under the configuration field can be identical across different packages; identical names carry identical meanings. If the same name is defined more than once, the following override rule applies.
 
-覆盖规则为：app > mwp  > osp > bsp > ssp > csp
+The override rule is: app > mwp  > osp > bsp > ssp > csp
 
-**Configuration** 对象组会包含多个对象，而每个对象有固定的结构。
+The **Configuration** object group contains multiple objects, each with a fixed structure.
 
-* **XXX(变量名)** 
+* **XXX (variable name)** 
 
-变量名可以随意，简合c++的命名规范即可。在后面部分会以${XXX}或${XXX.XX}的方式引用。
+The variable name is arbitrary as long as it follows C++ naming conventions. It is referenced elsewhere in the form ${XXX} or ${XXX.XX}.
 
 * **default** 
 
-默认值，可选项。
+Default value, optional.
 
 * **type** 
 
-这个变量的类型，为了支持更丰富的UI体验，我们在NPK中定义了很多的UI组件类型，具体请参看后面章节。
+The type of this variable. To support a richer UI experience, NPK defines many UI component types; see the following chapters for details.
 
 * **global** 
 
-标明此字段是否在工程创建时显示在引导页面中。
+Indicates whether this field is displayed on the wizard page during project creation.
 
 * **tips** 
 
-对该变量的说明信息，主要用于UI的tips事件。
+Descriptive information about this variable, mainly used for UI tips events.
 
 * **hints** 
 
-对该变量的说明信息，如值的示例等，主要用于UI的hints事件。
+Descriptive information about this variable, such as value examples, mainly used for UI hints events.
 
 * **description** 
 
-此变量的NPK中的说明描述。
+The description of this variable in the NPK.
 
-* **UI组件信息** 
+* **UI component information** 
 
-支持的类型有choice, list, checkbox, multicheckbox, text等，具体信息参见
+Supported types include choice, list, checkbox, multicheckbox, text, etc.; see below for details
 
 Source Code Management
 ~~~~~~~~~~~~~~~~~~~~~~
 
-**codemanage** 描述的是跟模板工程有关的内容，大多的时候，我们的NPK会包括很多复杂的功能，需要创建某个一个具体的工程的时候，我们又只需要一些具体的文件，同时需要配置这些文件的信息。**codemanage** 就是将这些信息描述出来，它包含以下关键字：
+**codemanage** describes content related to the template project. An NPK often includes many complex features, but only some of its files are needed when a specific project is created, and those files must be configured. **codemanage** describes this information; it contains the following keywords:
 
 * **custom** 
 
-默认为false, 当为true时，这个installdir就表示直接安装的目录
+Defaults to false. When true, this installdir indicates the directory to install directly into
 
 * **srcroot** 
 
-默认为 ``.`` ， 表示当前 ``npk.yml`` 所在目录，可以是相对路径, 例如 ``../`` ， ``../bsp`` 等；需要注意的是，设置了这个以后，对应的copyfiles/incdirs/libdirs的路径的根目录均受到影响，就会使用新设置的和这个路径
+Defaults to ``.``, which means the directory where the current ``npk.yml`` is located; it can be a relative path, e.g. ``../``, ``../bsp``, etc. Note that once this is set, the root directories of the corresponding copyfiles/incdirs/libdirs paths are all affected and use the newly set path
 
 * **installdir** 
 
-希望代码安装的目录名称，仅限英文，满足C语言命名格式
+The directory name where the code should be installed, English only, must follow C naming format
 
-- 针对sdk类型的package,会被安装到 ``<sdk_installdir>`` , 如果installdir未定义，默认为SDK，如果没有任何sdk类型的package被引用，sdk_installdir也被默认设置为SDK
+- For sdk type packages, installed to ``<sdk_installdir>``; if installdir is not defined, it defaults to SDK; if no sdk type package is referenced, sdk_installdir is also set to SDK by default
 
-- 针对csp类型的package,会被安装到 ``<sdk_installdir>/<csp_installdir>`` 目录下，TBD
+- For csp type packages, installed to ``<sdk_installdir>/<csp_installdir>``, TBD
 
-- 针对ssp类型的package,会被安装到 ``<sdk_installdir>/SoC/<ssp_installdir>/Common`` 下面
+- For ssp type packages, installed under ``<sdk_installdir>/SoC/<ssp_installdir>/Common``
 
-- 针对bsp类型的package,会被安装到 ``<sdk_installdir>/SoC/<ssp_installdir>/Board/<bsp_installdir>`` 下面，如果不依赖于任何ssp类型，则安装到 ``<sdk_installdir>/BSP/<bsp_installdir>``
+- For bsp type packages, installed under ``<sdk_installdir>/SoC/<ssp_installdir>/Board/<bsp_installdir>``; if it does not depend on any ssp type, installed to ``<sdk_installdir>/BSP/<bsp_installdir>``
 
-- 针对osp类型的package,会被安装到 ``<sdk_installdir>/OS/<osp_installdir>`` 下面
+- For osp type packages, installed under ``<sdk_installdir>/OS/<osp_installdir>``
 
-- 针对app类型的package,会被安装到 ``<app_installdir>/`` 目录下， 如果installdir未定义，默认为application
+- For app type packages, installed under ``<app_installdir>/``; if installdir is not defined, it defaults to application
 
-- 针对mwp类型的package,会被安装到 ``<sdk_installdir>/Components/<mwp_installdir>`` 目录下
+- For mwp type packages, installed to ``<sdk_installdir>/Components/<mwp_installdir>``
 
 .. note::
 
-    2023.05.26 新增 ``copyfiles/incdirs/libdirs`` 均支持 ``../../`` 这样的相对上级目录，但是安装或者设置路径的时候，均设置到 ``<installdir>`` 下面
+    2023.05.26 Added: ``copyfiles/incdirs/libdirs`` all support relative parent directories such as ``../../``, but when installing or setting paths, they are all placed under ``<installdir>``
 
-    例如: ``path: ["../common/"]`` 就拷贝上一级目录的 ``common`` , 并放在 ``<installdir>/common`` 下面，
+    For example: ``path: ["../common/"]`` copies the ``common`` directory from the parent directory and places it under ``<installdir>/common``.
 
-    如果下面有 ``common`` 这个目录，则创建 ``R1L_common`` , 如果是 ``../../common`` , 则创建 ``R2L_common`` ，
+    If there is already a ``common`` directory below, create ``R1L_common``; for ``../../common``, create ``R2L_common``.
 
-    这种方案不考虑了，直接创建同名目录，同名文件直接覆盖，建议采用 ``srcroot: ..`` 来解决问题对应的 ``incdirs/libdirs`` 
+    This scheme is no longer used; same-name directories are created directly, and same-name files are overwritten directly. Use ``srcroot: ..`` instead for the corresponding ``incdirs/libdirs``
 
-    如果遇到这种相对路径，也需要以最终安装到路径以及文件名为准
+    When such relative paths are encountered, the final installed path and file name prevail
 
 
 * **copyfiles** 
 
-待拷贝的文件或者文件夹，这里是指所有的目录或者文件，支持 ``../`` 、 ``*`` 、 ``*.*`` ，给结合srcroot一起使用，
+Files or folders to be copied, covering all directories or files; supports ``../``, ``*``, ``*.*``, and is used together with srcroot.
 
 * **incdirs** 
 
-必填，加入头文件目录列表，Nuclei Studio会进行补全，最终的路径是相对于工程根目录的路径。
+Mandatory. The list of header file directories to be added. Nuclei Studio resolves these paths; the final paths are relative to the project root directory.
 
 * **libdirs** 
 
-可选，lib库所在目录，Nuclei Studio会进行补全，最终的路径是相对于工程根目录的路径。
+Optional. The directories where lib libraries are located. Nuclei Studio resolves these paths; the final paths are relative to the project root directory.
 
 * **ldlibs** 
 
-可选的需要链接的库，Nuclei Studio会进行补全，最终的路径是相对于工程根目录的路径。
+Optional libraries to be linked. Nuclei Studio resolves these paths; the final paths are relative to the project root directory.
 
 
-Set Configuration for other packages
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Set Configuration for Other Packages
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**setconfig** 用来设置NPK的其他选项，遵循覆盖规则app > mwp  > osp > bsp > ssp > csp。
+**setconfig** is used to set options of other packages in the NPK, following the override rule app > mwp  > osp > bsp > ssp > csp.
 
-**setconfig** 是一个对象组，可以无限扩展，每个对象中有三个字段来描述一个对象。
+**setconfig** is an object group that can be extended indefinitely; each object has three fields.
 
 * **config** 
 
-变量名，遵循C++命名规范，一般变量XXX,在其它部分以${XXX}的方式引用
+Variable name, following C++ naming conventions. A general variable XXX is referenced elsewhere in the form ${XXX}
 
-该变量名不唯一，可以通过条件进行判定生效，也遵循覆盖规则app > mwp  > osp > bsp > ssp > csp，进行自动覆盖。
+The variable name is not unique; it can take effect conditionally through condition checks, and it also follows the override rule app > mwp  > osp > bsp > ssp > csp for automatic overriding.
 
 * **value** 
 
-变量的值
+The value of the variable
 
 * **condition** 
 
-变量的条件，只有条件生效时，该变量的该值才会生效
+The condition of the variable. The value takes effect only when the condition is met
 
 Build Configuration
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
-设置工程的编译工具和编译选项的配置，它的关键字包含以下几个固定字段。
+Configures the build tools and build options of the project. Its keywords include the following fixed fields:
 
 * **type** 
 
-支持的编译工具的类型，值一般为gcc、clang、common。目前只支持gcc、clang两种，因为编译选项的配置有一些是相同的，为了提高代码的复用性，我们又添加common类型。
+The type of build tool supported; values are generally gcc, clang, common. Currently only gcc and clang are supported. Because some build option configurations are identical, the common type was added to improve code reusability.
 
 * **description** 
 
-对此编译工具的说明。
+A description of this build tool.
 
 * **toolchain_name** 
 
-重要字段，编译工具名字。
+Important field. The name of the build tool.
 
 * **cross_prefix** 
 
-重要字段，编译工具的前缀。
+Important field. The prefix of the build tool.
 
 * **unflags** 
 
-在buildconfig section中的 ``common_flags/cflags/asmflags/ldflags/cxxflags`` 中生效，用于删掉之前已经定义的flags。
+Takes effect in ``common_flags/cflags/asmflags/ldflags/cxxflags`` of the buildconfig section; removes previously defined flags.
 
 * **undefines** 
 
-在buildconfig section中的 ``common_defines/cdefines/asmdefines/cxxdefines`` 中生效，用于删掉之前已经定义的defines。（字符串完全匹配，则生效）
+Takes effect in ``common_defines/cdefines/asmdefines/cxxdefines`` of the buildconfig section; removes previously defined defines (takes effect on exact string match).
 
 * **common_flags** 
 
-用的编译选项，将会添加到cflags, asmflags, cxxflags上，留空表示没有任何选项。
+Common build options, which will be added to cflags, asmflags, and cxxflags; empty means no options.
 
 * **ldflags** 
 
-链接选项列表，留空表示没有任何选项。
+List of linker options; empty means no options.
 
 * **linkscript** 
 
-链接脚本的定义，必须在bsp/ssp中定义，留空表示没有任何选项。
+Definition of the link script, must be defined in bsp/ssp; empty means no options.
 
 * **cflags** 
 
-C编译选项，留空表示没有任何选项。
+C build options; empty means no options.
 
 * **asmflags** 
 
-ASM编译选项，留空表示没有任何选项。
+ASM build options; empty means no options.
 
 * **cxxflags** 
 
-CXX编译选项，留空表示没有任何选项。
+CXX build options; empty means no options.
 
 * **common_defines** 
 
-通用的宏定义，留空表示没有任何选项。
+Common macro definitions; empty means no options.
 
 * **cdefines** 
 
-C的宏定义，留空表示没有任何选项。
+C macro definitions; empty means no options.
 
 * **asmdefines** 
 
-ASM的宏定义，留空表示没有任何选项。
+ASM macro definitions; empty means no options.
 
 * **cxxdefines** 
 
-CXX的宏定义，留空表示没有任何选项。
+CXX macro definitions; empty means no options.
 
 * **prebuild_steps** 
 
     * **command** 
 
-    编译前执行的命令，留空表示没有任何选项。
+    Commands executed before build; empty means no options.
 
     * **description** 
 
-    编译前执行的命令的说明，留空表示没有任何选项。
+    Description of the commands executed before build; empty means no options.
 
 * **postbuild_steps** 
 
     * **command** 
 
-    编译后执行的命令，留空表示没有任何选项。
+    Commands executed after build; empty means no options.
 
     * **description** 
 
-    编译后执行的命令的说明，留空表示没有任何选项。
+    Description of the commands executed after build; empty means no options.
 
 Debug Configuration
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
-设置工程的Debug类型及相关参数的配置，它的关键字包含以下几个固定字段，可以不用配，如果配置了，在工程生成的时候，Nuclei Studio会根据这里面的内容，生成了个launch文件，同时可以根据相关内容进行工程的Debug。
+Configures the debug type and related parameters of the project. Its keywords include the following fixed fields. This block is optional; if configured, Nuclei Studio generates a launch file from its content when the project is created, so the project can be debugged directly.
 
 * **type** 
 
-Debug类型,目前支持GDB Custom 、GDB SEGGER J-Link、 GDB OpenOCD、 GDB Nuclei QEMU、 Nuclei RVProf
+Debug type. Currently supports GDB Custom, GDB SEGGER J-Link, GDB OpenOCD, GDB Nuclei QEMU, Nuclei RVProf
 
 * **description** 
 
-对支持的Custom Jlink OpenOCD Qemu RVProf的说明
+Description of the supported debugger (Custom, J-Link, OpenOCD, QEMU, or RVProf)
 
 * **configs** 
 
-对应的Debug类型的参数，所有的参数，都是以key-value的方式出现，因为每中Debug类型所需参数不同，对应的情况也不同，更详细的说明如下。
+The parameters of the corresponding debug type. All parameters appear as key-value pairs. Each debug type requires different parameters; detailed explanations are given below.
 
 .. code-block:: yaml
 
@@ -720,8 +705,8 @@ Debug类型,目前支持GDB Custom 、GDB SEGGER J-Link、 GDB OpenOCD、 GDB Nu
             value: xxxx
 
 
-GDB Custom的Debug参数
-^^^^^^^^^^^^^^^^^^^^^^
+GDB Custom Debug Arguments
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _table_ips_1:
 
@@ -738,7 +723,7 @@ GDB Custom的Debug参数
   +--------------------------------------+-------------------------------------+------------------------------------------------+
   | gdbClientOtherOptions                |                                     | gdb Client Other Options                       |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
-  | gdbMode                              | Commands                            | Supported types: Commands, General, and Dlink  |
+  | gdbMode                              | Commands                            | Supported types: Commands, General, and DLink  |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
   | gdbServerConnectionAddress           |                                     | gdb Server Connection Address                  |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
@@ -752,7 +737,7 @@ GDB Custom的Debug参数
   +--------------------------------------+-------------------------------------+------------------------------------------------+
   | DEBUG_NAME                           | ${cross_prefix}gdb${cross_suffix}   | Executable path                                |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
-  | ipAddress                            | localhost                           | Host name or lP address                        |
+  | ipAddress                            | localhost                           | Host name or IP address                        |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
   | portNumber                           | 3333                                |                                                |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
@@ -762,7 +747,7 @@ GDB Custom的Debug参数
   +--------------------------------------+-------------------------------------+------------------------------------------------+
   | loadImage                            | true                                | Load executable                                |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
-  | imageFileName                        |                                     | use File For lmage name                        |
+  | imageFileName                        |                                     | use File For Image name                        |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
   | imageOffset                          |                                     | Executable offset (hex)                        |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
@@ -776,7 +761,7 @@ GDB Custom的Debug参数
   +--------------------------------------+-------------------------------------+------------------------------------------------+
   | symbolsOffset                        |                                     | Symbols offset (hex)                           |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
-  | useProjBinaryForSymbols              | true                                | Use project binany                             |
+  | useProjBinaryForSymbols              | true                                | Use project binary                             |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
   | useFileForSymbols                    | false                               | Use file for Symbols                           |
   +--------------------------------------+-------------------------------------+------------------------------------------------+
@@ -800,8 +785,8 @@ GDB Custom的Debug参数
   +--------------------------------------+-------------------------------------+------------------------------------------------+
 
 
-GDB SEGGER J-Link的Debug参数
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+GDB SEGGER J-Link Debug Arguments
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. _table_ips_2:
 
 .. table:: Arguments of GDB SEGGER J-Link Debug
@@ -825,7 +810,7 @@ GDB SEGGER J-Link的Debug参数
   +----------------------------------------+-------------------------------------+------------------------------------------------+
   | gdb_extrapostcmds                      |                                     | Additional value, appended to Commands         |
   +----------------------------------------+-------------------------------------+------------------------------------------------+
-  | doStartGdbServer                       | true                                | Start the j-Link GDB server locally            |
+  | doStartGdbServer                       | true                                | Start the J-Link GDB server locally            |
   +----------------------------------------+-------------------------------------+------------------------------------------------+
   | doConnectToRunning                     | false                               | Connect to running target                      |
   +----------------------------------------+-------------------------------------+------------------------------------------------+
@@ -841,7 +826,7 @@ GDB SEGGER J-Link的Debug参数
   +----------------------------------------+-------------------------------------+------------------------------------------------+
   | doGdbServerVerifyDownload              | true                                | do Gdb Server Verify Download                  |
   +----------------------------------------+-------------------------------------+------------------------------------------------+
-  | doStartGdbServer                       | true                                | Start the j-Link GDB server locally            |
+  | doStartGdbServer                       | true                                | Start the J-Link GDB server locally            |
   +----------------------------------------+-------------------------------------+------------------------------------------------+
   | gdbClientOtherCommands                 | set mem inaccessible-by-default off | gdb Client Other Commands                      |
   +----------------------------------------+-------------------------------------+------------------------------------------------+
@@ -863,7 +848,7 @@ GDB SEGGER J-Link的Debug参数
   +----------------------------------------+-------------------------------------+------------------------------------------------+
   | gdbServerTelnetPortNumber              | 2333                                | gdb Server Telnet PortNumber                   |
   +----------------------------------------+-------------------------------------+------------------------------------------------+
-  | gdbServerOther                         |                                     | gdb ServerO ther                               |
+  | gdbServerOther                         |                                     | gdb Server Other                               |
   +----------------------------------------+-------------------------------------+------------------------------------------------+
   | DEBUG_NAME                             | ${cross_prefix}gdb${cross_suffix}   | Executable path                                |
   +----------------------------------------+-------------------------------------+------------------------------------------------+
@@ -944,8 +929,8 @@ GDB SEGGER J-Link的Debug参数
   | svdPath                                |                                     | svd file path                                  |
   +----------------------------------------+-------------------------------------+------------------------------------------------+
 
-GDB OpenOCD的Debug参数
-^^^^^^^^^^^^^^^^^^^^^^^
+GDB OpenOCD Debug Arguments
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _table_ips_3:
 
@@ -970,7 +955,7 @@ GDB OpenOCD的Debug参数
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
   | gdb_extrapostcmds                         |                                     | Additional value, appended to Commands         |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
-  | doStartGdbServer                          | true                                | Start OpenocD locally                          |
+  | doStartGdbServer                          | true                                | Start OpenOCD locally                          |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
   | gdbServerExecutable                       |                                     | Executable path                                |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
@@ -996,7 +981,7 @@ GDB OpenOCD的Debug参数
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
   | gdbClientOtherCommands                    |                                     | Commands                                       |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
-  | ipAddress                                 | localhost                           | Host name or lp address                        |
+  | ipAddress                                 | localhost                           | Host name or IP address                        |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
   | portNumber                                | 3333                                | Port number                                    |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
@@ -1053,8 +1038,8 @@ GDB OpenOCD的Debug参数
   | svdPath                                   |                                     | svd file path                                  |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
 
-GDB Nuclei QEMU的参数
-^^^^^^^^^^^^^^^^^^^^^^
+GDB Nuclei QEMU Arguments
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _table_ips_4:
 
@@ -1085,7 +1070,7 @@ GDB Nuclei QEMU的参数
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
   | gdb_extrapostcmds                         |                                     | Additional value, appended to Commands         |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
-  | doStartGdbServer                          | true                                | Start OpenocD locally                          |
+  | doStartGdbServer                          | true                                | Start OpenOCD locally                          |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
   | gdbServerExecutable                       |                                     | Executable path                                |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
@@ -1119,7 +1104,7 @@ GDB Nuclei QEMU的参数
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
   | gdbClientOtherCommands                    |                                     | Commands                                       |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
-  | ipAddress                                 | localhost                           | Host name or lp address                        |
+  | ipAddress                                 | localhost                           | Host name or IP address                        |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
   | portNumber                                | 1234                                | Port number                                    |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
@@ -1168,8 +1153,8 @@ GDB Nuclei QEMU的参数
   | svdPath                                   |                                     | SVD file path                                  |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
 
-Nuclei RVProf的参数
-^^^^^^^^^^^^^^^^^^^^
+Nuclei RVProf Arguments
+^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _table_ips_5:
 
@@ -1204,17 +1189,17 @@ Nuclei RVProf的参数
   +-------------------------------------------+---------------------------------------------+------------------------------------------------+
 
 
-Extended variable
+Extended Variables
 ~~~~~~~~~~~~~~~~~~
-**environment** 是应用于tool类型的NPK包中的配置，当用户想要通过NPK来共享一个工具（tools类型，如cycleModel)，可以使用environment 配置。定义 **environment** 后，Nuclei Studio会自动生成几个全局变量，这些变量可以在其他的NPK中以 ``${xxx-1.0.0-XXX}`` 的方式引用。
+**environment** is a configuration used in tool type NPK packages. To share a tool (tool type, such as cycleModel) through NPK, use the environment configuration. Once **environment** is defined, Nuclei Studio automatically generates several global variables, which can be referenced in other NPKs in the form ``${xxx-1.0.0-XXX}``.
 
 .. note::
 
-    - 每个包存在一个包路径，引用为npk名称-版本号，例如 ``${tool-cyclemodel-1.0.0}``
+    - Each package has a package path, referenced as npk name-version, e.g. ``${tool-cyclemodel-1.0.0}``
 
-    - 其他变量的引用为npk名称-版本号-变量名，例如 ``${tool-cyclemodel-1.0.0-cyclemodel_path}`` , ``${tool-cyclemodel-1.0.0-cyclemodel_executable}``
+    - Other variables are referenced as npk name-version-variable name, e.g. ``${tool-cyclemodel-1.0.0-cyclemodel_path}``, ``${tool-cyclemodel-1.0.0-cyclemodel_executable}``
 
-    - 当变量的system值为true时，会额外生成一个不带版本号的变量（取最高版本），例如 ``${tool-cyclemodel-cyclemodel_executable}``
+    - When the system value of a variable is true, an additional variable without a version number is generated (taking the highest version), e.g. ``${tool-cyclemodel-cyclemodel_executable}``
 
 .. code-block:: yaml
 
@@ -1231,7 +1216,7 @@ Extended variable
     license: Apache-2.0
     homepage:
 
-    ## 扩展变量  tool-cyclemodel-1.0.0与 tool-cyclemodel-1.0.0-proxy
+    ## Extended variables  tool-cyclemodel-1.0.0 and tool-cyclemodel-1.0.0-proxy
     environment:
       - key: cyclemodel_path
         value: bin
@@ -1243,7 +1228,7 @@ Extended variable
         system: true
 
 
-    ## 这是另一个NPK中的代码，演示了如何使用tool-cyclemodel
+    ## This is code from another NPK, demonstrating how to use tool-cyclemodel
     debugconfig:
       - type: rvprof
         description: Nuclei RVProf
@@ -1253,20 +1238,20 @@ Extended variable
           - key: rvprof_path
             value: ${tool-rvprof-1.0.0-rvprof_executable}
 
-templatemanage
-~~~~~~~~~~~~~~~
+Template File Management
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-内部使用的配置，这里不做详细说明。
+An internally used configuration; not described in detail here.
 
-NPK中的UI组件
---------------
+UI Components in NPK
+--------------------
 
 
-NPK中提供了丰富的UI组件，这些组件的字段里面都会有default, description, global这些子字段，这些字段均具备含义。
+NPK provides a rich set of UI components. The fields of these components all contain the sub-fields default, description, and global, each with its own meaning.
 
-default表示默认值，description表示该选项的含义，global表示这个选项是否在工程创建时显示(true)，或者仅仅内部传参使用(false)。
+default indicates the default value, description indicates the meaning of the option, and global indicates whether the option is displayed during project creation (true) or is only used for internal parameter passing (false).
 
-* **Choice 单项选择框** 
+* **Choice single-selection box** 
 
 .. code-block:: yaml
 
@@ -1302,7 +1287,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npkoverview/image.png
 
-* **list 单项选择框** 
+* **list single-selection box** 
 
 .. code-block:: yaml
 
@@ -1318,7 +1303,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npkoverview/image-1.png
 
-* **checkbox 单项勾选框** 
+* **checkbox single checkbox** 
 
 .. code-block:: yaml
 
@@ -1333,9 +1318,9 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npkoverview/image-2.png
 
-* **multicheckbox 穿梭选择框** 
+* **multicheckbox shuttle selection box** 
 
-  下面提供2种写法
+  Two syntax forms are shown below
 
 .. code-block:: yaml
 
@@ -1372,7 +1357,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npkoverview/image-4.png
 
-* **text 单行文本框** 
+* **text single-line text box** 
 
 .. code-block:: yaml
 
@@ -1389,7 +1374,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npkoverview/image-5.png
 
-* **multitext 多行文本框** 
+* **multitext multi-line text box** 
 
 .. code-block:: yaml
 
@@ -1407,9 +1392,9 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npkoverview/image-6.png
 
-* **multichoice 多选下拉框** 
+* **multichoice multi-select dropdown** 
 
-  下面提供2种写法
+  Two syntax forms are shown below
 
 .. code-block:: yaml
 
@@ -1447,7 +1432,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npkoverview/image-8.png
 
-* **cascaderchoice 级联选择框** 
+* **cascaderchoice cascading selection box** 
 
 .. code-block:: yaml
 
@@ -1471,7 +1456,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npkoverview/image-9.png
 
-* **switchbutton 开关** 
+* **switchbutton switch** 
 
 .. code-block:: yaml
 
@@ -1486,7 +1471,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npkoverview/image-10.png
 
-* **slider 数字选择框** 
+* **slider numeric selection box** 
 
 .. code-block:: yaml
 
@@ -1502,7 +1487,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npkoverview/image-11.png
 
-* **spinner 数字选择框** 
+* **spinner numeric selection box** 
 
 .. code-block:: yaml
 
@@ -1519,7 +1504,7 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npkoverview/image-12.png
 
-* **multispinner 多数字选择框** 
+* **multispinner multiple numeric selection box** 
 
 .. code-block:: yaml
 
@@ -1537,9 +1522,9 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npkoverview/image-13.png
 
-* **multicheckbox_v2 多项勾选框** 
+* **multicheckbox_v2 multiple-checkbox box** 
 
-  下面提供2种写法
+  Two syntax forms are shown below
 
 .. code-block:: yaml
 
@@ -1577,9 +1562,9 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npkoverview/image-15.png
 
-* **multiradio 单选框** 
+* **multiradio radio box** 
 
-  下面提供2种写法
+  Two syntax forms are shown below
 
 .. code-block:: yaml
 
@@ -1615,24 +1600,24 @@ default表示默认值，description表示该选项的含义，global表示这�
 
 .. figure:: /asserts/nucleistudio/npkoverview/image-17.png
 
-NPK的语法
----------
+NPK Syntax
+----------
 
-YAML语言
-~~~~~~~~~
+YAML Language
+~~~~~~~~~~~~~
 
-NPK的描述文件npk.yml，是以YAML语言来编写，所以它支持标准的YAML语法，获取更多YAML相关的信息，可以参考：https://yaml.org/
+The NPK description file npk.yml is written in YAML and supports standard YAML syntax. For more information about YAML, see: https://yaml.org/
 
-变量定义
-~~~~~~~~~~
+Variable Definitions
+~~~~~~~~~~~~~~~~~~~~
 
-NPK的描述语言中，允许用户自义定一个变量，并在有依赖关系的NPK中的任意位置使用
+The NPK description language allows users to define a custom variable and use it anywhere in NPKs that have a dependency relationship with the defining NPK.
 
 .. note::
 
-    - 例子NPK中定义了一个变量app_commonflags，在与该NPK有依赖关系的任意npk.yml文件内的任意位置，我们可以通过 ``${app_commonflags}`` 来使用app_commonflags的值。
+    - In the example, the NPK defines a variable app_commonflags. In any npk.yml file that has a dependency relationship with this NPK, the value of app_commonflags can be used through ``${app_commonflags}``.
 
-    - 例子NPK中定义了一个list对象nuclei_core,在与该NPK有依赖关系的任意npk.yml文件内的任意位置，我们可以通过 ``${nuclei_core.arch}`` 来使用nuclei_core对象中的arch值；通过 ``${nuclei_core.abi}`` 来使用nuclei_core对象中的abi值；通过 ``${nuclei_core.tune}`` 来使用nuclei_core对象中的tune值。
+    - In the example, the NPK defines a list object nuclei_core. In any npk.yml file that has a dependency relationship with this NPK, the arch value of the nuclei_core object can be used through ``${nuclei_core.arch}``, the abi value through ``${nuclei_core.abi}``, and the tune value through ``${nuclei_core.tune}``.
 
 .. code-block:: yaml
 
@@ -1671,14 +1656,14 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
           - flags: ${app_commonflags}
 
 
-关键字
-~~~~~~~
+Keywords
+~~~~~~~~
 
-为了更好的描述NPK，我们定义了一些字段，以描述出各种关系，其中大部分字段如其字面意义，这里重点介绍以下几个关键字。
+NPK defines a number of fields to describe various relationships. Most of the fields are self-explanatory; the following keywords are highlighted here.
 
 * **condition** 
 
-**condition** 在npk.yml中，使用很频繁，是自定义的一个关键字，用来处理逻辑关系，类似 **if** ，具体的使用如下。
+**condition** is a custom keyword used very frequently in npk.yml to handle logical relationships, similar to **if**. It is used as follows.
 
 .. code-block:: yaml
 
@@ -1694,24 +1679,24 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
       - flags: --specs=${stdclib}.specs
         condition: $( startswith(${stdclib}, "libncrt") )
 
-    # 上述描术中flags的值，由condition决定，当在不同的场景时，flags的值会不同，
-    # 又因为flags是一个数组类型，所以上述例子中flags会有多个值，最终使用是，是flags的值拼接成的字符串。
+    # In the above description, the value of flags is determined by condition; in different scenarios, the value of flags will differ.
+    # And because flags is an array type, flags in the above example will have multiple values; what is ultimately used is the string concatenated from the values of flags.
 
 * **dependencies** 
 
-**dependencies** 在npk.yml中，用来描述NPK的依赖关系。
+**dependencies** is used in npk.yml to describe the dependency relationships of an NPK.
 
-在很多的时候，NPK需要依赖特定owner的某个name，某个version版本的包，查找规则为 ``owner/name:version``, 如果owner未定义，则默认为该npk文件中定义的owner，如果 **version** 未定义，则优先在同组件包查找，否则取最新的包。如果所依赖的包找不到，则该NPK将无法使用。
+In many cases, an NPK needs to depend on a package with a specific name and version from a specific owner. The lookup rule is ``owner/name:version``; if owner is not defined, it defaults to the owner defined in the npk file; if **version** is not defined, the package is first looked up within the same package bundle, otherwise the latest package is used. If a depended-on package cannot be found, the NPK is unusable.
 
 .. note::
 
-    例子中NPK依赖了三个npk，如下：
+    In the example, the NPK depends on three NPKs, as follows:
 
-    - sdk-nuclei_sdk owner、 ``version`` 未定义，则优先在同组件包查找，否则取最新的包
+    - For sdk-nuclei_sdk, owner and ``version`` are not defined, so the package is first looked up within the same package bundle; otherwise the latest package is used
 
-    - tool-testmodel 明确了owner和version
+    - tool-testmodel explicitly specifies owner and version
 
-    - tool-rvprof 明确了owner和version
+    - tool-rvprof explicitly specifies owner and version
 
 
 
@@ -1730,14 +1715,14 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
         owner: nuclei
 
 
-自定函数
-~~~~~~~~~
+Custom Functions
+~~~~~~~~~~~~~~~~
 
-在NPK（npk.yml）中，为了更好地满足各种不同的需求，我们特意定义了一些常用的函数。
+To meet various needs, NPK (npk.yml) defines a set of commonly used built-in functions.
 
 * **upper** 
 
-将字符串变大写
+Convert a string to uppercase
 
 .. code-block:: shell
 
@@ -1746,7 +1731,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
 
 * **lower** 
 
-将字符串变小写
+Convert a string to lowercase
 
 .. code-block:: shell
 
@@ -1755,7 +1740,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
 
 * **contains** 
 
-判断字符串中是否包含另一个字符串
+Determine whether a string contains another string
 
 .. code-block:: shell
 
@@ -1764,25 +1749,25 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
 
 * **join** 
 
-将字符串连接数组
+Join a string array into a string
 
 .. code-block:: shell
 
-    $(join([a,b,c,v], '') => abcv
+    $(join([a,b,c,v], '')) => abcv
 
 * **concat** 
 
-连接字符串成为新一字符串
+Concatenate strings into a new string
 
 .. code-block:: shell
 
     ${linker_script} = "test"
-    $(concat(${linker_script}, v) => testv
+    $(concat(${linker_script}, v)) => testv
 
 
 * **strip** 
 
-去掉字符串两端空格
+Remove whitespace at both ends of a string
 
 .. code-block:: shell
 
@@ -1792,7 +1777,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
 
 * **startswith** 
 
-判断字符串是否以xxx开头
+Determine whether a string starts with the specified prefix
 
 .. code-block:: shell
 
@@ -1801,7 +1786,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
 
 * **endswith** 
 
-判断字符串是否以xxx结尾
+Determine whether a string ends with the specified suffix
 
 .. code-block:: shell
 
@@ -1810,7 +1795,7 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
 
 * **arithop** 
 
-数学运算符,支持+、- 、* 、/、% 、?(三元运算)等常用运算符，不支持++、--
+Arithmetic operator. Supports common operators such as +, -, \*, /, %, and ? (ternary operation); does not support ++ or --
 
 .. code-block:: shell
 
@@ -1820,9 +1805,9 @@ NPK的描述语言中，允许用户自义定一个变量，并在有依赖关�
 
 * **npack/npack_installdir** 
 
-npack是否包含指定的npk
+Checks whether npack contains the specified NPK
 
-npack_installdir 包含的npk的路径
+npack_installdir is the path of the contained NPK
 
 .. code-block:: shell
 
@@ -1846,11 +1831,11 @@ npack_installdir 包含的npk的路径
                 value: "$(npack_installdir(mwp-a))/src/openocd.cfg"
                 condition: $( npack(nuclei:mwp-a) )
 
-    # 这段描述，是当b.yml如果依赖a.yml时，就可以将config的值，设置为a.yml的目录下的/src/openocd.cfg
+    # This description means: when b.yml depends on a.yml, the value of config can be set to /src/openocd.cfg under the directory of a.yml
 
 * **list_get** 
 
-获取数组元素中指定脚标的值
+Get the element at the specified index of an array
 
 .. code-block:: shell
 
@@ -1859,7 +1844,7 @@ npack_installdir 包含的npk的路径
 
 * **list_set** 
 
-修改数组元素中指定脚标的值
+Modify the element at the specified index of an array
 
 .. code-block:: shell
 
@@ -1868,7 +1853,7 @@ npack_installdir 包含的npk的路径
 
 * **list_del** 
 
-删除数组元素中指定脚标的值
+Delete the element at the specified index of an array
 
 .. code-block:: shell
 
@@ -1878,7 +1863,7 @@ npack_installdir 包含的npk的路径
 
 * **list_add** 
 
-在数组元素指定脚标插入值
+Insert a value at the specified index of an array
 
 .. code-block:: shell
 
@@ -1887,7 +1872,7 @@ npack_installdir 包含的npk的路径
 
 * **list_size** 
 
-获取数组元素list的长度
+Get the length of an array
 
 .. code-block:: shell
 
@@ -1896,7 +1881,7 @@ npack_installdir 包含的npk的路径
 
 * **list_sub** 
 
-从list中指定的位置开始，截取指定长度的list
+Extract a sub-list of the specified length starting from the specified position in a list
 
 .. code-block:: shell
 
@@ -1909,11 +1894,10 @@ npack_installdir 包含的npk的路径
 
 * **subst** 
 
-对字符串内部的指定字符串进行替换，第三个参数可为空
+Replace a substring inside a string; the third parameter can be empty
 
 .. code-block:: shell
 
     subst(libncrt_small,lib,) ==> ncrt_small
     subst(libncrt_small,lib,ext) ==> extncrt_small
-
 

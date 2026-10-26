@@ -1,242 +1,240 @@
 .. _faq: 
 
-Nuclei Studio 常见问题
-======================
+Nuclei Studio FAQ
+=================
 
-Nuclei Studio启动慢
--------------------
+Nuclei Studio Starts Slowly
+---------------------------
 
-Nuclei Studio是基于eclipse进行开发，继承了eclipse的可扩展性的特点的是同时，也存在着启动较慢的问题，第一次启动时，软件需要验证环境；生成常用的缓存文件；创建Workspace.在2021.09版的Nuclei Studio中，我们针对启动做了优化，在电脑性能足够的前提下，第一次启动Nuclei Studio能在一分钟内完成。
+Nuclei Studio is built on Eclipse. While it inherits Eclipse's extensibility, it also suffers from slow startup: on the first launch, the IDE must verify the environment, generate commonly used cache files, and create the workspace. Startup was optimized in Nuclei Studio 2021.09; with adequate hardware, the first launch of Nuclei Studio completes within one minute.
 
-Nuclei Studio最佳运行环境：
+Recommended environment for Nuclei Studio:
 
--  Windows 10操作系统
+-  Windows 10 operating system
 
--  4G以上内存（2G可以被Nuclei Studio分配使用）
+-  More than 4 GB of memory (2 GB allocated to Nuclei Studio)
 
-Nuclei Studio编译程序很慢
--------------------------
+Nuclei Studio Builds Programs Slowly
+------------------------------------
 
-在测试使用过程中，我们发现Nuclei Studio在编译项目时会出现很慢的现像，经过排查发现，当电脑安装360杀毒软件时，编译指令执行很慢，退出360杀毒软件时，编译指令可以按正常速度执行。为了保障Nuclei Studio的正常使用，建议在使用时退出360等杀毒软件。
+During testing, we found that Nuclei Studio builds projects very slowly when 360 antivirus software is installed; after exiting the 360 antivirus software, builds run at normal speed. To ensure Nuclei Studio works normally, exit antivirus software such as 360 while using it.
 
-找不到New Nuclei RISC-V C/C++ Project菜单
------------------------------------------
+Cannot Find the New Nuclei RISC-V C/C++ Project Menu
+----------------------------------------------------
 
-New Nuclei RISC-V C/C++ Project是创建工程的快捷入口，有时候如果找到不到New Nuclei RISC-V C/C++ Project菜单。
+The ``New Nuclei RISC-V C/C++ Project`` menu is the quick entry point for creating projects, but it may sometimes not appear.
 
 |image1|
 
-可以在菜单 ``Window->Perspective->Reset Perspective`` 里进行视图重置， ``New Nuclei RISC-V C/C++ Project`` 就会重新出现。
+Reset the perspective via the menu ``Window -> Perspective -> Reset Perspective``, and ``New Nuclei RISC-V C/C++ Project`` will reappear.
 
 |image2|
 
-或者将当前视图切换到C/C++视图。
+Alternatively, switch the current perspective to the C/C++ perspective.
 
 |image3|
 
-打开/关闭Launch Bar
--------------------
+Opening/Closing the Launch Bar
+------------------------------
 
-Nuclei Studio2022.12及以后的版本中，默认是开户启了Launch Bar功能。打开菜单栏 ``Window -> Preferences`` ，搜索 ``bar`` ，取消勾选第一个选项即可关闭Launch Bar。同理，想要使用Launch
-Bar功能，请勾选此选项。
+Nuclei Studio 2022.12 and later enables the Launch Bar by default. To close the Launch Bar, open ``Window -> Preferences``, search for ``bar``, and uncheck the first option. Check the option again to re-enable the Launch Bar.
 
 |image4|
 
-使用Launch Bar
---------------
+Using the Launch Bar
+--------------------
 
-Nuclei Studio的Launch Bar（下图中蓝色框内标注部分）是对后边下拉框中选中的调试配置对应的工程进行编译、调试和下载等操作，如需使用此部分请注意，图标是与下拉框中调试配置内容相绑定。下面详细介绍Launch Bar各部分功能：
+The Nuclei Studio Launch Bar (the part marked by the blue box in the figure below) builds, debugs, and downloads the project associated with the debug configuration selected in the drop-down box. Note that the icons are bound to that selected debug configuration. The function of each part of the Launch Bar is described below:
 
 |image5|
 
 
-图标1：编译选中的调试配置对应的工程。此处选中的工程为5号下拉框选中的调试配置对应工程，并非Project Explorer中选中的工程。
+Icon 1: Builds the project associated with the debug configuration selected in drop-down box 5 — not the project selected in Project Explorer.
 
-图标2：运行/调试选中的调试配置对应的工程。此处图标会根据下拉框4的内容变化。
+Icon 2: Runs/debugs the project associated with the selected debug configuration. This icon changes according to the content of drop-down box 4.
 
-图标3：退出下载/调试模式。
+Icon 3: Exits download/debug mode.
 
-下拉框4：切换选择下载/调试模式。切换后会改变图标2的显示内容。
+Drop-down box 4: Switches between download/debug modes; switching changes what icon 2 displays.
 
-下拉框5：选中调试配置文件。此处的内容会影响图标1、2、3对应的工程。
+Drop-down box 5: Selects the debug configuration file. This selection determines which projects icons 1, 2, and 3 act on.
 
-齿轮图标6：打开当前选中的调试配置页面，可直接进行修改保存。
+Gear icon 6: Opens the currently selected debug configuration page, where you can modify and save it directly.
 
-不使用Launch Bar进行运行/调试
------------------------------
+Running/Debugging Without the Launch Bar
+----------------------------------------
 
-对于初次新建的工程，如果不使用Launch Bar功能，可以右键工程，选择 ``Debug As -> Debug Configurations`` 。在弹窗中选择工程对应的设置选项，这里以helloworld工程为例，选择 ``helloworld_debug_openocd`` ，之后选择 ``Debug`` 开始调试。
+For a newly created project, if you do not use the Launch Bar, right-click the project and select ``Debug As -> Debug Configurations``. In the dialog, select the configuration corresponding to the project — for the helloworld project, select ``helloworld_debug_openocd`` — and then click ``Debug`` to start debugging.
 
-同理，初次运行需要右击工程，选择 ``Run As -> Run Configurations`` 。在弹窗中选择工程对应的设置选项，之后选择 ``Run`` 开始运行。
+Similarly, for the first run, right-click the project and select ``Run As -> Run Configurations``. In the dialog, select the configuration corresponding to the project, and then click ``Run`` to start running.
 
 |image6|
 
 
-若当前工程已按以上方式进行过调试或运行操作，可在上方按键中选择\ |image7|\ 的下拉选项，快速选择对应的工程设置进行调试。对于运行，可以在\ |image8|\ 的下拉选项，快速选择对应的设置。
+If the current project has already been debugged or run as described above, use the drop-down option of |image7| in the toolbar to quickly select the corresponding project configuration for debugging, or the drop-down option of |image8| to quickly select the corresponding configuration for running.
 
-Debug页面查看寄存器
--------------------
+Viewing Registers in the Debug Perspective
+------------------------------------------
 
-进入Debug模式后，可能有些页面并不能第一时间找到，这里以查看寄存器栏目为例。在菜单栏选择 ``Window -> Show View -> Registers`` 打开寄存器栏目，在Register页面可以通过 ``Ctrl–F`` 来查找寄存器。同样，如果想查看内存，可以选择 ``Window -> Show View -> Memory`` ，想打开调试控制台，可以选择 ``Window -> Show View -> Debugger Console`` ，其他页面此处不做过多介绍，请用户自行体验。
+After entering Debug mode, some views may not be visible right away; the Registers view is used as an example here. Select ``Window -> Show View -> Registers`` in the menu bar to open the Registers view, and use ``Ctrl-F`` in the view to search for registers. Similarly, to view memory, select ``Window -> Show View -> Memory``; to open the debug console, select ``Window -> Show View -> Debugger Console``. Other views are not covered here.
 
-Debug页面结束进程
------------------
+Terminating Processes in the Debug Perspective
+----------------------------------------------
 
-在Debug页面要退出调试，可点击\ |image9|\ 退出调试。为防止打开多个进程导致报错，在Debug页面，右击Debug栏目中的进程，选择 ``Terminate / Disconnect All`` 关闭所有Debug进程。
+To exit debugging in the Debug perspective, click |image9|. To prevent errors caused by multiple open processes, right-click the process in the Debug view and select ``Terminate / Disconnect All`` to close all debug processes.
 
-Nuclei Studio工具栏中各按键功能
--------------------------------
+Functions of the Buttons in the Nuclei Studio Toolbar
+-----------------------------------------------------
 
-在Nuclei Studio中，常见的工具栏图标如下，本节将依次介绍各按键的功能。
+The common Nuclei Studio toolbar icons are shown below. The function of each button is described below.
 
 |image10|
 
-新建按键\ |image11|\ ，包括新建各种文件和工程。
+New button |image11|: creates various files and projects.
 
-保存当前文件\ |image12|\ 和保存所有未保存文件\ |image13|\ 。
+Save the current file |image12|, or save all unsaved files |image13|.
 
-切换编译设置\ |image14|\ ，默认只有Debug和Release，用户可自行添加，这里不做介绍。
+Switch build configuration |image14|: only Debug and Release are available by default; you can add more configurations yourself.
 
-编译工程\ |image15|\ ，可以在下拉选项中编译Project Explorer中选中的工程。
+Build project |image15|: builds the project selected in Project Explorer using the drop-down options.
 
-编译所有工程\ |image16|\ ，一次性编译所有Project Explorer中的工程。
+Build all projects |image16|: builds all projects in Project Explorer at once.
 
-新建功能\ |image17|\ ，包含工程创建，目录创建，文件创建和类创建。
+New functionality |image17|: creates projects, directories, files, and classes.
 
-调试\ |image18|\ ，可根据下拉选项选择不同调试设置来调试不同的工程。
+Debug |image18|: selects a debug configuration from the drop-down options to debug the project.
 
-运行\ |image19|\ ，可根据下拉选项选择不同的设置来选择不同的工程。
+Run |image19|: selects a configuration from the drop-down options to run the project.
 
-Profile |image20|\ ，使用Profile功能，暂不支持，此处不做介绍。
+Profile |image20|: the Profile feature is not currently supported and is not covered here.
 
-用户自定义工具\ |image21|\ ，此处不做介绍，用户可自己深入研究。
+User-defined tools |image21|: not covered here; you can explore them on your own.
 
-搜索工具\ |image22|\ ，可搜索任务，文本等。
+Search tools |image22|: searches tasks, text, and more.
 
-文本阅读工具\ |image23|\ ，可以展开或折叠文本等功能。
+Text reading tools |image23|: expands or collapses text, and so on.
 
-控制台工具\ |image24|\ ，可选择打开各种控制台或串口等。
+Console tools |image24|: opens various consoles or serial ports.
 
-Debug用\ |image25|\ ，前者跳过所有断点，后者实现Restart功能。
+Debug buttons |image25|: the first skips all breakpoints; the second performs the Restart function.
 
-查看CMSIS |image26|\ ，eclipse自带功能，暂不支持。
+View CMSIS |image26|: a built-in Eclipse feature; not currently supported.
 
-Nuclei SDK工程设置工具\ |image27|\ ，参见6.6.1。
+Nuclei SDK project settings tool |image27|: see Section 6.6.1.
 
-文本阅读工具\ |image28|\ ，可设置快速跳转，具体功能此处不作过多介绍。
+Text reading tools |image28|: sets quick navigation; the detailed functions are not covered here.
 
-显示其他窗口
-------------
+Showing Other Windows
+---------------------
 
-在IDE的右上角\ |image29|\ 按键可以切换不同的显示模式，常用的是C/C++页面和Debug页面。其中，在进入Debug模式时，若不在Debug页面，会有弹窗提示，此时点击 ``Switch`` 选项可以切换至Debug页面。在菜单栏中选择 ``Window -> Perspective -> Open Perspective`` 可以快速切换显示窗口。
+The |image29| button in the upper-right corner of the IDE switches between different display modes; the most commonly used are the C/C++ perspective and the Debug perspective. When entering Debug mode from another perspective, a dialog prompts you; click the ``Switch`` option to switch to the Debug perspective. Select ``Window -> Perspective -> Open Perspective`` in the menu bar to switch perspectives quickly.
 
-在不同的窗口下， ``Window -> Show View`` 显示的内容也不尽相同。在Debug窗口中可以选择显示如寄存器（Registers），内存（Memory）和调试控制台（Debugger
-Console）。
+The views available under ``Window -> Show View`` differ between perspectives. In the Debug perspective, you can show views such as Registers, Memory, and the Debugger Console.
 
 |image30|
 
-恢复默认窗口布局
-----------------
+Restoring the Default Window Layout
+-----------------------------------
 
-在菜单栏中选择 ``Window -> Perspective -> Reset Perspective`` ，在弹窗中选择 ``Reset Perspective`` 可以恢复窗口默认布局。
+Select ``Window -> Perspective -> Reset Perspective`` in the menu bar and choose ``Reset Perspective`` in the dialog to restore the default window layout.
 
-对比历史文件
-------------
+Comparing with File History
+---------------------------
 
-右击要查看历史的文件，选择 ``Compare With -> Local History`` 打开历史记录。在打开的History栏目双击选择要对比的文件历史版本，可以查看文件变动历史。
+Right-click the file whose history you want to view and select ``Compare With -> Local History`` to open the history records. In the History view, double-click the file version you want to compare to view the file change history.
 
 |image31|
 
-新建工程时可能出现报错
-----------------------
+Possible Errors When Creating a Project
+---------------------------------------
 
-新建工程时IDE需要索引整个工程，根据主机性能其所用时间不同。如果主机性能较差，可能会看到索引时产生error，索引结束后error会消失。如出现以上现象，请以编译时是否报错为准。
+When a new project is created, the IDE indexes the entire project, and the time required varies with host performance. On a low-performance host, transient errors may appear during indexing; these errors disappear once indexing finishes. In this case, rely on the errors reported during the build.
 
-新增Include路径出现缓存
------------------------
+Cached Paths When Adding an Include Path
+----------------------------------------
 
-在include页面新增路径时，可能会出现缓存的路径内容，此时点击Workspace或File System选中后可覆盖其内容。
+When adding a path on the include page, cached path content may appear; in this case, click Workspace or File System and select the path to overwrite the cached content.
 
-设置页面栏目找不到
-------------------
+Cannot Find a Settings Page Section
+-----------------------------------
 
-有时可能因为弹窗大小，部分设置栏目被隐藏起来，可点击红框中左右方向图标显示隐藏栏目。
+Depending on the dialog size, some settings sections may be hidden; click the left/right arrow icons in the red box to show the hidden sections.
 
 |image32|
 
-开发板下载速度很慢
-------------------
+Slow Download Speed to the Development Board
+--------------------------------------------
 
-如果遇到开发板下载速度很慢，甚至出现超时的报错，请切换至使用USB3.0接口，如果使用虚拟机开发，也请同时将USB接口设置为3.0。
+If downloads to the development board are very slow, or timeout errors occur, switch to a USB 3.0 port. If you are developing in a virtual machine, set the USB interface to 3.0 as well.
 
-Linux环境下多用户使用Nuclei Studio
-----------------------------------
+Multiple Users Using Nuclei Studio on Linux
+-------------------------------------------
 
-如果需要多用户同时使用Nuclei Studio（不推荐），用户在运行Nuclei Studio时首先要打开菜单栏的 ``Window->Preferences`` 。在弹窗中需要修改三个地方：
+If multiple users need to use Nuclei Studio at the same time (not recommended), first open ``Window -> Preferences`` in the menu bar while running Nuclei Studio. Three settings must be modified in the dialog:
 
-打开 ``MCU->Global OpenOCD Path`` ， ``Executable`` 输入 ``openocd`` ， ``Folder`` 输入 ``${eclipse_home}/toolchain/openocd/bin`` 。
+Open ``MCU -> Global OpenOCD Path``, enter ``openocd`` for ``Executable``, and enter ``${eclipse_home}/toolchain/openocd/bin`` for ``Folder``.
 
-打开 ``MCU->Global QEMU Path`` ， ``Executable`` 输入 ``qemu-system-riscv32`` ， ``Folder`` 输入 ``${eclipse_home}/tools/qemu`` 。
+Open ``MCU -> Global QEMU Path``, enter ``qemu-system-riscv32`` for ``Executable``, and enter ``${eclipse_home}/tools/qemu`` for ``Folder``.
 
-打开 ``MCU->Global RISC-V Toolchains Paths`` ， ``Default toolchain`` 选中 ``RISC-V Nuclei GCC`` ， ``Toolchain folder`` 输入 ``${eclipse_home}/toolchain/gcc/bin`` 。
+Open ``MCU -> Global RISC-V Toolchains Paths``, select ``RISC-V Nuclei GCC`` for ``Default toolchain``, and enter ``${eclipse_home}/toolchain/gcc/bin`` for ``Toolchain folder``.
 
-修改后点击 ``Apply and Close`` 保存并关闭设置弹窗。
+When finished, click ``Apply and Close`` to save the settings and close the dialog.
 
-设备管理器中识别出两个串口
---------------------------
+Two Serial Ports Recognized in Device Manager
+---------------------------------------------
 
-可能连接设备后在任务管理器中识别出两个串口，其中COM编号较大的是串口打印使用，可以使用串口调试助手等工具连接查看打印信息，但是请不要占用COM编号较小的串口。
+After connecting the device, two serial ports may appear in Device Manager. The one with the larger COM number is used for serial output; you can connect to it with a tool such as a serial debugging assistant to view the print output. Do not open the serial port with the smaller COM number.
 
 |image33|
 
-Linux下使用时报Could not determine GDB version after sending:riscv-nuclei-elf-gdb –version,response:的错误
-----------------------------------------------------------------------------------------------------------
+Error "Could Not Determine GDB Version After Sending: riscv-nuclei-elf-gdb --version, response:" on Linux
+---------------------------------------------------------------------------------------------------------
 
-第一次在linux下使用Nuclei Studio时，会报错 ``Could not determine GDB version after sending:riscv-nuclei-elf-gdb –version,response:`` .
+The first time you use Nuclei Studio on Linux, the error ``Could not determine GDB version after sending: riscv-nuclei-elf-gdb --version, response:`` may be reported.
 
 |image34|
 
-riscv-nuclei-elf-gdb在Nuclei studio 2023.10及之后的版本变更为riscv64-unknown-elf-gdb。
+riscv-nuclei-elf-gdb was renamed to riscv64-unknown-elf-gdb in Nuclei Studio 2023.10 and later.
 
-可以使用命令 ``ldd $(which riscv-nuclei-elf-gdb)`` 查看，依赖缺失
+Use the command ``ldd $(which riscv-nuclei-elf-gdb)`` to check for missing dependencies.
 
 |image35|
 
 
-使用命令 ``sudo apt install libncursesw5 libtinfo5`` 安装相关依赖后，ide运行正常，具体可以参考https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/9
+After installing the required dependencies with the command ``sudo apt install libncursesw5 libtinfo5``, the IDE runs normally. For details, see https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/9
 
-在linux下使用QEMU时报错
------------------------
+Error Reported When Using QEMU on Linux
+---------------------------------------
 
-例如在Ubuntu 20.04上使用QEMU时，可能会报错：
+For example, when using QEMU on Ubuntu 20.04, the following error may be reported:
 
 .. code-block:: shell
 
-    error while loading shared libraries: libfdt.so.1: cannot open shared object file: No such file or directory，
+    error while loading shared libraries: libfdt.so.1: cannot open shared object file: No such file or directory
 
-这是因为缺少libfdt.so等依赖所致，只需要在对应版本的linux上安装对应的依赖。例如针对Ubuntu 20.04可以使用如下命令:
+This is caused by missing dependencies such as libfdt.so. Install the corresponding dependencies for your version of Linux. For example, on Ubuntu 20.04, use the following command:
 
-安装 libfdt等依赖： ``sudo apt install libfdt1 libpixman-1-0 libpng16-16 libasound2 libglib2.0-0`` 
+Install libfdt and other dependencies: ``sudo apt install libfdt1 libpixman-1-0 libpng16-16 libasound2 libglib2.0-0``
 
-工程编译链接C库找不到符号报错
------------------------------
+Error About Missing Symbols When Linking the C Library During Project Build
+---------------------------------------------------------------------------
 
 .. _ide_faq_36:
 
-这个问题在Nuclei Studio 2024.06可以得到解决，只需要在 Linker -> Libraries页面勾选 Group Libraries即可。
+In Nuclei Studio 2024.06, this problem is resolved: simply check Group Libraries on the Linker -> Libraries page.
 
 |image36|
 
-因为在对Libraries的处理中，没有能很好的处理链接之间的内部依赖关系，当使用的链接之前互相有依赖时，可能会导至编译不通过，详细参见\ *https://github.com/eclipse-embed-cdt/eclipse-plugins/issues/592*\ 。解决这个问题，可以有两种办法。
+Because the handling of Libraries does not properly resolve the inter-dependencies between linked libraries, the build may fail when the libraries in use depend on each other. For details, see *https://github.com/eclipse-embed-cdt/eclipse-plugins/issues/592*. There are two ways to solve this problem.
 
 |image37|
 
 
-通过调整Libraries的顺序或者添加多个链接来实现
+Either adjust the order of the Libraries, or add the same libraries multiple times.
 
 |image38|
 
-打开 ``C/C++ Build -> Settings -> Tool Settings ->GUN RISC-V Cross C++ Linker`` ,并修改Command line paatern内容，将其修改为
+Open ``C/C++ Build -> Settings -> Tool Settings -> GNU RISC-V Cross C++ Linker`` and modify the Command line pattern as follows:
 
 .. code-block:: shell
 
@@ -244,253 +242,344 @@ riscv-nuclei-elf-gdb在Nuclei studio 2023.10及之后的版本变更为riscv64-u
    ${cross_toolchain_flags} ${FLAGS} ${OUTPUT_FLAG}
    ${OUTPUT_PREFIX}${OUTPUT} ${OBJS}${USER_OBJS} -Wl,--start-group
    $(LIBS)
-   -Wl,--end-group，
+   -Wl,--end-group
 
-IDE就会将Libraries内的内容以group的方式处理。
+The IDE then processes the contents of Libraries as a group.
 
 |image39|
 
 |image40|
 
 
-编译工程报错fatal error: rvintrin.h: No such file or directory
---------------------------------------------------------------
+Build Error: Fatal Error: rvintrin.h: No Such File or Directory
+---------------------------------------------------------------
 
-在Nuclei Studio
-2023.10中，如果使用旧的sdk所创建的工程，如果编译时报错 ``fatal error: rvintrin.h: No such file or directory`` ，是因为在GCC 10时，工程中 ``#include <rvintrin.h>`` ，而在GCC 13中，不需要再 ``#include <rvintrin.h>`` ，只需要删除此行，即可编译通过。
+In Nuclei Studio 2023.10, if a project created with an old SDK reports ``fatal error: rvintrin.h: No such file or directory`` when built, it is because the project uses ``#include <rvintrin.h>``, which is required in GCC 10 but no longer needed in GCC 13. Simply delete this line and the build will pass.
 
 |image41|
 
-Debug时报错Error: Couldn't find an available hardware trigger.
---------------------------------------------------------------
+Debug Error: Error: Couldn't Find an Available Hardware Trigger
+---------------------------------------------------------------
 
-在Nuclei Studio环境中，当工程在没有硬件断点的CPU硬件上运行时，且选择程序下载到Flash中运行以Nuclei SDK/Nuclei N100 SDK为例就是(flash/flashxip DOWNLOAD模式)，可能会遇到程序Debug无法停住的问题，并收到错误提示： ``Error: Couldn't find an available hardware trigger`` 。这是因为程序运行在Flash上，软件断点无法被成功写入，而CPU上又没有硬件断点可以被使用，从而导致报错。
+In the Nuclei Studio environment, when a project runs on CPU hardware without hardware breakpoints and the program is downloaded to Flash to run (for Nuclei SDK/Nuclei N100 SDK, this is the flash/flashxip DOWNLOAD mode), the program may fail to stop during debugging with the error message: ``Error: Couldn't find an available hardware trigger``. This is because the program runs in Flash, where software breakpoints cannot be written successfully, and the CPU has no hardware breakpoints available.
 
 |image43|
 
-这种情况下需要将程序编译到RAM上才可以支持IDE上进行调试（软件断点），如果需要调试则暂时只能通过命令行的方式进行调试。
+In this case, build the program to RAM so that the IDE can debug it (software breakpoints); to debug it in Flash, use the command line for now.
 
-Debug工程时查看GDB Trace
--------------------------
+Viewing the GDB Trace While Debugging a Project
+-----------------------------------------------
 
-在Nuclei Studio环境中，GDB Trace功能详细记录了在调试程序过程中使用的GDB命令，默认情况下该功能是关闭，如需要查看GDB Trace，可以开启该功能。在NucleiStudio的菜单中依次点击 ``Window -> Preferences`` ，在弹出的Preferences窗口中依次选择 ``C/C++ -> Debug -> GDB`` ，找到 ``Show the GDB traces consoles with character limit`` 选项并勾选。
+In the Nuclei Studio environment, the GDB Trace feature records in detail the GDB commands used while debugging a program. This feature is disabled by default; enable it if you need to view the GDB Trace. In the Nuclei Studio menu, click ``Window -> Preferences``; in the Preferences window that opens, select ``C/C++ -> Debug -> GDB``, find the ``Show the GDB traces consoles with character limit`` option, and check it.
 
 |image44|
 
-在Debug时，可以在 ``Console`` 窗口中,点击 ``Display Selected Console`` 切换到GDB Trace Console，就可以查看到GDB Trace，用以帮助分析调试过程中的问题。
+During debugging, click ``Display Selected Console`` in the ``Console`` window to switch to the GDB Trace console, where you can view the GDB Trace to help analyze problems encountered during debugging.
 
 |image45|
 
-Debug工程时链接到运行中的Target
---------------------------------
+Connecting to a Running Target While Debugging a Project
+--------------------------------------------------------
 
-在Nuclei Studio环境中使用OpenOCD Debug工程时，链接到运行中的Target，可以通过如下操作实现。打开Debug_openocd的配置文件，选中 ``Startup`` 页并修改配置如下图：
+When using OpenOCD to debug a project in the Nuclei Studio environment, connect to a running target as follows. Open the Debug_openocd configuration file, select the ``Startup`` tab, and modify the configuration as shown below:
 
-- Init reset 去掉勾选，避免发 monitor reset 之类的命令导致cpu复位；
-- Load executable 去掉勾选，避免重新下载elf；
-- Pre-run/restart commands 去掉勾选，避免发 monitor reset 之类的命令导致cpu复位；
-- Continue 去掉勾选，当OpenOCD连上去以后，直接进入调试状态且运行暂停。
+- Uncheck Init reset to avoid sending commands such as monitor reset that would reset the CPU;
+- Uncheck Load executable to avoid downloading the ELF again;
+- Uncheck Pre-run/restart commands to avoid sending commands such as monitor reset that would reset the CPU;
+- Uncheck Continue, so that once OpenOCD is connected, it enters the debug state directly with execution paused.
 
 |image46|
 
-点击Debug按钮，可以看到已经连接到运行中的Target。
+Click the Debug button; you can see that it is now connected to the running target.
 
 |image47|
 
-使用Jlink Debug工程时，链接到运行中的target，可以通过如下操作实现。打开Debug_jlink的配置文件，选中 ``Debugger`` 页并修改配置如下图，点击Debug按钮，可以看到已经连接到运行中的Target。
+When using J-Link to debug a project, connect to a running target as follows. Open the Debug_jlink configuration file, select the ``Debugger`` tab, modify the configuration as shown below, and click the Debug button; you can see that it is now connected to the running target.
 
 |image48|
 
-Flash Programming中已知缺陷
---------------------------------
+Known Defects in Flash Programming
+----------------------------------
 
-在选中需要使用Flash Programming功能时，如果通过 ``File System`` 选择Load的文件，因代码缺陷会导致命令不完整。为规避此类问题，尽量将需要选择的文件放在工程目录下
+When using the Flash Programming feature, selecting the file to load through ``File System`` triggers a code defect that makes the command incomplete. To avoid this problem, place the file to be loaded under the project directory.
 
 |image49|
 
-Flash Programming依赖OpenOCD，当在Nuclei Studio中配置了不启动OpenOCD的前提下使用Flash Programming，会导致Nuclei Studio卡死，如出现上述情况，请确认配置是否正确。
+Flash Programming depends on OpenOCD. If you use Flash Programming in Nuclei Studio with a configuration that does not launch OpenOCD, Nuclei Studio freezes. If this happens, check whether the configuration is correct.
 
 |image50|
 
 .. _faq_27: 
 
-Nuclei Studio调试工程前的硬件检测
----------------------------------
+Hardware Check Before Debugging a Project in Nuclei Studio
+----------------------------------------------------------
 
-在使用 **Nuclei Studio IDE** 进行软件开发和调试之前，必须确保目标硬件（如基于 FPGA 的 RISC-V 系统）已正确配置并稳定运行。以下步骤可用于验证硬件平台是否具备进行正常软件调试的条件。
+Before using the **Nuclei Studio IDE** for software development and debugging, make sure the target hardware (such as an FPGA-based RISC-V system) is correctly configured and running stably. Use the following steps to verify whether the hardware platform is ready for normal software debugging.
 
-检查 OpenOCD 配置文件 `openocd.cfg` 是否正确
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Checking Whether the OpenOCD Configuration File `openocd.cfg` Is Correct
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-OpenOCD 是用于与 FPGA 上的 RISC-V 核进行 JTAG 调试的重要工具。要启动调试会话，需准备一个正确的 `.cfg` 配置文件。通过以下步骤以确认`openocd.cfg`文件是否正确。
+OpenOCD is an important tool for JTAG debugging with the RISC-V core on the FPGA. Starting a debug session requires a correct `.cfg` configuration file. Use the following steps to confirm whether the `openocd.cfg` file is correct.
 
 
-- 使用 Nuclei Studio 安装目录下的 OpenOCD 工具：
-    - Windows：`NucleiStudio/toolchain/openocd/bin/openocd.exe`
-    - Linux：`NucleiStudio/toolchain/openocd/bin/openocd`
-- 将配置文件（如 `openocd_demosoc.cfg`）复制到 OpenOCD 的 bin 目录中。
-- 执行命令启动 OpenOCD：
+- Use the OpenOCD tool under the Nuclei Studio installation directory:
+    - Windows: `NucleiStudio/toolchain/openocd/bin/openocd.exe`
+    - Linux: `NucleiStudio/toolchain/openocd/bin/openocd`
+- Copy the configuration file (such as `openocd_demosoc.cfg`) to the bin directory of OpenOCD.
+- Run the command to start OpenOCD:
 
 .. code-block::
 
     openocd -f openocd.cfg
 
 
-如果 OpenOCD 成功启动并显示连接信息，则表示 FPGA 板上的 JTAG 接口和 CPU 正常工作。
+If OpenOCD starts successfully and displays connection information, the JTAG interface and CPU on the FPGA board are working properly.
 
 |image51|
 
-**注意事项：**
+**Notes:**
 
-- 若 FPGA 上没有 SPI Flash 或无需烧录 Flash，可删除 `.cfg` 文件中关于 Flash 的配置项。
-- 确保配置文件中的 JTAG 引脚、CPU 类型、频率等参数与你的硬件一致。
+- If there is no SPI Flash on the FPGA, or Flash programming is not needed, you can delete the Flash-related configuration items in the `.cfg` file.
+- Make sure the JTAG pins, CPU type, frequency, and other parameters in the configuration file match your hardware.
 
 |image52|
 
-使用命令行确认 GDB 与 OpenOCD 能正常通信
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Using the Command Line to Confirm GDB and OpenOCD Can Communicate Properly
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-为了进一步验证硬件状态，可以使用 GDB 命令行工具与 OpenOCD 建立连接。
+To further verify the hardware status, use the GDB command-line tool to establish a connection with OpenOCD.
 
-- 启动 OpenOCD（见上一步）
+- Start OpenOCD (see the previous step)
 
-- 新开终端，进入 GDB 工具路径：
+- Open a new terminal and go to the GDB tool path:
    
-   - Windows：`NucleiStudio/toolchain/gcc/bin/riscv-nuclei-elf-gdb.exe`
-   - Linux：`NucleiStudio/toolchain/gcc/bin/riscv-nuclei-elf-gdb`
+   - Windows: `NucleiStudio/toolchain/gcc/bin/riscv-nuclei-elf-gdb.exe`
+   - Linux: `NucleiStudio/toolchain/gcc/bin/riscv-nuclei-elf-gdb`
 
-- 启动 GDB，并执行以下命令：
+- Start GDB and execute the following commands:
 
 .. code-block:: console
 
-  (gdb) set arch riscv:rv32     # 或 rv64，根据 CPU 架构选择
-  (gdb) set remotetimeout 240   # 设置远程连接超时时间
-  (gdb) target remote :3333     # 连接 OpenOCD 默认端口
+  (gdb) set arch riscv:rv32     # or rv64, depending on the CPU architecture
+  (gdb) set remotetimeout 240   # set the remote connection timeout
+  (gdb) target remote :3333     # connect to the default OpenOCD port
 
 
-若能成功连接，则表明 FPGA 上的 JTAG 接口和 RISC-V Core 正常运行。
+If the connection succeeds, the JTAG interface and the RISC-V core on the FPGA are running normally.
 
 |image53|
 
-**可能问题：**
+**Possible issues:**
 
-- FPGA 上的 CPU 主频较低 → 首次连接可能会超时，建议提前设置 `set remotetimeout 240` 。具体可以参考 :ref:`CPU主频比较低导致Nuclei Studio无法调试 <faq_28>` 。 
+- The CPU frequency on the FPGA is low → the first connection may time out; it is recommended to set `set remotetimeout 240` in advance. For details, see :ref:`Nuclei Studio cannot debug due to a low CPU frequency <faq_28>`.
 
-使用 GDB 命令检查底层硬件功能
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Using GDB Commands to Check Low-Level Hardware Functions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-一旦 GDB 成功连接，可以通过一系列命令验证 CPU、SRAM 和外设寄存器的功能。
+Once GDB is successfully connected, you can verify the functions of the CPU, SRAM, and peripheral registers through a series of commands.
 
 |image55|
 
-测试项目及命令：
+Test items and commands:
 
-**读写通用寄存器（GPR）**
-
-.. code-block:: console
-
-    (gdb) p/x $pc        # 查看当前 PC 值
-    (gdb) p/x $a0        # 查看 a0 寄存器值
-
-
-**读写 CSR 寄存器**
+**Read and write general-purpose registers (GPRs)**
 
 .. code-block:: console
 
-    (gdb) info reg $mstatus    # 查看 mstatus 寄存器
-    (gdb) info reg $misa       # 查看支持的指令集架构
+    (gdb) p/x $pc        # view the current PC value
+    (gdb) p/x $a0        # view the a0 register value
 
 
-**读写 SRAM 内存（验证内存稳定性）**
+**Read and write CSR registers**
 
-- 准备一个测试 bin 文件，加载到 SRAM：
+.. code-block:: console
+
+    (gdb) info reg $mstatus    # view the mstatus register
+    (gdb) info reg $misa       # view the supported instruction set architecture
+
+
+**Read and write SRAM memory (verify memory stability)**
+
+- Prepare a test bin file and load it into SRAM:
 
 .. code-block:: console
 
     (gdb) restore test.bin binary 0x80000000
 
 
-- 从内存 dump 出来并比对：
+- Dump it from memory and compare:
 
 .. code-block:: console
 
     (gdb) dump binary memory dump.bin 0x80000000 0x80001000
 
 
-- 检查 `test.bin` 和 `dump.bin` 是否完全一致。
+- Check whether `test.bin` and `dump.bin` are exactly identical.
 
-如果数据不一致，说明 SRAM 可能存在时序或接口问题。
+If the data is inconsistent, the SRAM may have timing or interface problems.
 
-**8bit/16bit 数据访问测试**
+**8-bit/16-bit data access test**
 
-- 验证是否支持字节级访问：
-
-.. code-block:: console
-
-    (gdb) x/1bx 0x80000000      # 读取单个字节
-    (gdb) x/1hx 0x80000000      # 读取半字（16位）
-
-
-**读写 SOC 外设寄存器**
-
-- 对映射在外设地址空间的寄存器进行读写测试：
+- Verify whether byte-level access is supported:
 
 .. code-block:: console
 
-    (gdb) p/x *(int *)0x10000000   # 读取某个外设寄存器
-    (gdb) set *(int *)0x10000000 = 0x1  # 写入值
+    (gdb) x/1bx 0x80000000      # read a single byte
+    (gdb) x/1hx 0x80000000      # read a halfword (16-bit)
+
+
+**Read and write SoC peripheral registers**
+
+- Perform read/write tests on registers mapped in the peripheral address space:
+
+.. code-block:: console
+
+    (gdb) p/x *(int *)0x10000000   # read a peripheral register
+    (gdb) set *(int *)0x10000000 = 0x1  # write a value
 
 |image54|
 
 .. _faq_28: 
 
-CPU主频比较低导致Nuclei Studio无法调试
---------------------------------------
+Nuclei Studio Cannot Debug Due to a Low CPU Frequency
+-----------------------------------------------------
 
-如果 CPU 主频较低，可能导致 Nuclei Studio 调试失败或不稳定。此时建议在 OpenOCD 配置文件中降低 JTAG 主频，一般应小于 CPU 主频的一半，推荐设置为 CPU 主频的 1/4 左右。在Nuclei Studio中使用时也需要修改 `set remotetimeout 250` 命令，将超时时间设为较大的值（单位为秒），以提升连接成功率。
+If the CPU frequency is low, Nuclei Studio debugging may fail or become unstable. In this case, it is recommended to lower the JTAG frequency in the OpenOCD configuration file; it should generally be less than half of the CPU frequency, and about one quarter of the CPU frequency is recommended. When using Nuclei Studio, also increase the timeout value in the `set remotetimeout 250` command (in seconds) to improve the connection success rate.
 
 |image56|
 
-设置Nuclei Studio主题配色
--------------------------
+Setting the Nuclei Studio Theme Colors
+--------------------------------------
 
-Nuclei Studio是基于eclipse开发，没有针对主题配色进行修改，所以它继承了eclipse的主题配色功能。如果想要修改Nuclei Studio的主题配色，用户可以自行搜索并参考eclipse的主题配色修改方法。也可以通过配置选项快速配置通用主题。
+Nuclei Studio is built on Eclipse, and its theme colors have not been modified, so it inherits Eclipse's theme color functionality. To change the theme colors of Nuclei Studio, refer to the methods for changing Eclipse theme colors. You can also quickly configure a general theme through the preferences.
 
 |image57|
 
 .. _ide_faq_menu_add:
 
-Debug视图中没有创建工程菜单
----------------------------
+No Project Creation Menu in the Debug Perspective
+-------------------------------------------------
 
-Nuclei Studio 2025.10版中更新了菜单显示的逻辑，可以在Debug视图中将常见的菜单显示。如果用户当前版本是Nuclei Studio 2025.10及之后的版本，在Debug视图中的 ``File ->New`` 中没有 ``New Nuclei RISC-V C/C++ Project`` 菜单，可以重启一下Debug视图以刷新菜单。
+Nuclei Studio 2025.10 updated the menu display logic so that common menus can be shown in the Debug perspective. If your current version is Nuclei Studio 2025.10 or later and the ``New Nuclei RISC-V C/C++ Project`` menu is missing under ``File -> New`` in the Debug perspective, restart the Debug perspective to refresh the menus.
 
-在 Debug 视图的右上角 close Debug 视图。
+Close the Debug perspective from its upper-right corner.
 
 |image58|
 
-然后重新打开Debug视图。
+Then reopen the Debug perspective.
 
 |image59|
 
-新加的 ``New Nuclei RISC-V C/C++ Project`` 菜单就会在 ``File ->New`` 中出现。同时在 Debug 时常用的 Trace 、Live Watch等菜单也会出现在 ``Window -> Show View`` 中。
+The newly added ``New Nuclei RISC-V C/C++ Project`` menu then appears under ``File -> New``. Menus commonly used during debugging, such as Trace and Live Watch, also appear under ``Window -> Show View``.
 
 |image60|
 
 |image61|
 
-编译工程报 `DWARF error: mangled line number section (bad file number)`
---------------------------------------------------------------------------
+Build Error: DWARF Error: Mangled Line Number Section (Bad File Number)
+-----------------------------------------------------------------------
 
-在 Nuclei Studio 中使用 Clang 编译工程时，若出现 ``DWARF error: mangled line number section (bad file number)`` 警告，通常是由于在编译工程时 Nuclei Studio 使用 GCC 工具链中的 ``objdump`` 来处理由 Clang 生成的 ``ELF`` 文件时存在兼容性差异，因此会触发该警告。此问题一般不影响程序的正常编译与运行。
+When building a project with Clang in Nuclei Studio, the warning ``DWARF error: mangled line number section (bad file number)`` may appear. This is usually because Nuclei Studio uses the ``objdump`` from the GCC toolchain to process the ELF file generated by Clang, and compatibility differences trigger this warning. This problem generally does not affect the normal build and execution of the program.
 
 |image62|
 
-其他未注明版本问题
-==================
+.. _faq_how_to_build_semihosting_project:
 
-如本文档中有疏漏的地方，请关注 `https://www.rvmcu.com/NucleiStudio-faq.html <https://www.rvmcu.com/nucleistudio-faq.html>`__
-这里将列出不同版本后续遇到的常见问题。
+How to Build a Project That Supports Semihosting
+------------------------------------------------
+
+When creating a project with Nuclei SDK, check ``Enable Semihosting`` to generate a project that supports Semihosting directly.
+
+For projects that have already been created, or projects not created with Nuclei SDK, enable Semihosting manually with the following steps.
+
+|projectrun_image63|
+
+This kind of project usually implements basic I/O through ``Stubs`` functions. When enabling Semihosting, you must replace the original ``Stubs`` implementation with the implementation provided by the semihost library.
+
+First, exclude the original ``Stubs`` code. Taking a project created with Nuclei SDK as an example, select ``SoC\evalsoc\Common\Source\Stubs``, then right-click and choose ``Resource Configurations -> Exclude from Build...`` to exclude this code from the build. When Semihosting is no longer needed, re-include it in the same way to switch back quickly.
+
+The figure below takes newlib as an example: when linking, the ``semihost`` library must be used. If you use libncrt, replace ``fileops_uart`` with ``fileops_semi``. If you use the ``zcc`` toolchain, the ``semihost`` library must also be added during the link stage.
+
+|image63|
+
+.. _faq_debug_semihosting_project_with_jlink:
+
+How to Debug a Semihosting-Enabled Project with J-Link
+------------------------------------------------------
+
+The IDE debugs with J-Link through the J-Link GDB Server by default, but this method does not support Semihosting. To enable Semihosting while using J-Link as the debugger, refer to the following two solutions:
+
+1. Use J-Link's native Semihosting functionality. This solution must be used together with `Ozone <https://www.segger.com/products/development-tools/ozone-j-link-debugger/>`__; for details, see `SEGGER's Ozone offers enhanced debugging with RISC-V Semihosting <https://www.segger.com/news/pr-241015-ozone-riscv-semihosting/>`__.
+2. Use OpenOCD + J-Link for debugging; see `Using J-Link with OpenOCD <https://kb.segger.com/OpenOCD#Using_J-Link_with_OpenOCD>`__. This solution only supports the JTAG interface and does not support cJTAG.
+
+For the OpenOCD + J-Link solution, use JLinkConfig or `Zadig <https://zadig.akeo.ie/>`__ to switch the J-Link USB driver to WinUSB, then enable Semihosting in the OpenOCD configuration file. The following configuration can be used as a reference:
+
+.. code-block:: cfg
+
+   adapter_khz 1000
+   # The below 2 lines configure openocd to work with jlink
+   interface jlink
+   transport select jtag
+   #reset_config trst_only
+   set _CHIPNAME riscv
+   jtag newtap $_CHIPNAME cpu -irlen 5
+   set _TARGETNAME $_CHIPNAME.cpu
+   target create $_TARGETNAME riscv -chain-position $_TARGETNAME
+   $_TARGETNAME configure -work-area-phys 0x80000000 -work-area-size 10000 -work-area-backup 1
+   set _FLASHNAME $_CHIPNAME.flash
+   flash bank $_FLASHNAME fespi 0x20000000 0 0 0 $_TARGETNAME
+   # Set the ILM space also as flash, to make sure it can be add breakpoint with hardware trigger
+   #flash bank onboard_ilm fespi 0x80000000 0 0 0 $_TARGETNAME
+   # Expose Nuclei self-defined CSRS
+   # See https://github.com/riscv/riscv-gnu-toolchain/issues/319#issuecomment-358397306
+   # Then user can view the csr register value in gdb using: info reg csr775 for CSR MTVT(0x307)
+   # riscv expose_csrs 416-496,770-800,835-850,1227-1231,1483-1486,1984-2040,2064-2070,2370-2380,2490-2500,4032-4040
+   init
+   if {[ info exists pulse_srst]} {
+     ftdi_set_signal nSRST 0
+     ftdi_set_signal nSRST z
+   }
+   halt
+   # We must turn on this because otherwise the IDE version debug cannot download the program into flash
+   flash protect 0 0 last off
+   arm semihosting enable
+
+Debug Session Hangs Due to Address Preloading in the Memory Window
+------------------------------------------------------------------
+
+**Problem description**
+
+When using the Memory window in the IDE to view memory, the interface freezes and the debug session becomes unresponsive. A typical scenario: when viewing the address `0xf0030000`, the IDE automatically preloads data from adjacent addresses and touches an unmapped region (such as `0xf002xxxx`), causing the target to return an access error.
+
+**Root cause**
+
+The **Automatic rendering mode** of the Memory window preloads data outside the visible area to optimize the scrolling experience. When the preloaded addresses fall into:
+
+- unmapped memory regions
+
+- reserved regions protected by the MPU  
+
+- peripheral address holes
+
+the target hardware returns a Bus Fault or access error, and GDB enters a waiting/error state, which appears as the IDE freezing.
+
+**Solution**
+
+**Recommended: switch to Manual mode**
+
+1. Right-click in the Memory window → **Table Renderings Preferences...**
+2. Select **Manual** for Memory loading mode
+3. Click OK
+
+|image64|
+
+|image65|
+
+Other Issues Without a Noted Version
+====================================
+
+If there are any omissions in this document, refer to https://www.rvmcu.com/nucleistudio-faq.html.
+Common problems encountered in later versions are listed there.
 
 .. |image1| image:: /asserts/nucleistudio/faq/image2.png
 
@@ -654,3 +743,11 @@ Nuclei Studio 2025.10版中更新了菜单显示的逻辑，可以在Debug视图
 .. |image61| image:: /asserts/nucleistudio/faq/image61.png
 
 .. |image62| image:: /asserts/nucleistudio/faq/image62.png
+
+.. |projectrun_image63| image:: /asserts/nucleistudio/projectrun/image63.png
+
+.. |image63| image:: /asserts/nucleistudio/faq/image63.png
+
+.. |image64| image:: /asserts/nucleistudio/faq/image64.png
+
+.. |image65| image:: /asserts/nucleistudio/faq/image65.png
