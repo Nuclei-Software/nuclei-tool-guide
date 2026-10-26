@@ -26,10 +26,12 @@ ETrace Version Overview
 
 Nuclei processors support different versions of ETrace functionality. The command group you should use depends on the ETrace version implemented in your Core:
 
-- **ETrace-v1.x**: Uses the ATB2AXI component as the SoC system bridge. This version supports instruction Trace capture only. If your Core implements etrace-v1.x, use the **Etrace Command Reference** commands below.
-- **ETrace-v2.x**: Uses the TraceBundle component as the SoC system bridge. This version supports both instruction Trace and data Trace capture. If your Core implements etrace-v2.x, use the **Trace Command Reference** commands instead.
+- **ETrace-v1.x**: Uses the ATB2AXI component as the SoC system bridge. This version supports instruction Trace capture only. If your Core implements etrace-v1.x, see :ref:`etrace_command_reference`.
+- **ETrace-v2.x**: Uses the TraceBundle component as the SoC system bridge. This version supports both instruction Trace and data Trace capture. If your Core implements etrace-v2.x, see :ref:`trace_command_reference`.
 
 To determine which ETrace version your Core supports, check the processor documentation or the Trace module configuration in your SoC.
+
+.. _etrace_command_reference:
 
 Etrace Command Reference
 ------------------------
@@ -275,6 +277,8 @@ Common Problem Troubleshooting and Solutions
 - When wrap=0, ATB2AXI's compact mode is enabled, and tdasize is fixed at 8 bits. TraceDecoder needs to specify tdasize as 8 bits during decoding.
 - In heterogeneous multi-core systems (AMP) where Trace data is captured simultaneously, you need to use ``monitor nuclei etrace enable/disable`` in respective GDB terminals to enable and disable ETrace separately. Other commands can be executed in any GDB terminal corresponding to any Core.
 - In homogeneous multi-core systems (SMP) where Trace data is captured simultaneously, you need to use the ``thread`` command in the GDB terminal to switch to the specified Core, and then use ``monitor nuclei etrace enable/disable`` to enable and disable ETrace separately. Other commands can be executed in any thread.
+
+.. _trace_command_reference:
 
 Trace Command Reference
 -----------------------
