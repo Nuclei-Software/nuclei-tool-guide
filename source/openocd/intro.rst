@@ -1,7 +1,30 @@
 .. _openocd_intro:
 
-Introduction to OpenOCD
-=======================
+OpenOCD Usage Guide
+===================
+
+This document provides comprehensive guidance on OpenOCD installation, configuration, and usage for Nuclei RISC-V CPUs.
+
+Table of Contents
+-----------------
+
+- `Tool Installation and Environment Setup`_
+- `Repositories and Documentation`_
+- `Getting Started`_
+- `Nuclei-Specific Features`_
+- `Configuration File Overview`_
+- `Low-Cost Debugger Solution`_
+- `Frequently Asked Questions`_
+- `Changelog`_
+
+Tool Installation and Environment Setup
+---------------------------------------
+
+Download and install the latest version of the OpenOCD tool from the Nuclei official website: https://nucleisys.com/download.php
+
+After downloading and extracting to the installation directory, add the following directory to the PATH environment variable:
+
+- ``Nuclei\OpenOCD\xxx\bin``
 
 Repositories and Documentation
 ------------------------------
@@ -10,33 +33,29 @@ Repositories and Documentation
 
 `GitHub (RISC-V OpenOCD) Repository <https://github.com/riscv-mcu/riscv-openocd>`_.
 
-`Gitee  (RISC-V OpenOCD) Repository <https://gitee.com/riscv-mcu/riscv-openocd>`_.
+`Gitee (RISC-V OpenOCD) Repository <https://gitee.com/riscv-mcu/riscv-openocd>`_.
 
 **OpenFlashLoader**
 
 .. note::
 
-   The OpenOCD Flashloader enables support for various customized flash programming implementations
-   without requiring modifications to OpenOCD itself. For detailed usage instructions,
-   please refer to the documentation in the source code repository.
+   The OpenOCD Flashloader enables support for various customized flash programming implementations without requiring modifications to OpenOCD itself. For detailed usage instructions, please refer to the documentation in the source code repository.
 
 `GitHub (OpenFlashLoader) Repository <https://github.com/riscv-mcu/openflashloader>`_.
 
-`Gitee  (OpenFlashLoader) Repository <https://gitee.com/riscv-mcu/openflashloader>`_.
+`Gitee (OpenFlashLoader) Repository <https://gitee.com/riscv-mcu/openflashloader>`_.
 
 .. note::
 
-    Nuclei OpenOCD is modifed based on OpenOCD with some customized features, so
-    in this guide, we dont provide any detailed usage about openocd, please directly
-    refer to the openocd.pdf in our released Nuclei OpenOCD package.
+   Nuclei OpenOCD is modified based on OpenOCD with some customized features, so in this guide, we don't provide any detailed usage about openocd, please directly refer to the openocd.pdf in our released Nuclei OpenOCD package.
 
 **OpenOCD User Guide Location**: ``openocd/doc/pdf/openocd.pdf``
 
 Getting Started
-===============
+---------------
 
 Checking OpenOCD Version
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 To determine the installed OpenOCD version:
 
@@ -54,7 +73,7 @@ To determine the installed OpenOCD version:
    - Compile Date: 2022-12-29 08:49
 
 Running OpenOCD
----------------
+~~~~~~~~~~~~~~~
 
 .. rubric:: Common Command Line Parameters
 
@@ -83,10 +102,10 @@ Running OpenOCD
 +------------+-------------------------------------------+
 
 Nuclei-Specific Features
-========================
+------------------------
 
 CPU Information Display
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``nuclei cpuinfo`` command provides detailed information about the CPU's capabilities, including:
 
@@ -96,49 +115,48 @@ The ``nuclei cpuinfo`` command provides detailed information about the CPU's cap
 
 This command simplifies the process of querying CPU features by automatically reading and interpreting the relevant CSR (Control and Status Register) values, eliminating the need for manual register inspection and calculation.
 
-This command implementation are updated with latest nuclei sdk 0.9.0 `cpuinfo`_ to provide same analysis using same source code and more detailed information are analyzed from 2025.10 release.
+This command implementation is updated with latest nuclei sdk 0.9.0 `cpuinfo <https://doc.nucleisys.com/nuclei_sdk/design/app.html#cpuinfo>`_ to provide same analysis using same source code and more detailed information are analyzed from 2025.10 release.
 
-When you use ``riscv64-unknown-elf-gdb`` to connected to Nuclei OpenOCD GDB debug server, you will be able to
-use command ``monitor nuclei cpuinfo`` to dump Nuclei Detailed CPU Information.
+When you use ``riscv64-unknown-elf-gdb`` to connect to Nuclei OpenOCD GDB debug server, you will be able to use command ``monitor nuclei cpuinfo`` to dump Nuclei Detailed CPU Information.
 
 NUSPI (Nuclei SPI) Driver
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The NUSPI driver provides support for Nuclei's SPI controller, which is utilized in Nuclei RISC-V FPGA evaluation boards and other compatible hardware.
 
-Usage:
+**Usage:**
 
 ``flash bank name nuspi base size chip_width bus_width target spi_base [simulation]``
 
 Custom Driver with OpenFlashLoader
-----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The custom driver provides compatibility with various SPI controllers and flash memory types. When using this driver, it must be combined with the OpenFlashLoader to achieve optimal functionality.
 
-Usage:
+**Usage:**
 
 ``flash bank name custom base size chip_width bus_width target spi_base flashloader_path [simulation] [sectorsize=]``
 
-**flashloader_path** could be one the following:
+**flashloader_path** could be one of the following:
 
 .. note::
 
-   This require **2025.10** version to provide correct path search handling.
+   This requires **2025.10** version to provide correct path search handling.
 
 - Absolute path: eg. ``C:\\flashloader\\loader.bin`` or ``/home/loader/loader.bin``
 - Relative path: eg. ``loader.bin``, it will search under where openocd executed, and ``scripts`` folder of where openocd installed such as ``toolchain/openocd/scripts``
 
 Nuclei-Specific CSRs
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 The Nuclei version of OpenOCD supports several custom CSRs (Control and Status Registers). For a complete list and detailed information, refer to:
 
 `GitHub (src/target/riscv/encoding.h) <https://github.com/riscv-mcu/riscv-openocd/blob/nuclei/2024/src/target/riscv/encoding.h#L3109>`_.
 
-`Gitee  (src/target/riscv/encoding.h) <https://gitee.com/riscv-mcu/riscv-openocd/blob/nuclei/2024/src/target/riscv/encoding.h#L3109>`_.
+`Gitee (src/target/riscv/encoding.h) <https://gitee.com/riscv-mcu/riscv-openocd/blob/nuclei/2024/src/target/riscv/encoding.h#L3109>`_.
 
 Embedded Trace (ETrace) Support
--------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
@@ -146,24 +164,25 @@ Embedded Trace (ETrace) Support
 
 Some Nuclei CPUs include embedded trace support, enabling detailed examination of instruction execution. The trace functionality is managed through an Embedded Trace (ETrace) module integrated into the CPU's scan chains.
 
-Current Implementation:
+**Current Implementation:**
+
 - RISC-V ETrace Instruction Trace (available)
 - Data Trace (not yet implemented)
 
-ETrace Commands:
+**ETrace Commands:**
 
-1. Configuration:
+1. **Configuration:**
 
-   ``nuclei etrace config etrace-addr buffer-addr buffer-size wrap``: Initializes ETrace and configures operational parameters
+   - ``nuclei etrace config etrace-addr buffer-addr buffer-size wrap``: Initializes ETrace and configures operational parameters
 
-2. Control:
+2. **Control:**
 
    - ``nuclei etrace enable``: Activates ETrace functionality
    - ``nuclei etrace disable``: Deactivates ETrace functionality
    - ``nuclei etrace start``: Begins trace data collection
    - ``nuclei etrace stop``: Stops trace data collection
 
-3. Data Management:
+3. **Data Management:**
 
    - ``nuclei etrace dump filename``: Exports captured trace data to a file
    - ``nuclei etrace clear``: Resets trace buffer pointers
@@ -171,20 +190,18 @@ ETrace Commands:
 
 .. note::
 
-   - For detailed command documentation, please refer to ``openocd.pdf``
-   - The ETrace feature is also available in Nuclei Studio IDE. Refer to the :ref:`ide_etrace` for how to use.
+   For detailed command documentation, please refer to ``openocd.pdf``. The ETrace feature is also available in Nuclei Studio IDE.
 
 Debug Map Feature
------------------
+~~~~~~~~~~~~~~~~~
 
 .. note::
 
-   The debug map for each hardware thread (hart) is automatically read and displayed during OpenOCD initialization.
-   Alternatively, you can access the debug map at runtime using the ``examine_cpu_core`` command.
+   The debug map for each hardware thread (hart) is automatically read and displayed during OpenOCD initialization. Alternatively, you can access the debug map at runtime using the ``examine_cpu_core`` command.
 
 For detailed documentation about the Nuclei debug map feature, please contact your application engineer.
 
-Commands:
+**Commands:**
 
 - ``nuclei expose_cpu_core``
 
@@ -196,31 +213,31 @@ Commands:
   - Returns a 64-bit value combining ``dm-custom1`` and ``dm-custom2`` registers
   - Value calculation: ``(dm-custom2 << 32) + dm-custom1``
 
-Cross-Trigger Interface
------------------------
+Cross-Trigger Interface (CTI)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The Cross-Trigger Interface (CTI) provides an advanced debugging mechanism that enables developers to:
 
 - Trigger specific debugging actions
 - Synchronize multiple debugging-related events
 
-Available Commands:
+**Available Commands:**
 
 - ``nuclei cti halt_group on/off target_name0 target_name1 ...``
 
-  Controls halt group triggers
+  - Controls halt group triggers
 
 - ``nuclei cti resume_group on/off target_name0 target_name1 ...``
 
-  Controls resume group triggers
+  - Controls resume group triggers
 
 Debug with Hypervisor
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
-Need **2025.10** version to work with, only work with ``riscv virt2phys_mode sw``, see https://github.com/riscv-collab/riscv-openocd/issues/1278#issuecomment-3166660685
+Need **2025.10** version to work with, only work with ``riscv virt2phys_mode sw``, see `riscv-openocd issue #1278 <https://github.com/riscv-collab/riscv-openocd/issues/1278#issuecomment-3166660685>`_
 
 Reset and Halt Command
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 The ``init resethalt`` command addresses situations where:
 
@@ -231,11 +248,11 @@ The ``init resethalt`` command addresses situations where:
 This command provides a software-based solution to reset and halt the CPU without requiring physical power cycling.
 
 FTDI nSCAN1 Mode Command
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``ftdi nscan1_mode`` command controls Nuclei's Compact JTAG (cJTAG) mode functionality.
 
-Usage:
+**Usage:**
 
 ``ftdi nscan1_mode on|off``
 
@@ -247,30 +264,32 @@ Usage:
    This command follows the same syntax and behavior as the standard ``ftdi oscan1_mode`` command.
 
 Configuration File Overview
-===========================
+---------------------------
 
 The OpenOCD configuration file defines how to establish a connection with the development board through the debug interface. Nuclei provides a sample configuration file that can be adapted to specific hardware requirements.
 
-Example Configuration:
+**Example Configuration:**
 
 - Using Nuclei HBird Debugger (FTDI-based), see `Reference implementation <https://github.com/Nuclei-Software/nuclei-sdk/blob/master/SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg>`_.
 
 Debugger Speed Configuration
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To adjust the debugger communication speed:
 
-- ``adapter_khz 1000``
-- ``adapter speed 1000``
+.. code-block:: tcl
+
+    adapter_khz 1000
+    adapter speed 1000
 
 Both commands set the debugger speed to 1000 kHz.
 
 Debugger Interface Configuration
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following configuration selects and initializes the FTDI debugger interface:
 
-.. code-block:: c
+.. code-block:: tcl
 
     adapter driver ftdi
     ftdi vid_pid 0x0403 0x6010
@@ -285,14 +304,14 @@ The following configuration selects and initializes the FTDI debugger interface:
     ftdi layout_signal TMS -data 0x0008
     ftdi layout_signal JTAG_SEL -data 0x0100 -oe 0x0100
 
-Configuration Details:
+**Configuration Details:**
 
 - FTDI chip VID/PID must match the connected hardware
 - JTAG transport protocol selected
 - Signal layout configured for HBird Debugger compatibility
 
 Debugger Mode Configuration
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 OpenOCD supports two debugging modes:
 
@@ -300,7 +319,7 @@ OpenOCD supports two debugging modes:
 - **Compact JTAG (cJTAG) Mode**: Enabled with ``ftdi nscan1_mode on``
 
 JTAG Link Configuration
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The JTAG link configuration varies depending on the system architecture:
 
@@ -308,7 +327,7 @@ The JTAG link configuration varies depending on the system architecture:
 
 This is a n900 single core system example.
 
-.. code-block:: c
+.. code-block:: tcl
 
     set _CHIPNAME0 riscv0
     jtag newtap $_CHIPNAME0 cpu -irlen 5 -expected-id 0x10900a6d
@@ -320,7 +339,7 @@ This is a n900 single core system example.
 
 This is a n900-smp4 SMP system example.
 
-.. code-block:: c
+.. code-block:: tcl
 
     set _CHIPNAME0 riscv0
     jtag newtap $_CHIPNAME0 cpu -irlen 5 -expected-id 0x10900a6d
@@ -336,7 +355,7 @@ This is a n900-smp4 SMP system example.
 
 This is a n300 + n900-smp2 AMP system example.
 
-.. code-block:: c
+.. code-block:: tcl
 
     set _CHIPNAME0 riscv0
     jtag newtap $_CHIPNAME0 cpu -irlen 5 -expected-id 0x10300a6d
@@ -365,7 +384,7 @@ This is a n300 + n900-smp2 AMP system example.
      - ``step`` and ``stepi`` operate on individual cores
 
 Work Area Configuration
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The work area is a dedicated memory region that accelerates various operations, including:
 
@@ -373,9 +392,9 @@ The work area is a dedicated memory region that accelerates various operations, 
 - Execution of small program fragments
 - Flash memory operations
 
-Configuration Example:
+**Configuration Example:**
 
-.. code-block:: c
+.. code-block:: tcl
 
     $_TARGETNAME0 configure -work-area-phys 0x08000000 -work-area-size 0x10000 -work-area-backup 1
 
@@ -387,11 +406,11 @@ Configuration Example:
    - Base address (0x08000000) and size (0x10000) should be adjusted according to system requirements
 
 NOR Flash Configuration
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The NOR flash configuration specifies the memory mapping and controller settings:
 
-.. code-block:: c
+.. code-block:: tcl
 
     set _FLASHNAME0 $_CHIPNAME0.flash
     flash bank $_FLASHNAME0 nuspi 0x20000000 0 0 0 $_TARGETNAME0.0 0x10180000
@@ -405,18 +424,18 @@ The NOR flash configuration specifies the memory mapping and controller settings
    - ``0x10180000``: QSPI controller base address (adjust as needed)
 
 Debugger Connection Specification
----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When multiple debuggers are present in the debugging environment, you can specify which debugger to connect to using:
 
-.. code-block:: c
+.. code-block:: tcl
 
     ftdi_serial FT4YR31I
 
 Replace "FT4YR31I" with the actual serial number of your debugger.
 
-Debugging Service Ports
------------------------
+Debugging Service Ports Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 OpenOCD provides three debugging service ports:
 
@@ -424,9 +443,9 @@ OpenOCD provides three debugging service ports:
 2. **Telnet Port** (default: 4444)
 3. **TCL Port** (default: 6666)
 
-Configuration Example:
+**Configuration Example:**
 
-.. code-block:: c
+.. code-block:: tcl
 
     gdb_port 3333
     telnet_port 4444
@@ -439,11 +458,11 @@ Configuration Example:
    - Ensure port numbers don't conflict with other services
 
 Semihosting Support
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 OpenOCD supports ARM semihosting, which allows target programs to use host system resources. To enable:
 
-.. code-block:: c
+.. code-block:: tcl
 
     arm semihosting enable
 
@@ -456,17 +475,16 @@ OpenOCD supports ARM semihosting, which allows target programs to use host syste
    - System clock information
    - Other host system services
 
-
 For more detailed information about how to use openocd, please check the ``openocd.pdf`` distributed in openocd release.
 
 Target Defer Examine
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 In some multicore systems, the slave-target is not debuggable and needs to be unlocked by the host-target before it can be used, in which case the ``-defer-examine`` parameter is needed.
 
-.. code-block:: c
+.. code-block:: tcl
 
-    # Configuring the “-defer-examine” parameter
+    # Configuring the "-defer-examine" parameter
     $SLAVE_TARGETNAME configure -defer-examine
 
     # Override events, the following events will trigger reset, slave-target needs to be initialized manually after reset
@@ -477,7 +495,7 @@ In some multicore systems, the slave-target is not debuggable and needs to be un
       init
     }
 
-    # Initialization, since the slave-target specifies the “-defer-examine” parameter, only the other targets will be initialized.
+    # Initialization, since the slave-target specifies the "-defer-examine" parameter, only the other targets will be initialized.
     init
 
     # The host-target unlocks the slave-target with the command configuration registers
@@ -488,64 +506,93 @@ In some multicore systems, the slave-target is not debuggable and needs to be un
     $SLAVE_TARGETNAME arp_examine
 
 Low-Cost Debugger Solution
-==========================
+--------------------------
 
-Nuclei provides an affordable debugging solution called
-`DLink <https://github.com/Nuclei-Software/nuclei-dlink>`_ for Nuclei RISC-V CPUs:
+Nuclei provides an affordable debugging solution called `DLink <https://github.com/Nuclei-Software/nuclei-dlink>`_ for Nuclei RISC-V CPUs:
 
 - Supports both JTAG and cJTAG protocols
 - Fully compatible with Nuclei Studio
 - Open-source implementation available
 
 Frequently Asked Questions
-==========================
+--------------------------
 
-For additional trouble shooting and common issues, please refer to:
+For additional troubleshooting and common issues, please refer to:
 
 - `GitHub FAQ <https://github.com/riscv-mcu/riscv-openocd/wiki>`_
-
 - `Gitee FAQ <https://gitee.com/riscv-mcu/riscv-openocd/wikis>`_
-
 - `Known Issues and common questions <https://github.com/riscv-mcu/riscv-openocd/issues/11>`_
 
-Changelog
-=========
+Common Problem Troubleshooting and Solutions
+--------------------------------------------
 
-.. _openocd_changelog_202510:
+Reading DTM Registers (idcode/dtmcs) using OpenOCD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+OpenOCD can only read DTM registers using a combination of irscan+drscan commands, and cannot directly read the idcode register.
+
+- You can add the following commands directly in the configuration file (taking reading idcode register as an example)
+
+.. code-block:: tcl
+
+    irscan $_TARGETNAME 0x01
+    set idcode [drscan $_TARGETNAME 32 0x00]
+    puts "IDCODE = 0x$idcode"
+
+- Reading directly in GDB will not return the correct value because OpenOCD is continuously polling the board status in the background (polling changes the IR register state). After you execute irscan to set IR=0x01, before the next drscan is executed, OpenOCD's polling may have already changed IR to another value, resulting in an incorrect read. The actual execution result is as follows:
+
+.. code-block::
+
+    (gdb) monitor irscan riscv.cpu x1
+    (gdb) monitor drscan riscv.cpu 32 0
+    00000000
+
+Changelog
+---------
+
+Version 2026.10
+~~~~~~~~~~~~~~~
+
+This release is based on **2025.10** version with some new features and bug fixes introduced.
+
+- Add `nuclei trace` command group for trace-bundle instruction-trace and data-trace support
+- Update `nuclei etrace` command group for ATB2AXI instruction-trace support
+- Update `nuclei cpuinfo` command implementation using nuclei-sdk same source code to provide same behavior
+- Sync nuclei custom CSR support for eclic_v2
+- Modify N100 `vlenb`/`mtopi`/`mtopei` display
+- Add flash support for HG25Q16B, GD25LE16E, GD25LQ128E, MX25R8035F, XTD25W02A, XTD25W04A, GT25Q16A, GT25Q32EB, GT25Q64EB
+- Add dummy flash driver to support automatic hardware breakpoint placement in specified address ranges
+- Update custom flash driver with `wrsize` support, flash-id based device matching, and fix memory issues in custom.c and nuspi.c
+- Fix FTD2xx vendor IDs and product IDs to resolve matching issues when multiple FTDI devices are present
+- Modify GD32VF103 IDCODE to correctly display chip information on the target
 
 Version 2025.10
----------------
+~~~~~~~~~~~~~~~
 
 This release is based on **2025.02** version with some new features and bug fixes introduced.
 
-* Update ``nuclei cpuinfo`` command implementation using nuclei sdk 0.9.0 cpuinfo same source code to provide same behavior
+- Update ``nuclei cpuinfo`` command implementation using nuclei sdk 0.9.0 cpuinfo same source code to provide same behavior
 
-  When you connect to your FPGA evaluation board or Chip with Nuclei CPU inside it using Nuclei OpenOCD, you will be
-  able to see message like this: ``Info: [riscv.cpu] Nuclei CPU Detected: mhartid-0x0 marchid-0x0300 v5.2.0, ISA: RV32ABCIM, Feature: ECLIC, ILM-128K, DLM-128K, IC-32K``, sometimes it may not show, it is expected.
+  - When you connect to your FPGA evaluation board or Chip with Nuclei CPU inside it using Nuclei OpenOCD, you will be able to see message like this: ``Info: [riscv.cpu] Nuclei CPU Detected: mhartid-0x0 marchid-0x0300 v5.2.0, ISA: RV32ABCIM, Feature: ECLIC, ILM-128K, DLM-128K, IC-32K``, sometimes it may not show, it is expected.
 
-* Correct custom flashloader binary file location search rules, where openocd executed, openocd ``scripts`` folder, and absolute path
-* Sync nuclei custom CSRs support
-* Optimize flash probe process, when no flash probed, it will exit with error instead of hang on it
-* Support debug for hypervisor mode
-* Fix debug ``Assertion failed!`` on HBird opensource cpu
-* Fix nuclei riscv cross trigger command implementation ``nuclei cti xxx``
-* Clear ``haltreq`` signal when openocd connect failed
-* Fix segmentation fault issue when debug level set to 3 or 4
-* When debug on FPGA CPU MHz is very slow such as **5MHz**, openocd may work not correctly, it will be fixed by make CPU run faster such as **10MHz**
-
-.. _openocd_changelog_202502:
+- Correct custom flashloader binary file location search rules, where openocd executed, openocd ``scripts`` folder, and absolute path
+- Sync nuclei custom CSRs support
+- Optimize flash probe process, when no flash probed, it will exit with error instead of hang on it
+- Support debug for hypervisor mode
+- Fix debug ``Assertion failed!`` on HBird opensource cpu
+- Fix nuclei riscv cross trigger command implementation ``nuclei cti xxx``
+- Clear ``haltreq`` signal when openocd connect failed
+- Fix segmentation fault issue when debug level set to 3 or 4
+- When debug on FPGA CPU MHz is very slow such as **5MHz**, openocd may work not correctly, it will be fixed by make CPU run faster such as **10MHz**
 
 Version 2025.02
----------------
+~~~~~~~~~~~~~~~
 
-In this release, Nuclei OpenOCD bump openocd code base from **0.11** to **0.12**,
-with this base changes, a lot of new features supported by upstream will
-be taken into Nuclei OpenOCD.
+In this release, Nuclei OpenOCD bump openocd code base from **0.11** to **0.12**, with this base changes, a lot of new features supported by upstream will be taken into Nuclei OpenOCD.
 
 **Known Issues:**
 
-- There is a probability that writing flash under smp multi-core architecture will fail,
-  which can be solved by clarifying the number of SMP cores or reducing the JTAG frequency.
+- There is a probability that writing flash under smp multi-core architecture will fail, which can be solved by clarifying the number of SMP cores or reducing the JTAG frequency.
 
 **New Features:**
 
@@ -591,5 +638,14 @@ CSR Renaming:
 **Base Version:**
 
 - Changes based on `riscv-collab/riscv-openocd@f82c5a7 <https://github.com/riscv-collab/riscv-openocd/commit/f82c5a7>`_.
+
+Other Debuggers
+---------------
+
+For information on debugging Nuclei RISCV CPU with JLink and Lauterbach, please refer to the links below:
+
+`Jlink <https://doc.nucleisys.com/nuclei_tools/ide/projectrun.html#debugging-and-running-a-project-with-j-link>`_.
+
+`Lauterbach <https://github.com/Nuclei-Software/lauterbach-startup>`_.
 
 .. _cpuinfo: https://doc.nucleisys.com/nuclei_sdk/design/app.html#cpuinfo
