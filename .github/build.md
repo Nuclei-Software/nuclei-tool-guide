@@ -54,7 +54,7 @@ Here are the steps to get this image:
 
 ~~~shell
 # Pull image
-podman pull docker.io/nucleisoftware/docbuilder/docbuilder:latest
+podman pull docker.io/nucleisoftware/docbuilder:latest
 ~~~
 
 # Build Document
