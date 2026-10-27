@@ -100,6 +100,204 @@ Starting with version 2020.08, Nuclei Studio upgraded its official toolchain fro
 
 -  Right-click the project again and select ``Clean Project``, then ``Build Project``.
 
+.. _ide_extension_selector:
+
+Extension Selector
+--------------------
+
+Overview
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Extension Selector is a modal dialog (1200x800) used to visually pick RISC-V ISA extensions, finally producing a ``-march`` string. It **does not compile**; it is only responsible for producing the march string, and whether the string is legal is ultimately decided by the compiler.
+* It is a native UI implemented purely with SWT/JFace, not a browser shell.
+
+How to Open
+~~~~~~~~~~~
+
+On the **Settings page** of the project wizard or project properties, click the **Select Extensions** button.
+
+|image131|
+
+.. Screenshot placeholder: location of the Select Extensions button on the Settings page
+
+UI Composition
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The dialog is divided into left and right parts:
+
+Left panel:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Area
+     - Function
+   * - Core selector
+     - Select the target core. This is the only architecture-driven entry and determines RV32/RV64 and which extensions are available
+   * - Search box
+     - Search extensions by name or mnemonic
+   * - Extension tree / card area
+     - Show all extensions grouped by category; click to check
+   * - Action buttons
+     - Clear, select all, OK, Cancel, etc.
+
+Right panel:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Area
+     - Function
+   * - ARCH preview
+     - Shows in real time the ``-march`` / ``-mabi`` / ``-mtune`` produced by the current selection
+   * - Full GCC Options
+     - The complete GCC command line, which can be copied directly
+
+|image132|
+
+.. Screenshot placeholder: overall layout of the Extension Selector dialog (left: core selection and extension tree, right: ARCH preview)
+
+- **Card colors and states**
+
+Extension cards use colors to distinguish types:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Color
+     - Type
+   * - Blue
+     - standard (standard extension)
+   * - Orange
+     - custom (custom/vendor extension)
+   * - Purple
+     - composite (composite extension, such as B, Zk, Zce)
+
+A card has three states: unselected, selected, and **grayed out (not selectable)**.
+
+Selecting Extensions
+~~~~~~~~~~~~~~~~~~~~
+
+1. **Select the core**: select the target core in the core selector on the left. This step determines the available range of all subsequent extensions.
+2. **Browse and search**: browse in the extension area, or use the search box to locate by name.
+3. **Check extensions**: click a card to check it. Checking triggers automatic propagation (see `Automatic propagation rules for selection`_).
+4. **Check the preview**: observe whether the ``-march`` / ``-mabi`` / ``-mtune`` on the right meet expectations.
+5. **Confirm**: click OK, and the result is written back to the project configuration.
+
+
+.. note::
+
+   When the Core Series is changed manually, the tool first **clears the extensions selected for the previous core**, then re-applies them according to the new core; if a preselected core is brought in from the Settings page when the dialog opens, the original extension combination of that core is retained.
+
+- **Mutually exclusive groups (single choice)**
+
+Some extensions are naturally mutually exclusive; only one in the same group can be kept, and selecting another prompts a replacement. The following three pairs of mutual exclusion are fixed at the code level:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Mutually exclusive group
+     - Options (only one can be selected)
+   * - Vector base
+     - ``zve32x`` ``zve32f`` ``zve64x`` ``zve64f`` ``zve64d`` ``v``
+   * - Vector length
+     - ``zvl128b`` ``zvl256b`` ``zvl512b`` ``zvl1024b``
+   * - DSP
+     - ``xxldsp`` ``xxldspn1x`` ``xxldspn2x`` ``xxldspn3x``
+
+There is also a **Clear Extensions** button: it keeps the base architecture letters (such as ``rv32i`` / ``rv64imac``) and clears all other extensions, making it easy to select again from scratch.
+
+.. _automatic propagation rules for selection:
+
+- **Automatic propagation rules for selection**
+
+When you check an extension, the tool automatically handles its relationship with other extensions — this is the core value of this dialog. Understanding the following four rules will keep you from being confused by "I didn't check this, how did it get checked by itself":
+
+.. list-table::
+   :header-rows: 1
+
+   * - Rule
+     - Behavior
+   * - **Dependency auto-check**
+     - Selecting an item automatically brings in the extensions it depends on. For example, selecting Zcb / Zcmp / Zcmt automatically brings in Zca, because all three declare ``dependencies: ['zca']``
+   * - **Composite extension expansion**
+     - Selecting a composite extension expands it into its sub-extensions. For example, Zce expands into Zca, Zcb, Zcmp, Zcmt; on RV32 with ``f`` in the base architecture, Zcf is also added dynamically
+   * - **Mutual exclusion and replacement**
+     - Options within a mutually exclusive group exclude each other. When a conflicting item is selected, a **Replace** option is provided, and you decide whether to replace
+   * - **Reverse dependency cascade on uncheck**
+     - When you uncheck an item, other extensions that depend on it are unchecked as well. For example, unchecking the last vector compute extension (V or Zve*) cascades to uncheck vector crypto and the Zvl*b series, otherwise march would become an illegal combination
+
+- **Filtering**
+
+The UI provides triple filtering to quickly locate among the 80+ extensions:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Filter dimension
+     - Description
+   * - **Architecture**
+     - Filter by RV32 / RV64. Some extensions are architecture-specific (for example, Zcf, Zclsd, Zilsd are RV32-only)
+   * - **Series**
+     - Filter by core series: N100 / N200 / N300 / N600 / N900 / N1000
+   * - **Search**
+     - Search by name or mnemonic
+
+- **Why an extension card is not selectable**
+
+A card is grayed out usually for the following reasons; hover the mouse over the card to see the specific reason:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Reason
+     - Example
+   * - Not applicable to the current architecture
+     - Zcf, Zclsd, Zilsd, etc. are RV32-only
+   * - Architecture prerequisite dependency not met
+     - Zcd requires ``d`` in the base architecture; Zcf requires ``f``
+   * - Not part of the current core series
+     - The extension is not supported by the series of the current core
+   * - Mutually exclusive with a selected item
+     - Another item in the mutually exclusive group is already selected
+
+- **march generation rules**
+
+The ``-march`` previewed on the right is not a simple concatenation; it is folded and suppressed according to the specification. Understanding these rules explains why some checked extensions do not appear in the result:
+
+1. **Base letters are ordered per the specification**: e.g. ``rv32imaf``.
+2. **When zcmp / zcmt are selected, ``c`` is removed from the base architecture**: because the Zcm* series does not coexist with the C extension.
+3. **Composite folding**: composite extensions such as B, Zk, Zkn, Zks, Zvkn, Zvks are folded for display.
+4. **Implicit C suppression**: when the base architecture still contains ``c``, ``zca`` / ``zcf`` / ``zcd`` do not appear again.
+
+**About rule 4**: on RV32+F, ``C`` itself equals all the instructions of Zca + ZCF, so writing ``zca`` or ``zcf`` again when the base architecture already contains ``c`` is redundant, not a missing feature.
+
+**The actual effect of rule 2**: when Zce is checked on N300F (base architecture ``rv32imafc``), the result is
+
+::
+
+   rv32imaf_zca_zcb_zcf_zcmp_zcmt
+
+That is, the ``c`` in the base architecture is removed and expressed explicitly by Zca, and Zcf is also explicitly kept. This is exactly the design intent of Zce — to replace the full C with the Zca subset.
+
+
+Quick Start
+~~~~~~~~~~~
+
+From opening to generating the march string
+
+1. Open the **Settings page** in the project properties: find it in the project → go directly to the **Nuclei Settings** page.
+2. Click the **Select Extensions** button.
+3. Select the target core in the **core selector** on the left — this step determines RV32/RV64 and which extensions are available.
+4. Browse or search in the extension area and click a card to check it; to save effort, you can directly use the **Core Series** drop-down at the top to apply a preset.
+5. Observe whether the **-march / -mabi / -mtune** preview on the right meets expectations (checking automatically propagates dependencies and expands composite extensions).
+6. Click **OK**; the result is written back to the project configuration, which is equivalent to passing ``--config nuclei_archext=...`` on the command line.
+
+Afterwards, the selected extensions are applied when building the project.
+
+|image133|
+
+
 .. _ide_advanceusage_13:
 
 LST View
@@ -368,8 +566,8 @@ View the call relationship information with Call Graph in Nuclei Studio.
 
 .. _ide_etrace:
 
-Using the Trace Feature
------------------------
+Trace
+-----
 
 Trace is a powerful debugging technology that helps developers track and record key information during program execution, so they can effectively diagnose problems, optimize performance, and improve system stability.
 
@@ -383,7 +581,11 @@ Nuclei Studio integrates a Trace tool. Combined with the corresponding hardware 
 
    For the Nuclei ETrace commands of OpenOCD, see the openocd.pdf manual under OpenOCD.
 
-If you encounter any problems during use, check `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__ or submit an issue.
+.. note::
+
+   Nuclei Studio **2026.10** adds the **Trace bundle (Trace 2.0)** transport type, and adds the ability to **automatically read parameters from the CPU and fill them in**: when Trace Setting is opened, the plug-in automatically detects the Trace type; after acquisition (clicking Start Trace), the relevant Decode parameters (TS Size / Datatrace / Context Size / Decode Mode, etc.) are automatically read from the registers and filled in, usually without manual modification. See the relevant descriptions at the beginning of Trace Configuration and Trace Decoder Configuration below.
+
+If you have problems during use, you can check the relevant content at `https://github.com/Nuclei-Software/nuclei-studio <https://github.com/Nuclei-Software/nuclei-studio>`__, or submit an issue to us.
 
 Trace UI Overview
 ~~~~~~~~~~~~~~~~~
@@ -476,54 +678,134 @@ The Trace record table displays the records generated after Nuclei Studio decode
 
 - **Instruction:** instruction code
 
-- **File:** the file containing the source code corresponding to the instruction
+- **File:** the file where the source code corresponding to the instruction code is located
 
-- **File Line:** the line number of the source code corresponding to the instruction
+- **File Line:** the line number in the file where the source code corresponding to the instruction code is located
 
 .. rubric:: Trace Configuration
 
-Here you can configure Trace ATB2AXI Config Addr, Trace Buffer Base Addr, Trace Buffer Size in Bytes, and Trace Wrap. The specific values depend on the hardware.
+Click trace setting on the Trace toolbar, and the Set Trace Configuration dialog pops up. The **Trace Mode** radio box at the top of the dialog is used to select the Trace type; the **Settings** area below holds checkboxes common to both modes; the remaining configuration items differ according to the selected mode and are introduced respectively below.
 
-|image45|
+.. note::
 
-- **Check core support for Trace:** If checked, the CPU is checked for Trace support before the Trace command is issued; if unchecked, the CPU support check is ignored when the Trace command is issued.
+   In Nuclei Studio 2026.10 and later, Trace supports two transport types, **Bundle (Trace 2.0)** and the traditional **ATB2AXI (Trace 1.0)**, and adds the ability to **automatically read parameters from the CPU and fill them in**. When the Trace Setting dialog is opened and the debug session is connected to the target (the target is in the halt state), the plug-in reads registers such as ``mcfg_info`` / ``etrace_info`` through GDB to automatically detect the Trace type supported by the current CPU: the **Trace Mode** radio box is selected automatically based on the detection result — ``mcfg_info`` bit 20 = 1 means ATB2AXI is supported; otherwise it is judged based on ``etrace_info`` bit[8:1]: 0x20 → Bundle, 0x00 → ATB2AXI. If no development board is connected, the software default value is used.
 
-- **Trace need to be configured:** Check this option if the Trace module must be configured. If it has already been configured elsewhere, do not check it. For example, in multi-core SMP/AMP scenarios the SoC has only one Trace module; if one core has already checked this option and configured the module, the other cores must not check it. Likewise, do not check it if the configuration has been done in C code or elsewhere.
+   (Here "Bundle" refers to the Trace 2.0 transport type; the usage of packaging one acquisition result into a single bundle file for offline playback is described in the Trace bundle entry of the 2026.10 release notes.)
 
-- **Trace ATB2AXI Config Addr:** Base address of the ATB2AXI module controller.
+   For Bundle mode, the Decode parameters required for acquisition, such as TS Size / Datatrace / Context Size / Decode Mode, are automatically read from the registers and filled in by the plug-in after clicking **Start Trace** to send the configuration command (see Trace Decoder Configuration below for details).
 
-- **Trace Buffer Base Addr:** The starting address where trace records are stored. For example, for a certain SoC: in flashxip mode, ilm (0x1c000000) is used as the buffer; in sramxip mode, dlm (0x08010000) is used as the buffer.
+**Common settings (Settings, identical for both modes)**
 
-- **Trace Buffer Size in Bytes:** The size of the buffer where trace records are stored, in bytes.
+- **Check core support for Trace:** if checked, whether the CPU supports the Trace feature is checked before sending Trace commands; if not checked, whether the CPU supports Trace is ignored when sending Trace commands.
 
-- **Trace Wrap:** Whether automatic overwriting is allowed. If allowed, recording starts over from the beginning when the buffer is full.
+- **Trace need to be configured:** check this if the Trace module needs to be configured. If it has already been configured elsewhere, do not check it. For example, in the multicore SMP/AMP case, there is only one Trace module on the SoC; assuming one core has already checked and configured it, the other cores must not check it, or if the configuration was done in C code or somewhere else, do not check it either.
+
+**ATB2AXI Trace (Trace 1.0)**
+
+When Trace Mode selects ATB2AXI Trace, you only need to configure the Trace Module Configuration area:
+
+|tracecfg-atb|
+
+- **Trace ATB2AXI Config Addr:** the base address of the ATB2AXI module controller, e.g. 0x10000000.
+
+- **Trace Buffer Base Addr:** the start address for storing trace records. For example, for a certain SoC: in flashxip mode, ilm (0x1c000000) is used as the cache buffer; in sramxip mode, dlm (0x08010000) is used as the cache buffer.
+
+- **Trace Buffer Size in Bytes:** the size of the Buffer storing trace records, in bytes, e.g. 0x10000.
+
+- **Trace Wrap:** when checked, it shows "Trace will be wrap back from Trace Base Address", meaning automatic overwrite is allowed; when the Buffer is full, records are overwritten again from the beginning.
+
+**Trace bundle（Trace 2.0）**
+
+When Trace Mode selects Trace bundle, the Trace Module Configuration area uses the Bundle base address instead, and an additional Trace Bundle Configuration area appears:
+
+|tracecfg-bundle|
+
+- **Trace Bundle Config Addr:** the base address of the configuration registers in Bundle mode, e.g. 0x10060000.
+
+- **Trace Buffer Base Addr:** the start address for storing trace records; the meaning is the same as in ATB2AXI mode.
+
+- **Trace Buffer Size in Bytes:** the size of the Buffer storing trace records, in bytes; the meaning is the same as in ATB2AXI mode.
+
+- **Trace Wrap:** allows automatic overwrite; when the Buffer is full, records are overwritten again from the beginning; the meaning is the same as in ATB2AXI mode.
+
+- **Core Mask:** (Trace Bundle Configuration area) core mask; bits 16~1 correspond to the respective cores. Check the cores for which Trace needs to be collected (for single core, check bit 1).
+
+- **Timestamp Src:** timestamp source, e.g. 0: none-timestamp means no timestamp; **Div:** timestamp division, e.g. 0: 1x.
+
+- **Datatrace:** data trace feature configuration, including has-store, has-load, has-value, has-addr, and the datatrace-en enable checkbox.
 
 .. rubric:: Trace Decoder Configuration
 
-In the Set Current Debug hart Configuration dialog, you can customize the following trace decoder parameters.
+After clicking Dump trace file, the Set current debug hart configuration dialog pops up, used to configure the trace decoder parameters. The Local trace related files area in the upper part of the dialog is common to both modes, and the Hart decoding configuration area in the lower part differs by mode; they are introduced respectively below.
 
-|image46|
+.. note::
 
-- **ELF File Path:** The path of the elf file executed when the trace was produced.
+   Starting from Nuclei Studio 2026.10, parameters such as **TS Size**, **Datatrace**, **Context Size**, and **Decode Mode** in Hart decoding configuration support **automatic reading from the CPU and filling in** (that is, the "automatically read from the CPU and fill in parameters" feature):
 
-- **Trace File Path:** The path of the trace file to be parsed.
+   - **ATB2AXI (Trace 1.0)**: they are read from the ATB2AXI registers and filled in during the Trace Setting detection phase; among them Context Size is fixed to 0 and Decode Mode is fixed to ``0x00: etrace-v1.0``.
+   - **Trace bundle (Trace 2.0)**: after clicking **Start Trace** to send the trace config command, the plug-in reads them from the Bundle configuration registers and fills them in; Decode Mode is also selected automatically according to the Bundle version number: v1.0.0 → ``0x10``, v1.1.0 / v1.2.0 / v1.3.0 → ``0x11``, v1.4.0 and newer → ``0x12``.
 
-- **Objdump Path:** The objdump tool is used during trace decode, so the path of the objdump tool must be specified here.
+   When no development board is connected, the software default values are used. Manual modification is generally unnecessary; if fine-tuning is needed, you can override it directly in the UI.
 
-- **HartID:** During trace decode, the HartID corresponding to the trace to be viewed must be specified. For single-core projects, the default is HartID=0.
+**Local trace related files (identical for both modes)**
 
-- **Trace Data Align Size:** The alignment size of the trace data, generally aligned with the hardware trace output width. The default values are 8, 32, and 64. If Trace Wrap is not checked, set this value to 8.
+- **ELF File Path:** the path of the elf file executed when the trace is produced.
 
-- **Display Address Bits:** The number of address bits displayed after trace decode, generally 32, 64, or 128 bits.
+- **Trace File Path:** the path of the trace file to be parsed.
 
-- **Decode Mode:** An extended trace decode feature. The default is 0.
+- **Objdump Path:** the trace decode process needs the objdump tool, so the path of the objdump tool to be used must be specified here.
 
-- **Decode Limit:** The limit on the number of trace decode entries, 5 million by default. The more entries, the higher the demands on your PC.
+**ATB2AXI Trace（Trace 1.0）**
+
+|tracedec-atb|
+
+- **Selected Project:** the current project name and its Trace mode, e.g. u900_helloworld [ATB2AXI Trace].
+
+- **SrcID/CoreID(-srcid=):** corresponds to the HartID to which the trace belongs; the default is 0 for a single-core project.
+
+- **Trace Data Align Size(-tdasize=):** trace data alignment size, generally aligned with the trace output bit width of the hardware; the defaults are 8, 32, 64 (64 in the figure).
+
+- **Decode Mode(-decodemode=):** fixed to ``0x00: etrace-v1.0`` for ATB2AXI (Trace 1.0).
+
+- **Decode Limit:** the limit on the number of trace decode records, ranging from 1 to 5000000, with a default of 5 million; the more records, the higher the requirements on the user's PC.
+
+**Trace bundle（Trace 2.0）**
+
+
+
+|tracedec-bundle|
+
+- **Selected Project:** the current project name and its Trace mode, e.g. u900_helloworld [Trace bundle].
+
+- **SrcID(-srcid=):** corresponds to the HartID to which the trace belongs; the default is 0 for a single-core project.
+
+- **Trace Data Align Size(-tdasize=):** in Bundle mode it is filled in automatically by the plug-in (8 in the figure) and cannot be modified.
+
+- **Decode Mode(-decodemode=):** the default is 0; since 2026.10 it is selected automatically according to the Bundle version number (``TRTRACEBUNDLEVERSION`` at Trace Config + 0xE00): v1.0.0 selects ``0x10`` (tracebundle-v1.0.0), v1.1.0 / v1.2.0 / v1.3.0 select ``0x11``, v1.4.0 and newer select ``0x12``; it can be overridden manually.
+
+- **Feature checkboxes (has-srcid / has-timestamp / has-store / has-load / has-value / has-addr / has-csr / has-amo / has-zcmp):** used to mark the features contained in the trace data; among them has-store / has-load / has-value / has-addr are determined automatically by the Datatrace configuration in Trace Bundle Configuration during acquisition.
+
+- **TS Size(-tssize=):** timestamp width, from ``trTimestampWidth`` (bit[7:0]) at Trace Config + 0x4E04; when it is 0, it falls back to bit[29:24] at +0x4040; the default is 64.
+
+- **Datatrace(-datatrace=):** data trace width, from ``trIndexWidth`` (bit[31:16]) at Trace Config + 0x4E00; the default is 0.
+
+- **Context Size(-contextsize=, the 10th parameter of decode):** context width, from ``trContextWidth`` (bit[15:8]) at Trace Config + 0x4E04; the default is 0.
+
+- **Decode Limit:** the limit on the number of trace decode records, ranging from 1 to 5000000, with a default of 5 million; the more records, the higher the requirements on the user's PC.
 
 Using Trace
 ~~~~~~~~~~~
 
-When using the trace feature, the Trace commands must be issued to the hardware through Nuclei OpenOCD or DLink while the project is being debugged. Currently, OpenOCD supports Trace recording in single-core, multi-core SMP, and multi-core AMP applications, while DLink only supports trace recording in single-core applications.
+.. note::
+
+   Whether you use **ATB2AXI (Trace 1.0)** or **Bundle (Trace 2.0)**, the following acquisition / Dump / Decode flow is the same; the differences only lie in the configuration and decoding parameters:
+
+   - In Trace Configuration: select Trace bundle as the Trace Mode, fill in **Trace Bundle Config Addr** (replacing Trace ATB2AXI Config Addr in ATB2AXI mode), and configure Core Mask, Timestamp Src, Datatrace, etc. in the Trace Bundle Configuration area as needed; the remaining configurations such as Buffer and Wrap are the same.
+   - In Trace Decoder Configuration: the decode parameter UI differs by mode — ATB2AXI mode has SrcID/CoreID, Trace Data Align Size, and Decode Mode; Bundle mode adds feature checkboxes and parameters such as **TS Size** / **Datatrace** / **Context Size**, most of which are filled in automatically by the plug-in (see the per-mode descriptions above for details).
+
+   Therefore, the operation steps below, which use a single core as an example, apply to both modes.
+
+When using the trace feature, you must send the Trace commands to the hardware through Nuclei OpenOCD or Dlink while the project is being debugged. Currently, with OpenOCD, Trace recording can be performed for single-core, multicore SMP, and multicore AMP applications, while Dlink only supports trace recording for single-core applications.
 
 The following example uses OpenOCD to demonstrate the Trace feature.
 
@@ -581,7 +863,7 @@ You can also double-click the ``<projectname>.trace`` file to view the trace fil
 
 
 Using Trace in an SMP Multi-Core Application
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Using trace in an SMP multi-core application is similar to the single-core case. The difference is that in an SMP multi-core Debug session, all threads share one Trace Configuration, and you must select different Threads to ``start trace/stop trace`` for the individual CPU harts. In the Debug view, click a Thread, then click ``trace setting`` in the Trace toolbar to set up the Trace Configuration.
 
@@ -626,6 +908,81 @@ If you have obtained a trace file through the command line or other means, open 
 
 |image61|
 
+.. _ide_ide_trace_headless:
+
+Using Trace in Headless Mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Besides decoding trace in the Trace view, Nuclei Studio also provides a headless trace decoding application, ``org.riscvstudio.ide.tools.trace.headless``. It uses the same options as ``dqr`` (see :ref:`TraceDecoder Decoding Trace Data <tracedecoder_decoding_trace_data>`), but it does not open the Nuclei Studio workbench, so it can be used in scripts and CI pipelines to decode trace files in batch.
+
+Run the following command in the Nuclei Studio installation directory. On Windows:
+
+.. code-block::
+
+    <NucleiStudio>\eclipsec.exe -noSplash -data <workspace> ^
+        -application org.riscvstudio.ide.tools.trace.headless ^
+        -t <projectname>.trace -e <projectname>.elf -decodemode=0x11
+
+On Linux:
+
+.. code-block::
+
+    <NucleiStudio>/eclipse -noSplash -data <workspace> \
+        -application org.riscvstudio.ide.tools.trace.headless \
+        -t <projectname>.trace -e <projectname>.elf -decodemode=0x11
+
+The commonly used options are as follows. They are the same as the items in the ``Set current debug hart configuration`` dialog, so fill them in the same way as in the IDE:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Option
+     - Description
+   * - ``-t <tracefile>``
+     - Trace file to be decoded, for example ``<projectname>.trace``
+   * - ``-e <elffile>``
+     - ELF file executed when the trace is produced, for example ``<projectname>.elf``
+   * - ``-od <objdump>``
+     - Objdump tool used for decoding; point it to ``<NucleiStudio>/toolchain/gcc/bin/riscv64-unknown-elf-objdump``
+   * - ``-srcid=<n>``
+     - Hart ID to be decoded; the default is 0
+   * - ``-tdasize=<n>``
+     - Trace Data Align Size in bits: 8, 32, or 64; the default is 8
+   * - ``-tssize=<n>``
+     - TS Size, that is, the timestamp width in bits; the default is 13
+   * - ``-decodemode=<n>``
+     - Decode Mode, for example ``0x00`` for ATB2AXI (Trace 1.0) and ``0x11`` for Trace bundle; the default is 0
+   * - ``-datatrace=<n>``
+     - Datatrace, that is, the data trace index width; the default is 0
+   * - ``-contextsize=<n>``
+     - Context Size in bits; the default is 0
+   * - ``-freq=<n>``
+     - CPU frequency in Hz; the default is 0
+   * - ``-o <outfile>``
+     - Write the decoding result to a file instead of printing it to the console
+   * - ``-analytics``
+     - Print the decode statistics, such as the number of decoded instructions
+
+For example:
+
+.. code-block::
+
+    <NucleiStudio>\eclipsec.exe -noSplash -data D:/ws_trace ^
+        -application org.riscvstudio.ide.tools.trace.headless ^
+        -t D:/work/test/Debug/test.trace ^
+        -e D:/work/test/Debug/test.elf ^
+        -od <NucleiStudio>\toolchain\gcc\bin\riscv64-unknown-elf-objdump ^
+        -tdasize=8 -tssize=13 -srcid=0 -decodemode=0x11 ^
+        -o D:/work/test/Debug/trace.txt
+
+The decoding result is printed as text, the same as the text exported by the IDE; with ``-o <outfile>``, it is written to the specified file instead.
+
+.. note::
+
+   - The application always returns the exit code 0, so check the output instead: the decoding succeeds when the output contains ``Trace:`` / ``File:`` / disassembly lines and contains no ``Error:``.
+   - If the trace format of the board is unknown, try the decode modes in turn (``0``, ``0x11``, ``0x10``, ``0x12``, ``1``, ``2``, ``3``) and use the first one that produces records.
+   - The headless application outputs text only. To obtain a flame graph, use the IDE (see :ref:`Using Flame View with Trace <ide_ide_trace_flame>`).
+
 .. _ide_ide_trace_flame:
 
 Using Flame View with Trace
@@ -656,6 +1013,46 @@ After the Trace list is parsed and the ``<projectname>.gtef`` file is generated,
 A ``<projectname>.gtef`` file now exists in the Debug directory. Double-click the file to view the flame graph of the project. **Note**: if the ``<projectname>.gtef`` file is updated, double-click the file again to re-import it into Flame View. For details about the Flame View feature, see :ref:`Using Flame View <ide_flame_view>`.
 
 |image129|
+
+.. _ide_flame_view:
+
+Flame View
+------------
+
+Flame View is an intuitive and efficient performance analysis tool used to visualize the execution call stack and time distribution of programs in embedded systems. By converting complex trace data into a hierarchical stacked graph, Flame View helps developers quickly identify hotspot functions, analyze execution paths, and locate performance bottlenecks.
+
+The ``*.gtef`` file is a file format defined by us in the IDE specifically for the Flame View tool. Currently, in the IDE, a ``*.gtef`` file can be parsed from Trace data (see :ref:`Using Flame View in Trace <ide_ide_trace_flame>`), and a ``*.gtef`` file can also be produced directly by Nuclei Model (see :ref:`Using Flame View in Nuclei Model <ide_nuclei_model_flame>`).
+
+If you already have a ``*.gtef`` file, you only need to double-click the file to start the Flame View tool. First, a guide prompt pops up, informing the user that the IDE will import the ``*.gtef`` file into the Traces directory.
+
+|image115|
+
+At the same time, the IDE opens the Flame Chart view and the Flame Graph view.
+
+|image116|
+
+The Flame Chart view shows function-related information in list form, such as start time and execution time consumption.
+
+|image117|
+
+The Flame Graph view shows data such as the execution time, call hierarchy, and execution time consumption of each function in the program in the form of a flame graph. In the Flame Graph view, users can use ``A D W S`` to zoom the flame graph in and out to view more detailed information.
+
+|image118|
+
+When the mouse clicks a segment in the flame graph, more detailed information about that segment is displayed.
+
+|image119|
+
+Through the flame graph, users can understand the execution and time consumption of the program, and quickly identify hotspot functions, analyze execution paths, and locate performance bottlenecks.
+
+The ``*.gtef`` file can also be displayed with Google's open-source tool Perfetto Trace Viewer. Open ``https://ui.perfetto.dev/``, click ``Open trace file``, find the ``*.gtef`` file generated in the project, and manually load the json file into Perfetto.
+
+|image120|
+
+In the generated flame graph, users can use ``A D W S`` to zoom the flame graph in and out to view more detailed information.
+
+|image121|
+
 
 .. _ide_adv_rvprof:
 
@@ -852,7 +1249,7 @@ As shown above, the Instruction content area displays the default content.
 
 .. _ide_nuclei_model_debugger:
 
-Using the Nuclei Model Debugger
+Using Nuclei Model Debugger
 -------------------------------
 
 Nuclei Model Debugger is a debugging and running tool developed for the upgraded Nuclei Near Cycle Model.
@@ -1029,8 +1426,8 @@ While viewing the ``.gmon`` file, the gprof tool parses the program's call relat
 
 .. _ide_nuclei_custom_debugger:
 
-Using the GDB Custom Debugging Feature
---------------------------------------
+Using GDB Custom Debugger
+------------------------------
 
 GDB Custom is a simplified debug configuration developed by Nuclei to accommodate different debugging tools. It lets you debug programs in Nuclei Studio with your own custom debugging tools. GDB Custom supports debugging projects through Commands, Generic Serial, and DLink; choose the method that fits your setup.
 
@@ -1045,10 +1442,12 @@ Live Watch is a real-time monitoring tool that helps you debug and optimize code
 
 .. note::
 
-   The Live Watch feature depends on Nuclei OpenOCD >= 2025.02. It is only supported on Nuclei CPUs configured with the RISC-V SBA feature.
+   By default, Live Watch reads data through the **Telnet/SBA channel**, which relies on the Nuclei-customized OpenOCD (it must provide the ``mbatch`` command, supported since 2025.02) and requires the CPU to support RISC-V SBA.
 
-Live Watch Overview
-~~~~~~~~~~~~~~~~~~~
+   Starting from Nuclei Studio 2026.10, a **GDB channel** is added as another data source: it polls through GDB MI commands (such as ``-var-update``), with lower latency and no dependence on SBA, but it **requires GDB non-stop mode to be enabled**. The trade-offs between the two channels and their relationship with non-stop are described below under "Getting Live Watch Data via the GDB Channel".
+
+Live Watch Introduction
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Open the Live Watch view via the Nuclei Studio menu ``Window -> Show View -> Live Watch``.
 
@@ -1098,8 +1497,65 @@ The hidden menu bar contains two settings menus for configuring global propertie
    - Sets the display format of variable values in the Live Watch view.
 
 
-Live Watch Demo
-~~~~~~~~~~~~~~~
+Getting Live Watch Data via the GDB Channel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In Nuclei Studio 2026.10, support for getting Live Watch data via the **GDB channel** was added, as another data source besides the original Telnet/SBA channel. Its characteristics are lower latency and **no dependence on RISC-V SBA** — which is especially critical for targets that do not support SBA; the cost is that GDB's **non-stop mode** must be used.
+
+**Trade-offs between the two channels**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Channel
+     - Prerequisites
+     - Main commands
+     - Timeout / retry
+     - Depends on SBA
+   * - GDB channel
+     - Enable non-stop + newer GDB
+     - ``-var-update`` / ``-data-read-memory``
+     - 20 ms
+     - No
+   * - Telnet channel (default fallback)
+     - Nuclei-customized OpenOCD (provides ``mbatch``) + CPU supports SBA
+     - ``mbatch r:<addr>:<size>:<count>``
+     - 5 s, retry 3 times
+     - Yes
+
+**Why is non-stop mode required?**
+
+**What non-stop decides is "whether the GDB channel can be used", not "whether the feature can be used".**
+
+In GDB's **all-stop mode (default)**, once the target starts running, it refuses to process MI queries and reports ``Selected thread is running`` — that is, when the program runs at full speed, GDB simply cannot read variables, so real-time polling is impossible. In **non-stop mode**, each thread can run independently, and GDB still accepts MI commands while the target is running, allowing Live Watch to keep polling with ``-var-update`` without pausing the target.
+
+Therefore:
+
+- **Enable non-stop** → uses the GDB channel, with good real-time performance and no SBA dependency;
+- **Non-stop not enabled** → the GDB channel is unavailable, and Live Watch automatically falls back to the Telnet/SBA channel. The feature still works, but goes through the slower ``mbatch`` + SBA path that also requires SBA.
+
+"non-stop must be enabled to use Live Watch" only holds under the premise of "using the GDB channel"; without non-stop, Live Watch simply switches to another channel and keeps working.
+
+
+
+**How to enable non-stop**
+
+Check the option in the **OpenOCD debug configuration page** of Nuclei Studio:
+
+``Enable GDB non-stop mode to support Live Watch``
+
+This checkbox writes the launch attribute ``GDB_NONSTOP`` (``ATTR_DEBUGGER_NON_STOP``); its tooltip text is literally *"You must enable this option to use Live Watch."* After checking it and launching the debug session, Live Watch uses the GDB channel.
+
+
+
+
+.. note::
+
+   If Live Watch still cannot read data after enabling non-stop, first confirm: ① the debug configuration has the option above checked; ② the GDB version meets the non-stop threshold (the launch side validates this, and will report an error at launch if not); ③ the CDT DSF service is available. If necessary, refer to "Summary of Live Watch Issues" to confirm whether the target supports SBA.
+
+
+Live Watch Usage Demo
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Create a test project and implement a sine calculation in it. Open the Live Watch view, find Live Watch Settings, and set the related parameters as needed (or keep the default values).
 
@@ -1270,44 +1726,121 @@ When the project's optimization level is set to O3 or higher, Live Watch cannot 
       }
    }
 
-.. _ide_flame_view:
 
-Using Flame View
-----------------
+.. _ide_live_peripheral:
 
-Flame View is an intuitive and efficient performance analysis tool for visualizing the execution call stack and time distribution of programs in embedded systems. By converting complex trace data into a hierarchical stacked graph, Flame View helps developers quickly identify hot functions, analyze execution paths, and locate performance bottlenecks.
+Live Peripheral
+--------------------------
 
-The ``*.gtef`` file is a file format defined in the IDE specifically for the Flame View tool. Currently, a ``*.gtef`` file can be parsed from Trace data (see :ref:`Using Flame View with Trace <ide_ide_trace_flame>`) or produced directly by Nuclei Model (see :ref:`Using Flame View in Nuclei Model <ide_nuclei_model_flame>`).
+Live Peripheral displays the chip peripherals, registers, and bit fields in a tree, and can periodically refresh register values during program execution, and also allows directly writing registers. Its biggest difference from the traditional Peripherals view is "real-time": you can see register values change as the program runs without pausing it. It shares the same backend data service (GDB channel and OpenOCD Telnet channel) with Live Watch; see :ref:`Live Watch <ide_live_watch>`.
 
-If you already have a ``*.gtef`` file, simply double-click the file to start the Flame View tool. A guide prompt pops up first, informing you that the IDE will import the ``*.gtef`` file into the Traces directory.
+Overview
+~~~~~~~~
 
-|image115|
+Live Peripheral senses "which peripherals, register addresses, and bit-field meanings" through the SVD file, presents them as a three-level tree of peripheral → register → bit field, and supports real-time refresh and writing during program execution.
 
-At the same time, the IDE opens the Flame Chart view and the Flame Graph view.
+**Prerequisites**
 
-|image116|
 
-The Flame Chart view shows function-related information in list form, such as start time and execution duration.
+1. The SVD Path must be configured. Live Peripheral knows the peripheral and register layout only through the SVD file; without it, the view cannot be opened. The SVD is usually provided by the NPK device package, and the configuration location is the SVD Path input box in the debug configuration under ``Run -> Debug Configurations...`` (in most cases it is automatically written when the NPK creates the project). If the SVD Path is not set or the file is invalid, an error prompt will pop up when opening the view.
+2. Real-time sampling requires SBA: the data source can be GDB or Telnet; if an old GDB is detected, it automatically falls back to Telnet.
+3. QEMU limitation: under QEMU, only paused-state ordinary register reads are possible; real-time sampling is not supported.
 
-|image117|
+Live Peripheral Introduction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Flame Graph view shows the execution time, call hierarchy, execution duration, and other data of each function as a flame graph. In the Flame Graph view, use ``A D W S`` to zoom in and out and view more detailed information.
+Menu ``Window -> Show View -> Debug -> Live Peripheral``. The view is visible by default in the Debug perspective, stacked with the Variables view; in the C/C++ perspective only a shortcut is registered.
 
-|image118|
+|image162|
 
-Click a segment in the flame graph to display more detailed information about it.
+The main body is a tree with the hierarchy peripheral → register → bit field. The toolbar provides real-time sampling control (``Start`` / ``Suspend All Live Watch``).
 
-|image119|
+**View registers**
 
-With the flame graph, you can understand the execution and time consumption of the program, quickly identify hot functions, analyze execution paths, and locate performance bottlenecks.
+Expand the target peripheral in the tree; after expansion, the current values of each register under that peripheral are read immediately; expanding a register further shows the values and meanings of each bit field.
 
-The ``*.gtef`` file can also be displayed with Google's open-source Perfetto Trace Viewer. Open ``https://ui.perfetto.dev/``, click ``Open trace file``, find the ``*.gtef`` file generated in the project, and load it into Perfetto.
+|image163|
 
-|image120|
+**Real-time sampling**
 
-In the flame graph, use ``A D W S`` to zoom in and out and view more detailed information.
+1. Make sure the SVD is configured and the backend supports SBA.
+2. Enable Live Watch for the register(s) of interest.
+3. Click ``Start`` on the toolbar to start sampling; register values are refreshed periodically during program execution.
+4. Click ``Suspend All Live Watch`` when you need to pause sampling.
 
-|image121|
+Note: adding new sampling items is not supported in non-stop mode.
+
+|image164|
+
+**Write registers**
+
+Select a writable register and write a new value directly. Note: registers marked read-only cannot be written; the Number Format menu can switch the Hex / Binary / Dec / Oct display format, and writes are parsed according to the current format.
+
+**Favorites grouping and export**
+
+Add to Group: gather commonly used registers into a dedicated tab to avoid flipping back and forth in the big tree. Select the target register in the register tree (or multi-select multiple registers on a peripheral), right-click (or use the toolbar) and choose ``Add to Group``, select an existing group or enter a new group name; after confirmation, the view generates a new tab named after that group.
+
+Save as CSV: export all sampling history of a certain register as a CSV file. Select a register in the register tree (CSV export only takes effect on register nodes), right-click and choose ``Save as CSV``; the default file name is ``<project name>_<register name>_register.csv``. The CSV contains the following columns:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Column
+     - Meaning
+   * - requestId
+     - The request sequence number of each sampling
+   * - Register Name
+     - Register name
+   * - Address
+     - Register address (hexadecimal)
+   * - Value
+     - The register value read in that sampling
+   * - Hexdata
+     - Raw hexadecimal data
+   * - Time (s)
+     - Elapsed time relative to the first sampling (seconds, format second.millisecond)
+
+Tip: the CSV records historical sampling values; you must have enabled Live Watch sampling and accumulated data first, otherwise the export is empty.
+
+|image165|
+
+**Live Peripheral Settings**
+
+
+View menu → ``Live Peripheral Settings``:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Setting item
+     - Description
+   * - Data source
+     - GDB or Telnet. When an old GDB is detected, it is forced to fall back to Telnet
+   * - Speed
+     - Sampling speed, range 0–99999, default 10000
+   * - CSV save path
+     - The location where sampling data is written to disk
+   * - Save frequency
+     - The time interval for automatic saving
+
+The menu also has ``Refresh SVD data``, used to reload after the SVD file is updated.
+
+|image166|
+
+
+Using Live Peripheral
+~~~~~~~~~~~~~~~~~~~~~~
+
+1. Confirm the SVD Path: open ``Run -> Debug Configurations...`` and check in the debug configuration that the SVD Path is filled in (most NPK projects fill it in automatically). A missing SVD causes an error when opening the view.
+2. Start debugging and enter the Debug perspective.
+3. Open the view: menu ``Window -> Show View -> Debug -> Live Peripheral``.
+4. Expand the peripheral tree; expanding a peripheral immediately reads the current values of the registers under it.
+5. Enable Live Watch for the register(s) of interest and click ``Start`` on the toolbar to start real-time sampling; register values are refreshed periodically as the program runs.
+6. Click ``Suspend All Live Watch`` when you need to pause sampling.
+7. To watch certain registers for a long time: select them and use ``Add to Group`` to gather them into a dedicated tab; for trend analysis: right-click a register and use ``Save as CSV`` to export the sampling history.
+
+|image167|
+
 
 Flash Programming
 -----------------
@@ -1317,6 +1850,20 @@ Nuclei Studio provides the Flash Programming feature for downloading compiled bi
 For details, see :ref:`Flash Programming <ide_flash_programming>`.
 
 |image102|
+
+
+.. _ide_flash_erase:
+
+Flash Erase
+------------
+
+In real development there is often a need to erase Flash independently **without starting a full debug or download session**: for example, to let the chip restart from a blank state to rule out interference from old firmware/residual data, to clear a write-protected region so it can be programmed again, or to erase only a certain sector / address range while keeping the rest. If every erase required first establishing a GDB debug connection and then exiting, it would be cumbersome and could introduce unnecessary side effects, so it is provided as an independent entry point that can be triggered from the toolbar or the right-click menu.
+
+Flash Erase provides an entry point independent of the debug session, driving OpenOCD directly to erase the target chip's Flash, and exiting immediately after the erase completes (no GDB start, no program download).
+
+See :ref:`Flash Erase <projectrun_flash_erase>` for details.
+
+|image134|
 
 
 Connect to Running Target
@@ -1330,8 +1877,8 @@ For details, see :ref:`Connect to Running Target <ide_connect_to_target>`.
 
 .. _ide_nuclei_qemu_customize_evalsoc:
 
-Updating evalsoc Configuration in Nuclei QEMU
----------------------------------------------
+Updating evalsoc in Nuclei QEMU
+-----------------------------------
 
 To let you quickly modify the addresses and sizes of peripherals and the interrupt numbers in the Nuclei QEMU evalsoc — without modifying the Nuclei QEMU source code — and thus adapt to different evalsoc versions, Nuclei QEMU extends the ``-M`` option with the :ref:`soc-cfg <qemu_opt_soc_cfg>` option. You write a json configuration file and pass an option such as ``-M nuclei_evalsoc,download=ddr,soc-cfg=evalsoc.json,debug=1`` on the QEMU command line to modify the evalsoc peripheral configuration.
 
@@ -1341,8 +1888,8 @@ You can then debug Nuclei QEMU features according to the new evalsoc configurati
 
 |image130|
 
-Switching From the GNU GCC Toolchain to the Clang/ZCC Toolchain
----------------------------------------------------------------
+Switching from GCC to Clang/ZCC
+-----------------------------------
 
 Nuclei Studio IDE supports three toolchains: ``RISC-V GCC/Newlib``, ``RISC-V Clang/Newlib``, and ``Terapines ZCC``.
 When creating a project, select the desired toolchain in the ``Toolchain`` drop-down box.
@@ -1507,6 +2054,370 @@ If the original project uses ``libncrt_small`` and the linked libraries have bee
     >>>               coremark.elf.lto.o:(sys_semihost_putc)
     z++: error: ld command failed with exit code 1 (use -v to see invocation)
     make: *** [makefile:92: coremark.elf] Error 1
+
+
+
+.. _ide_cpu_information_brief:
+
+CPU Information
+---------------
+
+CPU Information targets Nuclei-series RISC-V cores and provides two tabs, CPU Information and CPU Fault Analysis. It lets you inspect ``MARCHID / MHARTID / MIMPID / ISA / Version`` per hart, and decodes the ``MISA`` extension bits and Nuclei configuration CSRs (``mcfg_info`` / ``micfg_info`` / ``mdcfg_info``) bit by bit; CPU Fault Analysis can also locate the cause of a trap (current mode, ``mcause`` / ``scause``, trap vector, M/S-mode CSRs, page faults, etc.).
+
+See :ref:`CPU Information <projectrun_cpu_information>` for details.
+
+.. _ide_mmu_view:
+
+MMU View
+---------
+
+The RISC-V MMU View is a view under the debug perspective, used to read the ``satp`` / ``misa`` CSRs and walk the page table while the target is halted, providing:
+
+1. Address Translation: virtual address → physical address translation, showing the page-table walk path level by level;
+2. Memory Map: folding the whole page table into a series of VA→PA ranges;
+3. Page Tables: expanding page-table descriptors as a multi-level tree;
+4. MMU Settings dialog: it can follow the hardware ``satp``, or inject a custom ``satp`` for offline analysis.
+
+This view is read-only and writes no registers. The only hardware prerequisite: the core must implement S-mode (supervisor mode); otherwise the ``satp`` register does not exist at all. There are three ways to tell, which can corroborate each other:
+
+- Whether the ISA string contains S (e.g., ``RV64ABCDFIMSU`` contains S);
+- More reliably: look at bit18 of ``misa``;
+- The Feature list explicitly shows SMODE.
+
+Important reminder: none of the above three is a sufficient condition. In real tests there have been cases where the ISA contains S and misa bit18 is also 1, but ``csrw satp`` still triggers an illegal instruction exception (the hardware satp is always 0). Ultimately, the criterion is whether ``satp`` can be successfully read and written. If bit18 = 0 (for example, Nuclei N300, an MCU core that defaults to M/U + PMP), there is no software way to enable the MMU; you can only switch cores (such as UX600 / UX900) or change the bitstream to enable SMODE.
+
+In the menu ``Window -> Show View -> Other...``, search for ``MMU`` to open the view.
+
+|image135|
+
+.. list-table::
+   :header-rows: 1
+
+   * - Control
+     - Function
+   * - Refresh
+     - Read satp / misa and load the root page table
+   * - Settings...
+     - Open the MMU Settings dialog
+   * - Linked
+     - hart drop-down selection. On multicore it shows hart N (GDB Thread M); switching hart clears and refreshes again
+   * - Address
+     - Address input box, accepts a hexadecimal address or a GDB-evaluable expression
+   * - Direction drop-down
+     - Virtual to Physical or Physical to Virtual
+   * - Translate
+     - Execute the translation
+   * - statusLabel
+     - Shows the current status or error message
+
+|image136|
+
+The buttons remain clickable in all states; on failure a clear error message is given (for example, if the target is running, it prompts "please suspend first").
+
+MMU View Introduction
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Address Translation
+^^^^^^^^^^^^^^^^^^^^
+
+|image137|
+
+.. list-table::
+   :header-rows: 1
+
+   * - Direction
+     - Behavior
+   * - Virtual to Physical
+     - Enter a VA (or GDB expression) → page-table walk runs in the background → the result area shows the level-by-level walk path + translation result + Access Check (whether fetch/read/write are OK or FAULT, with the effect of MXR noted)
+   * - Physical to Virtual
+     - Enter a PA → full-table scan runs in the background → lists all VAs mapped to that PA (including VA range, PA range, page size, level, flags), up to 512 results
+
+For both directions, you can right-click in the result area and choose Open PA in Memory View to jump to the physical address. The address input supports expressions; you can directly fill in a symbol name.
+
+Memory Map
+^^^^^^^^^^^
+
+|image138|
+
+After clicking ``Load Memory Map``, the full table is built in the background. Table columns: VA Start / VA End / Size / PA Start / PA End / Attributes. Unmapped ranges are shown as gray ``<unmapped>`` rows. The status bar shows statistics such as entries / tables / truncated / cancelled / readErrors.
+
+Merge rule: two adjacent items are merged into one row only when they simultaneously satisfy VA continuity, PA continuity, same level, same permission flags, and same memory attributes (PBMT/N/RSW). The unit of the Size column is the largest readable unit (an integer for whole multiples, one decimal place for non-whole multiples).
+
+Page Tables
+^^^^^^^^^^^^
+
+|image139|
+
+The page table is expanded as a tree, with columns Input Address / Type / Output Address / Attributes. The next level is read in the background when a node is expanded.
+
+Type is divided into three kinds:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Type
+     - Meaning
+   * - Page Table
+     - Page-table pointer, pointing to the next level
+   * - N Page
+     - Leaf page-table entry, the actual mapping
+   * - Fault (xN)
+     - Fault node aggregated from consecutive invalid PTEs
+
+The Output Address column has different meaning by node type: a leaf (N Page) shows the physical base address of that mapping; a pointer (Page Table) shows ``-> 0x...`` (the next-level page-table address, prefixed with ``->`` to avoid being misread as translation output); a root node / Fault shows ``-``.
+
+After selecting a node in the tree, the lower panel shows the descriptor details (Descriptor Type / Address / Value / Input Address Range / Next-level Table Address / Output Attributes).
+
+MMU Settings Dialog
+^^^^^^^^^^^^^^^^^^^^
+
+|image140|
+
+.. list-table::
+   :header-rows: 1
+
+   * - Option
+     - Description
+   * - Use current translation settings
+     - Read the hardware satp (default)
+   * - Use custom translation settings
+     - Inject a custom satp for offline analysis, without modifying the hardware CSR
+
+After switching, the view is cleared and refreshed again.
+
+Practical tip: when the target firmware does not enable paging (``satp.MODE = Bare``), this dialog is the main means to make the view work — as long as a valid page table exists in memory, filling in the corresponding ``satp`` value lets you traverse it completely, without the hardware actually enabling the MMU.
+
+
+MMU View Usage Example
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Before using MMU View, confirm that the core supports S-mode and that satp can be read and written successfully. The runtime verification of MMU View was done on a Nuclei UX900 (RV64) + OpenOCD.
+
+
+1. Confirm the core supports S-mode (it is recommended to verify read/write with ``csrw satp``). MCU cores like N300 that are only M/U + PMP have no MMU and cannot be used.
+
+|image141|
+
+2. Start debugging and let the target halt.
+
+|image142|
+
+3. Open the view: menu ``Window -> Show View -> Other... -> MMU``. The view automatically reads satp / misa and loads the root page table.
+
+|image143|
+
+4. Look up a single address: fill the virtual address (supports symbol name / GDB expression) in the top Address input box, choose Virtual to Physical as the direction, and click Translate; the result area shows the level-by-level page-table walk path and Access Check.
+
+|image144|
+
+5. View the overall mapping: switch to the Memory Map tab and click Load Memory Map.
+
+|image145|
+
+6. View the page-table structure: switch to the Page Tables tab and expand level by level; select a node to see Descriptor Details; note that the ``->`` prefix on a pointer node indicates the next-level page-table address.
+
+|image146|
+
+**Troubleshooting**
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Symptom
+     - Cause and handling
+   * - Prompt "please suspend first"
+     - The target is running. MMU View only reads while halted; Suspend first or hit a breakpoint
+   * - Pop-up "MMU View Unavailable" dialog
+     - Runtime authoritative criterion: the current core misa bit 18 (S-mode) is 0, meaning the core has no MMU (e.g., N300 / N200 series are only M/U + PMP). Switch to a core that implements S-mode (such as N900 / UX900). The "custom satp offline analysis" in MMU Settings can still be used
+   * - Debug launch immediately prompts "project core N300 typically has no MMU"
+     - Project-level soft hint (non-blocking): an early warning when the core selected by the project belongs to a known MMU-less series; ultimately the runtime misa S bit is still authoritative
+   * - Cannot read satp / view is empty
+     - The core does not implement S-mode, or the hardware satp is always 0
+   * - Many Fault nodes in the page-table tree
+     - The corresponding range being unmapped is normal; you can turn off Coalesce Invalid Entries to inspect entry by entry
+
+
+.. _ide_riscv_reference:
+
+RISC-V Reference
+-----------------
+
+RISC-V Reference is a tool view that combines four capabilities:
+
+1. Instruction / CSR / iRegion reference browser: search by extension, opcode, mnemonic, address, or name;
+2. On-demand disassembly / decoding: decode hexadecimal machine code or assembly mnemonic into assembly and show it bit by bit, supporting both single and batch;
+3. Register value bit-field interpretation: select a register from the Registers / Variables view to back-fill its current value, and break it down by bit field;
+4. Remote data update: incrementally pull instruction/CSR/iRegion data from the server and cache it locally.
+
+From the menu ``Window -> Show View -> Other...``, search for ``RISC-V Reference``. It is stacked by default in the Debug and C/C++ perspectives (in the same stack as the Console view).
+
+RISC-V Reference Introduction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+|image147|
+
+.. list-table::
+   :header-rows: 1
+
+   * - Tab
+     - Purpose
+     - Description
+   * - Instruction Query
+     - Query instructions
+     - Search by extension / opcode / mnemonic. Columns include Mnemonic / Arch / Extension / Mask / Match / Unratified / Format / Disassembly
+   * - CSR Query
+     - Query CSRs
+     - Search by address or name. Upper and lower lists + bit-field table; you can enter the current value and non-zero fields are highlighted
+   * - iRegion Query
+     - Query peripheral registers
+     - Search memory-mapped registers by module / register name and do bit-field decomposition
+   * - Batch Import
+     - Batch import
+     - Paste name=value text, parse and match to CSR / iRegion, then jump to or import per checked item
+   * - Decoder
+     - Decode machine code
+     - Hexadecimal machine code (or assembly) → decode table, 13 columns in total (see below for the meaning of each column)
+
+Using RISC-V Reference
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Query Instructions
+^^^^^^^^^^^^^^^^^^
+
+1. Switch to the Instruction Query tab.
+2. Enter a mnemonic (such as ``addi``) or an opcode fragment in the search box.
+3. In the result table, view the instruction architecture, extension, Mask/Match, format, and disassembly form.
+
+|image148|
+
+Query CSR and Interpret by Bit Field
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1. Switch to the CSR Query tab.
+2. Search by address (such as ``0x300`` for mstatus) or name.
+3. Select the target CSR; its bit-field table is shown below.
+4. Enter the actually-read value in the "current value" input box; the bit-field table decomposes according to that value, and non-zero fields are highlighted.
+
+|image149|
+
+Decode Machine Code
+^^^^^^^^^^^^^^^^^^^^
+
+1. Switch to the Decoder tab.
+2. Enter hexadecimal machine code (you can also enter an assembly mnemonic for a reverse lookup).
+3. The view outputs a decode table (13 columns), where you can see the meaning of each bit.
+4. Batch is supported: multiple lines of input are decoded one by one.
+
+|image150|
+
+The decode table has 13 columns, with the following meanings:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Column
+     - Meaning
+   * - Input
+     - The raw content you entered (hexadecimal machine code or assembly text), echoed as-is
+   * - Assembly
+     - Disassembly result, mnemonic + operands, e.g. ``add a1, a5, a4``
+   * - Hex
+     - Normalized hexadecimal machine code (0x prefix, left-padded with zeros to 32 bits)
+   * - Binary
+     - 32-bit binary expansion, bit-by-bit against the encoding
+   * - Mnemonic
+     - Instruction mnemonic
+   * - Arch
+     - Belonging architecture, e.g. RV32I / RV64I
+   * - Extension
+     - Belonging extension, e.g. I / M / C / F ...
+   * - Mask
+     - Encoding mask (works with Match to identify the instruction format)
+   * - Match
+     - Encoding match value
+   * - Unratified
+     - Whether unratified (draft extensions are marked true)
+   * - Format
+     - Instruction format type, e.g. R / I / S / B / U / J
+   * - Disassembly
+     - Disassembly form (full form, can be compared with Assembly)
+   * - Description
+     - Textual description of the instruction
+
+Batch Decode supports pasting a whole block of machine code / assembly, one per line; it also supports formats copied directly from LST / disassembly windows such as ``address: machine code``, ``address <symbol>: machine code``, ``0x80000000: 00000033``.
+
+Analyze from Editor or Console via Right-click
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The view contributes right-click menu commands to the following places: Analyze Instructions / Analyze Selection, used after selecting text in the Console, text editor, Terminal, or LST view.
+
+|image151|
+
+Analyze Instructions sends the result to the Decoder tab; Analyze Selection sends the result to the Batch Import tab. The benefit is: when you see a block of machine code in a log or disassembly window, you can select it directly and right-click to decode, without manually copying and pasting.
+
+|image152|
+
+Decode Register Values from the Registers View
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1. Open the Registers or Variables view during debugging.
+2. Select a register (or multi-select several lines in ``name=value`` form).
+3. Right-click and use ``Decode Register``.
+4. The register's current value is back-filled into Batch Import and interpreted by bit field.
+
+|image153|
+
+|image154|
+
+.. _ide_gdb_breakpoint_filter:
+
+GDB Breakpoint Project Filter Option
+------------------------------------
+
+In native Eclipse, when a project is debugged, all breakpoints are installed; if a breakpoint or its file does not exist, an error is reported. The GDB breakpoint project filter is a new GDB debug preference based on the underlying Eclipse CDT, which lets you install only the breakpoints of the currently debugged project to GDB in a multi-project workspace.
+
+``Preferences > C/C++ > Debug > GDB``, under the General Behavior group, the option is named ``Only install breakpoints that belong to the launched project``.
+
+|image155|
+
+**Behavior Notes**
+
+- This is a global workspace preference, off by default; when off, the behavior is the same as before (install breakpoints of all projects);
+- After checking it, when installing breakpoints the debugger compares the breakpoint owning project with the launched project, and only installs to GDB the breakpoints belonging to the debugged project; breakpoints of other projects are skipped in this debug session;
+- Breakpoints without a project set on files outside the workspace are still installed normally, to avoid accidentally dropping legitimate breakpoints.
+
+This option changes the breakpoints actually installed to GDB — from the very beginning only the current project breakpoints are installed.
+
+Before setting it, the IDE installs all breakpoints, so error messages appear.
+
+|image156|
+
+After setting it, there are no error messages; especially when debugging multicore or multiple projects, it reduces error messages.
+
+|image157|
+
+
+.. _ide_memory_exclusion:
+
+Memory View Address Exclusion
+------------------------------
+
+The Memory view adds an address exclusion setting, which lets you configure memory address ranges that the Memory view should not read, avoiding errors when reading inaccessible or protected memory regions; this feature also applies to the Memory Browser.
+
+The Memory view is the standard Eclipse memory view. Nuclei Studio registers a Peripheral render type for it: it shows a memory block per peripheral register, colored by register/bit field, with read-only fields grayed out. Compared with looking at the raw hexadecimal dump directly, the Peripheral render breaks a block of memory into "which register, which bit field, what meaning", making peripheral state reading more intuitive.
+
+The ``Address Exclusion Settings...`` item is in the Memory view menu (toolbar).
+
+|image158|
+
+In the pop-up dialog, check ``Enable address exclusion`` to enable exclusion, and use ``Add...`` to add an excluded range (``Start Address`` / ``End Address``, hexadecimal without the ``0x`` prefix); ``Remove`` and ``Clear All`` are supported to manage the configured ranges.
+
+|image159|
+
+Memory within the excluded address range is not read/installed, and the debugger skips these regions, thereby avoiding errors or session anomalies caused by accessing illegal addresses. This exclusion setting also applies to the Memory Browser, avoiding errors when reading inaccessible regions across projects or sessions.
+
+|image160|
 
 .. |image1| image:: /asserts/nucleistudio/advanceusage/image2.png
 
@@ -1742,6 +2653,14 @@ If the original project uses ``libncrt_small`` and the linked libraries have bee
 
 .. |image116| image:: /asserts/nucleistudio/advanceusage/image116.png
 
+.. |tracecfg-atb| image:: /asserts/nucleistudio/advanceusage/image170.png
+
+.. |tracecfg-bundle| image:: /asserts/nucleistudio/advanceusage/image171.png
+
+.. |tracedec-atb| image:: /asserts/nucleistudio/advanceusage/image172.png
+
+.. |tracedec-bundle| image:: /asserts/nucleistudio/advanceusage/image173.png
+
 .. |image117| image:: /asserts/nucleistudio/advanceusage/image117.png
 
 .. |image118| image:: /asserts/nucleistudio/advanceusage/image118.png
@@ -1769,6 +2688,80 @@ If the original project uses ``libncrt_small`` and the linked libraries have bee
 .. |image129| image:: /asserts/nucleistudio/advanceusage/image129.png
 
 .. |image130| image:: /asserts/nucleistudio/advanceusage/image130.png
+
+.. |image131| image:: /asserts/nucleistudio/advanceusage/image131.png
+
+.. |image132| image:: /asserts/nucleistudio/advanceusage/image132.png
+
+.. |image133| image:: /asserts/nucleistudio/advanceusage/image133.png
+
+.. |image134| image:: /asserts/nucleistudio/advanceusage/image134.png
+
+.. |image135| image:: /asserts/nucleistudio/advanceusage/image135.png
+
+.. |image136| image:: /asserts/nucleistudio/advanceusage/image136.png
+
+.. |image137| image:: /asserts/nucleistudio/advanceusage/image137.png
+
+.. |image138| image:: /asserts/nucleistudio/advanceusage/image138.png
+
+.. |image139| image:: /asserts/nucleistudio/advanceusage/image139.png
+
+.. |image140| image:: /asserts/nucleistudio/advanceusage/image140.png
+
+.. |image141| image:: /asserts/nucleistudio/advanceusage/image141.png
+
+.. |image142| image:: /asserts/nucleistudio/advanceusage/image142.png
+
+.. |image143| image:: /asserts/nucleistudio/advanceusage/image143.png
+
+.. |image144| image:: /asserts/nucleistudio/advanceusage/image144.png
+
+.. |image145| image:: /asserts/nucleistudio/advanceusage/image145.png
+
+.. |image146| image:: /asserts/nucleistudio/advanceusage/image146.png
+
+.. |image147| image:: /asserts/nucleistudio/advanceusage/image147.png
+
+.. |image148| image:: /asserts/nucleistudio/advanceusage/image148.png
+
+.. |image149| image:: /asserts/nucleistudio/advanceusage/image149.png
+
+.. |image150| image:: /asserts/nucleistudio/advanceusage/image150.png
+
+.. |image151| image:: /asserts/nucleistudio/advanceusage/image151.png
+
+.. |image152| image:: /asserts/nucleistudio/advanceusage/image152.png
+
+.. |image153| image:: /asserts/nucleistudio/advanceusage/image153.png
+
+.. |image154| image:: /asserts/nucleistudio/advanceusage/image154.png
+
+.. |image155| image:: /asserts/nucleistudio/advanceusage/image155.png
+
+.. |image156| image:: /asserts/nucleistudio/advanceusage/image156.png
+
+.. |image157| image:: /asserts/nucleistudio/advanceusage/image157.png
+
+.. |image158| image:: /asserts/nucleistudio/advanceusage/image158.png
+
+.. |image159| image:: /asserts/nucleistudio/advanceusage/image159.png
+
+.. |image160| image:: /asserts/nucleistudio/advanceusage/image160.png
+
+.. |image161| image:: /asserts/nucleistudio/advanceusage/image161.png
+
+.. |image162| image:: /asserts/nucleistudio/advanceusage/image162.png
+
+.. |image163| image:: /asserts/nucleistudio/advanceusage/image163.png
+
+.. |image164| image:: /asserts/nucleistudio/advanceusage/image164.png
+
+.. |image165| image:: /asserts/nucleistudio/advanceusage/image165.png
+
+.. |image166| image:: /asserts/nucleistudio/advanceusage/image166.png
+
+.. |image167| image:: /asserts/nucleistudio/advanceusage/image167.png
 
 .. |image-nice-1| image:: /asserts/nucleistudio/advanceusage/nice-1.png
 

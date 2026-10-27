@@ -591,8 +591,134 @@ Once the IDE is connected to the development board, you can use the IDE's ``Debu
 
 |image77|
 
-Viewing Nuclei CPU Information
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _projectrun_cpu_information:
+.. _ide_cpu_information:
+
+CPU Information
+----------------
+
+CPU Information View
+~~~~~~~~~~~~~~~~~~~~~
+
+CPU Information targets Nuclei-series RISC-V cores and provides two tabs:
+
+1. CPU Information: shows ``MARCHID / MHARTID / MIMPID / ISA / Version`` per hart in single-core/multi-core, and decodes the ``MISA`` extension bits and Nuclei configuration CSRs (``mcfg_info`` / ``micfg_info`` / ``mdcfg_info``) bit by bit in the details panel;
+2. CPU Fault Analysis: for each detected hart, categorically shows the current mode, trap source (``mcause`` / ``scause``), trap vector (``mtvec`` / ``stvec``), M/S-mode CSRs, delegation status, page faults, etc.
+
+The PC / CSR / page-fault virtual address in the view provide clickable links that jump to the source code, :ref:`RISC-V Reference <ide_riscv_reference>`, and :ref:`MMU View <ide_mmu_view>` respectively, forming a linked debugging chain.
+
+.. note::
+
+   When an older Nuclei Studio does not have this view built in, you can still use the command way to view CPU Information: send ``info reg misa`` or ``monitor nuclei cpuinfo`` in the ``Debugger Console``; the latter output must be viewed in the ``gdb trace`` view. See :ref:`View CPU Information via GDB Commands <ide_cpu_information_legacy>` for the complete steps.
+
+
+
+Open it via the menu ``Window -> Show View -> Other...``, search for ``CPU Information``, and click ``CPU Information`` to open the view. The view has two pages: CPU Information and CPU Fault Analysis.
+
+|image91|
+
+Prerequisite: the target must be connected and halted (values are read-only and no register is written).
+
+1. Open the view.
+2. Start debugging and let the target halt (Suspend or hit a breakpoint).
+3. Click ``Get/Refresh CPU Info`` → the table lists each hart's ``MARCHID / MHARTID / MIMPID / ISA / Version``.
+4. Select a row → the lower "CPU Info:" panel shows that hart's raw output, MISA decode, and Nuclei configuration CSR decode.
+5. When fault analysis is needed, switch to the CPU Fault Analysis tab, click ``Analyze Fault``, then click a Hart tab to view.
+
+CPU Information
+^^^^^^^^^^^^^^^^^^^^^
+
+Example output from UX900 + OpenOCD:
+
+.. code-block:: text
+
+   Hart ID = 1   MARCHID = 0x900   MHARTID = 0x0   ISA = RV64ABCDFIMSU   Version = 4.2.0
+
+|image92|
+
+**Meaning of table columns**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Column
+     - Meaning
+     - Remarks
+   * - Hart ID
+     - hart index
+     - In multicore, the tab also shows the corresponding GDB thread number
+   * - MARCHID
+     - Architecture ID (marchid)
+     - Measured 0x900 on UX900
+   * - MHARTID
+     - hart ID (mhartid)
+     - Usually 0x0 for single core
+   * - MIMPID
+     - Implementation ID (mimpid)
+     - May be 0x0; shows N/A when unavailable
+   * - ISA
+     - Instruction set string
+     - Contains S means supervisor mode is present
+   * - Version
+     - CPU version
+     - e.g. 4.2.0
+
+**CPU Info detail panel**
+
+
+The panel content is in three segments:
+
+1. The first segment: cleaned raw output, such as ``Nuclei CPU Detected: ...``, ``Feature: ...``;
+2. After ``=== RISC-V Info ===``: key-value pairs parsed from ``monitor riscv info``;
+3. Further on: MISA bit decode + Nuclei configuration CSR expansion — ``mcfg_info`` (TEE / ECC / ECLIC / PLIC / ILM / DLM / Cache / SMP features), ``micfg_info`` / ``mdcfg_info`` (ILM / DLM sizes and Cache geometry parameters).
+
+**Determining whether the core supports MMU**
+
+You can use this view to judge, but be cautious: check whether the ISA string contains S; more reliably check bit18 of ``misa``; but neither is a sufficient condition (in real tests there have been cases where the ISA contains S and misa bit18 is also 1, yet ``csrw satp`` still triggers an illegal instruction exception). Ultimately the criterion is whether ``satp`` can be successfully read and written; see :ref:`MMU View <ide_mmu_view>`.
+
+**Troubleshooting**
+
+- Symptom: ``MARCHID / MHARTID / MIMPID`` are all N/A, but ISA / Version have values. Usually caused by the OpenOCD version or the level of monitor command support. Confirm whether OpenOCD supports the ``monitor nuclei cpuinfo`` command; the GDB commands and responses sent by the view are echoed to the "Nuclei CPU Info" console, which can be used for comparison.
+- Symptom: ``MIMPID`` is still N/A. Some cores/versions do not provide a valid mimpid value, which is normal and does not affect the use of other fields.
+
+**Known limitations**
+
+- Values must be taken while the target is halted; no refresh during running.
+- Depends on OpenOCD's monitor command support; different versions may return different content, and the view has done fault-tolerant format parsing.
+- Values are read-only and no register is modified.
+
+**From opening the view to analyzing a fault**
+
+
+1. The target is connected and halted (CPU Information also only takes values while the target is halted).
+2. Open the view: menu ``Window -> Show View -> Other... -> CPU Information``.
+3. Click ``Get/Refresh CPU Info``; the table lists each hart's MARCHID / MHARTID / MIMPID / ISA / Version.
+4. Select a row; the lower "CPU Info:" panel shows the raw output, MISA bit-field decode, and Nuclei configuration CSR expansion.
+5. Fault analysis: switch to the CPU Fault Analysis tab, click ``Analyze Fault``, then click a Hart tab to view the current mode, trap source, trap vector, M/S-mode CSRs, etc. by category tree.
+6. Linked debugging: the PC / CSR / page-fault virtual address in the panel are blue clickable links, jumping to the source code, the RISC-V Reference view, and the MMU view respectively.
+
+CPU Fault Analysis
+^^^^^^^^^^^^^^^^^^
+
+The CPU Fault Analysis tree organizes the analysis results by category nodes: General / Architecture / Current Mode / Trap Analysis / Trap Vector / M-mode Registers / S-mode Registers / Delegation Status / Read Errors.
+
+Key points:
+
+- The trap type is given as a text description rather than just an ``mcause`` number, e.g. ``Load access fault``, ``External interrupt (ECLIC ID n)``, ``NMI Exception``;
+- In CLIC/ECLIC mode, ``mpp`` / ``mpie`` / ``minhv`` / ``mpil`` are additionally attached;
+- The blue links can be double-clicked: PC → jump to the source line; CSR → open the RISC-V Reference view to inspect that CSR; the page-fault Trap Value → open the MMU view to translate that address.
+
+|image93|
+
+
+.. _ide_cpu_information_legacy:
+
+View CPU Information via GDB Commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+   The newer Nuclei Studio has the **CPU Information** feature built in; it is recommended to view and decode each hart's information directly through the view. See :ref:`CPU Information <ide_cpu_information>`. The command approach recorded in this section applies to older versions that do not have this feature built in.
 
 After connecting to the running target, you can send the command ``info reg misa`` through the IDE's ``Debugger Console`` tool to view the ``misa`` information of the current CPU. The ``misa`` value is displayed directly in the ``Debugger Console``.
 
@@ -705,6 +831,136 @@ If you are familiar with OpenOCD commands, you can customize the command to meet
 After configuring the parameters as needed, click Flash Programming to download the binary code to the hardware. A successful download result is shown below.
 
 |image71|
+
+.. _projectrun_flash_erase:
+
+Flash Erase
+------------
+
+In real development there is often a need to erase Flash independently **without starting a full debug or download session**: for example, to let the chip restart from a blank state to rule out interference from old firmware/residual data, to clear a write-protected region so it can be programmed again, or to erase only a certain sector / address range while keeping the rest. If every erase required first establishing a GDB debug connection and then exiting, it would be cumbersome and could introduce unnecessary side effects, so it is provided as an independent entry point that can be triggered from the toolbar or the right-click menu.
+
+Flash Erase provides an entry point independent of the debug session, driving OpenOCD directly to erase the target chip's Flash, and exiting immediately after the erase completes (no GDB start, no program download).
+
+It shares the same set of launch configuration attributes as Erase Before Programming in the debug/download flow, but they are triggered differently: Flash Erase is triggered independently via the toolbar or right-click menu, while Erase Before Programming is executed as a pre-download step when debug/download starts. Three erase modes are supported:
+
+
+.. note::
+
+   Checking **Erase before programming** on the Flash Programming page is what assembles the erase command into the download flow; the independent Flash Erase is not affected by that switch and executes immediately on click.
+
+* **Full Chip Erase (entire chip erase)**
+* **Erase by Sectors (erase by sector range)**
+* **Erase by Address Range (erase by address range, optional pad / unlock)**
+
+Full Chip Erase
+~~~~~~~~~~~~~~~~~
+
+|image85|
+
+**Parameters**
+
+You only need to specify the Flash Bank Number (the Flash bank index, which can be checked with ``flash list``; it is usually ``0`` for Nuclei/RISC-V), and all sectors on that bank will be erased.
+
+**Generated OpenOCD command**
+
+::
+
+   flash erase_sector <bank> 0 last
+
+Example: ``openocd -c "flash erase_sector 0 0 last" -c exit``
+
+Erase by Sectors
+~~~~~~~~~~~~~~~~~~
+
+|image86|
+
+**Parameters**
+
+* Flash Bank Number (Spinner, range 0–10, default 0)
+* First Sector (Spinner, 0–255): starting sector number; ``last`` is a keyword indicating the last sector of that bank
+* Last Sector (Spinner, 0–255): ending sector number
+
+``First Sector ≤ Last Sector`` is required; otherwise ``Invalid Sector Range`` pops up.
+
+**Generated OpenOCD command**
+
+::
+
+   flash erase_sector <bank> <first> <last>
+
+Example: ``openocd -c "flash erase_sector 0 2 5" -c exit``
+
+Erase by Address Range
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+|image87|
+
+**Parameters**
+
+* Start Address (hex) (default 0x20000000): erase start address; supports ``0x``-prefixed hexadecimal, decimal, and also TCL expressions
+* Length (bytes, hex) (default 0x10000): erase length in bytes, same format as the address
+* Pad to full sectors (checkbox): expand the range to complete sectors (the part less than one sector is erased as well)
+* Unlock before erase (checkbox): unlock the Flash before erasing (needed when write protection is present)
+
+The address / length must be a valid numeric value (hexadecimal ``0x...`` or decimal), otherwise ``Invalid Format`` pops up.
+
+**Generated OpenOCD command**
+
+::
+
+   flash erase_address [pad] [unlock] <addr> <len>
+
+Example: ``openocd -c "flash erase_address unlock 0x20000000 0x10000" -c exit``
+
+
+
+Usage
+~~~~~~
+
+Use the toolbar button **Flash Erase** or the project's **right-click menu → Flash Erase** (shown only for CDT Managed Build projects). After clicking, the **Flash Erase Configuration** dialog pops up. This dialog is the same as the "Flash Erase Configuration" on the Flash Programming page of the debug configuration.
+
+|image84|
+
+**Full chip erase**:
+
+#. Select the OpenOCD debug configuration in the Launch Bar and make sure the target is connected;
+#. Click the toolbar **Flash Erase** or the project's right-click **Flash Erase**;
+#. Keep **Full Chip Erase** in the dialog, and fill in the target bank for Bank Number (usually 0);
+#. Click **OK**; when ``flash erase_sector 0 0 last`` appears in the Console, the erase starts, and OpenOCD exits automatically after it completes.
+
+|image88|
+
+**Erase by sector**:
+
+#. Open the dialog as above and select **Erase by Sectors**;
+#. Fill in Bank / First Sector / Last Sector (ensure First ≤ Last);
+#. Click OK to execute.
+
+|image89|
+
+**Erase by address range**:
+
+#. Select **Erase by Address Range**;
+#. Fill in Start Address and Length (e.g. ``0x20000000`` / ``0x10000``);
+#. If the Flash is write-protected, check **Unlock before erase**; if you want to erase the trailing part that is less than one sector as well, check **Pad to full sectors**;
+#. Click OK to execute.
+
+|image90|
+
+Flash Erase starts OpenOCD and executes the above commands through its TCL interpreter; after execution, OpenOCD receives ``-c exit`` and exits automatically. The three modes correspond respectively to OpenOCD's native full-chip erase, sector erase, and address erase capabilities, and all parameters come from the currently selected launch configuration.
+
+**Notes**
+
+
+* This entry point is independent of the debug session; it does not download or start the program, and only exits after completing the Flash erase;
+* If there is no active OpenOCD configuration in the Launch Bar, the toolbar/right-click menu prompts you to switch the configuration first;
+* Erasing is a destructive operation; before executing, confirm that the address range matches the actual Flash layout of the target;
+* Independent erase cannot show variables / registers; the Console shows OpenOCD TCL output;
+* The Bank / Sector upper limits are currently hardcoded to 10 / 255; if the number of target banks or sectors exceeds this range, the code needs to be changed;
+* Failure detection relies on OpenOCD (**English**) output; if OpenOCD output is localized, detection may fail;
+* Erasing is irreversible; confirm that the address / sector range is correct before executing.
+
+
 
 .. |image1| image:: /asserts/nucleistudio/projectrun/image2.png
 
@@ -871,3 +1127,23 @@ After configuring the parameters as needed, click Flash Programming to download 
 .. |image82| image:: /asserts/nucleistudio/projectrun/image82.png
 
 .. |image83| image:: /asserts/nucleistudio/projectrun/image83.png
+
+.. |image84| image:: /asserts/nucleistudio/projectrun/image84.png
+
+.. |image85| image:: /asserts/nucleistudio/projectrun/image85.png
+
+.. |image86| image:: /asserts/nucleistudio/projectrun/image86.png
+
+.. |image87| image:: /asserts/nucleistudio/projectrun/image87.png
+
+.. |image88| image:: /asserts/nucleistudio/projectrun/image88.png
+
+.. |image89| image:: /asserts/nucleistudio/projectrun/image89.png
+
+.. |image90| image:: /asserts/nucleistudio/projectrun/image90.png
+
+.. |image91| image:: /asserts/nucleistudio/projectrun/image91.png
+
+.. |image92| image:: /asserts/nucleistudio/projectrun/image92.png
+
+.. |image93| image:: /asserts/nucleistudio/projectrun/image93.png

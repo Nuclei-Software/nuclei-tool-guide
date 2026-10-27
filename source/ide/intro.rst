@@ -91,6 +91,114 @@ Nuclei Studio Release Notes
 
    - To confirm the versions of the RISC-V Toolchain, OpenOCD, QEMU, and Nuclei Model integrated in the current Nuclei Studio, check the content of ``toolchain/ReadMe.txt``.
 
+2026.10 Release Notes
+---------------------
+
+The 2026.10 version is developed based on Eclipse Cpp 2024-06 and upgrades Nuclei System Technology's tool versions to 2026.10. It adds debugging views and features such as the RISC-V extension selector, Flash Erase, Live Peripheral, CPU Information, MMU View, and RISC-V Reference; optimizes existing features such as Connect to Running Target, Trace, Flame View, and Live Watch; adds GDB breakpoint project filter options and the Memory view address exclusion feature (also applicable to Memory Browser) to the underlying Eclipse CDT; and fixes several known defects.
+
+Upgrade RISC-V Toolchain, OpenOCD, and QEMU Versions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Nuclei Studio 2026.10 integrates Nuclei RISC-V Toolchain 2026.10. For details, see :ref:`toolchain_changelog_202610`.
+
+- Nuclei Studio 2026.10 integrates OpenOCD 2026.10. For details, see :ref:`openocd_changelog_202610`.
+
+- Nuclei Studio 2026.10 integrates Nuclei Qemu 2026.10. For details, see :ref:`qemu_changelog_202610`.
+
+- Nuclei Studio 2026.10 integrates Nuclei Near Cycle Model 2026.10. For details, see :ref:`xlmodel_changelog_202610`.
+
+
+Added RISC-V Extension Selector
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A graphical RISC-V extension selector has been added. You can select RISC-V ISA extensions in the project wizard or on the Settings page of project properties, and it generates the ``-march`` string automatically; debug and analysis extensions such as ``Live Watch`` and ``Trace`` are also selectable and usable in the extension selector. For details, see :ref:`Using the RISC-V Extension Selector <ide_extension_selector>`.
+
+Added Flash Erase Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Flash Erase feature has been added; it can erase Flash up to a specified address. For details, see :ref:`Flash Erase <ide_flash_erase>`.
+
+
+Added Live Peripheral Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Live Peripheral is a real-time peripheral monitoring tool developed by Nuclei System Technology. It allows you to view and modify SVD peripheral registers in real time during debugging, and shares the same backend as Live Watch. For details, see :ref:`Live Peripheral <ide_live_peripheral>`.
+
+Added CPU Information View
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The CPU Information view has been added. During debugging, you can view information such as MARCHID/MHARTID/MIMPID/ISA per hart and decode Nuclei configuration CSRs, and use the CPU Fault Analysis tab to locate trap causes. For details, see :ref:`CPU Information <ide_cpu_information>`.
+
+Added MMU View Feature
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The RISC-V MMU view has been added. It can read ``satp``/``misa`` and walk Sv32/Sv39/Sv48/Sv57 page tables while the target is halted, providing virtual address translation, a complete memory map, and a page-table tree. For details, see :ref:`MMU View <ide_mmu_view>`.
+
+Added RISC-V Reference Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The RISC-V Reference view has been added. You can search instructions/CSRs/peripheral registers, encode and decode between machine code and assembly, and interpret register values by bit field. For details, see :ref:`RISC-V Reference <ide_riscv_reference>`.
+
+Optimized Flame View Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the 2026.10 version, we further optimized Flame View by supporting the display of multi-level nested interrupt flame graphs and improving flame graph generation efficiency. Flame View is an intuitive and efficient performance analysis tool used to visualize program execution call stacks and time distribution in embedded systems, helping developers quickly identify hot functions, analyze execution paths, and locate performance bottlenecks.
+
+For details, see :ref:`Using Flame View <ide_flame_view>`.
+
+Optimized Trace Feature
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Based on earlier practical feedback, this release fixes several known defects of the Trace feature and optimizes its processing performance. When connected to a board, it can automatically read registers to fill in the default values of the Trace/Decode settings, and it adds or improves features such as interrupt queries based on Trace data and Flame View. The main enhancements are as follows:
+
+- **Trace bundle (Trace 2.0)**: the Trace 2.0 transport type is supported, and parameters such as TS Size, Datatrace, Context Size, and Decode Mode are read from the CPU and filled in automatically. The raw data, decode results, and related configuration from one capture can be packaged into a single bundle file for easy saving and sharing, and can be replayed offline (with no board connected) in Nuclei Studio to reproduce the complete analysis process.
+
+- **Headless Mode**: trace files can be decoded without opening the Nuclei Studio workbench, by running the built-in headless decoding application with options compatible with ``dqr``, which is suitable for batch decoding, scripts, and CI pipelines.
+
+For details on the Trace feature, see :ref:`Using Trace <ide_advanceusage_43>`; for details on Headless Mode, see :ref:`Using Trace in Headless Mode <ide_ide_trace_headless>`.
+
+Optimized Live Watch Feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Live Watch is a real-time monitoring tool developed by Nuclei System Technology to help developers debug and optimize code more efficiently. The main change for Live Watch in Nuclei Studio 2026.10 is support for obtaining variable values through the GDB channel, along with corresponding optimizations to the refresh and plotting experience.
+
+For details, see :ref:`Live Watch <ide_live_watch>`.
+
+ZCC Upgrade
+~~~~~~~~~~~~
+
+Nuclei Studio 2026.10 integrates ZCC 5.0.0. For details, see: https://www.terapines.com/products/zcc
+
+Added GDB Breakpoint Project Filter Option
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When debugging in a multi-project workspace, the breakpoints of all projects were previously installed to GDB, which could easily interfere with the current debugging session. To address this, a new GDB debug preference ``Only install breakpoints that belong to the launched project`` has been added, so that only the breakpoints of the currently debugged project are installed to GDB, while the breakpoints of other projects are automatically skipped.
+
+For details, see :ref:`GDB Breakpoint Project Filter Option <ide_gdb_breakpoint_filter>`.
+
+Added Memory View Address Exclusion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``Address Exclusion Settings...`` item has been added to the Memory view (also applicable to Memory Browser), so you can configure memory address ranges that should not be read, avoiding errors when accessing inaccessible or protected regions.
+
+For details, see :ref:`Memory View Address Exclusion <ide_memory_exclusion>`.
+
+Fixed Known Bugs
+~~~~~~~~~~~~~~~~~
+
+- Fixed garbled Chinese characters under Chinese Windows systems, both in the debug console and build console (for example, messages such as "An existing connection was forcibly closed by the remote host.") and during compilation and at runtime;
+
+- Fixed that GDB command history (history command recall) did not work in Debugger Console;
+
+- Fixed the display of the command prompt and the response to specific commands in Debugger Console;
+
+- Fixed the bug that Connect to Running Target would reset the CPU;
+
+- Fixed that running clean on large projects failed because the generated command line (such as ``rm`` or compile commands) was too long;
+
+- Fixed other known bugs.
+
+
 .. _ide_changelog_202510:
 
 2025.10 Release Notes
