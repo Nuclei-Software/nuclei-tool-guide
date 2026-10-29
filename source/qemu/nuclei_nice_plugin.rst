@@ -1,3 +1,5 @@
+.. _nuclei_nice_plugin:
+
 Nuclei NICE Plugin
 ==================
 
