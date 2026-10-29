@@ -6,13 +6,17 @@ About Nuclei Near Cycle Model
 The ``Nuclei Near Cycle Model`` (referred to as `xlmodel`) is a co-simulation using **SystemC TLM-2 combined with xlspike**. Xlspike uses spike as the RISC-V ISA simulator and adds support for Nuclei's N/NX/UX RISC-V processors.
 SystemC establishes the TLM 2.0 interaction relationships among the components under **Nuclei EvalSoC**.
 
-- The `xlmodel` can be obtained in **Nuclei Studio 2025.10**.
+- The `xlmodel` can be obtained in **Nuclei Studio 2026.10**.
 - The `xlmodel` is supported on both **Linux and Windows** system.
-- The `xlmodel` supports **GDB debugging** capabilities (GDB RSP interface) with Nuclei Studio.
+- The `xlmodel` supports **GDB debugging** capabilities (GDB RSP interface) with Nuclei Studio, including **SMP multi-thread debugging**, hardware/software breakpoints, watchpoints and vector register views.
 - The `xlmodel` is a **near cycle model** that can test the performance of firmware with different ISA configurations.
 - The `xlmodel` has SystemC built-in and uses version 2.3.4 by default.
 - The `xlmodel` has built-in **gprof** functionality, offering a detailed view of the functions call graph and the cycle count distribution across functions in the test code.
 - The `xlmodel` supports **flame graph** generation for visualizing call stack performance and multi-core/multi-threaded application execution.
+- The `xlmodel` supports **semihosting** (guest ``printf``/file-I/O/exit via the RISC-V semihosting convention).
+- The `xlmodel` can run **big-endian** RISC-V ELF files directly; target endianness is detected from the ELF header.
+- The `xlmodel` can boot a **RISC-V Linux kernel** together with the Nuclei Linux SDK (see :ref:`xlmodel_boot_linux`).
+- The `xlmodel` supports SoC configuration through a ``soc-cfg`` JSON file, and provides a ``--fastmode`` option for maximum functional simulation speed.
 - The `xlmodel` can easily extend **user-defined** instructions, namely **Nuclei NICE instructions**.
 - Xlspike supports RV32IMAFDCBPV and RV64IMAFDCBPV ISA.
 
@@ -32,7 +36,7 @@ Since this model is also integrated in Nuclei Studio, you can use it to do
 
 .. note::
 
-  Before using `xlmodel`, you should check the current version using the ``--version`` parameter to verify whether it is the latest release.
+  Before using `xlmodel`, you should check the current version using the ``--version`` parameter to verify whether it is the latest release. The version output also contains the git commit hash of the build.
 
 The version output of the current latest version is
 
@@ -53,6 +57,8 @@ Brief description of the `xlmodel` SystemC components:
 * Cluster: Modeling of single-core or multi-core CPU, using xlspike internally to execute instructions
 * Bus: Simple bus manager
 * Memory: Simple memory, including default sram/ddr iregion and flashxip iregion
+* Timer: Nuclei SysTimer unit (ECLIC mode and CLINT-compatible window, with ``Sstc`` support)
+* Cidu: Core Interrupt Distribution Unit for multi-core interrupt routing, inter-core interrupts and semaphores
 * EvalUart: Nuclei EvalSoC UART
 * EvalQspi: Nuclei EvalSoC QSPI
 
@@ -63,43 +69,86 @@ For the sake of generality, some Nuclei IP cores have been mapped and implemente
 
   ``Fixed``: The address is fixed by default in `xlmodel`.
 
-  ``Offset``: The address is equal to iregion base address plus the corresponding offset.
+  ``Offset``: The address is equal to iregion base address (default ``0x18000000``) plus the corresponding offset.
 
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  |                     | Component             | Base Address          | Size                  | Description                           |
-  +=====================+=======================+=======================+=======================+=======================================+
-  | Memory Resource     | XIP                   | 0x20000000            | 0x10000000            | XIP address space.                    |
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  |                     | DDR                   | 0x80000000            | 0x04000000            | DDR address space.                    |
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  |                     | ILM                   | 0x80000000            | 0x10000000            | ILM address space.                    |
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  |                     | DLM                   | 0x90000000            | 0x10000000            | DLM address space.                    |
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  |                     | SRAM                  | 0xA0000000            | 0x10000000            | SRAM address space.                   |
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  | Peripherals (Fixed) | MROM                  | 0x1000                | 0xf000                | MROM address space.                   |
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  |                     | UART0                 | 0x10013000            | 0x1000                | UART0 address space.                  |
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  |                     | QSPI0                 | 0x10014000            | 0x1000                | QSPI0 address space.                  |
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  |                     | QSPI1                 | 0x10024000            | 0x1000                | QSPI1 address space.                  |
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  |                     | QSPI2                 | 0x10034000            | 0x1000                | QSPI2 address space.                  |
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  | Peripherals (Offset)| ECLIC                 | 0x20000               | 0x10000               | ECLIC address space.                  |
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  |                     | TIMER                 | 0x30000               | 0x10000               | TIMER address space.                  |
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  |                     | CIDU                  | 0x50000               | 0x10000               | CIDU address space.                   |
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
-  |                     | PLIC                  | 0x4000000             | 0x4000000             | PLIC address space.                   |
-  +---------------------+-----------------------+-----------------------+-----------------------+---------------------------------------+
+.. list-table:: Default EvalSoC address map in xlmodel
+  :header-rows: 1
+  :widths: 18 18 22 42
+  :align: center
 
-Evalsoc's memory resource address mapping can be modified using parameters such as ``--ddrbase=<ddr_start_addr>`` and ``--ddrsz=<ddr_size>``. Users can also define additional memory regions for memory expansion via the ``--mem=<str>`` parameter.
+  * - Type
+    - Component
+    - Base Address
+    - Description
+  * - Memory Resource
+    - XIP
+    - ``0x20000000``
+    - XIP (NOR flash) address space, default size 256MB.
+  * - Memory Resource
+    - DDR
+    - ``0x80000000``
+    - DDR address space, default size 64MB.
+  * - Memory Resource
+    - ILM
+    - ``0x80000000``
+    - ILM address space, default size 8MB.
+  * - Memory Resource
+    - DLM
+    - ``0x90000000``
+    - DLM address space, default size 8MB.
+  * - Memory Resource
+    - SRAM
+    - ``0xA0000000``
+    - SRAM address space, default size 512MB.
+  * - Peripherals (Fixed)
+    - UART0
+    - ``0x10013000``
+    - UART0 address space.
+  * - Peripherals (Fixed)
+    - QSPI0
+    - ``0x10014000``
+    - QSPI0 address space.
+  * - Peripherals (Fixed)
+    - QSPI1
+    - ``0x10024000``
+    - QSPI1 address space.
+  * - Peripherals (Fixed)
+    - QSPI2
+    - ``0x10034000``
+    - QSPI2 address space.
+  * - Peripherals (Offset)
+    - ECLIC
+    - ``iregion + 0x20000``
+    - ECLIC address space.
+  * - Peripherals (Offset)
+    - TIMER
+    - ``iregion + 0x30000``
+    - SysTimer/CLINT-compatible address space.
+  * - Peripherals (Offset)
+    - SMP/CC
+    - ``iregion + 0x40000``
+    - SMP and cluster cache control unit.
+  * - Peripherals (Offset)
+    - CIDU
+    - ``iregion + 0x50000``
+    - CIDU address space.
+  * - Peripherals (Offset)
+    - PLIC
+    - ``iregion + 0x4000000``
+    - PLIC address space.
+
+Evalsoc's memory resource address mapping and sizes can be modified using parameters such as ``--ddrbase=<ddr_start_addr>`` and ``--ddrsz=<ddr_size>``, or through the ``soc-cfg`` JSON file described in :ref:`xlmodel_soc_cfg`. Users can also define additional memory regions for memory expansion via the ``--mem=<str>`` parameter.
 
 For details, please see :ref:`xlmodel_description_of_parameters`.
+
+Big-Endian Support
+------------------
+
+`xlmodel` can run big-endian RISC-V ELF files directly. The target endianness is detected from the ELF header (``ELFDATA2MSB``), so no extra command-line switch is required:
+
+* Memory-like regions (ILM, DLM, SRAM, DDR, XIP and user-defined memories) keep target byte order as-is; device-like MMIO regions (UART, QSPI, TIMER, CIDU and other iregion registers) perform the device byte swap on register access.
+* GDB debugging works with big-endian ELF files, including general registers, CSRs, FPU registers and ECLIC byte-lane registers.
+* Build the big-endian firmware with a multilib toolchain that provides big-endian libraries (for example the ``riscv64be``/``riscv32be`` multilib variants of the Nuclei toolchain).
 
 Nuclei CPU Features Supported in xlmodel
 ----------------------------------------
@@ -109,31 +158,42 @@ The following is the support status of Nuclei CPU features in `xlmodel`.
   +---------------------+-------------------------------------------------------+
   | CPU Features        | Status in xlmodel                                     |
   +=====================+=======================================================+
-  |NMI                  | Supported                                             |
+  | NMI                 | Supported                                             |
   +---------------------+-------------------------------------------------------+
-  |TIMER                | Supported, see :ref:`xlmodel_support_status_of_timer` |
+  | TIMER               | Supported, see :ref:`xlmodel_support_status_of_timer` |
   +---------------------+-------------------------------------------------------+
-  |PLIC                 | Supported, see :ref:`xlmodel_support_status_of_plic`  |
+  | PLIC                | Supported, see :ref:`xlmodel_support_status_of_plic`  |
   +---------------------+-------------------------------------------------------+
-  |ECLIC                | Supported, see :ref:`xlmodel_support_status_of_eclic` |
+  | ECLIC (v1/v2)       | Supported, see :ref:`xlmodel_support_status_of_eclic` |
   +---------------------+-------------------------------------------------------+
-  |CIDU                 | Supported, see :ref:`xlmodel_support_status_of_cidu`  |
+  | CIDU                | Supported, see :ref:`xlmodel_support_status_of_cidu`  |
   +---------------------+-------------------------------------------------------+
-  |PMP                  | Supported                                             |
+  | PMP                 | Supported                                             |
   +---------------------+-------------------------------------------------------+
-  |TEE                  | Supported                                             |
+  | TEE                 | Supported                                             |
   +---------------------+-------------------------------------------------------+
-  |WFI/WFE              | Not supported                                         |
+  | SSTC                | Supported (enabled by default via ``--ext=_sstc``)    |
   +---------------------+-------------------------------------------------------+
-  |ECC                  | Only CSRs Supported                                   |
+  | WFI                 | Supported                                             |
   +---------------------+-------------------------------------------------------+
-  |CCM                  | Only CSRs Supported                                   |
+  | WFE                 | Not supported                                         |
   +---------------------+-------------------------------------------------------+
-  |SPMP                 | Not supported                                         |
+  | ECC                 | Only CSRs Supported                                   |
   +---------------------+-------------------------------------------------------+
-  |SMPU                 | Supported                                             |
+  | CCM                 | Only CSRs Supported                                   |
   +---------------------+-------------------------------------------------------+
-  |SMP&CLUSTER CACHE    | Not supported                                         |
+  | SPMP                | Not supported                                         |
+  +---------------------+-------------------------------------------------------+
+  | SMPU                | Supported                                             |
+  +---------------------+-------------------------------------------------------+
+  | SMP&CLUSTER CACHE   | Register-level load/store supported; cache contents   |
+  |                     | and coherence traffic are not modeled                 |
+  +---------------------+-------------------------------------------------------+
+  | SMP                 | Supported, up to 16 harts (``--smp``)                 |
+  +---------------------+-------------------------------------------------------+
+  | Big-endian          | Supported, driven by the ELF header                   |
+  +---------------------+-------------------------------------------------------+
+  | Semihosting         | Supported (``--semihosting=1``)                       |
   +---------------------+-------------------------------------------------------+
 
 .. _xlmodel_support_status_of_timer:
@@ -141,14 +201,14 @@ The following is the support status of Nuclei CPU features in `xlmodel`.
 TIMER Support
 ~~~~~~~~~~~~~
 
-TIMER currently supports normal access and interrupt triggering under two interrupt architectures, eclic and clint (plic) in m-mode, but the functionality in s-mode has not yet been implemented.
+TIMER supports M-mode and S-mode operation under both interrupt architectures, ECLIC and CLINT (PLIC), including the CLINT-compatible ``mtime``/``mtimecmp`` window and the ``Sstc`` supervisor timer extension (``stimecmp``/``vstimecmp``). In cycle/function mode, ``mtime`` advances by the exact ``timer_freq``/``cpu_freq`` ratio, and ``MTIMECTL.CLKSRC`` is honored.
 
 .. _xlmodel_support_status_of_plic:
 
 PLIC Support
 ~~~~~~~~~~~~
 
-The PLIC interrupt architecture supports M-mode and S-mode, but it only supports single-core mode and does not support multi-core mode.
+The PLIC interrupt architecture supports M-mode and S-mode with up to 1024 interrupt sources (``--eclic=irqnums:<n>``). Multi-core PLIC mode is not supported; use ``--plicabsent=1`` when the simulated CPU has no PLIC.
 
 .. _xlmodel_support_status_of_eclic:
 
@@ -157,13 +217,15 @@ ECLIC Support
 
 Now `xlmodel` have been equipped with ECLIC, which is optimized based on the RISC-V standard CLIC, to manage all interrupt sources. The ECLIC interrupt architecture supports M-mode and S-mode, and it can support multi-core mode.
 
+* ECLIC v1: interrupt configuration, arbitration, nesting and edge/level trigger behavior. The number of interrupt lines and ``CLICINTCTLBITS`` are configurable through ``--eclic=irqnums:<n>,intctlbits:<n>,shdnum:<n>``. With S-mode enabled the maximum number of interrupts is 1024; with M-mode only (``--priv=m``) it is 4096.
+* ECLIC v2 (``--ext=_xlclicv2``): additionally supports hardware context save/restore and shadow general-purpose register groups (``shdnum`` groups, including FPU shadow groups), together with the associated nested-trap state handling.
+
 .. _xlmodel_support_status_of_cidu:
 
 CIDU Support
 ~~~~~~~~~~~~
 
   The CIDU is used to distribute external interrupts to the core's ECLIC, and also provides Inter Core Interrupt (ICI) and Semaphores Mechanism. All of these features are currently implemented and available.
-
 
 Nuclei SDK Cases Supported in xlmodel
 -------------------------------------
@@ -174,73 +236,197 @@ Nuclei SDK Cases Supported in xlmodel
 
   ``F`` - Failed
 
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| Cases                     | SMP=1 | SMP>1 | Additional compilation parameters                  | Running Status                                                                    |
-+===========================+=======+=======+====================================================+===================================================================================+
-| benchmark/coremark/       | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| benchmark/dhrystone/      | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| benchmark/dhrystone_v2.2/ | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| benchmark/whetstone/      | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| benchmark/whetstone_v1.2/ | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| cpuinfo/                  | N     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_cache/               | F     |       | XLCFG_CCM, eg:XLCFG_CCM=1                          | xlmodel does not support cache emulation.                                         |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_cidu/                |       | Y     | SMP,XLCFG_CIDU, eg:SMP=4 XXLCFG_CIDU=1             |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_clint_timer/         | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_dsp/                 | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_eclic/               | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_nice/                | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_plic/                | Y     |       | XLCFG_PLIC, eg:XLCFG_PLIC=1                        |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_pmp/                 | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_profiling/           | N     |       |                                                    | xlmodel already implements its own profiling, so there is no need to run this case|
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_smode_eclic/         | Y     |       | XLCFG_TEE, eg:XLCFG_TEE=1                          |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_smode_plic/          | Y     |       | XLCFG_PLIC, eg:XLCFG_PLIC=1                        |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_smpu/                | Y     |       | XLCFG_SMPU, eg:XLCFG_SMPU=1                        |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_sstc/                | F     |       | XLCFG_TEE,XLCFG_SSTC, eg:XLCFG_TEE=1 XLCFG_SSTC=1  | xlmodel does not support SSTC.                                                    |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_stack_check/         | N     |       |                                                    | xlmodel only implements CSR read and write, so there is no need to run this case. |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_timer/               | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| demo_vnice/               | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| helloworld/               | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| lowpower/                 | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| smphello/                 |       | Y     | SMP, eg:SMP=4                                      |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| freertos/demo/            | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| freertos/smpdemo/         |       | Y     | SMP, eg:SMP=4                                      |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| rtthread/demo/            | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| rtthread/demo_smode/      | F     |       | XLCFG_TEE,XLCFG_SSTC, eg:XLCFG_TEE=1 XLCFG_SSTC=1  | xlmodel does not support SSTC.                                                    |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| rtthread/msh/             | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| threadx/demo/             | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
-| ucosii/demo/              | Y     |       |                                                    |                                                                                   |
-+---------------------------+-------+-------+----------------------------------------------------+-----------------------------------------------------------------------------------+
+.. list-table:: Nuclei SDK cases supported in xlmodel
+   :header-rows: 1
+   :widths: 24 8 8 28 32
+   :align: center
+
+   * - Cases
+     - SMP=1
+     - SMP>1
+     - Additional compilation parameters
+     - Running Status
+   * - benchmark/coremark/
+     - Y
+     -
+     -
+     -
+   * - benchmark/dhrystone/
+     - Y
+     -
+     -
+     -
+   * - benchmark/dhrystone_v2.2/
+     - Y
+     -
+     -
+     -
+   * - benchmark/whetstone/
+     - Y
+     -
+     -
+     -
+   * - benchmark/whetstone_v1.2/
+     - Y
+     -
+     -
+     -
+   * - cpuinfo/
+     - N
+     -
+     -
+     -
+   * - demo_cache/
+     - F
+     -
+     - XLCFG_CCM, eg:XLCFG_CCM=1
+     - xlmodel does not support cache emulation.
+   * - demo_cidu/
+     -
+     - Y
+     - SMP,XLCFG_CIDU, eg:SMP=4 XLCFG_CIDU=1
+     -
+   * - demo_clint_timer/
+     - Y
+     -
+     -
+     -
+   * - demo_dsp/
+     - Y
+     -
+     -
+     -
+   * - demo_eclic/
+     - Y
+     -
+     -
+     -
+   * - demo_eclic_stress/
+     - Y
+     -
+     - XLCFG_ECLIC=2, ECLIC_HWCTX=0/1, eg:XLCFG_ECLIC=2 ECLIC_HWCTX=1
+     - Run with an increased ``--cpufreq`` (eg 16MHz).
+   * - demo_nice/
+     - Y
+     -
+     -
+     -
+   * - demo_plic/
+     - Y
+     -
+     - XLCFG_PLIC, eg:XLCFG_PLIC=1
+     -
+   * - demo_pmp/
+     - Y
+     -
+     -
+     -
+   * - demo_profiling/
+     - N
+     -
+     -
+     - xlmodel already implements its own profiling, so there is no need to run this case.
+   * - demo_smode_eclic/
+     - Y
+     -
+     - XLCFG_TEE, eg:XLCFG_TEE=1
+     -
+   * - demo_smode_plic/
+     - Y
+     -
+     - XLCFG_PLIC, eg:XLCFG_PLIC=1
+     -
+   * - demo_smpu/
+     - Y
+     -
+     - XLCFG_SMPU, eg:XLCFG_SMPU=1
+     -
+   * - demo_sstc/
+     - Y
+     -
+     - XLCFG_TEE,XLCFG_SSTC, eg:XLCFG_TEE=1 XLCFG_SSTC=1
+     -
+   * - demo_stack_check/
+     - N
+     -
+     -
+     - xlmodel only implements CSR read and write, so there is no need to run this case.
+   * - demo_timer/
+     - Y
+     -
+     -
+     -
+   * - demo_vnice/
+     - Y
+     -
+     -
+     -
+   * - exception_mmode/
+     - Y
+     -
+     -
+     -
+   * - exception_smode/
+     - Y
+     -
+     - XLCFG_TEE, eg:XLCFG_TEE=1
+     -
+   * - helloworld/
+     - Y
+     -
+     -
+     -
+   * - lowpower/
+     - Y
+     -
+     -
+     -
+   * - smphello/
+     -
+     - Y
+     - SMP, eg:SMP=4
+     -
+   * - freertos/demo/
+     - Y
+     -
+     -
+     -
+   * - freertos/smpdemo/
+     -
+     - Y
+     - SMP, eg:SMP=4
+     -
+   * - rtthread/demo/
+     - Y
+     -
+     -
+     -
+   * - rtthread/demo_smode/
+     - Y
+     -
+     - XLCFG_TEE,XLCFG_SSTC, eg:XLCFG_TEE=1 XLCFG_SSTC=1
+     -
+   * - rtthread/msh/
+     - Y
+     -
+     -
+     -
+   * - threadx/demo/
+     - Y
+     -
+     -
+     -
+   * - threadx/smpdemo/
+     -
+     - Y
+     - SMP, eg:SMP=4
+     -
+   * - ucosii/demo/
+     - Y
+     -
+     -
+     -
+
 
 And `xlmodel` and Nuclei SDK are deeply integrated in Nuclei Studio, you can run Nuclei SDK test code using `xlmodel` in Nuclei Studio, please refer to the :ref:`Nuclei Studio use xlmodel <ide_nuclei_near_cycle_model>`.
 
@@ -254,63 +440,93 @@ model help
 
 .. rubric:: Frequently used command line parameters
 
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| parameter                | description                                                                                                       |
-+==========================+===================================================================================================================+
-| ``--version``            | display version info                                                                                              |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--machine=<str>``      | machine type config, defaults to 'nuclei_evalsoc'                                                                 |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--cpu=<str>``          | core config, defaults to 'n300fd'                                                                                 |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--ext=<str>``          | RISC-V arch extensions config, defaults to NULL                                                                   |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--download=<str>``     | download type config, defaults to ``--download=flashxip`` and can be set to ``ilm``, ``ddr``, ``sram``, ``flash`` |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--cpufreq=<n>``        | CPU frequency (Hz), default is 655360 Hz, Set to a higher value for improved simulation accuracy                  |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--timeout=<n>``        | expected real execution time(s) for running simulation; otherwise, it is unlimited                                |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--trace=<n>``          | whether generate the trace file, ``--trace=1`` means generating                                                   |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--flamegraph=<n>``     | whether dump flame graph file xlmodel_flame_[coreid].gtef, ``--flamegraph=1`` means generating                    |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--bpu=<str>``          | core bpu type config, defaults to ``--bpu=n300`` and can be set to ``n900``                                       |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--smp=<n>``            | SMP system core number configuration, with a maximum of 16                                                        |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--funcmode=<n>``       | Whether to only use the function model which instructions do not have cycle count in                              |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--gdbport=<n>``        | Accept gdbport connection with ``--gdbport=port num``                                                             |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--gprof=<n>``          | whether to use profiling, ``--gprof=1`` means using profiling                                                     |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--varch=<str>``        | RISCV Vector uArch config, defaults to ``--varch=vlen:128,elen:64``                                               |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--log=<str>``          | logging system level, defaults to ``--log=info`` and can be set to ``error``, ``tlm``, ``debug``                  |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--logdir=<str>``       | the directory to save trace and gprof files                                                                       |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--mem=<str>``          | User-defined additional memory map config, ``--mem="start_addr0:size0,start_addr1:size1..."``                     |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--iregionbase=<str>``  | iregionbase config, ``--iregionbase=iregion_start_addr``                                                          |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--ilmbase=<str>``      | ilmbase config, ``--ilmbase=ilm_start_addr``                                                                      |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--ilmsz=<str>``        | ilmsz config, ``--ilmsz=ilm_size``                                                                                |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--dlmbase=<str>``      | dlmbase config, ``--dlmbase=dlm_start_addr``                                                                      |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--dlmsz=<str>``        | dlmsz config, ``--dlmsz=dlm_size``                                                                                |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--ddrbase=<str>``      | ddrbase config, ``--ddrbase=ddr_start_addr``                                                                      |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--ddrsz=<str>``        | ddrsz config, ``--ddrsz=ddr_size``                                                                                |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--flashxipbase=<str>`` | flashxipbase config, ``--flashxipbase=flashxip_start_addr``                                                       |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
-| ``--flashxipsz=<str>``   | flashxipsz config, ``--flashxipsz=flashxip_size``                                                                 |
-+--------------------------+-------------------------------------------------------------------------------------------------------------------+
+.. list-table:: Frequently used command line parameters
+   :header-rows: 1
+   :widths: 22 78
+   :align: center
+
+   * - parameter
+     - description
+   * - parameter
+     - description
+   * - ``--version``
+     - display version info, including the build git commit hash
+   * - ``-M/--machine=<str>``
+     - machine type config, defaults to 'nuclei_evalsoc'
+   * - ``--cpu=<str>``
+     - core config, defaults to 'n300fd', use ``--cpu=?`` to list all supported Nuclei cores (rv32/rv64)
+   * - ``--ext=<str>``
+     - RISC-V arch extensions config, defaults to ``_sstc``; supports ``--ext=_zba_zbb_zbc,sstc=false,zbs=true``
+   * - ``--download=<str>``
+     - download type config, defaults to ``--download=flashxip`` and can be set to ``ilm``, ``ddr``, ``sram``, ``flash``
+   * - ``--soc-cfg=<str>``
+     - load a ``soc-cfg`` JSON file to override the built-in board configuration, see :ref:`xlmodel_soc_cfg`
+   * - ``--cpufreq=<n>``
+     - CPU frequency (Hz), overrides the ``cpu_freq`` item of ``--soc-cfg``, default is 655360 Hz. Set to a higher
+   * - ``--timefreq=<n>``
+     - timer frequency (Hz), overrides the ``timer_freq`` item of ``--soc-cfg``, default is 32768 Hz
+   * - ``--timeout=<n>``
+     - expected real execution time(s) for running simulation; otherwise, it is unlimited
+   * - ``--trace=<n>``
+     - whether generate the trace file, ``--trace=1`` means generating
+   * - ``-t <str>``
+     - specify the path of the trace file and enable the trace function
+   * - ``--flamegraph=<n>``
+     - whether dump flame graph file xlmodel_flame_[coreid].gtef, ``--flamegraph=1`` means generating
+   * - ``--bpu=<str>``
+     - core bpu type config, defaults to ``--bpu=n300`` and can be set to ``n900``
+   * - ``--smp=<n>``
+     - SMP system core number configuration, with a maximum of 16
+   * - ``--funcmode=<n>``
+     - Whether to only use the function model which instructions do not have cycle count in
+   * - ``--fastmode=<n>``
+     - Whether to enable fast model conversion to functional model to maximize simulation speed, sacrificing features
+   * - ``--gdbport=<n>``
+     - Accept gdbport connection with ``--gdbport=port num``
+   * - ``--gprof=<n>``
+     - whether to use profiling, ``--gprof=1`` means using profiling
+   * - ``--semihosting=<n>``
+     - enable RISC-V semihosting: guest printf/file-IO/exit via EBREAK magic, bypassing UART
+   * - ``--varch=<str>``
+     - RISCV Vector uArch config, defaults to ``--varch=vlen:128,elen:64``
+   * - ``--eclic=<str>``
+     - Nuclei ECLIC config, defaults to ``--eclic=irqnums:64,intctlbits:3,shdnum:9``
+   * - ``--priv=<str>``
+     - RISC-V privilege modes m/mu/msu, defaults to 'msu'; use 'm' for M-mode only
+   * - ``--plicabsent=<int>``
+     - whether the PLIC of the simulated CPU is absent or not
+   * - ``--log=<str>``
+     - logging system level, defaults to ``--log=info`` and can be set to ``error``, ``tlm``, ``debug``
+   * - ``--logdir=<str>``
+     - the directory to save trace and gprof files
+   * - ``--mem=<str>``
+     - User-defined additional memory map config, ``--mem="start_addr0:size0,start_addr1:size1..."``
+   * - ``--iregionbase=<str>``
+     - iregionbase config, ``--iregionbase=iregion_start_addr``
+   * - ``--ilmbase=<str>``
+     - ilmbase config, ``--ilmbase=ilm_start_addr``
+   * - ``--ilmsz=<str>``
+     - ilmsz config, ``--ilmsz=ilm_size``
+   * - ``--dlmbase=<str>``
+     - dlmbase config, ``--dlmbase=dlm_start_addr``
+   * - ``--dlmsz=<str>``
+     - dlmsz config, ``--dlmsz=dlm_size``
+   * - ``--ddrbase=<str>``
+     - ddrbase config, ``--ddrbase=ddr_start_addr``
+   * - ``--ddrsz=<str>``
+     - ddrsz config, ``--ddrsz=ddr_size``
+   * - ``--srambase=<str>``
+     - srambase config, ``--srambase=sram_start_addr``
+   * - ``--sramsz=<str>``
+     - sramsz config, ``--sramsz=sram_size``
+   * - ``--flashxipbase=<str>``
+     - flashxipbase config, ``--flashxipbase=flashxip_start_addr``
+   * - ``--flashxipsz=<n>``
+     - flashxipsz config, ``--flashxipsz=flashxip_size``
+   * - ``--vectorbase=<str>``
+     - vectorbase config, overrides the reset vector address selected by ``--download``
+
+For memory layout and frequency options, the effective value is resolved in the order **CLI parameter > ``soc-cfg`` JSON > built-in default**.
 
 You need to pass the different parameters above based on the results you want to obtain and the specific test code you are running.
 
@@ -326,13 +542,13 @@ The following parameter examples are based on a Linux system. If you are using a
 
 The default test code ELF files are provided in the :file:`tests` directory.
 
-* ``--cpu=<core_type>``: Each test code needs to be run with this parameter. To see all Nuclei cores that are supported by `xlmodel`, refer to the `Supported Nuclei Processor Cores section <https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#core>`__. This is an example of running an ELF file with `nx900` core using the `xlmodel`::
+* ``--cpu=<core_type>``: Each test code needs to be run with this parameter. To see all Nuclei cores that are supported by `xlmodel`, you can use ``--cpu=?``, or refer to the `Supported Nuclei Processor Cores section <https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#core>`__. This is an example of running an ELF file with `nx900` core using the `xlmodel`::
 
   ./xl_cpumodel --cpu=nx900 --download=ilm ../tests/demotimer/demotimer_nx900.elf
 
   .. image:: /asserts/images/xlmodel/demotimer.png
 
-* ``--ext=xxx``: This parameter is used to pass different riscv extension, the way to enable different extensions is to add them inside it. For example, ``_xxldsp`` represents enable the nuclei DSP extension, ``v`` represents enable RISC-V V Extension. Currently, `xlmodel` supports the following common RISC-V instruction set extension types:
+* ``--ext=xxx``: This parameter is used to pass different riscv extension, the way to enable different extensions is to add them inside it. For example, ``_xxldsp`` represents enable the nuclei DSP extension, ``v`` represents enable RISC-V V Extension. The ``Sstc`` extension is enabled by default. An extension can also be disabled or re-enabled by appending ``name=true/false`` items, where later items take precedence, for example ``--ext=_sstc_zba_zbb,sstc=false``. When the model starts, it prints all default enabled extensions. Currently, `xlmodel` supports the following common RISC-V instruction set extension types:
 
   +--------------+-------------------------------------------------------------------------+
   | Extension    | Functionality                                                           |
@@ -363,15 +579,21 @@ The default test code ELF files are provided in the :file:`tests` directory.
   +--------------+-------------------------------------------------------------------------+
   | _zawrs       | Zawrs extension                                                         |
   +--------------+-------------------------------------------------------------------------+
+  | _zacas       | Zacas extension (AMO CAS)                                               |
+  +--------------+-------------------------------------------------------------------------+
   | _zfh         | Zfh  Extension                                                          |
   +--------------+-------------------------------------------------------------------------+
   | _zfa         | Zfa  Extension                                                          |
   +--------------+-------------------------------------------------------------------------+
   | _zfhmin      | Zfhmin Extension                                                        |
   +--------------+-------------------------------------------------------------------------+
-  | zfinx        | Zfinx  Extension                                                        |
+  | _zfinx       | Zfinx  Extension                                                        |
   +--------------+-------------------------------------------------------------------------+
-  | zdinx        | Zdinx  Extension                                                        |
+  | _zdinx       | Zdinx  Extension                                                        |
+  +--------------+-------------------------------------------------------------------------+
+  | _zibi        | Nuclei Zibi Extension                                                   |
+  +--------------+-------------------------------------------------------------------------+
+  | _zicfilp     | RISC-V Zicfilp Extension (landing pad)                                  |
   +--------------+-------------------------------------------------------------------------+
   | _zca         | RISC-V ZC* Extension                                                    |
   +--------------+-------------------------------------------------------------------------+
@@ -433,6 +655,14 @@ The default test code ELF files are provided in the :file:`tests` directory.
   +--------------+-------------------------------------------------------------------------+
   | _zvfhmin     | RISC-V V Extension                                                      |
   +--------------+-------------------------------------------------------------------------+
+  | _zvkg        | RISC-V Vector Crypto Extension                                          |
+  +--------------+-------------------------------------------------------------------------+
+  | _zvkned      | RISC-V Vector Crypto Extension                                          |
+  +--------------+-------------------------------------------------------------------------+
+  | _zvksed      | RISC-V Vector Crypto Extension                                          |
+  +--------------+-------------------------------------------------------------------------+
+  | _zvksh       | RISC-V Vector Crypto Extension                                          |
+  +--------------+-------------------------------------------------------------------------+
   | zhinx        | Zhinx Extension                                                         |
   +--------------+-------------------------------------------------------------------------+
   | zhinxmin     | Zhinxmin Extension                                                      |
@@ -443,7 +673,7 @@ The default test code ELF files are provided in the :file:`tests` directory.
   +--------------+-------------------------------------------------------------------------+
   | _sscofpmf    | Sscofpmf  Extension                                                     |
   +--------------+-------------------------------------------------------------------------+
-  | _sstc        | Sstc  Extension                                                         |
+  | _sstc        | Sstc  Extension (enabled by default)                                    |
   +--------------+-------------------------------------------------------------------------+
   | _svinval     | Svinval Extension                                                       |
   +--------------+-------------------------------------------------------------------------+
@@ -461,6 +691,14 @@ The default test code ELF files are provided in the :file:`tests` directory.
   +--------------+-------------------------------------------------------------------------+
   | _xxlcz       | Nuclei code size reduction extension                                    |
   +--------------+-------------------------------------------------------------------------+
+  | _xxlvqmacc   | Nuclei custom vpu extension                                             |
+  +--------------+-------------------------------------------------------------------------+
+  | _xxlfbf      | Nuclei scalar BF16 extension                                            |
+  +--------------+-------------------------------------------------------------------------+
+  | _xxlvfbf     | Nuclei vector BF16 extension                                            |
+  +--------------+-------------------------------------------------------------------------+
+  | _xlclicv2    | Nuclei ECLIC v2 extension (hardware context and shadow registers)       |
+  +--------------+-------------------------------------------------------------------------+
 
   This is an example of running an ELF file with `_zba_zbb_zbc_zbs_xxldspn1x` extension using the `xlmodel`::
 
@@ -473,15 +711,23 @@ The default test code ELF files are provided in the :file:`tests` directory.
   ./xl_cpumodel --cpu=ux900fd --ext=v --download=ilm --varch=vlen:512,elen:64 ../tests/rvv_conv_f32/rvv_conv_f32.elf
   ./xl_cpumodel --cpu=ux900fd --ext=v --download=ilm --varch=vlen:1024,elen:64 ../tests/rvv_conv_f32/rvv_conv_f32.elf
 
+  VLEN values of 2048 and 4096 are also supported, which is useful for VNICE instruction modeling with very wide vector registers::
+
+  ./xl_cpumodel --cpu=ux900fd --ext=v --download=ilm --varch=vlen:2048,elen:64 ../tests/rvv_conv_f32/rvv_conv_f32.elf
+
 * ``--download=xxx``: This parameter is used to choose the download mode, currently it supports five download modes: ``sram``, ``flashxip``, ``flash``, ``ilm``, and ``ddr``. If this parameter is not present, the default value is ``flashxip``. Example::
 
   ./xl_cpumodel --cpu=nx900 --download=sram --smp=4 ../tests/democidu_en_firclaim/democidu_en_firclaim_nx900.elf
+
+  The startup address of the selected download mode is the corresponding memory base by default; it can be overridden per mode with ``download.<mode>.startaddr`` in the ``soc-cfg`` JSON file. The startup address is also checked against the ELF entry point, and the ``--vectorbase=<addr>`` parameter can override it explicitly.
 
 * ``--cpufreq=<n>``: This parameter sets the CPU frequency (Hz), the default is 655360 Hz. **Note that a higher frequency setting improves simulation accuracy and should typically be set above the default value**. Example::
 
   ./xl_cpumodel ../tests/demodsp/demodsp_n300fd.elf --cpu=n300fd --ext=_zba_zbb_zbc_zbs_xxldspn1x --download=ilm --cpufreq=50000000
 
-  When using flame graphs, you can set different frequencies to observe variations in program execution time. 
+  When using flame graphs, you can set different frequencies to observe variations in program execution time.
+
+* ``--timefreq=<n>``: This parameter sets the timer frequency (Hz), the default is 32768 Hz. In cycle/function mode, ``mtime`` advances by the exact ``timer_freq``/``cpu_freq`` ratio, so ``cpu_freq < timer_freq`` configurations are also accepted.
 
 * ``--smp=n``: `xlmodel` currently supports up to 16 CPUs. If this parameter is not set, then uses 1 CPU. Running the 4-core SMP example is as follows::
 
@@ -501,11 +747,21 @@ The default test code ELF files are provided in the :file:`tests` directory.
 
     ./xl_cpumodel --cpu=nx900 --download=ilm --bpu=n900 ../tests/demotimer/demotimer_nx900.elf
 
+* ``--eclic=irqnums:<n>,intctlbits:<n>,shdnum:<n>``: Configures the ECLIC interrupt number count (``irqnums``, up to 1024 with S-mode enabled or 4096 in M-mode only), the ``CLICINTCTLBITS`` width (``intctlbits``), and the number of ECLIC v2 shadow register groups (``shdnum``). The defaults are ``irqnums:64,intctlbits:3,shdnum:9``. Use it together with ``--ext=_xlclicv2`` to evaluate ECLIC v2 hardware contexts::
+
+  ./xl_cpumodel --cpu=nx900 --download=ilm --ext=_xlclicv2 --eclic=irqnums:64,intctlbits:3,shdnum:9 ../tests/demotimer/demotimer_nx900.elf
+
+* ``--priv=m/mu/msu``: Selects the implemented privilege modes, defaulting to ``msu``. Use ``--priv=m`` for M-mode only CPUs; in this mode the ECLIC can be configured with up to 4096 interrupt lines.
+
+* ``--fastmode=1``: Switches the model to the fast functional mode to maximize simulation speed. This sacrifices cycle-accurate features such as ``--trace``, ``--gprof`` and ``--flamegraph`` (these options are ignored when fastmode is on). It is recommended when booting Linux or running very long functional tests::
+
+  ./xl_cpumodel --cpu=nx900fd --download=ilm --fastmode=1 ../tests/dhry/dhry_nx900fd.elf
+
 *  ``--trace=1``: `xlmodel` currently supports outputting instruction trace streams during execution, The :file:`<elf-name>.rvtrace` file will be generated in the current execution path. Example::
 
     ./xl_cpumodel --cpu=nx900 --download=ilm --trace=1 ../tests/demoeclic_swirq_low/demoeclic_swirq_low_nx900.elf
 
-  You can obtain information such as the instruction count, cycle count, the associated hart, pc, opcode, disassembly code for each instruction in generated :file:`<elf-name>.rvtrace` file.
+  You can obtain information such as the instruction count, cycle count, the associated hart, pc, opcode, disassembly code for each instruction in generated :file:`<elf-name>.rvtrace` file. Alternatively, ``-t <path>`` specifies the trace file path directly and enables tracing at the same time.
 
 *  ``--gprof=1``: This parameter is used to enable the built-in **gprof** functionality of `xlmodel`. The :file:`gprof<n>.gmon` and :file:`gprof<n>.log` files will be generated in the current execution path. Example::
 
@@ -519,7 +775,7 @@ The default test code ELF files are provided in the :file:`tests` directory.
 
     ./xl_cpumodel --cpu=n300fd --download=ilm --flamegraph=1 ../tests/demo_clint_timer/demo_clint_timer_n300fd.elf
 
-  You can obtain the :file:`xlmodel_flame_<n>.gtef` files when the simulation is complete, where n represents the hart ID.
+  You can obtain the :file:`xlmodel_flame_<n>.gtef` files when the simulation is complete, where n represents the hart ID. The flame graph tracks RTOS tasks and interrupt handlers per core, and keeps a stable thread identity for tasks migrating across cores in SMP systems.
 
   To use them further, you need to import them into the IDE, then you can refer to the :ref:`Nuclei Studio use xlmodel flame graph <ide_nuclei_model_flame>` for detailed usage.
 
@@ -536,6 +792,8 @@ The default test code ELF files are provided in the :file:`tests` directory.
   When the timeout period is reached, the :file:`xlmodel_flame_<n>.gtef` files will be generated if the ``--flamegraph=1`` parameter is enabled. An example of specifying a 3-second simulation is as follows::
 
     ./xl_cpumodel --cpu=nx900 --download=sram --smp=2 --flamegraph=1 --timeout=3 ../tests/freertos_smpdemo/freertos_smpdemo_nx900.elf
+
+  Pressing ``Ctrl+C`` also stops the simulation gracefully: it dumps the enabled gprof/flame graph files and prints the pure simulation time of the run.
 
 * ``--log=xxx``: The `xlmodel` has multiple log levels, listed from least to most detailed as `error`, `info`, `debug`, `tlm`. By default, it provides basic log information at the `info` level, which can be changed by passing ``--log=xxx``.
 
@@ -556,6 +814,120 @@ The default test code ELF files are provided in the :file:`tests` directory.
   When ``--log=tlm`` is selected, it includes all the features of ``--log=debug`` and additionally outputs TLM bus read and write information to the terminal::
 
     ./xl_cpumodel --cpu=nx900 --download=ilm --log=tlm ../tests/demotimer/demotimer_nx900.elf
+
+.. _xlmodel_soc_cfg:
+
+soc-cfg JSON Configuration
+--------------------------
+
+The ``--soc-cfg=<file.json>`` option loads a JSON file that overrides the built-in EvalSoC board configuration, aligned with the ``soc-cfg`` format used by Nuclei QEMU. Without ``--soc-cfg``, `xlmodel` uses the built-in default layout. For any configurable item, the effective value is resolved in the order **CLI parameter > ``soc-cfg`` JSON > built-in default**.
+
+The following example overrides memory regions, selected peripherals and download-mode startup addresses:
+
+.. code-block:: json
+
+   {
+       "general_config": {
+           "ddr": {
+               "base": "0x80000000",
+               "size": "64M"
+           },
+           "ilm": {
+               "base": "0x80000000",
+               "size": "0x800000"
+           },
+           "dlm": {
+               "base": "0x90000000",
+               "size": "0x800000"
+           },
+           "sram": {
+               "base": "0xA0000000",
+               "size": "512M"
+           },
+           "norflash": {
+               "base": "0x20000000",
+               "size": "256M"
+           },
+           "iregion": {
+               "base": "0x18000000",
+               "eclic": "1",
+               "smpcc": "1",
+               "cidu": "1",
+               "plic": "1"
+           },
+           "uart0": {
+               "base": "0x10013000",
+               "size": "0x1000",
+               "irq": "32",
+               "enable": "1"
+           },
+           "qspi0": {
+               "base": "0x10014000",
+               "size": "0x1000",
+               "irq": "34",
+               "enable": "1"
+           },
+           "timer_freq": "32768",
+           "cpu_freq": "16000000"
+       },
+       "download": {
+           "ilm": {
+               "startaddr": "0x80000000"
+           },
+           "flashxip": {
+               "startaddr": "0x20000000"
+           },
+           "flash": {
+               "startaddr": "0x20000000"
+           },
+           "sram": {
+               "startaddr": "0xA0000000"
+           },
+           "ddr": {
+               "startaddr": "0x80000000"
+           }
+       }
+   }
+
+.. list-table:: ``soc-cfg`` fields supported by xlmodel
+   :header-rows: 1
+   :widths: 22 42 36
+   :align: center
+
+   * - Field
+     - Applies to objects
+     - Description
+   * - ``base``, ``size``
+     - ``ilm``, ``dlm``, ``sram``, ``ddr``, ``norflash``, ``uart0``, ``qspi0``, ``iregion``
+     - Sets the base address and size of the corresponding memory or MMIO region.
+   * - ``irq``
+     - ``uart0``, ``qspi0``
+     - Sets the peripheral interrupt ID routed to ECLIC/CIDU.
+   * - ``enable``
+     - ``uart0``, ``qspi0``
+     - Enables or disables the corresponding device.
+   * - ``eclic``, ``smpcc``, ``cidu``, ``plic``
+     - ``iregion``
+     - Enable or disable the corresponding IREGION block.
+   * - ``timer_freq``
+     - ``general_config``
+     - Sets the SysTimer clock frequency; overridden by ``--timefreq``.
+   * - ``cpu_freq``
+     - ``general_config``
+     - Sets the CPU frequency; overridden by ``--cpufreq``.
+   * - ``startaddr``
+     - ``download.ilm``, ``download.ddr``, ``download.sram``, ``download.flashxip``, ``download.flash``
+     - Sets the firmware startup address for the corresponding download mode.
+
+Notes on the JSON format:
+
+* Numeric leaf values can be written as decimal strings, ``0x``-prefixed hexadecimal strings, or with a ``K``/``M``/``G`` size suffix; plain JSON numbers and ``true``/``false`` are also accepted.
+* Partial overrides are supported: omitted objects and fields keep their defaults.
+* ``download.<mode>.startaddr`` only changes the startup address of that download mode; it does not change the memory-region mapping.
+
+An example of running with a ``soc-cfg`` file::
+
+  ./xl_cpumodel --cpu=nx900 --download=ilm --soc-cfg=soc.json ../tests/demotimer/demotimer_nx900.elf
 
 DEBUG
 =====
@@ -588,6 +960,14 @@ To debug via the command line, follow these steps on a Linux system: (Windows is
 
 .. image:: /asserts/images/xlmodel/xlmodel_gdb_debug.png
 
+The GDB stub supports:
+
+* **SMP debugging**: ``info threads`` lists every hart of the cluster (``nuclei-nx900-riscv-cpu harts[N] [state]``); ``thread <n>`` switches the target hart and ``si`` single-steps only the selected hart, while ``continue`` runs the whole cluster.
+* **Breakpoints and watchpoints**: software breakpoints (``b``), hardware breakpoints (``hbreak``), and watchpoints (``watch``/``rwatch``/``awatch``) on physical or virtual addresses. Stop replies report the stop reason, e.g. ``swbreak``, ``hwbreak``, ``watch``, ``rwatch`` or ``awatch``.
+* **Memory access after MMU is enabled**: addresses are translated from VA to PA automatically. Use ``monitor pa on`` / ``monitor pa off`` to force the GDB stub to access physical addresses directly.
+* **Vector register view**: the vector register XML description is generated dynamically according to the configured ``--varch`` VLEN, so vector registers are displayed correctly for any VLEN.
+* **Large data transfers**: ``load`` accepts data packets of up to 64 MB for fast image downloads.
+
 For an easier experience using GDB debugging with `xlmodel`, we recommend using Nuclei Studio. When GDB is enabled, passing ``--gprof=1`` and ``--flamegraph=1`` allows you to capture profiling result and generated flame graph visualizations while the program is suspended in GDB.
 
 For more information on using `xlmodel` debugging in Nuclei Studio, please refer to the :ref:`ide_nuclei_model_debugger`.
@@ -595,6 +975,42 @@ For more information on using `xlmodel` debugging in Nuclei Studio, please refer
 .. note::
 
   The ``--timeout=<n>`` parameter has no effect when software debugging is enabled.
+
+Semihosting
+===========
+
+`xlmodel` supports the RISC-V semihosting convention: when ``--semihosting=1`` is passed, an ``EBREAK`` instruction surrounded by the semihosting magic words traps into the host and executes the requested semihosting call, with the operation number in register ``a0`` and the parameter block pointer in ``a1``. Semihosting bypasses the UART and is therefore faster than console I/O.
+
+Supported operations include basic printing (``SYS_WRITE0``/``SYS_WRITEC``), file I/O (``SYS_OPEN``, ``SYS_CLOSE``, ``SYS_READ``, ``SYS_WRITE``, ``SYS_FLEN``, ``SYS_SEEK``), and program exit (``SYS_EXIT``).
+
+Build the guest program with semihosting enabled (for example ``--specs=semihost.specs`` or the SDK semihosting support), then run::
+
+  ./xl_cpumodel --cpu=nx900 --download=ilm --semihosting=1 <semihosting-enabled.elf>
+
+On Windows hosts, file I/O always opens files in binary mode.
+
+.. _xlmodel_boot_linux:
+
+Running Linux on xlmodel
+========================
+
+`xlmodel` can boot a RISC-V Linux kernel built with the `Nuclei Linux SDK <https://github.com/Nuclei-Software/nuclei-linux-sdk>`_ on the EvalSoC machine. Instruction fetches and data accesses are translated through the MMU, and the model generates/parses the device tree, so Linux images run unmodified.
+
+Use the following options when booting Linux:
+
+* ``--download=ddr`` with ``--ddrbase=0x80000000 --ddrsz=0x80000000`` (2 GB DDR) to hold the kernel image, or configure the DDR size in the ``soc-cfg`` JSON file.
+* ``--fastmode=1`` for maximum boot speed (tracing/profiling options are ignored).
+* The extension set required by the kernel, typically ``--ext=_svpbmt_zicbom_sstc_sscofpmf_zba_zbb_zbc_zbs_zicond``.
+* ``--smp=<n>`` to boot an SMP Linux (both RV64 and RV32 SMP images are supported).
+
+An example of booting Linux (replace the freeloader/kernel image with the one from your Linux SDK build)::
+
+  ./xl_cpumodel --cpu=ux900fd --download=ddr \
+      --ext=_svpbmt_zicbom_sstc_sscofpmf_zba_zbb_zbc_zbs_zicond \
+      --fastmode=1 --ddrbase=0x80000000 --ddrsz=0x80000000 \
+      --smp=2 freeloader.elf
+
+The kernel console is routed to the UART (stdin/stdout of the terminal). After the kernel boots, you can interact with the login prompt directly in the same terminal. Note that the default DDR size is 64 MB, which is too small for typical Linux images; always enlarge it as shown above.
 
 NICE support
 ============
@@ -661,12 +1077,12 @@ Below are the steps to use MSYS2's MinGW64 to compile `xlmodel_nice` on Windows:
     # Change to the root directory of the xlmodel_nice package
     cd <xlmodel_nice root directory>
     mkdir build && cd build
-    cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Rlease ..
+    cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
     make -j$(nproc)
 
 .. note::
 
-    If you need to import and compile `xlmodel_nice` in Nuclei Studio (:ref:`Nuclei Studio use xlmodel <ide_nuclei_near_cycle_model>`), you also need to configure the **MSYS2** environment as described above first.
+  If you need to import and compile `xlmodel_nice` in Nuclei Studio (:ref:`Nuclei Studio use xlmodel <ide_nuclei_near_cycle_model>`), you also need to configure the **MSYS2** environment as described above first.
 
 NICE example
 ------------
@@ -681,36 +1097,44 @@ The test example for Nuclei VNICE instruction features are located in `tests/dem
 
     ./xl_cpumodel --cpu=nx900fd --ext=v --download=ilm ../tests/demovnice/demovnice_nx900fd.elf
 
+For VNICE modeling with very wide vector registers, ``--varch=vlen:2048`` and ``--varch=vlen:4096`` are supported.
+
 SystemC integration
 ===================
 
-If you need to integrate `xlmodel` into a third-party SoC simulation platform, you need to contact Nuclei AE for the software integration package of the model (`xlmodel_integration`).
+If you need to integrate `xlmodel` into a third-party SoC simulation platform, you need to contact Nuclei AE for the software integration package of the model (`xlmodel_integrate`).
 
-`xlmodel_integration` mainly includes the source code of :ref:`xlmodel_systemc_components`. You can extract the parts you need and use them on third-party platforms with relatively little adaptation.
+`xlmodel_integrate` mainly includes the source code of :ref:`xlmodel_systemc_components`. You can extract the parts you need and use them on third-party platforms with relatively little adaptation.
 
-The main directory structure of `xlmodel_integration` is as follows:
+The integration package is delivered per target platform. The standard package is built against **SystemC 2.3.4** and is available for several Linux distributions (linux64, Debian 10, CentOS 7) and Windows (win32); for Ubuntu hosts, additional variants built against **SystemC 3.0.0 and SystemC 3.0.2** are provided, so the package can be linked into SystemC 3.x based platforms as well.
 
-+----------------+------------------------------------------------------------------------------------------------------------+
-| directory      | description                                                                                                |
-+================+============================================================================================================+
-| src            | All SystemC components, Cluster and Timer are mandatory to integrate, while others be integrated as needed |
-+----------------+------------------------------------------------------------------------------------------------------------+
-| inc            | All header files related to xlmodel, which are integrated as needed                                        |
-+----------------+------------------------------------------------------------------------------------------------------------+
-| systemc        | SystemC 2.3.4 header files and static libraries, which are integrated as needed                            |
-+----------------+------------------------------------------------------------------------------------------------------------+
-| cycle          | The near cycle lib file, must be integrated                                                                |
-+----------------+------------------------------------------------------------------------------------------------------------+
-| profiling      | The xlmodel profiling lib file, which is integrated as needed                                              |
-+----------------+------------------------------------------------------------------------------------------------------------+
-| xlspike        | xlspike header files and library files, must be fully integrated                                           |
-+----------------+------------------------------------------------------------------------------------------------------------+
-| tests          | simple test codes                                                                                          |
-+----------------+------------------------------------------------------------------------------------------------------------+
-| nice           | header and source files for the NICE interface, must be fully integrated                                   |
-+----------------+------------------------------------------------------------------------------------------------------------+
-| CMakeLists.txt | CMake file required for compilation                                                                        |
-+----------------+------------------------------------------------------------------------------------------------------------+
+The main directory structure of `xlmodel_integrate` is as follows:
+
+.. list-table:: Main directory structure of ``xlmodel_integrate``
+   :header-rows: 1
+   :widths: 16 84
+   :align: center
+
+   * - directory
+     - description
+   * - src
+     - All SystemC components, Cluster and Timer are mandatory to integrate, while others can be integrated
+   * - inc
+     - All header files related to xlmodel, which are integrated as needed
+   * - systemc
+     - SystemC 2.3.4 header files and the platform-specific static library (``library/<platform>/libsystemc.a``)
+   * - cycle
+     - The near cycle lib file, must be integrated
+   * - profiling
+     - The xlmodel profiling lib file, which is integrated as needed
+   * - xlspike
+     - xlspike header files and the platform-specific static library (``library/<platform>/libxl_spike.a``),
+   * - tests
+     - simple test codes
+   * - nice
+     - header and source files for the NICE interface, must be fully integrated
+   * - CMakeLists.txt
+     - CMake file required for compilation
 
 Here are the integration steps instructions:
 
@@ -749,6 +1173,44 @@ Here are the integration steps instructions:
 Changelog
 =========
 
+.. _xlmodel_changelog_202610:
+
+Version 2026.10
+---------------
+
+This release is based on **2025.10** version with some new features and bug fixes introduced.
+
+**New Features:**
+
+- Support booting a RISC-V Linux kernel with the Nuclei Linux SDK (RV64/RV32, uniprocessor and SMP), using ``--download=ddr`` with an enlarged DDR and ``--fastmode=1``
+- Support big-endian RISC-V ELF files; target endianness is detected from the ELF header, including big-endian GDB debugging
+- Support RISC-V semihosting (``--semihosting=1``) for guest printf/file-I/O/exit via EBREAK
+- Support ``soc-cfg`` JSON configuration files (``--soc-cfg``), aligned with the Nuclei QEMU format, with CLI > soc-cfg > default priority
+- Add ``--fastmode`` for maximum functional simulation speed
+- Add ``--eclic=irqnums:<n>,intctlbits:<n>,shdnum:<n>`` and ``--priv=m/mu/msu`` options; ECLIC supports up to 4096 interrupts in M-mode only and 1024 with S-mode; PLIC interrupt sources scale to 1024
+- Support ECLIC v2 hardware context and shadow register groups (``--ext=_xlclicv2``), including FPU shadow groups
+- Support the ``Sstc`` supervisor timer extension, enabled by default; ``--ext`` supports per-extension enable/disable overrides such as ``--ext=_sstc,sstc=false``
+- SMP GDB debugging: per-hart thread switching, single-step on the selected hart, watchpoints (watch/rwatch/awatch) on virtual addresses, stop-reason reporting, dynamic vector register XML per VLEN, and 64 MB ``load`` packets
+- Flame graph improvements: correct SMP task thread identity across core migration, interrupt-lane tracking and faster ``.gtef`` generation
+- Add new extensions: Zibi, Zicfilp, Zacas, Zaamo/Zalrsc, vector crypto (Zvkg/Zvkned/Zvksed/Zvksh), Nuclei ``Xxlfbf``/``Xxlvfbf`` BF16 and ``Xxlvqmacc`` VPU extensions; DSP extensions differentiated into Xxldspn1x/N2x/N3x; VLEN 2048/4096 support
+- UART: interactive stdin input, RX FIFO feeding regardless of the guest interrupt-enable state, and RX polling mode
+- Add ``--cpu=?`` core listing, ``--timefreq``, ``--srambase/--sramsz``, ``--vectorbase``, ``--plicabsent`` and ``-t`` trace path options; version output now includes the git commit hash
+- The integrate package now supports multiple Linux distributions (linux64, Debian 10, CentOS 7) and provides SystemC 3.0.0/3.0.2 variants on Ubuntu, in addition to the SystemC 2.3.4 based standard package
+
+**Bug Fixes:**
+
+- Fixed ECLIC zombie pending bits causing continuous interrupt re-triggering, ECLIC re-arbitration after configuration register writes, edge-trigger handling and S-mode software interrupt issues
+- Fixed lr/sc reservation invalidation across harts in SMP, ThreadX SMP regression on nx900fd, and ClusterCache load/store for SMP clusters
+- Fixed PMP fetch/load/store checks, instruction access fault reporting and page-fault exception injection
+- Fixed 64-bit iregion timer register access in big-endian mode and big-endian flame graph symbol parsing
+- Fixed UART interrupt level reporting, ELF architecture probing (RV32/RV64 vs ``--cpu``) and pure-BSS ELF loading
+
+**Known Issues:**
+
+- Does not support CACHE emulation
+- PLIC supports single-core mode only
+- Some Zephyr SMP cases are not yet running correctly
+
 .. _xlmodel_changelog_202510:
 
 Version 2025.10
@@ -767,7 +1229,7 @@ This release is based on **2025.02** version with some new features and bug fixe
 - The base address and size of memory resources can be configured
 - Support for setting the CPU frequency
 - Output is separated into stdout and stderr
-  
+
 **Known Issues:**
 
 - Does not support CACHE emulation
@@ -797,4 +1259,3 @@ Version 2025.02
 - Improved the `xlmodel_nice` software package
 - Resolved the issue where some instructions could not be profiled
 - Adapted to run `demo_vnice`, `demo_plic`, and multiple RTOS cases in nuclei-sdk
-
