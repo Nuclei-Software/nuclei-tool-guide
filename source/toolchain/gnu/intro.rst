@@ -7,7 +7,7 @@ The official toolchain repository is located at https://github.com/riscv-collab/
 
 Nuclei maintained toolchain repo is located at https://github.com/riscv-mcu/riscv-gnu-toolchain.
 
-The latest release **2025.10** branch for gcc14 and llvm19 is ``nuclei/2025.10``, in which the tools included versions are: gcc 14.2.1, binutils 2.44, gdb 16.2, newlib 4.5.0, llvm 19.1.7, glibc 2.41, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
+The latest release **2026.10** branch for gcc14 and llvm19 is ``nuclei/2026.10``, in which the tools included versions are: gcc 14.2.1, binutils 2.44, gdb 16.2, newlib 4.5.0, llvm 19.1.7, glibc 2.41, and also have merged some important patches from their upstream, as well as additional support for Nuclei custom extensions and pipelines, etc.
 
 .. note::
 
@@ -20,7 +20,7 @@ Extensions Support
 
 - Basic Extensions
 
-    i, m, a, f, d, c, h, q(Assembly only), zaamo, zalrsc, zicsr, zifencei, zicond, zawrs, zfh, zfhmin, zmmul, svinval, svnapot.
+    i, m, a, f, d, c, h, q(Assembly only), zaamo, zalrsc, zicsr, zifencei, zicond, zibi, zawrs, zfh, zfhmin, zmmul, svinval, svnapot.
 
 - Z*inx Extensions
 
@@ -66,6 +66,10 @@ Extensions Support
 - Zilsd Extensions
 
     Zilsd, Zclsd
+
+- Smrnmi & Double Trap Extensions (added since 2026.10)
+
+    smrnmi, smdbltrp, ssdbltrp.
 
 .. rubric:: Nuclei Custom Extensions
 
@@ -126,25 +130,55 @@ General Options
 
     The ``size`` choice is not intended for use by end-users. This is used when -Os is specified. It overrides the instruction cost info provided by ``-mtune=``, but does not override the pipeline info. This helps reduce code size while still giving good performance.
 
+`-mautovec-rvv/-mno-autovec-rvv`
+
+    Controls the RISC-V RVV automatic vectorization. Enabled by default, use ``-mno-autovec-rvv`` to disable it. This option is added since 2026.10.
+
+    Since 2026.10, RVV automatic vectorization is always disabled in interrupt handlers (functions marked with the ``interrupt`` attribute), regardless of this option. In interrupt handlers, vector registers are only saved when they are directly used by the handler itself; if the handler or its callees use the vector unit, the full vector state must be saved and restored by the user.
+
 `-mautovec-dsp/-mno-autovec-dsp`
 
-    Controls the generation of automatic vectorization of Nuclei DSP instructions, with the compiler enabling Nuclei DSP instructions instruction auto-vectorization by default.
+    Controls the generation of automatic vectorization of Nuclei DSP instructions. Since 2026.10, Nuclei DSP instruction auto-vectorization is disabled by default, use ``-mautovec-dsp`` to enable it.
 
-`-maddibne/-mno-addibne`
+`-mautogen-xxlcz/-mno-autogen-xxlcz`
 
-    Controls auto-generation of the ``addibne`` instruction for the ``xxlcz`` extension. Enabled by default.
+    Controls the auto-generation of the Nuclei ``xxlcz`` extension instructions (including the ``xl.addibne`` instruction). Disabled by default, use ``-mautogen-xxlcz`` to enable it. This option is added since 2026.10, and replaces the ``-maddibne/-mno-addibne`` option which was removed in 2026.10.
 
-`-fstrict-aliasing`
+`-fno-strict-aliasing`
 
-    It is recommended to add the optimization option ``-fno-strict-aliasing`` to the project, In some circumstances, this flag allows the compiler to assume that pointers to different types do not alias.
+    It is recommended to add the optimization option ``-fno-strict-aliasing`` to the project. In some circumstances, ``-fstrict-aliasing`` (enabled by default at ``-O2`` and above) allows the compiler to assume that pointers to different types do not alias, which may break code that accesses the same memory through pointers of different types.
 
 `-ftree-loop-vectorize`
 
-    If you need to disable the RISC-V RVV automatic vectorization, you can use the options ``-fno-tree-loop-vectorize`` and ``-fno-tree-slp-vectorize``. For GCC 13, you can use ``--param=riscv-autovec-preference=none``.
+    If you need to disable the RISC-V RVV automatic vectorization, you can use the options ``-fno-tree-loop-vectorize`` and ``-fno-tree-slp-vectorize``. Since 2026.10, you can also use the option ``-mno-autovec-rvv``. For GCC 13, you can use ``--param=riscv-autovec-preference=none``.
 
 `-fno-builtin`
 
     The ``-fno-builtin`` option instructs the compiler to avoid replacing standard library function calls with optimized built-in versions. If your program requires implementing its own system functions, such as memcpy, memset, etc., you need to use this option.
+
+`-fstack-usage`
+
+    Generate a stack usage file (``<auxname>.su``) for each translation unit at compile time, which can be used to analyze the static stack usage of each function. Each entry records the function name, the size of its stack frame in bytes, and one or more qualifiers: ``static`` (a fixed number of bytes allocated at entry and released at exit), ``dynamic`` (the function also adjusts the stack in its body, such as alloca or variable length arrays) and ``bounded`` (the dynamic adjustments are bounded at compile time, and the number is an upper bound on the total stack usage). The file is generated next to the object file.
+
+`-fcallgraph-info`
+
+    Generate a callgraph file (``<auxname>.ci`` in VCG format) for each translation unit at compile time, which records the static call relationships between functions. With the ``su`` mark (``-fcallgraph-info=su``), each function in the callgraph is annotated with its stack usage information, so that the call chains and the worst-case stack usage can be analyzed statically. For example:
+
+    .. code-block:: console
+
+        riscv64-unknown-elf-gcc -c -O2 -fcallgraph-info=su -fstack-usage main.c -o main.o
+
+    generates ``main.o``, ``main.su`` and ``main.ci`` in the output directory.
+
+    .. note::
+
+        When compiling with ``-flto``, no callgraph information is output along with the object file.
+
+        Third-party tools can be used to analyze the generated files, for example:
+
+        - `callgraph <https://github.com/Miliox/callgraph>`_: aggregates the ``.ci`` callgraph files generated by GCC into a single DOT file, which can be rendered by Graphviz to visualize the call graph of the whole program.
+
+        - `checkStackUsage <https://github.com/ttsiodras/checkStackUsage>`_: combines the ``.su`` stack usage files with the disassembly of the ELF binary to compute the accumulated worst-case stack usage of each call chain. Note that calls made through function pointers cannot be seen by the static analysis.
 
 `Optimization Options`
 
@@ -170,14 +204,13 @@ For more information about RISC-V Options used in GCC, please check https://gcc.
 
 For RISC-V ELF psABI Document, please check https://github.com/riscv-non-isa/riscv-elf-psabi-doc
 
-
 Libraries
 =========
 
 .. note::
 
    - ``glibc`` is used in Linux GNU Glibc toolchain used to compile linux kernel, opensbi, uboot, and linux applications.
-   - ``newlibc`` is used in Baremetal or RTOS toolchain, used to compile baremetal or rtos source code, which contains ``newlib``, ``newlib-nano`` and :ref:`libncrt <libncrt_intro>`
+   - ``newlib`` is used in Baremetal or RTOS toolchain, used to compile baremetal or rtos source code, which contains ``newlib``, ``newlib-nano`` and :ref:`libncrt <libncrt_intro>`
 
 `glibc`
 
@@ -193,7 +226,7 @@ Libraries
 
 :ref:`libncrt <libncrt_intro>`
 
-    ``libncrt`` is short of **Nuclei C Runtime Library**, which currently support Nuclei RV32 processor, which is released by Nuclei to reduce c library code size, and improve math library speed, for details, please refer to the user guide located in ``gcc\share\pdf\Nuclei C Runtime Library Doc.pdf``
+    ``libncrt`` is short for **Nuclei C Runtime Library**, which currently supports Nuclei RV32 processor, and is released by Nuclei to reduce c library code size, and improve math library speed, for details, please refer to the user guide located in ``gcc/share/pdf/Nuclei C Runtime Library Doc.pdf``
 
 Changelog
 =========
@@ -228,7 +261,7 @@ To check the basic version information of GCC, you can use the command ``riscv64
 
 If you need to report an issue to the developers, please provide:
 
-1. The ``gcc/build.txt`` file (located in the GCC directory) for GCC compilation details.
+1. The ``gcc/build.txt`` file (located in the toolchain directory) for toolchain build details.
 
 2. The ``gcc/gitrepo.txt`` file to confirm commit IDs of each tool, which helps determine more detailed build information.
 
@@ -255,4 +288,26 @@ When debugging a RISC-V target via OpenOCD+GDB, running a stepping command (si) 
 References:
 
 - https://github.com/riscv-mcu/riscv-openocd/issues/16
+
+Access to Address 0 Is Compiled Into ``ebreak``
+-----------------------------------------------
+
+GCC enables the ``-fdelete-null-pointer-checks`` optimization by default on most targets at all optimization levels. It assumes that a program cannot safely dereference the null pointer and that no code or data element resides at address zero. Under this assumption, access to address 0 is treated as undefined behavior and compiled into a trap instruction (``ebreak``), and null-pointer checks after a dereference are removed by the data flow analysis.
+
+However, this assumption does not always hold on Nuclei CPUs: the ``IREGION`` can be configured so that address 0 is a valid address, for example when the ``IINFO`` region is mapped to address 0. In this case, accesses to address 0 are legal and the generated ``ebreak`` is wrong.
+
+If the CPU is configured with ``IREGION`` mapped to address 0, you need to add the ``-fno-delete-null-pointer-checks`` option globally to your project to disable this optimization.
+
+References:
+
+- https://gcc.gnu.org/onlinedocs/gcc-14.4.0/gcc/Optimize-Options.html#index-fdelete-null-pointer-checks
+- https://github.com/riscv-collab/riscv-gnu-toolchain/issues/694
+- https://github.com/riscv-collab/riscv-gnu-toolchain/issues?q=-fno-delete-null-pointer-checks
+
+``naked`` Attribute With Variadic Functions Is Not Supported
+------------------------------------------------------------
+
+On RISC-V, do not use the ``naked`` function attribute together with variadic functions (varargs). When a ``naked`` function has a variadic parameter list, GCC still emits code from ``riscv_setup_incoming_varargs`` to spill the unnamed argument registers to the stack. Since the ``naked`` attribute suppresses the function prologue, these stores write into the caller's stack frame and corrupt memory.
+
+Upstream has confirmed that naked functions and varargs are fundamentally incompatible with each other and should not be used together, and this issue is closed as WONTFIX and will not be fixed (`GCC bug 125798 <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=125798>`_).
 

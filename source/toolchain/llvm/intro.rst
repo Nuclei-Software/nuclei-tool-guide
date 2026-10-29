@@ -56,11 +56,15 @@ Extensions Support
 
     Zilsd, Zclsd
 
+- Smrnmi & Double Trap Extensions(Assembly only, added since 2026.10)
+
+    smrnmi, smdbltrp, ssdbltrp.
+
 - Xxlcz Extensions(Assembly only)
 
     xxlczpstinc, xxlczbmrk, xxlczbitop, xxlczslet, xxlczabs, xxlczmac, xxlczbri, xxlczbitrev, xxlczgp.
 
-- Packed SIMD Extension 0.5.4(Assembly only)
+- Packed SIMD Extension 0.5.4(assembly only before 2026.10, intrinsic support added since 2026.10)
 
     xxldsp, xxldspn1x, xxldspn2x, xxldspn3x.
 
@@ -71,7 +75,9 @@ Extensions Support
 
     .. note::
 
-        Currently, xxldsp assembly instructions implemented in LLVM only support single registers, while instructions using register pairs under rv32 behave abnormally. See `this issue <https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/34>`_.
+        Fixed in the 2026.10 toolchain: the ``r`` inline assembly constraint now allocates a register pair for 64-bit operands on rv32, and the new ``R`` constraint can be used to explicitly allocate a register pair.
+
+        Before 2026.10, the xxldsp assembly instructions implemented in LLVM only support single registers, while instructions using register pairs under rv32 behave abnormally. See `this issue <https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/34>`_.
 
 - Nuclei custom VPU Extensions
 
@@ -85,7 +91,7 @@ Extensions Support
 
 LLVM supports (to various degrees) a number of experimental extensions.  All experimental extensions have ``experimental-`` as a prefix. Listed below:
 
-    smaia, ssaia, zacas, zfa, zfbfmin, zvfbfmin, zvfbfwma, zicond, zihintntl, ztso, zvbb, zvbc, zvkg, zvkn, zvknc, zvkned, zvkng, zvknha, zvknhb, zvks, zvksc, zvksed, zvksg, zvksh, zvkt, zilsd, zclsd.
+    ssnpm, smnpm, smmpm, sspm, supm, ssqosid, zacas, zalasr, zicfilp, zicfiss.
 
 .. note::
 
@@ -94,9 +100,9 @@ LLVM supports (to various degrees) a number of experimental extensions.  All exp
 General Options
 ===============
 
-`-march=<cpu>`
+`-march=<isa-string>`
 
-    Specify that Clang should generate code for a specific processor family member and later. For example, if you specify -march=i486, the compiler is allowed to generate instructions that are valid on i486 and later processors, but which may not exist on earlier ones.
+    Generate code for the given RISC-V ISA string. ISA strings must be lower-case, for example ``rv64imafdc``, ``rv32gcv``, or with extension suffixes such as ``rv64imafdcv_xxlcz``. When ``-march=`` is not specified, the default ISA string of the target triple is used.
 
 `-mcmodel=<arg>`
 
@@ -149,18 +155,21 @@ To check the basic version information of LLVM, you can use the command ``riscv6
 
 If you need to report an issue to the developers, please provide:
 
-1. The ``gcc/build.txt`` file (located in the GCC directory) for GCC compilation details.
+1. The ``gcc/build.txt`` file (located in the toolchain directory) for toolchain build details.
 
 2. The ``gcc/gitrepo.txt`` file to confirm commit IDs of each tool, which helps determine more detailed build information.
 
 Known Issues
 ============
 
-The LLVM 2025.10 implementation contains a bug in the nuclei ``-mtune`` support.
+Nuclei ``-mtune`` support bug in the LLVM 2025.10 toolchain
+-----------------------------------------------------------
 
--------------------------------------------------
+.. note::
 
-When the LLVM Nuclei scheduling definitions were added, the processor models were declared with the generic ``RISCVProcessorModel`` instead of the architecture-tuned ``RISCVTuneProcessorModel``.
+    This issue is fixed in the 2026.10 toolchain.
+
+The LLVM 2025.10 toolchain only supports the Nuclei ``-mtune`` option for RV32, and it contains a bug: when the LLVM Nuclei scheduling definitions were added, the processor models were declared with the generic ``RISCVProcessorModel`` instead of the architecture-tuned ``RISCVTuneProcessorModel``, so the ``-mtune`` option does not take effect as expected.
 
 References:
 
