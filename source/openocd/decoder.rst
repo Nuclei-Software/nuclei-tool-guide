@@ -1,5 +1,3 @@
-.. highlight:: text
-
 .. _tracedecoder_decoding_trace_data:
 
 TraceDecoder Decoding Trace Data
@@ -39,7 +37,7 @@ Command Line Usage
 Basic Syntax
 ~~~~~~~~~~~~
 
-.. code-block::
+.. code-block:: text
 
     Usage: dqr -t <tracefile> -e <elffile> [-od <objdump-path>] [options]
 
@@ -301,7 +299,7 @@ This example demonstrates decoding instruction trace data captured from an ATB2A
 
 **Output Sample:**
 
-.. code-block::
+.. code-block:: text
 
     Trace: Msg # Num: 1, SrcId: 0, Tics: 634
                # Raw: 85 02 7a 73 8e 1d 00 80
@@ -351,7 +349,7 @@ This example demonstrates decoding instruction-only trace data captured from a T
 
 **Output Sample:**
 
-.. code-block::
+.. code-block:: text
 
     Trace: Msg # Num: 1, SrcId: 0, Tics: 0
                # Raw: 86 00 00 00 e6 08 02 00 00 ff
@@ -393,7 +391,7 @@ This example demonstrates decoding both instruction and data trace captured from
 
 **Output Sample:**
 
-.. code-block::
+.. code-block:: text
 
     Trace: Msg # Num: 3, SrcId: 0, Tics: 28822
                # Raw: 84 00 96 70 1e 80 21 20
@@ -465,7 +463,7 @@ This example demonstrates decoding trace data that includes ZCMP (RISC-V Code Si
 
 **Output Sample:**
 
-.. code-block::
+.. code-block:: text
 
     Trace: Msg # Num: 1, SrcId: 0, Tics: 29356
                # Raw: 84 00 ac 72 3e 80 21 20
@@ -490,7 +488,7 @@ This example demonstrates decoding trace data that includes ZCMP (RISC-V Code Si
 
 **Output Sample - ZCMP Operations:**
 
-.. code-block::
+.. code-block:: text
 
     Trace: Msg # Num: 11, SrcId: 0, Tics: 95139
                # Raw: 82 00 a3 73 61 04
@@ -580,7 +578,7 @@ This example demonstrates decoding trace data that includes CSR (Control and Sta
 
 **Output Sample - CSR Operations:**
 
-.. code-block::
+.. code-block:: text
 
     Trace: Msg # Num: 4, SrcId: 0, Tics: 69454
                # Raw: 8b 00 4e 0f 1b 1f 44 40 00 31 03 00 00 00 04
@@ -597,7 +595,7 @@ This example demonstrates decoding trace data that includes CSR (Control and Sta
 
 **Output Sample - AMO Operations:**
 
-.. code-block::
+.. code-block:: text
 
     Trace: Msg # Num: 16, SrcId: 0, Tics: 69686
                # Raw: 8a 00 36 10 0d 1d 00 04 00 74 00 10 00 50
@@ -655,25 +653,25 @@ This example demonstrates decoding trace data that includes CSR (Control and Sta
 Trace Packet Output Format Description
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block::
+.. code-block:: text
 
     Trace: Msg # Num: 1, SrcId: 0, Tics: 634
 
 This line contains three fields: Num, SrcId, and Tics. Num is a unique identifier assigned by the decoder software; SrcId is the source ID parsed from the trace packet; Tics/Time is the complete timestamp calculated from the timestamp information within the trace packet.
 
-.. code-block::
+.. code-block:: text
 
                # Raw: 85 02 7a 73 8e 1d 00 80
 
 This line shows the raw data of the trace packet, with each byte represented in hexadecimal.
 
-.. code-block::
+.. code-block:: text
 
                # NxtAddr: 0x80001d8e, FormatCode: sync(3) SubFormatCode: start(0)
 
 NxtAddr is the next instruction address predicted by the decoder, calculated based on the trace packet information and the current instruction. FormatCode indicates the specific format of the trace packet.
 
-.. code-block::
+.. code-block:: text
 
                # branch(0x1) privilege(0x3) context(0x0) address(0x80001d8e)
 
@@ -695,7 +693,7 @@ Default (etrace-v1.0) Decoding srcid Mismatch Issue
 
 After adding the -debug parameter, the error scenario is as follows: nm.srcId shows multiple abnormal values. In this case, try adding ``-decodemode=0x2`` or ``-decodemode=0x3`` for decoding
 
-.. code-block::
+.. code-block:: text
 
     Trace: Msg # Num: 1, SrcId: 0, tics: 82901
 
@@ -724,7 +722,7 @@ Decoding Exception Scenarios for tracebundle Versions Higher than v1.1.0
 
 When the tracebundle version is higher than v1.1.0, regardless of whether the software has enabled timestamp or not, the tssize parameter must be passed during decoding. If the CPU is configured with MMU, the contextsize parameter must also be passed, otherwise the following decoding phenomena may occur
 
-.. code-block::
+.. code-block:: text
 
     trace_decoder\bin>dqr -t core0_trace_02.bin -e yunduu_fpga.elf -decodemode=0x111
     Trace: Msg # Num: 1, SrcId: 0
@@ -767,7 +765,7 @@ This version is developed based on v0.9.0, mainly optimizing code structure, rem
 
 Command parameter table:
 
-.. code-block::
+.. code-block:: text
 
     Usage: dqr -t tracefile -e elffile [-od objdump]
                [-nofile] [-nofunc] [-nodasm] [-notrace] [-nobranches]
@@ -782,7 +780,7 @@ This is the first release version. Since TraceDecoder does not have a separate r
 
 Command parameter table:
 
-.. code-block::
+.. code-block:: text
 
     Usage: dqr -t tracefile -e elffile [-od objdump] -basename name
                [-src] [-nosrc] [-file] [-nofile] [-func] [-nofunc] [-dasm] [-nodasm]
