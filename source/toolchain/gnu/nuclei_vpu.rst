@@ -6,23 +6,23 @@ Nuclei Custom VPU Extension
 Introduction
 *************
 
-为了加快矩阵运算，Nuclei GCC 工具链添加了自定义的 VPU 扩展 ``Xxlvqmacc``，引入了整数矩阵乘加指令，可以将 8 位整数输入值扩展为 32 位。
+To accelerate matrix computations, the Nuclei GCC toolchain provides the custom VPU extension ``Xxlvqmacc``, which introduces integer matrix multiply-accumulate instructions that widen 8-bit integer input values to 32 bits.
 
-扩展
-*****
+Extension
+*************
 
-使用该扩展时，需要打开 ``V`` 扩展和 ``xxlvqmacc`` 扩展。
+Using this extension requires the ``V`` extension and the ``xxlvqmacc`` extension to be enabled.
 
-示例：``-march=rv64imafdcv_xxlvqmacc``
+Example: ``-march=rv64imafdcv_xxlvqmacc``
 
 .. attention::
 
-    使用该扩展的相关 intrinsic 时，需要添加以下头文件：
+    To use the intrinsics of this extension, the following header file must be included:
 
     ``#include <riscv_vector.h>``
 
-支持的指令
-**********
+Supported Instructions
+**********************
 
 * ``xl.vqmacc.vv``
 * ``xl.vqmaccu.vv``
@@ -31,9 +31,9 @@ Introduction
 
 .. note::
 
-    这些指令是有符号或无符号整数矩阵乘加指令，可将 8 位整数输入值扩展至 32 位。
+    These instructions perform signed or unsigned integer matrix multiply-accumulate operations and widen 8-bit integer inputs to 32 bits.
 
-    为了更好地理解这些指令的功能，示例如下：
+    Their functionality is illustrated by the following examples:
 
     # Dest (C) += Input (A) * Input (B)
 
@@ -45,32 +45,32 @@ Introduction
 
     int32 += int8   *  uint8     //xl.vqmaccsu.vv vd, vs2, vs1
 
-    其中 (u)int8 矩阵 A、B 与 int32 矩阵 C 均为 4x4。
+    where the (u)int8 matrices A and B and the int32 matrix C are all 4x4.
 
-    这些指令旨在高效地处理 8 位整数的矩阵运算，同时通过扩展到 32 位来避免中间结果的溢出。
+    These instructions are designed to process 8-bit integer matrix operations efficiently while preventing overflow of intermediate results through widening to 32 bits.
 
-intrinsic 命名规则
-*******************
+Intrinsic Naming Convention
+***************************
 
-rvv intrinsic 命名规则：https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0.0-rc7 中的 ``v-intrinsic-spec.pdf`` -> **Chapter 6**。
+RVV intrinsic naming convention: **Chapter 6** of ``v-intrinsic-spec.pdf`` in https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0.0-rc7.
 
-我们的命名规则遵循上述命名规则，并在此基础上对名字进行了一些更改，以区分我们自定义的 intrinsic。示例如下：
+Our naming convention follows the above specification with some modifications to distinguish our custom intrinsics. For example:
 
 ``vint32m1_t __riscv_xl_vqmacc_4x4x4_i32m1(vint32m1_t vd, vint8m1_t vs1, vint8mf4_t vs2, size_t vl);``
 
-``vint32m1_t`` int32_t 的数据类型
+``vint32m1_t``   data type of int32_t
 
-``__riscv_xl`` Nuclei 自定义 intrinsic 名称前缀
+``__riscv_xl``   prefix for Nuclei custom intrinsics
 
-``vqmacc`` intrinsic 所代表的操作的名字
+``vqmacc``       name of the operation performed by the intrinsic
 
-``4x4x4``  输入/输出矩阵的维度，输入矩阵 A 是 ``4x4``，输入矩阵 B 是 ``4x4``，输出矩阵 C 是 ``4x4``
+``4x4x4``        dimensions of the input/output matrices: input matrix A is ``4x4``, input matrix B is ``4x4``, and output matrix C is ``4x4``
 
-``i32``    int32 数据类型的缩写
+``i32``          abbreviation of the int32 data type
 
-``m1``     LMUL 的值
+``m1``           LMUL value
 
-Nuclei 自定义的 intrinsic
+Nuclei Custom Intrinsics
 **************************
 
 * ``xl.vqmacc.vv``
@@ -161,7 +161,7 @@ Examples
 **********
 
 .. code-block:: c
-    :caption: xl.vqmacc.vv 所对应的 intrinsic 函数使用样例
+    :caption: Example of using the intrinsic functions corresponding to ``xl.vqmacc.vv``
 
     #include <stdio.h>
     #include <riscv_vector.h>
