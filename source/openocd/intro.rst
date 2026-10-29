@@ -550,6 +550,8 @@ OpenOCD can only read DTM registers using a combination of irscan+drscan command
 Changelog
 ---------
 
+.. _openocd_changelog_202610:
+
 Version 2026.10
 ~~~~~~~~~~~~~~~
 
@@ -565,6 +567,8 @@ This release is based on **2025.10** version with some new features and bug fixe
 - Update custom flash driver with `wrsize` support, flash-id based device matching, and fix memory issues in custom.c and nuspi.c
 - Fix FTD2xx vendor IDs and product IDs to resolve matching issues when multiple FTDI devices are present
 - Modify GD32VF103 IDCODE to correctly display chip information on the target
+
+.. _openocd_changelog_202510:
 
 Version 2025.10
 ~~~~~~~~~~~~~~~
@@ -584,6 +588,8 @@ This release is based on **2025.02** version with some new features and bug fixe
 - Clear ``haltreq`` signal when openocd connect failed
 - Fix segmentation fault issue when debug level set to 3 or 4
 - When debug on FPGA CPU MHz is very slow such as **5MHz**, openocd may work not correctly, it will be fixed by make CPU run faster such as **10MHz**
+
+.. _openocd_changelog_202502:
 
 Version 2025.02
 ~~~~~~~~~~~~~~~

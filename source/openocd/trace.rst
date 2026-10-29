@@ -161,7 +161,7 @@ Preparation
 
 Connect to the development board using OpenOCD + GDB to enter debug mode, load the ELF file to be debugged into the development board, and run the program to the position where Trace data capture needs to start. The following commands are all executed in GDB.
 
-.. code-block::
+.. code-block:: text
 
     PS D:\Git\nuclei-sdk> make CORE=n900 run_openocd
     make -C application/baremetal/helloworld run_openocd
@@ -198,7 +198,7 @@ Connect to the development board using OpenOCD + GDB to enter debug mode, load t
     Info : Listening on port 6666 for tcl connections
     Info : Listening on port 4444 for telnet connections
 
-.. code-block::
+.. code-block:: text
 
     PS D:\Git\nuclei-sdk\application\baremetal\demo_eclic> make CORE=n900 run_gdb
     "Run gdb to connect openocd server and debug"
@@ -241,7 +241,7 @@ Connect to the development board using OpenOCD + GDB to enter debug mode, load t
 Usage Example
 ~~~~~~~~~~~~~
 
-.. code-block:: tcl
+.. code-block:: text
 
     # Configure ETrace with 64KB buffer in wrap mode
     monitor nuclei etrace config 0x10020000 0x90000000 0x10000 1
@@ -393,7 +393,7 @@ Connect to the development board using OpenOCD + GDB to enter debug mode, load t
 Usage Example
 ~~~~~~~~~~~~~
 
-.. code-block:: tcl
+.. code-block:: text
 
     # Configure TraceBundle with 64KB buffer in wrap mode, trace core0, enable CPU timestamp (no divider), disable data trace
     monitor nuclei trace config 0x10060000 0x90000000 0x10000 1 1 1 0
