@@ -1,3 +1,5 @@
+.. highlight:: text
+
 .. _openocd_capture_trace_data:
 
 OpenOCD Capture Trace Data

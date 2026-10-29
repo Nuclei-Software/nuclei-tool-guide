@@ -1,3 +1,5 @@
+.. highlight:: text
+
 .. _tracedecoder_decoding_trace_data:
 
 TraceDecoder Decoding Trace Data
