@@ -917,7 +917,7 @@ Besides decoding trace in the Trace view, Nuclei Studio also provides a headless
 
 Run the following command in the Nuclei Studio installation directory. On Windows:
 
-.. code-block::
+.. code-block:: bat
 
     <NucleiStudio>\eclipsec.exe -noSplash -data <workspace> ^
         -application org.riscvstudio.ide.tools.trace.headless ^
@@ -925,7 +925,7 @@ Run the following command in the Nuclei Studio installation directory. On Window
 
 On Linux:
 
-.. code-block::
+.. code-block:: bash
 
     <NucleiStudio>/eclipse -noSplash -data <workspace> \
         -application org.riscvstudio.ide.tools.trace.headless \
@@ -965,7 +965,7 @@ The commonly used options are as follows. They are the same as the items in the 
 
 For example:
 
-.. code-block::
+.. code-block:: bat
 
     <NucleiStudio>\eclipsec.exe -noSplash -data D:/ws_trace ^
         -application org.riscvstudio.ide.tools.trace.headless ^
@@ -2419,6 +2419,31 @@ Memory within the excluded address range is not read/installed, and the debugger
 
 |image160|
 
+
+.. _ide_big_endian_compiler:
+
+Big Endian Compiler Support
+---------------------------
+
+.. note::
+
+   This feature is still in the test phase.
+
+Nuclei Studio 2026.10 adds support for the RISC-V Big Endian toolchain, so that projects can be compiled into big-endian code for big-endian RISC-V targets. To use this feature:
+
+1. Download the Big Endian toolchain (bengcc) and place it in the ``<NucleiStudio>\toolchain\gccbe`` directory.
+
+2. Modify the project properties: right-click the project and open ``Properties -> C/C++ Build -> Settings``, then on the ``Tool Settings -> Target Processor`` page, set ``Endian`` to ``Generate big-endian code (-mbig-endian)``.
+
+|image-be-1|
+
+3. Modify the toolchain information of the project: on the ``Toolchains`` page, set ``Name`` to ``RISC-V Big Endian GCC/Newlib (riscv64be-unknown-elf-gcc)``, set ``Prefix`` to ``riscv64be-unknown-elf-``, and set ``Toolchain path`` to ``${eclipse_home}\toolchain\gccbe\bin``.
+
+|image-be-2|
+
+Then build the project; the generated code and ELF files are big-endian.
+
+
 .. |image1| image:: /asserts/nucleistudio/advanceusage/image2.png
 
 .. |image2| image:: /asserts/nucleistudio/advanceusage/image3.png
@@ -2798,3 +2823,7 @@ Memory within the excluded address range is not read/installed, and the debugger
 .. |image-gcc2llvm-7| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-7.png
 
 .. |image-gcc2llvm-8| image:: /asserts/nucleistudio/advanceusage/gcc2llvm-8.png
+
+.. |image-be-1| image:: /asserts/nucleistudio/advanceusage/big-endian-1.png
+
+.. |image-be-2| image:: /asserts/nucleistudio/advanceusage/big-endian-2.png

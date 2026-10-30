@@ -212,7 +212,20 @@ The following example shows a package description file with detailed annotations
                                                  # The remaining options are concatenated
       - type: gcc                                # <OPTIONAL> Currently only gcc; other interfaces are reserved
         description: Nuclei GNU Toolchain        # <MUST> For ssp
-          cross_prefix: riscv-nuclei-elf-        # <OPTIONAL> If not set or left empty, the toolchain provided by the system is used automatically
+        cross_prefix: riscv-nuclei-elf-          # <OPTIONAL> If not set or left empty, the toolchain provided by the system is used automatically
+        toolchains:                              # <OPTIONAL> Detailed toolchain command settings; each key overrides the corresponding command of the resolved toolchain, and an empty value keeps the predefined default; if this field is absent, the commands of the toolchain provided by the system are used
+          prefix: riscv-nuclei-elf-              # <OPTIONAL> Prefix of the toolchain commands
+          suffix:                                # <OPTIONAL> Suffix of the toolchain commands; usually left empty
+          ccompiler: gcc                         # <OPTIONAL> C compiler command
+          cppcompiler: g++                       # <OPTIONAL> C++ compiler command
+          archiver: ar                           # <OPTIONAL> Archiver command
+          hexbinconv: objcopy                    # <OPTIONAL> Hex to binary conversion command
+          listgen: objdump                       # <OPTIONAL> Listing generation command
+          sizecmd: size                          # <OPTIONAL> Size printing command
+          buildcmd: make                         # <OPTIONAL> Build command
+          rmcmd: rm                              # <OPTIONAL> Remove command
+          toolchain_path: ${eclipse_home}\toolchain\gcc\bin # <OPTIONAL> Path of the toolchain
+          buildtool_path: ${eclipse_home}\toolchain\build-tools\bin # <OPTIONAL> Path of the build tools
         common_flags:                            # <OPTIONAL> Common build options, which will be added to cflags, asmflags, and cxxflags
           - flags: -g -fno-common -ffunction-sections -fdata-sections
           - flags: -march=${nuclei_core.arch} -mabi=${nuclei_core.abi} -mcmodel=medany
@@ -610,6 +623,40 @@ Important field. The name of the build tool.
 
 Important field. The prefix of the build tool.
 
+* **toolchains** 
+
+Detailed settings of the toolchain commands, given as key-value pairs. Each key overrides the corresponding command of the toolchain resolved by ``toolchain_name`` / ``cross_prefix``; if a value is empty, the predefined default command is kept; if this field is absent, the commands of the toolchain provided by the system are used.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Key
+     - Description
+   * - ``prefix``
+     - Prefix of the toolchain commands, for example ``riscv-nuclei-elf-``
+   * - ``suffix``
+     - Suffix of the toolchain commands
+   * - ``ccompiler``
+     - C compiler command
+   * - ``cppcompiler``
+     - C++ compiler command
+   * - ``archiver``
+     - Archiver command
+   * - ``hexbinconv``
+     - Hex to binary conversion command
+   * - ``listgen``
+     - Listing generation command
+   * - ``sizecmd``
+     - Size printing command
+   * - ``buildcmd``
+     - Build command
+   * - ``rmcmd``
+     - Remove command
+   * - ``toolchain_path``
+     - Path of the toolchain
+   * - ``buildtool_path``
+     - Path of the build tools
+
 * **unflags** 
 
 Takes effect in ``common_flags/cflags/asmflags/ldflags/cxxflags`` of the buildconfig section; removes previously defined flags.
@@ -825,8 +872,6 @@ GDB SEGGER J-Link Debug Arguments
   | doGdbServerSilent                      | false                               | do Gdb Server Silent                           |
   +----------------------------------------+-------------------------------------+------------------------------------------------+
   | doGdbServerVerifyDownload              | true                                | do Gdb Server Verify Download                  |
-  +----------------------------------------+-------------------------------------+------------------------------------------------+
-  | doStartGdbServer                       | true                                | Start the J-Link GDB server locally            |
   +----------------------------------------+-------------------------------------+------------------------------------------------+
   | gdbClientOtherCommands                 | set mem inaccessible-by-default off | gdb Client Other Commands                      |
   +----------------------------------------+-------------------------------------+------------------------------------------------+
@@ -1152,6 +1197,125 @@ GDB Nuclei QEMU Arguments
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
   | svdPath                                   |                                     | SVD file path                                  |
   +-------------------------------------------+-------------------------------------+------------------------------------------------+
+
+
+Nuclei Model Arguments
+^^^^^^^^^^^^^^^^^^^^^^^
+
+.. _table_ips_model:
+
+.. table:: Arguments of Nuclei Model Debug
+
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | Name                                      | Reset Value                                  | Description                                    |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | executable                                |                                              | Nuclei Model Executable Name                   |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | tool_extrapreopts                         |                                              | Tool Extra Pre Options                         |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | tool_extraopts                            |                                              | Tool Extra Options                             |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | tool_extrapostopts                        |                                              | Tool Extra Post Options                        |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | gdb_extraprecmds                          |                                              | gdb Extra Pre Commands                         |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | gdb_extracmds                             |                                              | gdb Extra Commands                             |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | gdb_extrapostcmds                         |                                              | gdb Extra Post Commands                        |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | doStartGdbServer                          | true                                         | Start the Nuclei Model GDB server locally      |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | gdbServerExecutable                       | ${nucleimodel_path}/${nucleimodel_executable}| Nuclei Model Executable                        |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | gdbServerGdbPortNumber                    | 1234                                         | GDB Port Number                                |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | gdbServerOther                            |                                              | Model Other Options                            |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | gdbServerSMPCount                         | 1                                            | SMP Count                                      |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | gdbCoreName                               |                                              | Nuclei CPU Core                                |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | gdbDownloadName                           |                                              | Download Mode                                  |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | otherExtensions                           |                                              | Nuclei archext                                 |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | doGdbServerPreferXpacksBin                | false                                        | Prefer Xpacks Bin                              |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | doGdbServerAllocateConsole                | true                                         | Allocate Console                               |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | gdbServerDelaySeconds                     | 0                                            | Server Startup Delay (Seconds)                 |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | nucleiModelExecutableTimeOut              | 30                                           | Model Executable TimeOut                       |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | donucleiModelAllowTrace                   | true                                         | Allow Model Trace                              |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | nucleiModelTracePath                      |                                              | Model Trace Path                               |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | disableGraphics                           | true                                         | Disable Graphics                               |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | isGdbServerVerbose                        | false                                        | Verbose mode of the GDB server                 |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | useNucleiProperty                         | true                                         | Use Nuclei Property                            |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | DEBUG_NAME                                | ${cross_prefix}gdb${cross_suffix}            | GDB Client Command                             |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | gdbClientOtherCommands                    |                                              | gdb Client Other Commands                      |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | gdbClientOtherOptions                     |                                              | gdb Client Other Options                       |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | ipAddress                                 | localhost                                    | Host name or IP address                        |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | portNumber                                | 1234                                         | Port number                                    |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | jtagDevice                                | RISC-V MCU Nuclei Model                      | JTAG Device                                    |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | doFirstReset                              | false                                        | Initial Reset and Halt                         |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | otherInitCommands                         |                                              | Other Init Commands                            |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | loadSymbols                               | true                                         | Load symbols                                   |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | symbolsFileName                           |                                              | Symbols File Name                              |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | symbolsOffset                             |                                              | Symbols Offset                                 |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | useFileForSymbols                         | false                                        | Use File for Symbols                           |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | useProjBinaryForSymbols                   | true                                         | Use Project Binary for Symbols                 |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | useRemoteTarget                           | true                                         | Use Remote Target                              |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | loadImage                                 | true                                         | Load executable                                |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | useFileForImage                           | false                                        | Use File for Image                             |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | imageFileName                             |                                              | Image File Name                                |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | imageOffset                               |                                              | Image Offset                                   |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | useProjBinaryForImage                     | true                                         | Use Project Binary for Image                   |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | doDebugInRam                              | false                                        | Debug in RAM                                   |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | otherRunCommands                          |                                              | Other Run Commands                             |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | doSecondReset                             | true                                         | Pre-run/Restart reset                          |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | setPcRegister                             | false                                        | Set program counter                            |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | pcRegister                                |                                              | Set program counter at (hex)                   |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | setResume                                 | false                                        | Set Resume                                     |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | setStopAt                                 | true                                         | Set breakpoint                                 |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | stopAt                                    | main                                         | Set breakpoint at                              |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | doContinue                                | true                                         | Continue                                       |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+  | svdPath                                   |                                              | SVD file path                                  |
+  +-------------------------------------------+----------------------------------------------+------------------------------------------------+
+
 
 Nuclei RVProf Arguments
 ^^^^^^^^^^^^^^^^^^^^^^^

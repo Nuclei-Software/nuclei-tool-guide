@@ -575,6 +575,19 @@ the target hardware returns a Bus Fault or access error, and GDB enters a waitin
 
 |image65|
 
+How to View GDB Trace
+---------------------
+
+When debugging, you may need to check the raw commands exchanged between the IDE and GDB to locate debugger problems. Enable the GDB traces console as follows:
+
+1. Open ``Window -> Preferences -> C/C++ -> Debug -> GDB``, and check ``Show the GDB traces consoles with character limit``. The character limit (5000 by default) and the maximum number of lines to display per message can be adjusted as needed, then click ``Apply and Close``.
+
+|image66|
+
+2. Run or debug the project. A ``<projectname> ... gdb traces`` console is added to the Console view, which shows the GDB commands and responses exchanged during the debug session.
+
+|image67|
+
 Other Issues Without a Noted Version
 ====================================
 
@@ -751,3 +764,7 @@ Common problems encountered in later versions are listed there.
 .. |image64| image:: /asserts/nucleistudio/faq/image64.png
 
 .. |image65| image:: /asserts/nucleistudio/faq/image65.png
+
+.. |image66| image:: /asserts/nucleistudio/faq/image66.png
+
+.. |image67| image:: /asserts/nucleistudio/faq/image67.png
