@@ -48,13 +48,25 @@ Version 2026.10
 
 - Fixed: ``get_biv_step_1`` ICE for RISC-V (`PR target/117506 <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=117506>`_).
 
+- Fixed: The missing left shift in the RISC-V constant synthesis (`PR target/117690 <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=117690>`_), which was a regression introduced in the 2025.10 toolchain.
+
 - Fixed: newlib ``sqrt/sqrtf`` used FPU when the ``F`` or ``D`` extension is present.
 
 - Fixed: The ``xl.addibne`` scale field error in Binutils/GDB.
 
-- Fixed: Binutils/GDB stability issues, such as the null pointer issue in ``riscv_elf_after_check_relocs``, the abort when displaying data and partial instructions, the ``objdump -d -l/-S`` out of memory issue, and the GDB disassemble core dump issue when the section name is NULL.
+- Fixed: The error when compiling pure assembly files with ``xxlcz`` in ``-march=``, which existed since the 2025.02 toolchain.
+
+- Fixed: The null pointer issue in ``riscv_elf_after_check_relocs`` in Binutils.
+
+- Fixed: The abort when displaying data and partial instructions in Binutils.
+
+- Fixed: The ``objdump -d -l/-S`` out of memory issue in Binutils.
+
+- Fixed: The GDB disassemble core dump issue when the section name is NULL.
 
 - Fixed: zcmt related fixes in Binutils/GDB, such as adjusting the zcmt relax pass, fixed the conditions for automatic generation of ZCMT, fixed zcmt gdb table jump index, and added the ``--relax-zcmt``/``--no-relax-zcmt`` (default) linker options to control the Zcmt table jump relaxation.
+
+- Fixed: The GCC ``nuclei-900-series`` pipeline model was 1-issue (single-issue) before, and is now corrected to 2-issue (dual-issue).
 
 - LLVM: Added inline assembly support for GPR Pairs (``R``).
 
@@ -63,6 +75,8 @@ Version 2026.10
 - LLVM: Reworked the Nuclei ``-mtune`` support, which fixes `issue 37 <https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/37>`_ and supports the nuclei 100/200/300/600/900/1000 series.
 
 - LLVM: Fixed the llvm-objdump error and the Nuclei ``xxldsp`` disassembler issues.
+
+- LLVM: Fixed the issue that ``objdump -d`` wrongly disassembles 32-bit instructions as 16-bit, by adding the RISC-V mapping symbol (``$x``/``$d``) support to llvm-objdump.
 
 .. _toolchain_changelog_202510:
 

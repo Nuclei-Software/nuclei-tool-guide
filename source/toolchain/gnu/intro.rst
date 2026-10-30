@@ -50,6 +50,18 @@ Extensions Support
     - f + zce =  zca + zcb + zcf + zcmp + zcmt
     - f + d + zce =  zca + zcb + zcf + zcd + zcmp + zcmt
 
+.. note::
+
+    The Zcmt table jump auto-generation conditions (the linker relaxes the jumps into ``jt``/``jalt`` table jump instructions):
+
+    - 2025.10: enabled by default. When ``zcmt`` is present in ``-march=``, the Zcmt table jump instructions are generated automatically.
+
+    - 2026.10: both conditions must be satisfied: ``zcmt`` present in ``-march=``, and the linker option ``--relax-zcmt`` (pass it as ``-Wl,--relax-zcmt`` when linking with GCC). The default ``--no-relax-zcmt`` disables the auto-generation.
+
+    .. attention::
+
+        The Zcmt table jump support has not been merged into the binutils mainline branch yet, it is an experimental feature in the Nuclei toolchain. Please be aware of the risks when using it in production.
+
 - Zvb Extensions
 
     zvbb, zvbc
@@ -130,20 +142,6 @@ General Options
 
     The ``size`` choice is not intended for use by end-users. This is used when -Os is specified. It overrides the instruction cost info provided by ``-mtune=``, but does not override the pipeline info. This helps reduce code size while still giving good performance.
 
-`-mautovec-rvv/-mno-autovec-rvv`
-
-    Controls the RISC-V RVV automatic vectorization. Enabled by default, use ``-mno-autovec-rvv`` to disable it. This option is added since 2026.10.
-
-    Since 2026.10, RVV automatic vectorization is always disabled in interrupt handlers (functions marked with the ``interrupt`` attribute), regardless of this option. In interrupt handlers, vector registers are only saved when they are directly used by the handler itself; if the handler or its callees use the vector unit, the full vector state must be saved and restored by the user.
-
-`-mautovec-dsp/-mno-autovec-dsp`
-
-    Controls the generation of automatic vectorization of Nuclei DSP instructions. Since 2026.10, Nuclei DSP instruction auto-vectorization is disabled by default, use ``-mautovec-dsp`` to enable it.
-
-`-mautogen-xxlcz/-mno-autogen-xxlcz`
-
-    Controls the auto-generation of the Nuclei ``xxlcz`` extension instructions (including the ``xl.addibne`` instruction). Disabled by default, use ``-mautogen-xxlcz`` to enable it. This option is added since 2026.10, and replaces the ``-maddibne/-mno-addibne`` option which was removed in 2026.10.
-
 `-fno-strict-aliasing`
 
     It is recommended to add the optimization option ``-fno-strict-aliasing`` to the project. In some circumstances, ``-fstrict-aliasing`` (enabled by default at ``-O2`` and above) allows the compiler to assume that pointers to different types do not alias, which may break code that accesses the same memory through pointers of different types.
@@ -204,6 +202,25 @@ For more information about RISC-V Options used in GCC, please check https://gcc.
 
 For RISC-V ELF psABI Document, please check https://github.com/riscv-non-isa/riscv-elf-psabi-doc
 
+Nuclei Custom Options
+=====================
+
+In addition to the standard RISC-V options above, the Nuclei GNU toolchain provides the following Nuclei custom options:
+
+`-mautovec-rvv/-mno-autovec-rvv`
+
+    Controls the RISC-V RVV automatic vectorization. Enabled by default, use ``-mno-autovec-rvv`` to disable it. This option is added since 2026.10.
+
+    Since 2026.10, RVV automatic vectorization is always disabled in interrupt handlers (functions marked with the ``interrupt`` attribute), regardless of this option. In interrupt handlers, vector registers are only saved when they are directly used by the handler itself; if the handler or its callees use the vector unit, the full vector state must be saved and restored by the user.
+
+`-mautovec-dsp/-mno-autovec-dsp`
+
+    Controls the generation of automatic vectorization of Nuclei DSP instructions. Since 2026.10, Nuclei DSP instruction auto-vectorization is disabled by default, use ``-mautovec-dsp`` to enable it.
+
+`-mautogen-xxlcz/-mno-autogen-xxlcz`
+
+    Controls the auto-generation of the Nuclei ``xxlcz`` extension instructions (including the ``xl.addibne`` instruction). Disabled by default, use ``-mautogen-xxlcz`` to enable it. This option is added since 2026.10, and replaces the ``-maddibne/-mno-addibne`` option which was removed in 2026.10.
+
 Libraries
 =========
 
@@ -252,6 +269,18 @@ The process of user compilation and development can see from https://github.com/
 
 3. When using a library, we can tell the linker which library we need to link by using the '-l', for example, ``-lc`` for newlib-full, ``-lc_nano`` for newlib-nano. For libncrt, you should pass ``--specs=libncrt_xxx.specs`` when using gcc. In addition, you need to link extra 'fileops' and 'heapops' static libraries during the linking phase by using the '-l', and for the 'fileops', you must select one of the three options: 'uart', 'semi' or 'rtt',
 and for the 'heapops', you must select one of the three options: 'basic', 'realtime' or 'minimal'.
+
+
+Testsuite
+=========
+
+Since 2026.10, a GCC testsuite test framework has been added to the Nuclei toolchain, and the built-in testcases of GCC and Binutils are already covered by it:
+
+- The built-in GCC and Binutils testsuites are run against the multilib combinations (target/library/extension/ABI) of the toolchain in the CI.
+
+- The known failing testcases are recorded in the allowlist files under ``test/allowlist/<toolname>/`` of the toolchain repository, named by the rule ``[<lib>.][rv(32|64|128).][<ext>.][<abi>.]log`` and filtered by ``scripts/testsuite-filter``, so the regressions can be detected easily.
+
+- Nuclei custom extension testcases, such as ``xxlfbf``, ``xxlvfbf``, ``xxlvw``, ``xxlvqmacc``, ``xxlcz``, ``xxldsp`` and the ECLIC V2 CSRs, are also added to the testsuite.
 
 
 Checking GNU Version
