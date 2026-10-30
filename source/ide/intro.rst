@@ -183,6 +183,13 @@ The ``Address Exclusion Settings...`` item has been added to the Memory view (al
 
 For details, see :ref:`Memory View Address Exclusion <ide_memory_exclusion>`.
 
+Added Big Endian Compiler Support
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Nuclei Studio 2026.10 adds support for the RISC-V Big Endian toolchain (this feature is still in the test phase). After the Big Endian toolchain (bengcc) is placed in ``<NucleiStudio>\toolchain\gccbe``, projects can be compiled into big-endian code by setting the ``Endian`` option and the toolchain information in the project properties.
+
+For details, see :ref:`Big Endian Compiler Support <ide_big_endian_compiler>`.
+
 Fixed Known Bugs
 ~~~~~~~~~~~~~~~~~
 
