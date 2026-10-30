@@ -9,6 +9,75 @@ Changelog
 
     - `Known Issues <https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/18>`_
 
+.. _toolchain_changelog_202610:
+
+Version 2026.10
+---------------
+
+.. note::
+
+    - This version is modified based on version 2025.10, all tool components keep the same versions
+    - Merged important upstream bugfixes, such as the VXRM state restore fix, the constant synthesis codegen fixes, and the newlib ``sqrt/sqrtf`` FPU fix
+    - Added support for new extensions, such as ``Zibi`` (v0.1), ``RNMI`` (``Smrnmi`` v1.0), ``Double Trap`` (``Smdbltrp/Ssdbltrp`` v1.0), and enhanced the Nuclei custom ``xxlcz`` extension support and the ``xxldsp`` auto-generation capability
+
+- Updated toolchain components to these versions: GCC 14.2.1, Binutils 2.44, GDB 16.2, Newlib 4.5.0, LLVM 19.1.7, and GLIBC 2.41.
+
+- Feature: Added ``RNMI & Double Trap`` extension support (``Smrnmi`` v1.0, ``Smdbltrp/Ssdbltrp`` v1.0) in GCC/LLVM/Binutils/GDB.
+
+- Feature: Added ``Zibi`` extension support (v0.1) in GCC/Binutils/GDB.
+
+- Feature: Added new option ``-mautovec-rvv/-mno-autovec-rvv`` to enable (default) or disable RVV auto-vectorization.
+
+- Feature: The Nuclei DSP auto-vectorization (``-mautovec-dsp``) and the Nuclei ``xxlcz`` auto-generation (``-mautogen-xxlcz``) are disabled by default now, and Binutils adds the same ``-mautogen-xxlcz/-mno-autogen-xxlcz`` assembler option. The ``-maddibne/-mno-addibne`` option is removed, the ``xl.addibne`` auto-generation is now controlled by ``-mautogen-xxlcz``.
+
+- Feature: Added GDB python support, which can be enabled with ``--with-python`` when building the toolchain.
+
+- Feature: Updated the Nuclei custom ECLIC V2 CSRs in Binutils/GDB/LLVM.
+
+- Feature: GCC added the new constraint ``R`` for register even-odd pairs.
+
+- Feature: Interrupt handlers are RVV-free now, no RVV instructions will be generated in interrupt handlers.
+
+- Feature: Improved the implementation of the Nuclei ``xxlvqmacc`` extension, and added the ``vsetvli`` instructions required by the ``xxlvw`` extension intrinsic functions.
+
+- Feature: Enhanced the Nuclei ``xxldsp`` and ``xxlcz`` extension capabilities.
+
+- Fixed: The link failure when RVV intrinsics are used in LTO builds (`PR target/110812 <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110812>`_).
+
+- Fixed: VXRM state not restored after calls (`PR target/123626 <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=123626>`_).
+
+- Fixed: ``get_biv_step_1`` ICE for RISC-V (`PR target/117506 <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=117506>`_).
+
+- Fixed: The missing left shift in the RISC-V constant synthesis (`PR target/117690 <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=117690>`_), which was a regression introduced in the 2025.10 toolchain.
+
+- Fixed: newlib ``sqrt/sqrtf`` used FPU when the ``F`` or ``D`` extension is present.
+
+- Fixed: The ``xl.addibne`` scale field error in Binutils/GDB.
+
+- Fixed: The error when compiling pure assembly files with ``xxlcz`` in ``-march=``, which existed since the 2025.02 toolchain.
+
+- Fixed: The null pointer issue in ``riscv_elf_after_check_relocs`` in Binutils.
+
+- Fixed: The abort when displaying data and partial instructions in Binutils.
+
+- Fixed: The ``objdump -d -l/-S`` out of memory issue in Binutils.
+
+- Fixed: The GDB disassemble core dump issue when the section name is NULL.
+
+- Fixed: zcmt related fixes in Binutils/GDB, such as adjusting the zcmt relax pass, fixed the conditions for automatic generation of ZCMT, fixed zcmt gdb table jump index, and added the ``--relax-zcmt``/``--no-relax-zcmt`` (default) linker options to control the Zcmt table jump relaxation.
+
+- Fixed: The GCC ``nuclei-900-series`` pipeline model was 1-issue (single-issue) before, and is now corrected to 2-issue (dual-issue).
+
+- LLVM: Added inline assembly support for GPR Pairs (``R``).
+
+- LLVM: Added Nuclei ``xxldsp`` intrinsic support and ``xxlvfbf`` vector bf16 intrinsic support.
+
+- LLVM: Reworked the Nuclei ``-mtune`` support, which fixes `issue 37 <https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/37>`_ and supports the nuclei 100/200/300/600/900/1000 series.
+
+- LLVM: Fixed the llvm-objdump error and the Nuclei ``xxldsp`` disassembler issues.
+
+- LLVM: Fixed the issue that ``objdump -d`` wrongly disassembles 32-bit instructions as 16-bit, by adding the RISC-V mapping symbol (``$x``/``$d``) support to llvm-objdump.
+
 .. _toolchain_changelog_202510:
 
 Version 2025.10

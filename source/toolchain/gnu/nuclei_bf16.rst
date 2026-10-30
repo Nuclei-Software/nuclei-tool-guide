@@ -195,7 +195,7 @@ Nuclei Custom Instructions
 * Vector Floating-Point Square-Root Instruction
     - ``vfsqrt.v``
 * Vector Floating-Point Reciprocal Square-Root Estimate Instruction
-    - ``vfsqrt7.v``
+    - ``vfrsqrt7.v``
 * Vector Floating-Point Reciprocal Estimate Instruction
     - ``vfrec7.v``
 * Vector Floating-Point MIN/MAX Instructions
