@@ -1,16 +1,22 @@
 .. _nuclei_xec:
 
-QEMU9.0上XEC以太网使用指南
-==========================
+Nuclei XEC Ethernet User Guide
+==============================
 
-QEMU官方关于network的文档: https://wiki.qemu.org/Documentation/Networking
+Official QEMU networking documentation: https://wiki.qemu.org/Documentation/Networking
 
-QEMU中支持多种网络后端方式, 结合我们自己的以太网Spec和使用场景,目前基于Nuclei_xec_gen2_doc_v1.0.1,实现了User和TAP两种模式的以太网。
+QEMU supports multiple network backends. To meet the requirements of the Nuclei Ethernet specification (Nuclei_xec_gen2_doc_v1.0.1) and its intended use cases, the current Nuclei XEC implementation supports both User and TAP mode networking.
 
-User模式网络
-------------
+User mode is recommended for most use cases. It works on both Linux and Windows, requires no administrator privileges or host network setup, and provides outbound network access through a built-in NAT service. TAP mode is intended for cases that require the guest to communicate directly with the host, other virtual machines, or external hosts, or that require protocols and traffic patterns not supported by User mode. TAP mode provides more complete networking and better performance, but requires administrator privileges and additional host configuration.
 
-QEMU的User模式网络基于Slirp库实现用户态NAT转发,通过使用选项 ``-nic user`` ,QEMU可以使用完整的用户模式网络堆栈而不需要root权限。默认的虚拟配置如下:
+.. note::
+
+   Before starting QEMU, check that the Linux device tree matches the QEMU XEC configuration. The guest image must include the Nuclei XEC driver, the XEC node must be enabled, and the PHY address must be ``2`` for the current QEMU XEC model. If a custom ``soc-cfg`` file is used, its ``xec0`` base address, size, interrupt number, and enable state must also match the Linux device tree.
+
+User Mode Networking
+--------------------
+
+QEMU's User mode networking uses the Slirp library to provide NAT forwarding in user space. With the ``-nic user`` option, QEMU provides a complete user mode network stack without requiring root privileges. The default virtual network configuration is as follows:
 
 .. code-block:: shell
 
@@ -21,112 +27,189 @@ QEMU的User模式网络基于Slirp库实现用户态NAT转发,通过使用选项
                         |
                         ---->  SMB server (10.0.2.4)
 
-需要注意的是,QEMU的用户网络模式主要存在以下约束:
+QEMU's User mode networking has the following main limitations:
 
- - 由于是用户态转发,没有进行内核态加速,所以吞吐量较低,不适合大流量传输
- - 通常不支持ICMP协议,即无法通过 ``ping`` 指令ping通外网
- - 外网无法直接访问guest网络,只能guest发起主动访问
- - 不支持多播以及多QEMU实例的网络互通
+ - Forwarding runs in user space without kernel acceleration, resulting in lower throughput and making this mode unsuitable for high-volume data transfers.
+ - ICMP support is limited, so ``ping`` may not work with hosts outside the virtual network.
+ - External hosts cannot directly access the guest; network connections must be initiated by the guest.
+ - Multicast and direct networking between multiple QEMU instances are not supported.
 
 
-Windows版本和Linux版本的Nuclei QEMU上目前都已经集成了User模式网络所需要的Slirp库,所以在使用时只需要通过 ``-nic user,model=nuclei.xec`` 指定使用User模式网络以及使用Nuclei XEC模型即可直接访问网络,例如： ``qemu-system-riscv64.exe -M nuclei_evalsoc,download=flashxip -smp 8 -m 2G -cpu nuclei-ux900fd,ext=_zicbom_svpbmt_sscof -bios freeloader.elf -nographic -drive file=/path/to/your/img,if=sd,format=raw -nic user,model=nuclei.xec`` 。
+Both the Windows and Linux versions of Nuclei QEMU include the Slirp library required for User mode networking. To access the network, specify ``-nic user,model=nuclei.xec`` to select the User network backend and the Nuclei XEC model. For example: ``qemu-system-riscv64.exe -M nuclei_evalsoc,download=flashxip -smp 8 -m 2G -cpu nuclei-ux900fd,ext=_zicbom_svpbmt_sscof -bios freeloader.elf -nographic -drive file=/path/to/your/img,if=sd,format=raw -nic user,model=nuclei.xec``.
 
-TAP模式网络
------------
+With a matching guest device tree and XEC-enabled Linux image, the startup log should contain messages similar to the following. The exact timestamps and MAC address may vary:
 
-QEMU的TAP模式网络是一种高性能、全功能的网络模式,核心是将Guest虚拟机的网络接口直接桥接到 Host的物理/虚拟网络中,实现Guest与Host、外网、其他虚拟机的双向直连通信。与User模式网络不同,TAP 模式属于内核态转发,支持几乎所有网络协议,性能接近物理网卡,但需要 root 权限和手动网络配置。Windows和Linux上的详细配置过程如下
+.. code-block:: console
 
-Linux环境
-*********
+    [    1.361511] nuclei-xec 10002000.xec eth0: using RGMII interface
+    [    1.370178] Generic PHY 10002000.xec-ffffffff:02: attached PHY driver
+    [    1.371734] nuclei-xec 10002000.xec eth0: XEC mac at 0x10002000 irq 4
+    [    2.850067] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+    udhcpc: broadcasting discover
+    udhcpc: broadcasting select for 10.0.2.15, server 10.0.2.2
+    udhcpc: lease of 10.0.2.15 obtained from 10.0.2.2, lease time 86400
+    adding dns 10.0.2.3
 
-**host上转发规则**
+The assigned address, default route, link state, and neighbor resolution can then be checked from the guest. The following commands also confirm that the emulated PHY is attached at address ``2`` and that packets are exchanged without interface errors:
 
-host上需要配置转发规则,避免数据包被拦截或过滤
+.. code-block:: console
+
+    # ip -4 addr show dev eth0
+    2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast qlen 1000
+        inet 10.0.2.15/24 brd 10.0.2.255 scope global eth0
+    # ip route
+    default via 10.0.2.2 dev eth0
+    10.0.2.0/24 dev eth0 scope link src 10.0.2.15
+    # cat /etc/resolv.conf
+    nameserver 10.0.2.3
+    # ethtool eth0 | grep -E 'PHYAD|Link detected'
+        PHYAD: 2
+        Link detected: yes
+    # ping -c 1 10.0.2.2 > /dev/null
+    # ip neigh show dev eth0
+    10.0.2.2 lladdr 52:55:0a:00:02:02 ref 1 used 0/0/0 probes 4 REACHABLE
+    # ifconfig eth0
+    eth0      Link encap:Ethernet  HWaddr E6:C4:F2:16:EC:B1
+              inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+              UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+              RX packets:4 errors:0 dropped:0 overruns:0 frame:0
+              TX packets:15 errors:0 dropped:0 overruns:0 carrier:0
+
+For normal network use, ``wget`` can retrieve a web page or download a file from an accessible server. These commands depend on the host's DNS and external network connectivity when a domain name or external server is used:
+
+.. code-block:: console
+
+    # wget -T 10 -O - http://<server>/
+    # wget -T 10 -O /tmp/file.bin http://<server>/file.bin
+
+Use ``netstat`` to inspect the routing table, active TCP and UDP sockets, or listening TCP ports:
+
+.. code-block:: console
+
+    # netstat -rn
+    # netstat -tn
+    # netstat -un
+    # netstat -ltn
+
+To verify TCP and an application-layer protocol without depending on Internet access, start a temporary HTTP server on the host:
 
 .. code-block:: shell
 
-    # 配置ipv4转发规则
-    $ cat /proc/sys/net/ipv4/ip_forward #可以先查看是否为1,一般默认为1,支持ipv4转发,否则需要进行下面的配置
+    $ python3 -m http.server 18080 --bind 127.0.0.1
+
+Add a ``guestfwd`` rule to the User backend. It maps the guest-visible address ``10.0.2.100:80`` to the temporary server on ``127.0.0.1:18080``:
+
+.. code-block:: shell
+
+    -nic user,model=nuclei.xec,guestfwd=tcp:10.0.2.100:80-tcp:127.0.0.1:18080
+
+The guest can then retrieve content with ``wget``. A successful transfer confirms that TCP and HTTP traffic pass through XEC and the User backend. The response body and transfer size depend on the directory served by the host and are abbreviated below:
+
+.. code-block:: console
+
+    # wget -T 10 -O - http://10.0.2.100/
+    Connecting to 10.0.2.100 (10.0.2.100:80)
+    writing to stdout
+    ...
+    -                    100% |********************************|   876  0:00:00 ETA
+    written to stdout
+
+TAP Mode Networking
+-------------------
+
+QEMU's TAP mode networking is a high-performance, full-featured networking mode. It connects the guest's network interface directly to the host's physical or virtual network, enabling bidirectional communication between the guest and the host, external networks, and other virtual machines. Unlike User mode networking, TAP mode uses kernel-space forwarding, supports nearly all network protocols, and provides performance close to that of a physical network interface. However, it requires root privileges and manual network configuration. The configuration steps for Linux and Windows are provided below.
+
+Linux
+*****
+
+**Host Forwarding Rules**
+
+Configure forwarding rules on the host so that packets from the guest are not blocked or filtered.
+
+.. code-block:: shell
+
+    # Configure IPv4 forwarding rules
+    $ cat /proc/sys/net/ipv4/ip_forward # Check whether the value is 1 (usually the default), which indicates that IPv4 forwarding is enabled; otherwise, enable it below
     $ sudo sysctl -w net.ipv4.ip_forward=1
-    # 如果host使用了NAT网络模式,那么还需配置NAT转发规则
-    $ sudo iptables -t nat -A POSTROUTING -o ens33 -j MASQUERADE #这里的ens33是host网卡名称,配置时需要与自己的网卡名对应,下同
+    # If the host uses NAT networking, also configure NAT forwarding rules
+    $ sudo iptables -t nat -A POSTROUTING -o ens33 -j MASQUERADE # Replace ens33 with the host's network interface name here and below
     $ sudo iptables -t filter -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
     $ sudo iptables -t filter -A FORWARD -i tap0 -o ens33 -j ACCEPT
 
-**tap设备创建**
+**Creating a TAP Device**
 
-使用qemu的tap模式网络,则主机上必须新建一个tap设备,作为qemu虚拟机和host网络之间的桥梁
+To use QEMU's TAP mode networking, create a TAP device on the host to connect the QEMU guest to the host network.
 
 .. code-block:: shell
 
-    $ sudo ip tuntap add mode tap dev tap0 #创建tap设备,如果被占用,可以创建新的tap1,2...
-    $ sudo ip link set tap0 up #启用tap设备
-    $ sudo ifconfig tap0 192.168.1.1 netmask 255.255.255.0 #配置tap设备的ip/mask
+    $ sudo ip tuntap add mode tap dev tap0 # Create a TAP device; if tap0 is already in use, create tap1, tap2, etc.
+    $ sudo ip link set tap0 up # Enable the TAP device
+    $ sudo ifconfig tap0 192.168.1.1 netmask 255.255.255.0 # Configure the TAP device's IP address and netmask
 
-**QEMU运行示例**
+**Example QEMU Command**
 
 .. code-block:: shell
 
     $ qemu-system-riscv64 -M nuclei_evalsoc,download=flashxip -smp 8 -m 2G -cpu nuclei-ux900fd,ext=_zicbom_svpbmt_sscof -bios /path/to/freeloader.elf -nographic -drive file=/path/to/disk.img,if=sd,format=raw -nic tap,ifname=tap0,script=no,downscript=no
 
-**参数说明**
+**Parameter Descriptions**
 
-- ``-bios``:指定freeloader,其中需要配置使能XEC驱动
+- ``-bios``: Specifies the freeloader image, which must be built with the XEC driver enabled.
 
-- ``-nic tap,ifname=tap0,script=no,downscript=no`` : 由于Nuclei QEMU的evalsoc中已经直接将XEC挂载到系统总线上了,所以无需额外参数去指定以太网设备,只需通过 ``-nic`` 指定网络模式为tap网桥模式,以及 ``ifname`` 指定使用的host上的tap设备名称, ``script=no,downscript=no`` 则是关闭了qemu对tap设备的自动配置,完全由用户自行控制网络参数,如果需要脚本控制也可以在此给出路径
+- ``-nic tap,ifname=tap0,script=no,downscript=no``: XEC is already attached directly to the system bus of the Nuclei QEMU evalsoc machine, so no additional option is required to specify the Ethernet device. Use ``-nic`` to select the TAP network backend and ``ifname`` to specify the host TAP device. The ``script=no,downscript=no`` settings disable QEMU's automatic TAP configuration, leaving the network parameters entirely under user control. If script-based configuration is required, paths to the corresponding scripts can be specified instead.
 
-**虚拟机配置**
+**Guest Configuration**
 
-- XEC虚拟网卡配置
-
-.. code-block:: shell
-
-    $ ifconfig eth0 192.168.1.100 netmask 255.255.255.0 #配置XEC虚拟网卡ip/mask
-    $ route add default gw 192.168.1.1 #将tap设备作为默认路由
-
-- 修改/etc/resolv.conf以配置DNS
-
-Windows环境
-***********
-
-本次测试环境为win10
-
-**tap设备创建**
-
-windows上创建tap设备需要安装额外的驱动程序,比如 ``tap-windows-9.21.2`` ,用户需要自行下载安装。
-
-安装成功后,在windows的 ``控制面板\网络`` 和 ``Internet\网络`` 连接下就会多出一个虚拟网络设备,可以将该设备重命名为提供给QEMU命令行使用的名称,比如 ``tap0`` 。
-
-**host转发规则**
-
-以下需要在管理员权限的cmd或者PowerShell中执行,下同
+- Configure the XEC virtual network interface.
 
 .. code-block:: shell
 
-    # 启用IPv4转发
+    $ ifconfig eth0 192.168.1.100 netmask 255.255.255.0 # Configure the XEC virtual network interface's IP address and netmask
+    $ route add default gw 192.168.1.1 # Use the TAP device as the default gateway
+
+- Edit ``/etc/resolv.conf`` to configure DNS.
+
+Windows
+*******
+
+The following steps were tested on Windows 10.
+
+**Creating a TAP Device**
+
+Creating a TAP device on Windows requires an additional driver package, such as ``tap-windows-9.21.2``, which must be downloaded and installed separately.
+
+After installation, a virtual network device appears under ``Control Panel\Network and Internet\Network Connections``. Rename the device to the name that will be used on the QEMU command line, such as ``tap0``.
+
+**Host Forwarding Rules**
+
+Run the following commands, as well as those in the remaining Windows steps, in an elevated Command Prompt or PowerShell session.
+
+.. code-block:: shell
+
+    # Enable IPv4 forwarding
     $ Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -Name IPEnableRouter -Value 1 -Type DWord
     $ netsh interface ipv4 set interface "tap0" forwarding=enabled
-    $ netsh interface ipv4 set interface "Ethernet0" forwarding=enabled  # Ethernet0需替换为实际物理网卡名称
+    $ netsh interface ipv4 set interface "Ethernet0" forwarding=enabled  # Replace Ethernet0 with the actual physical network interface name
 
-**创建NAT规则**
+**Creating a NAT Rule**
 
-将tap设备和虚拟机所在网段的流量通过主机物理网卡转发到外网,这里tap设备和虚拟机IP沿用以上linux系统下的示例,则对应配置如下:
-
-.. code-block:: shell
-
-    $ New-NetNat -Name "QEMU_NAT" -InternalIPInterfaceAddressPrefix "192.168.1.0/24" # QEMU_NAT为NAT网络名称,可自定义
-
-**配置防火墙规则（可选）**
-
-此配置视本地防火墙配置具体情况而定,用于配置允许跨网段流量通过,具体如下:
+Configure NAT to forward traffic from the subnet shared by the TAP device and the guest to external networks through the host's physical network interface. Using the same TAP and guest IP addresses as in the Linux example above, run:
 
 .. code-block:: shell
 
-    # 创建入站规则允许NAT相关流量
+    $ New-NetNat -Name "QEMU_NAT" -InternalIPInterfaceAddressPrefix "192.168.1.0/24" # QEMU_NAT is the NAT network name and can be customized
+
+**Configuring Firewall Rules (Optional)**
+
+Depending on the local firewall configuration, the following rules may be required to allow traffic between subnets:
+
+.. code-block:: shell
+
+    # Create an inbound rule to allow NAT-related traffic
     $ New-NetFirewallRule -DisplayName "Allow NAT Inbound" -Direction Inbound -Protocol Any -LocalPort 1024-65535 -Action Allow
-    # 创建出站规则允许所有流量
+    # Create an outbound rule to allow all traffic
     $ New-NetFirewallRule -DisplayName "Allow All Outbound" -Direction Outbound -Action Allow
 
-**QEMU运行**
+**Running QEMU**
 
-与Linux环境下运行方式一致
+Run QEMU in the same way as in the Linux environment.
