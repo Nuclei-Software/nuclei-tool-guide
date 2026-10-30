@@ -6,41 +6,41 @@ Nuclei Custom Xxlvw Extension
 Introduction
 *************
 
-目前 RVV 1.0 向量扩展主要应用于 AI 与图像处理领域，其基础向量指令难以完全满足宽带无线信号处理的需求，例如 4G/5G 通信中的复数处理，以及高精度定点动态缩放（dynamic scaling）等场景。为此，需要在 RVV 基础上扩展面向无线通信领域的向量指令，以覆盖 4G、5G、Wi-Fi 等场景中大量的向量信号处理需求。
+The RVV 1.0 vector extension is widely used in AI and image processing. However, its basic vector instructions cannot fully meet the demands of wideband wireless signal processing, such as complex-number processing in 4G/5G communications and high-precision fixed-point dynamic scaling. Vector instructions targeting wireless communications therefore need to be added on top of RVV to cover the extensive vector signal-processing requirements of 4G, 5G, and Wi-Fi scenarios.
 
-该指令集是 RISC-V RVV 1.0 的补充扩展，主要面向宽带无线通信信号处理。扩展以 ``w`` （Wireless）标识，基于基础的 ``V`` 扩展，在 Nuclei 工具链中以自定义扩展 ``xxlvw`` 的形式提供。
+This instruction set is a complementary extension to RISC-V RVV 1.0, targeting wideband wireless communication signal processing. It is identified by ``w`` (Wireless) and builds upon the base ``V`` extension; in the Nuclei toolchain it is provided as the custom extension ``xxlvw``.
 
-为无线信号处理新增的指令主要包括：
+The instructions added for wireless signal processing mainly include:
 
-- 复数格式转换指令
-- 定点动态缩放运算指令
-- 复数动态缩放运算指令
-- 动态缩放归约运算指令
-- 元素间运算指令
-- 快速非线性运算指令
-- 格式转换指令
+- Complex-number format conversion instructions
+- Fixed-point dynamic scaling operation instructions
+- Complex dynamic scaling operation instructions
+- Dynamic scaling reduction operation instructions
+- Inter-element operation instructions
+- Fast non-linear operation instructions
+- Format conversion instructions
 
-指令中的“运算”指对向量各元素的操作；循环次数遵循 RVV 规范中的 LMUL 与 VL；操作数宽度由 SEW 控制；各元素是否参与运算由 vm 控制；未参与运算元素的默认值由 mask agnostic 与 tail agnostic 机制决定。
+In this context, "operations" act on the individual elements of a vector; the trip count follows the LMUL and VL rules of the RVV specification; the operand width is controlled by SEW; whether an element participates in the operation is controlled by vm; and the default values of inactive elements are determined by the mask-agnostic and tail-agnostic mechanisms.
 
-本文主要介绍 Nuclei 工具链对该扩展的支持情况，包括使能方式、支持的指令以及对应的 intrinsic 用法。扩展的详细定义可参考 `riscv-vector4wireless-extension <https://github.com/gaoshanlee193/riscv-vector4wireless-extension#introduction>`_。
+This document describes the support for this extension in the Nuclei toolchain, including how to enable it, the supported instructions, and the usage of the corresponding intrinsics. For the detailed definition of the extension, refer to `riscv-vector4wireless-extension <https://github.com/gaoshanlee193/riscv-vector4wireless-extension#introduction>`_.
 
 
 
-扩展
-*****
+Extension
+*********
 
-使用该扩展时，需要启用 ``V`` 扩展和 ``xxlvw`` 扩展，同时该扩展只支持 RV32。
+Using this extension requires the ``V`` extension and the ``xxlvw`` extension to be enabled. Note that this extension supports RV32 only.
 
-示例：``-march=rv32imafcv_xxlvw -mabi=ilp32f``
+Example: ``-march=rv32imafcv_xxlvw -mabi=ilp32f``
 
 .. attention::
 
-    使用该扩展的相关 intrinsic 时，需要添加以下头文件：
+    To use the intrinsics of this extension, the following header file must be included:
 
     ``#include <riscv_vector.h>``
 
-支持的指令
-**********
+Supported Instructions
+**********************
 
 Complex number format conversion
  - ``vcpack.vv vd, vs2, vs1, vm``
@@ -100,25 +100,25 @@ Format conversion instructions
 
 .. note::
 
-    格式转换指令用于不同数据宽度之间的转换，下文以 ``sew = 输入宽度→输出宽度`` 标注；各 intrinsic 的实际数据类型也可从其函数签名中看出。
+    The format conversion instructions convert between different data widths; they are annotated below as ``sew = input width → output width``. The actual data types of each intrinsic can also be seen from its function signature.
 
-    这些指令的详细信息，参考 https://github.com/gaoshanlee193/riscv-vector4wireless-extension/blob/Zvw/src/RISCV-Vector-Extension-for-Wireless.adoc
+    For detailed information about these instructions, refer to https://github.com/gaoshanlee193/riscv-vector4wireless-extension/blob/Zvw/src/RISCV-Vector-Extension-for-Wireless.adoc
 
-intrinsic 命名规则
-*******************
+Intrinsic Naming Convention
+***************************
 
-rvv intrinsic 命名规则：https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0.0-rc7 中的 ``v-intrinsic-spec.pdf`` -> **Chapter 6**。
+RVV intrinsic naming convention: **Chapter 6** of ``v-intrinsic-spec.pdf`` in https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0.0-rc7.
 
-我们的命名规则遵循上述规则，并在其基础上于前缀处添加了 ``_xl``。
+Our naming convention follows the above specification and adds the ``_xl`` prefix.
 
-Nuclei 自定义的 intrinsic
+Nuclei Custom Intrinsics
 **************************
 
 .. note::
 
-    下文会给出每条指令对应的 intrinsic 示例；完整的 intrinsic 请参照上述命名规则推导。
+    Example intrinsics are given below for each instruction; for the complete set of intrinsics, derive the names according to the naming convention above.
 
-    下文出现的 sew 指的是指令支持的数据类型的宽度，full_preds 指的是 intrinsic 函数支持的后缀形式。full 表示支持全部后缀形式，包括 none（无后缀）、_m、_tu、_tum、_tumu、_mu 共六种；none_m_preds[none,_m] 表示仅支持 none 和 _m 两种形式；none_tu_preds 表示仅支持 none 和 _tu 两种形式；none_preds 表示仅支持 none（无后缀）形式。
+    In the following, ``sew`` denotes the width of the data types supported by the instruction, and ``full_preds`` denotes the set of suffix forms supported by the intrinsic. ``full`` means that all suffix forms are supported — none (no suffix), _m, _tu, _tum, _tumu, and _mu (six forms in total); ``none_m_preds[none,_m]`` means that only the none and _m forms are supported; ``none_tu_preds`` means that only the none and _tu forms are supported; ``none_preds`` means that only the none (unsuffixed) form is supported.
 
 * ``vcpack.vv``   sew = 32 full_preds
 
@@ -133,7 +133,7 @@ Nuclei 自定义的 intrinsic
 
 .. note::
 
-    后续指令对应的 intrinsic，只会给出 none（无后缀）的全部 intrinsic，其余后缀在使用时参考上面的构建规则。
+    For the intrinsics of the following instructions, only the full set of none (unsuffixed) intrinsics is listed; construct the other suffix forms according to the rules above.
 
 * ``vcunpackr.v`` sew = 32  full_preds
 
@@ -249,83 +249,83 @@ Nuclei 自定义的 intrinsic
 
 .. note::
 
-    2025.10 版本：
+    2025.10 release:
 
-    虽然 ``vdsmacini.v`` 和 ``vdsmacini.s`` 指令没有 vd 参数，但是该指令的 intrinsic 会返回一个值，使用时不能忽略该返回值。
+    Although the ``vdsmacini.v`` and ``vdsmacini.s`` instructions have no vd operand, the corresponding intrinsics return a value that must not be ignored.
 
-    目前没有 vd 参数的指令，其 intrinsic 均需要返回值。
+    At present, the intrinsics of all instructions without a vd operand return a value.
 
-    而且如果后续程序没有用到该返回值，需要用 ``volatile`` 关键字来声明该返回值，避免在 -O2 及更高优化级别下被优化器删除。
+    If the return value is not used by subsequent code, it must be declared ``volatile`` to prevent the optimizer from removing it at -O2 and higher optimization levels.
 
-    2026.10 版本：
+    2026.10 release:
 
-    没有 vd 参数的指令，其 intrinsic 使用时可以选择不使用返回值（有需要时也可以用），不再需要用 ``volatile`` 关键字来声明，使用方法参考 `Examples`_。
+    For instructions without a vd operand, the intrinsic return value may now be ignored (and used when needed); declaring it ``volatile`` is no longer required. See `Examples`_ for the usage.
 
 * ``vdsmac.vv/vs`` sew = 8/16/32  none_m_preds[none,_m]
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv/vs`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vdsmac`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv/vs``; simply replace ``vdsmul`` with ``vdsmac``.
 
 * ``vdsmaco.vv/vs`` sew = 8/16/32  full_preds
 
 .. tip::
 
-    同上，只需要将 ``vdsmul`` 替换为 ``vdsmaco`` 即可。
+    As above, simply replace ``vdsmul`` with ``vdsmaco``.
 
 * ``vlsb.v`` sew = 8/16/32  full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmacini.v`` intrinsic 的名字，只需要将 ``vdsmacini`` 替换为 ``vlsb`` 即可。
+    See the intrinsic names listed under ``vdsmacini.v``; simply replace ``vdsmacini`` with ``vlsb``.
 
 * ``vconj.v`` sew = 8/16/32  full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmacini.v`` intrinsic 的名字，只需要将 ``vdsmacini`` 替换为 ``vconj`` 即可。
+    See the intrinsic names listed under ``vdsmacini.v``; simply replace ``vdsmacini`` with ``vconj``.
 
 * ``vdscmul.vv/vs`` sew = 8/16/32  full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv/vs`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vdscmul`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv/vs``; simply replace ``vdsmul`` with ``vdscmul``.
 
 * ``vdscmulj.vv/vs`` sew = 8/16/32  full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv/vs`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vdscmulj`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv/vs``; simply replace ``vdsmul`` with ``vdscmulj``.
 
 * ``vdscredsum.v`` sew = 8/16/32  full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmacini.v`` intrinsic 的名字，只需要将 ``vdsmacini`` 替换为 ``vdscredsum`` 即可。
+    See the intrinsic names listed under ``vdsmacini.v``; simply replace ``vdsmacini`` with ``vdscredsum``.
 
 * ``vdscmac.vv/vs`` sew = 8/16/32 none_m_preds[none,_m]
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv/vs`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vdscmac`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv/vs``; simply replace ``vdsmul`` with ``vdscmac``.
 
 * ``vdscmacj.vv/vs`` sew = 8/16/32 none_m_preds[none,_m]
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv/vs`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vdscmacj`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv/vs``; simply replace ``vdsmul`` with ``vdscmacj``.
 
 * ``vdscmaco.vv/vs`` sew = 8/16/32 full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv/vs`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vdscmaco`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv/vs``; simply replace ``vdsmul`` with ``vdscmaco``.
 
 * ``vdscmacjo.vv/vs`` sew = 8/16/32 full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv/vs`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vdscmacjo`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv/vs``; simply replace ``vdsmul`` with ``vdscmacjo``.
 
 * ``vdscmacor.vv``  sew = 32 full_preds
 
@@ -351,49 +351,49 @@ Nuclei 自定义的 intrinsic
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdscmacor.vv/vs`` intrinsic 的名字，只需要将 ``vdscmacor`` 替换为 ``vdscmacoi`` 即可。
+    See the intrinsic names listed under ``vdscmacor.vv/vs``; simply replace ``vdscmacor`` with ``vdscmacoi``.
 
 * ``vdscmacjor.vv/vs`` sew = 32 full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdscmacor.vv/vs`` intrinsic 的名字，只需要将 ``vdscmacor`` 替换为 ``vdscmacjor`` 即可。
+    See the intrinsic names listed under ``vdscmacor.vv/vs``; simply replace ``vdscmacor`` with ``vdscmacjor``.
 
 * ``vdscmacjoi.vv/vs`` sew = 32 full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdscmacor.vv/vs`` intrinsic 的名字，只需要将 ``vdscmacor`` 替换为 ``vdscmacjoi`` 即可。
+    See the intrinsic names listed under ``vdscmacor.vv/vs``; simply replace ``vdscmacor`` with ``vdscmacjoi``.
 
 * ``vdscmulr.vv/vs`` sew = 8/16/32 full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv/vs`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vdscmulr`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv/vs``; simply replace ``vdsmul`` with ``vdscmulr``.
 
 * ``vdscmuli.vv/vs`` sew = 8/16/32 full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv/vs`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vdscmuli`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv/vs``; simply replace ``vdsmul`` with ``vdscmuli``.
 
 * ``vdscmuljr.vv/vs`` sew = 8/16/32 full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv/vs`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vdscmuljr`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv/vs``; simply replace ``vdsmul`` with ``vdscmuljr``.
 
 * ``vdscmulji.vv/vs`` sew = 8/16/32 full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv/vs`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vdscmulji`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv/vs``; simply replace ``vdsmul`` with ``vdscmulji``.
 
 * ``vdsredsum.v``  sew = 8/16/32 full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmacini.v`` intrinsic 的名字，只需要将 ``vdsmacini`` 替换为 ``vdsredsum`` 即可。
+    See the intrinsic names listed under ``vdsmacini.v``; simply replace ``vdsmacini`` with ``vdsredsum``.
 
 * ``vdsredsumn.vs vd, vs2, rs1`` sew = 8/16/32 none_tu_preds
 
@@ -422,20 +422,20 @@ Nuclei 自定义的 intrinsic
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsredsumn.vs`` intrinsic 的名字，只需要将 ``_vx`` 替换为 ``_vi`` 即可。
-    ``vdsredsumn.vs/vi`` 指令的 rs1 和 uimm 的值必须是 [1, 2, 3, 4] 范围内的整数。
+    See the intrinsic names listed under ``vdsredsumn.vs``; simply replace ``_vx`` with ``_vi``.
+    For the ``vdsredsumn.vs/vi`` instructions, the rs1 and uimm values must be integers in the range [1, 2, 3, 4].
 
 * ``vredmaxi.vv`` sew = 8/16/32 full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vredmaxi`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv``; simply replace ``vdsmul`` with ``vredmaxi``.
 
 * ``vredmini.vv`` sew = 8/16/32 full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vredmini`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv``; simply replace ``vdsmul`` with ``vredmini``.
 
 * ``vperm.vi`` sew = 8/16/32 none_tu_preds
 
@@ -464,29 +464,29 @@ Nuclei 自定义的 intrinsic
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vfsl`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv``; simply replace ``vdsmul`` with ``vfsl``.
 
 * ``vfsr.vv`` sew = 8/16/32 none_tu_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vfsr`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv``; simply replace ``vdsmul`` with ``vfsr``.
 
 * ``vlnlp0.v/vlnlp1.v`` sew = 8/16/32 none_preds
 
-该指令对应 intrinsic 的使用需满足以下关系：
+The intrinsics of these instructions must satisfy the following relation:
 
-当 VLEN=128 时，LMUL=8
+LMUL = 8 when VLEN = 128
 
-当 VLEN=256 时，LMUL=4
+LMUL = 4 when VLEN = 256
 
-当 VLEN=512 时，LMUL=2
+LMUL = 2 when VLEN = 512
 
-当 VLEN=1024 时，LMUL=1
+LMUL = 1 when VLEN = 1024
 
-编译器可通过 ``-march=*_zvl${vlen}b`` 来设置 VLEN 的取值，其中 ``vlen`` 可取 {128, 256, 512, 1024, ...}，若不指定则默认为 128。
+The compiler sets the VLEN value through ``-march=*_zvl${vlen}b``, where ``vlen`` may be {128, 256, 512, 1024, ...}; if it is not specified, the default is 128.
 
-* ``_zvl1024b`` （VLEN=1024）时可用的 intrinsic：
+* Intrinsics available with ``_zvl1024b`` (VLEN = 1024):
 
 .. code-block:: c
 
@@ -502,7 +502,7 @@ Nuclei 自定义的 intrinsic
 
     vint32m1_t __riscv_xl_vlnlp1_v_i32m1(vint32m1_t vs, size_t vl);
 
-* ``_zvl512b`` （VLEN=512）时可用的 intrinsic：
+* Intrinsics available with ``_zvl512b`` (VLEN = 512):
 
 .. code-block:: c
 
@@ -518,7 +518,7 @@ Nuclei 自定义的 intrinsic
 
     vint32m2_t __riscv_xl_vlnlp1_v_i32m2(vint32m2_t vs, size_t vl);
 
-* ``_zvl256b`` （VLEN=256）时可用的 intrinsic：
+* Intrinsics available with ``_zvl256b`` (VLEN = 256):
 
 .. code-block:: c
 
@@ -534,7 +534,7 @@ Nuclei 自定义的 intrinsic
 
     vint32m4_t __riscv_xl_vlnlp1_v_i32m4(vint32m4_t vs, size_t vl);
 
-* ``_zvl128b`` （VLEN=128）时可用的 intrinsic：
+* Intrinsics available with ``_zvl128b`` (VLEN = 128):
 
 .. code-block:: c
 
@@ -552,7 +552,7 @@ Nuclei 自定义的 intrinsic
 
 .. tip::
 
-    在使用上述 intrinsic 的时候，如果遇到以下这种 ``unrecognizable insn`` 错误：
+    When using the above intrinsics, you may encounter an ``unrecognizable insn`` error similar to the following:
 
     .. code-block:: text
 
@@ -586,19 +586,19 @@ Nuclei 自定义的 intrinsic
         Please include the complete backtrace with any bug report.
         See <https://gcc.gnu.org/bugs/> for instructions.
 
-    通常是由于 VLEN 与 intrinsic 所用的 LMUL 不匹配导致的。
+    This is usually caused by a mismatch between VLEN and the LMUL used by the intrinsic.
 
 * ``vnle.vv/vs`` sew = 8/16/32 full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv/vs`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vnle`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv/vs``; simply replace ``vdsmul`` with ``vnle``.
 
 * ``vnlm.vv/vs`` sew = 8/16/32 full_preds
 
 .. tip::
 
-    intrinsic 的名字参考 ``vdsmul.vv/vs`` intrinsic 的名字，只需要将 ``vdsmul`` 替换为 ``vnlm`` 即可。
+    See the intrinsic names listed under ``vdsmul.vv/vs``; simply replace ``vdsmul`` with ``vnlm``.
 
 * ``vfcvt.b2h.v`` sew = 8→16 none_tu_preds
 
@@ -742,7 +742,7 @@ Examples
         vint32m1_t vd = __riscv_xl_vdscmul_vv_i32m1(vs2, vs1, vl);
         __riscv_vse32_v_i32m1(&dst_cmul[0].i32, vd, vl);
 
-        // vint32m1_t tmp = __riscv_xl_vdsmacini_x_i32m1(1, vl); 需要返回值时的使用方法
+        // vint32m1_t tmp = __riscv_xl_vdsmacini_x_i32m1(1, vl); // Usage when the return value is needed
         __riscv_xl_vdsmacini_x_i32m1(1, vl);
 
         vd = __riscv_xl_vdscmaco_vv_i32m1(vs2, vs1, vl);

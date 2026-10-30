@@ -6,56 +6,56 @@ Nuclei Custom BFloat16 Extension
 Introduction
 **************
 
-在众多机器学习与人工智能应用中，矩阵计算往往对精度的要求并不高，但计算量却极为庞大。传统的 32 位浮点数（FP32）在存储和计算速度方面存在明显瓶颈，不仅效率低下，还造成了资源的浪费。而 BF16（Brain Floating-Point 16）作为一种新兴的 16 位数据类型，能够在计算性能与精度之间取得更优的平衡，从而更好地满足这些应用的需求。
+Matrix computations in machine learning and AI applications often require high throughput but relatively low precision. The traditional 32-bit floating-point format (FP32) imposes clear bottlenecks on both storage and computation speed, resulting in low efficiency and wasted resources. BF16 (Brain Floating-Point 16), an emerging 16-bit data type, offers a better balance between computational performance and precision, making it well suited to these applications.
 
-然而，目前 RISC-V 上游仅支持了 BF16 的部分转换指令和向量乘加指令，这远远无法满足将 BF16 应用于人工智能、机器学习等场景的完整需求。
+To date, however, upstream RISC-V support for BF16 covers only a subset of conversion instructions and vector multiply-accumulate instructions, which falls far short of the complete requirements for applying BF16 to artificial intelligence, machine learning, and similar scenarios.
 
-为了填补这一空白，Nuclei GCC 工具链与 Nuclei 硬件设计紧密配合，在兼容上游已支持的 BF16 指令的基础上，全面支持了 BF16 相关的运算及转换操作，充分发挥了 BF16 的潜力，使其能够更好地服务于各类高性能计算场景。
+To close this gap, the Nuclei GCC toolchain, developed in close coordination with the Nuclei hardware design, maintains compatibility with the upstream BF16 instructions while providing full support for BF16 arithmetic and conversion operations, unlocking the potential of BF16 for a wide range of high-performance computing scenarios.
 
 
-寄存器配置
-***********
+Register Configuration
+**********************
 
-硬件自定义寄存器 mmisc_ctl1 的第 1 位 fp16mode 用于控制 16 位 FPU 寄存器中存储数据的格式：
+Bit 1 (``fp16mode``) of the hardware custom register ``mmisc_ctl1`` controls the data format stored in the 16-bit FPU registers:
 
 - **fp16mode = 0**: fp16 mode
 
 - **fp16mode = 1**: bf16 mode
 
-所以在使用 Nuclei bf16 的运算操作时，需要先将 mmisc_ctl1 中的 fp16mode 位设为 1。
+Therefore, before using the Nuclei BF16 arithmetic operations, the ``fp16mode`` bit in ``mmisc_ctl1`` must be set to 1.
 
 .. note::
-    Nuclei bf16 的运算操作复用 fp16 的相关指令，该开关决定其做 fp16 还是 bf16 运算。
+    The Nuclei BF16 arithmetic operations reuse the fp16 instructions; this switch determines whether they execute in fp16 or bf16 mode.
 
-设置代码如下：
+The register configuration code is shown below:
 
 .. code-block:: c
 
-    #include "nuclei_sdk_soc.h" //需要包含该头文件
+    #include "nuclei_sdk_soc.h" // This header file must be included
 
-    __RV_CSR_SET(CSR_MFP16MODE, 0x1); //打开Nuclei bf16
+    __RV_CSR_SET(CSR_MFP16MODE, 0x1); // Enable Nuclei BF16
 
-    __RV_CSR_CLEAR(CSR_MFP16MODE, 0x1); //关闭Nuclei bf16
+    __RV_CSR_CLEAR(CSR_MFP16MODE, 0x1); // Disable Nuclei BF16
 
 
-BF16 标量的支持
-****************
+BF16 Scalar Support
+*******************
 
-扩展
-++++++
+Extension
++++++++++
 
-Nuclei bf16 标量的运算操作，需要开启 ``xxlfbf`` 扩展。
+Nuclei BF16 scalar arithmetic requires the ``xxlfbf`` extension to be enabled.
 
-示例：``-march=rv64imafdc_xxlfbf``
+Example: ``-march=rv64imafdc_xxlfbf``
 
-支持的指令
-+++++++++++
+Supported Instructions
+++++++++++++++++++++++
 
 * ``fadd.h/fsub.h/fmul.h/fdiv.h``
 * ``fmadd.h/fmsub.h/fnmadd.h/fnmsub.h``
 * ``fsqrt.h``
-* ``fcvt.bf16.s/fcvt.s.bf16`` （兼容 zfbfmin 扩展的指令）
-* ``fcvt.h.d/fcvt.d.h`` （2025.10 版本补充）
+* ``fcvt.bf16.s/fcvt.s.bf16`` (compatible with the instructions of the Zfbfmin extension)
+* ``fcvt.h.d/fcvt.d.h`` (added in the 2025.10 release)
 * ``fcvt.h.w[u]/fcvt.w[u].h`` (int32 <---> bf16)
 * ``fcvt.h.l[u]/fcvt.l[u].h`` (int64 <---> bf16)
 * ``fmin.h/fmax.h``
@@ -66,7 +66,7 @@ Examples
 +++++++++
 
 .. code-block:: c
-   :caption: 标量 bf16 的加减乘除运算
+   :caption: Basic arithmetic on scalar BF16 values
 
    #include <stdio.h>
    #include "nuclei_sdk_soc.h"
@@ -106,64 +106,62 @@ Examples
         return 0;
     }
 
-BF16 向量的支持（rvv intrinsic）
-********************************
+BF16 Vector Support (RVV Intrinsics)
+************************************
 
-扩展
-+++++
+Extension
++++++++++
 
-Nuclei bf16 rvv intrinsic 的使用，需要开启 ``V`` 扩展以及 ``xxlvfbf`` 扩展。
+The Nuclei BF16 RVV intrinsics require the ``V`` extension and the ``xxlvfbf`` extension to be enabled.
 
-示例：``-march=rv64imafdcv_xxlvfbf``
+Example: ``-march=rv64imafdcv_xxlvfbf``
 
-Nuclei bf16 rvv intrinsic naming scheme
+Nuclei BF16 RVV Intrinsic Naming Scheme
 +++++++++++++++++++++++++++++++++++++++++
 
-rvv intrinsic 命名规则：`rvv-intrinsic-doc`_ 中的 ``v-intrinsic-spec.pdf`` -> **Chapter 6**。
+RVV intrinsic naming convention: **Chapter 6** of ``v-intrinsic-spec.pdf`` in `rvv-intrinsic-doc`_.
 
-我们的命名规则遵循上述命名规则，并在此基础上在前缀处添加了 ``_xl``，以区分我们自定义的 intrinsic。示例如下：
-
-float16 的 vfadd 运算的 intrinsic 命名：
+Our naming convention follows the above specification, with the additional prefix ``_xl`` to distinguish our custom intrinsics. For example, the intrinsic for the float16 ``vfadd`` operation is named:
 
 ``vfloat16mf4_t __riscv_vfadd_vv_f16mf4(vfloat16mf4_t vs2, vfloat16mf4_t vs1, size_t vl);``
 
-``vfloat16mf4_t`` vfloat16 的数据类型
+``vfloat16mf4_t``  data type of vfloat16
 
-``__riscv_``      intrinsic 名称前缀
+``__riscv_``       intrinsic name prefix
 
-``vfadd``         intrinsic 所代表的操作的名字（此处为向量的加法运算）
+``vfadd``          name of the operation performed by the intrinsic (vector addition in this case)
 
-``vv``            intrinsic 函数所代表的操作的操作数类型（v 代表向量类型，详细信息查看上述 rvv intrinsic 命名规则）
+``vv``             operand types of the operation (``v`` denotes a vector type; see the RVV intrinsic naming convention above for details)
 
-``f16``           float16 数据类型的缩写
+``f16``            abbreviation of the float16 data type
 
-``mf4``           LMUL 的值
+``mf4``            LMUL value
 
-Nuclei 自定义的 bfloat16 intrinsic 也遵循 rvv intrinsic 命名基础规则，只是添加了前缀，如下：
+Nuclei custom bfloat16 intrinsics follow the same RVV intrinsic naming convention, with an additional prefix, as shown below:
 
 ``vbfloat16mf4_t __riscv_xl_vfadd_vv_bf16mf4(vbfloat16mf4_t vs2, vbfloat16mf4_t vs1, size_t vl);``
 
-``vbfloat16mf4_t`` vbfloat16 的数据类型
+``vbfloat16mf4_t``  data type of vbfloat16
 
-``__riscv_xl_``    Nuclei 自定义 intrinsic 名称前缀
+``__riscv_xl_``     prefix for Nuclei custom intrinsics
 
-``vfadd``          intrinsic 所代表的操作的名字
+``vfadd``           name of the operation performed by the intrinsic
 
-``vv``             intrinsic 函数所代表的操作的操作数类型
+``vv``              operand types of the operation
 
-``bf16``           bfloat16 数据类型的缩写
+``bf16``            abbreviation of the bfloat16 data type
 
-``mf4``            LMUL 的值
+``mf4``             LMUL value
 
 .. note::
-    bfloat16 的向量数据类型，参考 `vector-bfloat16-spec.adoc`_.
+    For the vector data types of bfloat16, refer to `vector-bfloat16-spec.adoc`_.
 
 
-Nuclei bf16 支持的 rvv 指令
-+++++++++++++++++++++++++++
+RVV Instructions Supported by Nuclei BF16
++++++++++++++++++++++++++++++++++++++++++
 
-Nuclei 自定义的指令
-####################
+Nuclei Custom Instructions
+##########################
 
 * Vector Single-Width Floating-Point Add/Subtract Instructions
     - ``vfadd.vv/vfadd.vf``
@@ -267,8 +265,8 @@ Nuclei 自定义的指令
 * Vector Compress Instruction
     - ``vcompress.vm``
 
-与上游兼容的指令
-#################
+Instructions Compatible with Upstream
+#####################################
 
 * Vector Unit-Stride Load Intrinsics
     - ``vle16.v``
@@ -316,36 +314,36 @@ Nuclei 自定义的指令
 
 .. note::
 
-    2025.02 版本：
+    2025.02 release:
 
-    自定义的 Xxlvfbf 扩展与 Zvfbfmin、Zvfbfwma 扩展 `riscv-bfloat16 release v1.0`_ 中的 ``riscv-bfloat16.pdf`` 不兼容，其功能已在 ``vfncvt.f.f.w、vfwcvt.f.f.v、vfwmacc.vv/vfwmacc.vf`` 指令中实现，使用时可参考指令对应的 intrinsic。
+    The custom Xxlvfbf extension is incompatible with the Zvfbfmin and Zvfbfwma extensions defined in `riscv-bfloat16 release v1.0`_ (``riscv-bfloat16.pdf``). Their functionality is implemented by the ``vfncvt.f.f.w``, ``vfwcvt.f.f.v``, and ``vfwmacc.vv/vfwmacc.vf`` instructions; when using these operations, refer to the intrinsics of the corresponding instructions.
 
-    如果一定需要用 Zvfbfmin、Zvfbfwma 扩展的 intrinsic，需要单独使用，即不带 Xxlvfbf 扩展。
+    If the Zvfbfmin/Zvfbfwma intrinsics are required, they must be used separately, i.e., without the Xxlvfbf extension.
 
-    同时存在时，Zvfbfmin、Zvfbfwma 扩展的 intrinsic 会映射到 ``vfncvt.f.f.w、vfwcvt.f.f.v、vfwmacc.vv/vfwmacc.vf`` 指令，可能会产生错误。
+    When both are present, the Zvfbfmin/Zvfbfwma intrinsics are mapped to ``vfncvt.f.f.w``, ``vfwcvt.f.f.v``, and ``vfwmacc.vv/vfwmacc.vf``, which may produce incorrect results.
 
-    2025.10 版本：
+    2025.10 release:
 
-    自定义的 Xxlvfbf 扩展已经兼容 Zvfbfmin、Zvfbfwma 扩展。
+    The custom Xxlvfbf extension is now compatible with the Zvfbfmin and Zvfbfwma extensions.
 
-    Zvfbfmin、Zvfbfwma 扩展包含的 intrinsic 在 Xxlvfbf 扩展下可以正常使用，并且会正确映射到其扩展定义的指令 ``vfncvtbf16.f.f.w、vfwcvtbf16.f.f.v、vfwmaccbf16.vv/vfwmaccbf16.vf``，与我们自定义的 intrinsic 同时使用时，不会产生错误。
+    The intrinsics of the Zvfbfmin and Zvfbfwma extensions can be used correctly under Xxlvfbf and are properly mapped to the instructions defined by those extensions: ``vfncvtbf16.f.f.w``, ``vfwcvtbf16.f.f.v``, and ``vfwmaccbf16.vv/vfwmaccbf16.vf``. They can be used together with our custom intrinsics without producing errors.
 
-Nuclei bf16 支持的 rvv intrinsic
-++++++++++++++++++++++++++++++++++++
+RVV Intrinsics Supported by Nuclei BF16
++++++++++++++++++++++++++++++++++++++++
 
 
-Nuclei 自定义的 intrinsic
+Nuclei Custom Intrinsics
 ##########################
 
-参考 `rvv-intrinsic-doc`_ 中的 ``v-intrinsic-spec.pdf`` -> **Appendix A**。
+Refer to **Appendix A** of ``v-intrinsic-spec.pdf`` in `rvv-intrinsic-doc`_.
 
-Nuclei 自定义支持的指令所对应的 rvv intrinsic，与上述文档中 float16 对应的 rvv intrinsic 仅名称不同，差异请参考 `Nuclei bf16 rvv intrinsic naming scheme`_
+The RVV intrinsics corresponding to the Nuclei custom instructions differ from the float16 RVV intrinsics in the above document only in their names; see `Nuclei BF16 RVV Intrinsic Naming Scheme`_ for details.
 
 .. note::
 
-    目前仅全面支持 Appendix A；Appendix B、C、D 中的 intrinsic 尚未全面测试覆盖。
+    Currently only Appendix A is fully supported; the intrinsics in Appendices B, C, and D have not yet been fully tested.
 
-示例：
+Example:
 
 * Vector Single-Width Floating-Point Add/Subtract Instructions
 
@@ -371,14 +369,12 @@ Nuclei 自定义支持的指令所对应的 rvv intrinsic，与上述文档中 f
 
         ``vfloat32mf2_t __riscv_xl_vfwadd_vf_f32mf2(vbfloat16mf4_t vs2, __bf16 rs1, size_t vl);``
 
-与上游兼容的intrinsic
-######################
+Intrinsics Compatible with Upstream
+###################################
 
-这部分 intrinsic 所对应的命名与 `rvv-intrinsic-doc`_ 中的 ``v-intrinsic-spec.pdf`` -> **Appendix A** 文档中 float16 对应的 rvv intrinsic 也仅有名称上的区别。
+The naming of these intrinsics also differs from that of the float16 RVV intrinsics in **Appendix A** of ``v-intrinsic-spec.pdf`` in `rvv-intrinsic-doc`_ only in the names themselves. To obtain the corresponding names, simply replace the float16 data types with the bfloat16 data types.
 
-差异仅需将 float16 相关数据类型替换为 bfloat16 数据类型。
-
-示例：
+Example:
 
 * Vector Unit-Stride Load Intrinsics
 
@@ -390,11 +386,11 @@ Nuclei 自定义支持的指令所对应的 rvv intrinsic，与上述文档中 f
 
         ``vbfloat16mf4_t __riscv_vle16_v_bf16mf4(const __bf16 *rs1, size_t vl);``
 
-详细的 intrinsic API 可参考 `bfloat16 intrinsic_funcs`_。
+For the detailed intrinsic APIs, refer to `bfloat16 intrinsic_funcs`_.
 
 .. note::
 
-    1、部分上游支持的指令对应的 intrinsic `bfloat16 intrinsic_funcs`_ 中并未全部列出，但依然可以使用，具体如下：
+    1. The intrinsics of some upstream-supported instructions are not listed in `bfloat16 intrinsic_funcs`_, but they remain available for use, as follows:
 
     * Vector Indexed Load Intrinsics
         - ``vloxei[8/32/64].v``
@@ -417,21 +413,21 @@ Nuclei 自定义支持的指令所对应的 rvv intrinsic，与上述文档中 f
         - ``vsuxseg[2-8]ei32.v``
         - ``vsuxseg[2-8]ei64.v``
 
-    对应的 intrinsic 名字请参考 `与上游兼容的intrinsic`_
+    For the corresponding intrinsic names, refer to `Intrinsics Compatible with Upstream`_.
 
-    2、上述 `bfloat16 intrinsic_funcs`_ 中 03_bfloat16_arithmetic_intrinsics.adoc 文件里的
+    2. In `bfloat16 intrinsic_funcs`_, the following items in ``03_bfloat16_arithmetic_intrinsics.adoc``:
 
     * Vector BFloat16 Move Intrinsics
 
     * Vector BFloat16 Merge Intrinsics
 
-    已被 Nuclei BFloat16 重新定义，使用时请参考 `Nuclei 自定义的 intrinsic`_
+    have been redefined by Nuclei BFloat16; when using them, refer to `Nuclei Custom Intrinsics`_.
 
 Examples
 +++++++++
 
 .. attention::
-    完成寄存器配置后，使用 Nuclei bf16 rvv intrinsic 还需添加以下头文件：
+    After completing the register configuration, the following header file must also be included to use the Nuclei BF16 RVV intrinsics:
 
     ``#include <riscv_vector.h>``
 
@@ -445,13 +441,13 @@ Examples
     void csr_set_bf16_mode(void)
     {
         __RV_CSR_SET(CSR_MFP16MODE, 0x1);
-    } //打开nuclei bf16
+    } // Enable Nuclei BF16
 
 
     void csr_clr_bf16_mode(void)
     {
         __RV_CSR_CLEAR(CSR_MFP16MODE, 0x1);
-    } //关闭nuclei bf16
+    } // Disable Nuclei BF16
 
     typedef __bf16 bfloat16_t;
 
