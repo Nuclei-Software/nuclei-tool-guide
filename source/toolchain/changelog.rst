@@ -78,6 +78,8 @@ Version 2026.10
 
 - LLVM: Fixed the issue that ``objdump -d`` wrongly disassembles 32-bit instructions as 16-bit, by adding the RISC-V mapping symbol (``$x``/``$d``) support to llvm-objdump.
 
+- LLVM: Fixed the wrong ``_mcount`` behavior of the gprof instrumentation (``-pg``): the ``selfpc`` (return address ``ra``) passed to ``_mcount`` was incorrect, which made the callgraph unable to be generated correctly (`upstream issue 121103 <https://github.com/llvm/llvm-project/issues/121103>`_).
+
 .. _toolchain_changelog_202510:
 
 Version 2025.10
