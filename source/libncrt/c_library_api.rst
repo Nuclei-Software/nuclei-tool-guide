@@ -3818,6 +3818,11 @@ Additional information
 
 The value in errno is significant only when the return value of the call indicated an error. A function that succeeds is allowed to change errno. The value of errno is never set to zero by a library function.
 
+<fcntl.h>
+~~~~~~~~~
+
+The ``<fcntl.h>`` header is provided as an empty compatibility header. The runtime library implements no file control operations on an embedded target, so this header declares nothing: it only allows portable code which includes ``<fcntl.h>`` to build without errors.
+
 <fenv.h>
 ~~~~~~~~
 
@@ -4793,6 +4798,11 @@ Prototype
 Return value
 
 Returns a pointer to a structure of type lconv with the corresponding values for the current locale filled in.
+
+<malloc.h>
+~~~~~~~~~~
+
+The ``<malloc.h>`` header is provided for POSIX compatibility. Including ``<malloc.h>`` is equivalent to including ``<stdlib.h>``: the heap allocation functions `malloc()`_, `calloc()`_, `realloc()`_ and `free()`_ are declared by ``<stdlib.h>``.
 
 <math.h>
 ~~~~~~~~
@@ -10499,6 +10509,24 @@ Notes
 
 `longjmp()`_ cannot cause `setjmp()`_ to return the value 0; if val is 0, `setjmp()`_ returns the value 1.
 
+<stdalign.h>
+~~~~~~~~~~~~
+
+Macros
+^^^^^^
+
++----------------------+--------------------------------------+
+| Macro                | Description                          |
++======================+======================================+
+| alignas              | Expands to the _Alignas keyword.     |
++----------------------+--------------------------------------+
+| alignof              | Expands to the _Alignof keyword.     |
++----------------------+--------------------------------------+
+| __alignas_is_defined | Always defined as 1.                 |
++----------------------+--------------------------------------+
+| __alignof_is_defined | Always defined as 1.                 |
++----------------------+--------------------------------------+
+
 <stdbool.h>
 ~~~~~~~~~~~
 
@@ -15840,6 +15868,53 @@ Formats the time pointed to by tp to a null-terminated string of maximum size sm
 The format string consists of conversion specifications and ordinary characters. Conversion specifications start with a “%” character followed by an optional “#” character.
 
 See `strftime()`_ for a description of the format conversion specifications.
+
+<unistd.h>
+~~~~~~~~~~
+
+The ``<unistd.h>`` header is provided for POSIX compatibility. It includes ``<stdlib.h>`` and additionally declares the following function.
+
+Miscellaneous functions
+^^^^^^^^^^^^^^^^^^^^^^^
+
++--------------------------+-------------------------------------------+
+| Function                 | Description                               |
++==========================+===========================================+
+| isatty                   | Test for a terminal.                      |
++--------------------------+-------------------------------------------+
+
+isatty
+''''''
+
+Description
+
+Test for a terminal.
+
+Prototype
+
+::
+
+   int isatty(int fd);
+
+Parameters
+
++-------------+----------------------------------------------------+
+| Parameter   | Description                                        |
++=============+====================================================+
+| fd          | File descriptor to be tested.                      |
++-------------+----------------------------------------------------+
+
+Return value
+
++-------------+----------------------------------------------------+
+| nonzero     | fd refers to a terminal.                           |
++-------------+----------------------------------------------------+
+| zero        | fd does not refer to a terminal.                   |
++-------------+----------------------------------------------------+
+
+Additional information
+
+The runtime library only declares ``isatty()``, it does not implement it. If the application uses ``isatty()``, an implementation must be provided by the application itself.
 
 <wchar.h>
 ~~~~~~~~~

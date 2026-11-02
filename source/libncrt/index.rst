@@ -15,3 +15,4 @@ Nuclei C Runtime Library
    c_library_api.rst
    compiler_support_api.rst
    external_function.rst
+   changelog.rst
