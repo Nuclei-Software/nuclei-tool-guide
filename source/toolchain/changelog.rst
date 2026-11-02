@@ -42,6 +42,8 @@ Version 2026.10
 
 - Feature: Enhanced the Nuclei ``xxldsp`` and ``xxlcz`` extension capabilities.
 
+- Feature: Updated ``libncrt`` with RISC-V big-endian and zicfilp landing pad support, see :ref:`libncrt changelog Version 2026.10 <libncrt_changelog_202610>` for details.
+
 - Fixed: The link failure when RVV intrinsics are used in LTO builds (`PR target/110812 <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110812>`_).
 
 - Fixed: VXRM state not restored after calls (`PR target/123626 <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=123626>`_).

@@ -14,7 +14,7 @@ For **Nuclei GNU** Toolchain(`riscv64-unknown-elf-gcc`) case:
 
 .. code-block:: shell
 
-    riscv64-unknown-elf-gcc --specs=libncrt_small.specs -Wl,--start-group -lheapops_basic -lfileops_uart -Wl,--end-group
+    riscv64-unknown-elf-gcc --specs=libncrt_small.specs -Wl,--start-group -lncrt_small -lheapops_basic -lfileops_uart -Wl,--end-group
 
 For **Nuclei LLVM** Toolchain(`riscv64-unknown-elf-clang`) case:
 
@@ -26,7 +26,31 @@ You can't use `--specs=libncrt_small.specs` option, since it is not supported, g
 
 For details about `libncrt`, `'heapops'` and `'fileops'` variant, please read following documentation.
 
-When using this method, please don't link with **-lm/lc_nano/-lgcc/-lc** library to avoid potential linker error and code size increasement.
+When using this method, please don't link with **-lm/lc_nano/-lgcc/-lc** library to avoid potential linker error and code size increasement. Please also note that ``libncrt`` requires a few functions to be provided by the application itself, such as ``exit`` and the basic I/O functions used by the selected `'fileops'` library, see :ref:`libncrt_quick_start` for the minimal set of functions to implement.
+
+.. _libncrt_zicfilp_usage:
+
+zicfilp landing pad usage
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``libncrt`` supports the **zicfilp** control-flow integrity extension: when the runtime library is built with CFI landing pads enabled, every assembly language routine starts with a valid ``lpad`` instruction, so indirect calls guarded by zicfilp can safely land in runtime library code.
+
+Using it requires a **zicfilp-enabled toolchain**: the standard released toolchain neither supports ``-fcf-protection=branch`` for RISC-V targets nor ships the CFI variants of the ``libncrt``, `'heapops'` and `'fileops'` libraries. On a zicfilp-enabled toolchain, simply add ``_zicfilp`` to ``-march`` and compile and link with ``-fcf-protection=branch``: the CFI variants of the runtime libraries (the ``cfi`` multilib directory) are then selected automatically, and there is no separate library variant to select. An example is as follows:
+
+.. code-block:: shell
+
+    riscv64-unknown-elf-gcc -march=rv32ima_zicfilp_zicond_zaamo_zalrsc_zca_zcb_zcmp_zba_zbb_zbs -mabi=ilp32 -fcf-protection=branch --specs=libncrt_small.specs -Wl,--start-group -lncrt_small -lheapops_basic -lfileops_uart -Wl,--end-group
+
+.. _libncrt_big_endian_usage:
+
+Big-endian usage
+~~~~~~~~~~~~~~~~
+
+``libncrt`` also supports RISC-V big-endian targets. The big-endian toolchain is **not publicly released**: to use the big-endian C library, you need to use the tools prefixed with ``riscv64be-unknown-elf-`` together with the ``-mbig-endian`` compile option. There is no separate library variant to select for big-endian: the byte order used by the runtime library is automatically configured from the byte-order macros predefined by the compiler, so the libraries are used in exactly the same way as on little-endian targets, taking the small variant with basic `'heapops'` and uart `'fileops'` as an example:
+
+.. code-block:: shell
+
+    riscv64be-unknown-elf-gcc -mbig-endian --specs=libncrt_small.specs -Wl,--start-group -lncrt_small -lheapops_basic -lfileops_uart -Wl,--end-group
 
 Varieties
 ~~~~~~~~~
