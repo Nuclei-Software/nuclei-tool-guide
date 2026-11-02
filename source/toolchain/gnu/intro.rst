@@ -340,3 +340,10 @@ On RISC-V, do not use the ``naked`` function attribute together with variadic fu
 
 Upstream has confirmed that naked functions and varargs are fundamentally incompatible with each other and should not be used together, and this issue is closed as WONTFIX and will not be fixed (`GCC bug 125798 <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=125798>`_).
 
+``-Wa,-adhlns`` Breaks the Frame Unwind Information for GDB Debugging
+--------------------------------------------------------------------
+
+Using the assembler listing option ``-Wa,-adhlns=xxx.lst`` on RISC-V emits extra relocations into the ``.eh_frame``/``.debug_frame`` sections, which corrupts the frame unwind information (tools such as readelf will show invalid CFI operations), and breaks the GDB debugging and backtrace which rely on it.
+
+Upstream has confirmed the extra relocations, but there is no fix or further response yet (`binutils bug 33776 <https://sourceware.org/bugzilla/show_bug.cgi?id=33776>`_). If you need to debug your program with GDB, avoid passing the ``-Wa,-adhlns=xxx.lst`` option.
+
