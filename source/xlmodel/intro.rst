@@ -325,27 +325,29 @@ The following extensions can be selected through ``--ext=``. Choose extensions s
 +--------------+-------------------------------------------------------------------------+
 | _zilsd       | Zilsd extension (RV32 ONLY)                                             |
 +--------------+-------------------------------------------------------------------------+
-| _zimop       | Zimop extension                                                         |
+| _zimop       | RISC-V Zimop Extension                                                  |
 +--------------+-------------------------------------------------------------------------+
-| _zcmop       | Zcmop extension                                                         |
+| _zcmop       | RISC-V Zcmop Extension                                                  |
 +--------------+-------------------------------------------------------------------------+
-| _zcmlsd      | Zcmlsd extension (RV32 ONLY)                                            |
+| _zclsd       | Zclsd extension (RV32 ONLY); use ``_zcmlsd`` in xlmodel                 |
 +--------------+-------------------------------------------------------------------------+
 | _zawrs       | Zawrs extension                                                         |
 +--------------+-------------------------------------------------------------------------+
 | _zacas       | Zacas extension (AMO CAS)                                               |
 +--------------+-------------------------------------------------------------------------+
-| _zfh         | Zfh  Extension                                                          |
+| _zfh         | Zfh Extension                                                           |
 +--------------+-------------------------------------------------------------------------+
-| _zfa         | Zfa  Extension                                                          |
+| _zfa         | Zfa Extension                                                           |
 +--------------+-------------------------------------------------------------------------+
 | _zfhmin      | Zfhmin Extension                                                        |
 +--------------+-------------------------------------------------------------------------+
-| _zfinx       | Zfinx  Extension                                                        |
+| _zfbfmin     | Scalar BF16 conversions (Zfbfmin)                                       |
 +--------------+-------------------------------------------------------------------------+
-| _zdinx       | Zdinx  Extension                                                        |
+| _zfinx       | Zfinx Extension                                                         |
 +--------------+-------------------------------------------------------------------------+
-| _zibi        | Nuclei Zibi Extension                                                   |
+| _zdinx       | Zdinx Extension                                                         |
++--------------+-------------------------------------------------------------------------+
+| _zibi        | RISC-V Zibi Extension                                                   |
 +--------------+-------------------------------------------------------------------------+
 | _zicfilp     | RISC-V Zicfilp Extension (landing pad)                                  |
 +--------------+-------------------------------------------------------------------------+
@@ -409,6 +411,10 @@ The following extensions can be selected through ``--ext=``. Choose extensions s
 +--------------+-------------------------------------------------------------------------+
 | _zvfhmin     | RISC-V V Extension                                                      |
 +--------------+-------------------------------------------------------------------------+
+| _zvfbfmin    | Vector BF16 conversions, V extension required                           |
++--------------+-------------------------------------------------------------------------+
+| _zvfbfwma    | Vector BF16 multiply-accumulate, V extension required                   |
++--------------+-------------------------------------------------------------------------+
 | _zvkg        | RISC-V Vector Crypto Extension                                          |
 +--------------+-------------------------------------------------------------------------+
 | _zvkned      | RISC-V Vector Crypto Extension                                          |
@@ -425,9 +431,9 @@ The following extensions can be selected through ``--ext=``. Choose extensions s
 +--------------+-------------------------------------------------------------------------+
 | _smrnmi      | Smrnmi Extension                                                        |
 +--------------+-------------------------------------------------------------------------+
-| ssaia        | Ssaia  Extension                                                        |
+| ssaia        | Ssaia Extension                                                         |
 +--------------+-------------------------------------------------------------------------+
-| _sscofpmf    | Sscofpmf  Extension                                                     |
+| _sscofpmf    | Sscofpmf Extension                                                      |
 +--------------+-------------------------------------------------------------------------+
 | _sstc        | Sstc Extension (enabled by default)                                     |
 +--------------+-------------------------------------------------------------------------+
@@ -447,13 +453,15 @@ The following extensions can be selected through ``--ext=``. Choose extensions s
 +--------------+-------------------------------------------------------------------------+
 | _xxlcz       | Nuclei code size reduction extension                                    |
 +--------------+-------------------------------------------------------------------------+
-| _xxlvqmacc   | Nuclei custom vpu extension                                             |
+| _xxlvqmacc   | Nuclei custom VPU extension; use ``_xlvqmacc`` in xlmodel               |
 +--------------+-------------------------------------------------------------------------+
-| _xxlfbf      | Nuclei scalar BF16 extension                                            |
+| _xxlfbf      | Nuclei scalar BF16 extension; not enabled via ``--ext`` in xlmodel:     |
+|              | set the ``fp16mode`` bit of the ``MMISC_CTL1`` CSR                      |
 +--------------+-------------------------------------------------------------------------+
-| _xxlvfbf     | Nuclei vector BF16 extension                                            |
+| _xxlvfbf     | Nuclei vector BF16 extension; not enabled via ``--ext`` in xlmodel:     |
+|              | set the ``fp16mode`` bit of the ``MMISC_CTL1`` CSR                      |
 +--------------+-------------------------------------------------------------------------+
-| _xlclicv2    | Nuclei ECLIC v2 extension (hardware context and shadow registers)       |
+| _xxlclicv2   | Nuclei ECLIC v2 extension (use ``_xlclicv2`` in xlmodel)                |
 +--------------+-------------------------------------------------------------------------+
 
 SoC Configuration
@@ -1071,7 +1079,7 @@ This release is based on **2025.10** version with some new features and bug fixe
 - Add ``--fastmode=1`` for maximum functional simulation speed
 - Support the ``Sstc`` supervisor timer extension by default
 - Faster flame graph ``.gtef`` generation with improved symbol resolution
-- Add new extensions: Zibi, Zicfilp, Zacas, Zaamo/Zalrsc, vector crypto (Zvkg/Zvkned/Zvksed/Zvksh), Nuclei ``Xxlfbf``/``Xxlvfbf`` BF16 and ``Xxlvqmacc`` VPU extensions; DSP extensions differentiated into Xxldspn1x/N2x/N3x; VLEN 2048/4096 support
+- Add new extensions: Zibi, Zicfilp, Zacas, Zaamo/Zalrsc, vector crypto (Zvkg/Zvkned/Zvksed/Zvksh), BF16 support: standard extensions (``Zfbfmin``/``Zvfbfmin``/``Zvfbfwma``) and Nuclei ``Xxlfbf``/``Xxlvfbf`` (enabled via the ``MMISC_CTL1`` ``fp16mode`` bit); Nuclei ``Xxlvqmacc`` VPU extension (use ``_xlvqmacc``); DSP extensions differentiated into Xxldspn1x/N2x/N3x; VLEN 2048/4096 support
 - UART: RX polling mode: guest can poll RXDATA without enabling the UART interrupt
 - Add ``--cpu=?`` core listing, ``--timefreq``, ``--srambase/--sramsz`` and ``--vectorbase`` options; ``--ext`` supports per-extension ``name=true/false`` overrides; ``--version`` output now includes the git commit hash
 - Support pure-BSS ELF loading
