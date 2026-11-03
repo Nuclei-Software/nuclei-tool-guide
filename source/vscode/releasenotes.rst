@@ -3,10 +3,10 @@
 Nuclei Studio VSCode Release Notes
 ==================================
 
-0.2.0 Release Notes
--------------------
+2026.10 Release Notes
+---------------------
 
-Version 0.2.0 is the first official release of Nuclei Studio VSCode, a Visual Studio Code extension for developing, building, and debugging embedded applications on Nuclei RISC-V processors. It is released together with **Nuclei Studio 2026.10**: the extension itself is versioned as 0.2.0, while 2026.10 is the version of the whole Nuclei Studio package, which integrates the Nuclei Studio IDE, Nuclei RISC-V Toolchain 2026.10, OpenOCD 2026.10, QEMU 2026.10, and Nuclei Near Cycle Model 2026.10.
+This is the first official release of Nuclei Studio VSCode, a Visual Studio Code extension for developing, building, and debugging embedded applications on Nuclei RISC-V processors. The extension itself is versioned as **0.2.0**, and is released together with **Nuclei Studio 2026.10**, the version of the whole Nuclei Studio package, which integrates the Nuclei Studio IDE, Nuclei RISC-V Toolchain 2026.10, OpenOCD 2026.10, QEMU 2026.10, and Nuclei Near Cycle Model 2026.10.
 
 Nuclei Studio VSCode works on top of the Nuclei Studio IDE and reuses its toolchains, OpenOCD, Nuclei Model, and NPK packages, and the projects it creates are Eclipse CDT compatible and interchangeable with Nuclei Studio IDE.
 
