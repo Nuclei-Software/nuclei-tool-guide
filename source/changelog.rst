@@ -20,7 +20,7 @@ For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nu
 
 **Find release note below**:
 
-- **Nuclei Studio VSCode 0.2.0** : First official release of the Nuclei Studio VSCode extension, bringing project management, build, debug, Live Watch, and NPK package management to Visual Studio Code, see :ref:`vscode_releasenotes`.
+- **Nuclei Studio VSCode 0.2.0** : First official release of the Nuclei Studio VSCode extension, bringing project management, build, debug, Live Watch, and NPK package management to Visual Studio Code, see :ref:`Nuclei Studio VSCode Changelog <vscode_changelog>`.
 
 .. _changelog_202510:
 

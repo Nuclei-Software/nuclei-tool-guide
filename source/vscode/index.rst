@@ -8,7 +8,7 @@ Nuclei Studio VSCode
    :maxdepth: 2
 
    intro.rst
-   releasenotes.rst
+   changelog.rst
    install.rst
    npk.rst
    projectnew.rst
