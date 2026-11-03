@@ -5,11 +5,6 @@
 Welcome to Nuclei Tool User Guide!
 ==================================
 
-.. warning::
-
-   **This documentation is under active development for the upcoming 2026.10 release.**
-   Its content is **not** a formal release and is subject to change at any time.
-
 .. toctree::
    :maxdepth: 3
    :numbered:
@@ -17,6 +12,7 @@ Welcome to Nuclei Tool User Guide!
 
    overview/intro.rst
    ide/index.rst
+   vscode/index.rst
    toolchain/index.rst
    libncrt/index.rst
    openocd/index.rst
