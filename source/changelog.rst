@@ -9,6 +9,19 @@ it from there.
 You can also find our **Nuclei Studio Supply Documents** in https://doc.nucleisys.com/nuclei_studio_supply/,
 which is used for application notes using Nuclei Studio and Nuclei Tools.
 
+.. _changelog_202610:
+
+2026.10
+-------
+
+This is **2026.10** release of Nuclei Tools.
+
+For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nuclei_tool_user_guide.pdf
+
+**Find release note below**:
+
+- **Nuclei Studio VSCode 0.2.0** : First official release of the Nuclei Studio VSCode extension, bringing project management, build, debug, Live Watch, and NPK package management to Visual Studio Code, see :ref:`vscode_releasenotes`.
+
 .. _changelog_202510:
 
 2025.10
