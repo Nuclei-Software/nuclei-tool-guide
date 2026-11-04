@@ -1,3 +1,5 @@
+.. _qemu_changelog:
+
 Changelog
 =========
 

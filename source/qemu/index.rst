@@ -10,4 +10,4 @@ Nuclei QEMU
    intro.rst
    nuclei_xec.rst
    nuclei_nice_plugin.rst
-   release_notes.rst
+   changelog.rst
