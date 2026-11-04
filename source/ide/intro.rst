@@ -91,6 +91,8 @@ Nuclei Studio Release Notes
 
    - To confirm the versions of the RISC-V Toolchain, OpenOCD, QEMU, and Nuclei Model integrated in the current Nuclei Studio, check the content of ``toolchain/ReadMe.txt``.
 
+.. _ide_changelog_202610:
+
 2026.10 Release Notes
 ---------------------
 
