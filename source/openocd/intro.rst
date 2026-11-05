@@ -454,7 +454,7 @@ OpenOCD provides three debugging service ports:
 .. note::
 
    - Port numbers can be customized if the default ports are unavailable
-   - To disable a service, set its port to ``disable``
+   - To disable a service, set its port to ``disabled``
    - Ensure port numbers don't conflict with other services
 
 Semihosting Support
@@ -504,6 +504,21 @@ In some multicore systems, the slave-target is not debuggable and needs to be un
 
     # Manually initialize slave-target
     $SLAVE_TARGETNAME arp_examine
+
+Segmentation Fault Caused by Missing Configuration in Hummingbird-Debugger-Kit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When debugging with Hummingbird-Debugger-Kit and OpenOCD, you may encounter a "segmentation fault" issue. This is most likely caused by the following missing content in the OpenOCD configuration file:
+
+.. code-block:: text
+
+    ftdi_layout_init 0x0008 0x001b
+    ftdi_layout_signal nSRST -oe 0x0020 -data 0x0020
+    ftdi_layout_signal TCK -data 0x0001
+    ftdi_layout_signal TDI -data 0x0002
+    ftdi_layout_signal TDO -input 0x0004
+    ftdi_layout_signal TMS -data 0x0008
+    ftdi_layout_signal JTAG_SEL -data 0x0100 -oe 0x0100
 
 Low-Cost Debugger Solution
 --------------------------
