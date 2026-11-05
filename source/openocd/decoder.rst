@@ -274,6 +274,55 @@ This parameter is **valid for tracebundle-v1.1.0 and later versions**.
 - Default value is 0
 - The contextsize is ASID + VMID. You can obtain it by reading the `[15:8]` bit field of the TRPATAMETER1 (0x4e04) register in the tracebundle module.
 
+-rvtrace
+^^^^^^^^
+
+This parameter switches the decoder output to the Nuclei **rvtrace** format, which prints one line per committed instruction in a compact, machine-parseable form. It is intended for users who want a simpler view of the committed instruction stream (without the default file/trace/dasm annotations).
+
+When ``-rvtrace`` is specified, the per-instruction output line has the following format:
+
+.. code-block:: text
+
+    <commit_time> hart<hart_id> (<ins_id>) IS <addr> <inst> <priv> [:<inst_text>]
+
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
+
+   * - Field
+     - Description
+   * - ``commit_time``
+     - Monotonically increasing commit counter, starting from 1
+   * - ``hart<hart_id>``
+     - Hart (core) identifier that produced the instruction. Taken from the trace message ``srcId`` when available, otherwise from ``-srcid``
+   * - ``(<ins_id>)``
+     - Per-hart instruction index, starting from 1
+   * - ``IS``
+     - Fixed marker indicating an instruction commit
+   * - ``addr``
+     - Instruction memory address (hex, zero-padded to the trace's address print width)
+   * - ``inst``
+     - Raw instruction encoding (hex, 8 digits)
+   * - ``priv``
+     - Current privilege mode, propagated from the most recent trace message that carried privilege info
+   * - ``:<inst_text>``
+     - Optional disassembled instruction text, omitted when not available
+
+**Notes**:
+
+- ``commit_time`` and ``ins_id`` both start at 1 and increment by 1 per committed instruction.
+- The privilege field is updated whenever a trace message carries privilege information, even for messages that do not themselves produce an instruction commit line. Therefore the printed ``priv`` reflects the most recent privilege known at that commit.
+- When ``-rvtrace`` is enabled, the default file/source/trace/dasm output sections are suppressed, and only the per-instruction rvtrace lines are emitted (the trailing ``End of Trace File`` marker is also suppressed).
+
+**Example output:**
+
+.. code-block:: text
+
+    1 hart0 (1) IS a0000004 00004181 3 :c.li        gp,0
+    2 hart0 (2) IS a0000006 06400213 3 :addi        tp,zero,100
+    3 hart0 (3) IS a000000a 00004295 3 :c.li        t0,5
+    4 hart0 (4) IS a000000c a0002337 3 :lui t1,0xa0002
+
 
 Usage Examples
 --------------
