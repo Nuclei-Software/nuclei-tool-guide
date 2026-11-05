@@ -159,8 +159,14 @@ If you need to report an issue to the developers, please provide:
 
 2. The ``gcc/gitrepo.txt`` file to confirm commit IDs of each tool, which helps determine more detailed build information.
 
+.. _toolchain_llvm_known_issues:
+
 Known Issues
 ============
+
+.. note::
+
+    For more bug issues, please refer to https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/18.
 
 Nuclei ``-mtune`` support bug in the LLVM 2025.10 toolchain
 -----------------------------------------------------------

@@ -7,7 +7,9 @@ Changelog
 
     To check the known issues encountered after the toolchain release, please refer to the content at the following link:
 
-    - `Known Issues <https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/18>`_
+    - GNU Known Issues: :ref:`Known Issues <toolchain_gnu_known_issues>`
+
+    - LLVM Known Issues: :ref:`Known Issues <toolchain_llvm_known_issues>`
 
 .. _toolchain_changelog_202610:
 
