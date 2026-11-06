@@ -241,11 +241,9 @@ Reset and Halt Command
 
 The ``init resethalt`` command addresses situations where:
 
-- The CPU becomes unresponsive due to software issues
-- The debugger loses connection with the development board
-- Power cycling is ineffective (particularly when code is running from flash)
+- The CPU becomes unresponsive due to software issues, the debugger and development board cannot establish a normal connection, and debugging is still not possible after power cycling or software reset.
 
-This command provides a software-based solution to reset and halt the CPU without requiring physical power cycling.
+The ``init resethalt`` command works by sending a reset and halt request to the CPU via the JTAG interface. After reset, the CPU automatically enters the halt state after executing only one instruction, preventing it from running problematic software code and enabling normal debugging.
 
 FTDI nSCAN1 Mode Command
 ~~~~~~~~~~~~~~~~~~~~~~~~
