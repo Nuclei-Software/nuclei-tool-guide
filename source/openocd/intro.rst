@@ -241,11 +241,9 @@ Reset and Halt Command
 
 The ``init resethalt`` command addresses situations where:
 
-- The CPU becomes unresponsive due to software issues
-- The debugger loses connection with the development board
-- Power cycling is ineffective (particularly when code is running from flash)
+- The CPU becomes unresponsive due to software issues, the debugger and development board cannot establish a normal connection, and debugging is still not possible after power cycling or software reset.
 
-This command provides a software-based solution to reset and halt the CPU without requiring physical power cycling.
+The ``init resethalt`` command works by sending a reset and halt request to the CPU via the JTAG interface. After reset, the CPU automatically enters the halt state after executing only one instruction, preventing it from running problematic software code and enabling normal debugging.
 
 FTDI nSCAN1 Mode Command
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -659,6 +657,96 @@ CSR Renaming:
 **Base Version:**
 
 - Changes based on `riscv-collab/riscv-openocd@f82c5a7 <https://github.com/riscv-collab/riscv-openocd/commit/f82c5a7>`_.
+
+.. _openocd_known_issues:
+
+Known Issues
+------------
+
+Nuclei OpenOCD Known Issues. For more complex issues, we create separate issues on GitHub. Please refer to `GitHub Issues <https://github.com/riscv-mcu/riscv-openocd/issues/11>`_.
+
+custom flash driver memory out-of-bounds bug in the 2025.10 openocd
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+    This issue is fixed in the 2026.10 openocd.
+
+When using the custom flash driver on Linux systems, a memory out-of-bounds issue may occur. This is caused by the custom flash driver not accounting for the null terminator ('\0') during malloc. The error log is as follows:
+
+``malloc():invalid next size(unsorted)``
+
+Multiple vid_pid matching failure bug in the 2025.10 openocd
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+    This issue is fixed in the 2026.10 openocd.
+
+When multiple vid_pid pairs are configured, only the first vid_pid pair is used, while the others are ignored. This causes subsequent vid_pid devices to fail to find the debug device during connection. The error log is as follows:
+
+.. code-block:: text
+
+    Error: unrecognized USB device descriptor
+    Error: unable to open ftdi device with description ‘*’, serial ‘*’ at bus location ‘*’
+
+First connection basic_cpuinfo read failure bug in the 2025.10 openocd
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+    This issue is fixed in the 2026.10 openocd.
+
+An error occurs on the first connection with OpenOCD, but reconnecting with the same debug environment works fine. This is caused by an issue with the basic_cpuinfo call location leading to CSR read failure. The error log is as follows:
+
+.. code-block:: text
+
+    Error: [riscv.cpu] Unexpected read of fp via program buffer.
+    Warn : [riscv.cpu] Couldn't read vlenb; vector register access won't work.
+    Error: [riscv.cpu] Unexpected read of fp via program buffer.
+    Error: [riscv.cpu] Unexpected read of fp via program buffer.
+    Error: [riscv.cpu] Examination failed
+
+tracedecoder decoding error on Chinese-locale Linux systems bug in the v0.9.0 tracedecoder at 2025.10
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+    This issue is fixed in the v1.0.0 tracedecoder at 2026.10.
+
+When using tracedecoder on Linux systems with Chinese locale settings, ELF file parsing errors may occur. This is caused by tracedecoder not accounting for the Chinese locale during decoding. The error log is as follows:
+
+.. code-block:: text
+
+    Error: parseElfName():expected
+    Error: parseobjDump():expected file name and type
+    Error: ElfReader::ElfReader(): objdump() failed
+    Error: Trace::buildElfProcess(): Error creating ElfReader object
+    Error: Trace::configure(): buildElfProcess()failed
+    Error: new Trace(trace.bin,rom.elf)failed
+
+tracedecoder runtime library mismatch on Linux systems bug in the v0.9.0 tracedecoder at 2025.10
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+    This issue is fixed in the v1.0.0 tracedecoder at 2026.10.
+
+When running tracedecoder on Linux systems, a runtime library mismatch error may occur. This is caused by incompatibility between the runtime library versions on the test system and those used when compiling tracedecoder. The error log is as follows:
+
+.. code-block:: text
+
+    bin/dqr: /lib64/libc.so.6: version 'GLIBc 2.14' not found (required by bin/dqr)
+    bin/dgr: /usr/lib64/libstdc++,so.6: version 'GLIBcxx 3.4.21'not found (required by bin/dqr)
+
+tracedecoder may lose a few instructions before the sync packet bug in the v0.9.0 tracedecoder at 2025.10
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+    This issue is fixed in the v1.0.0 tracedecoder at 2026.10.
+
+tracedecoder may lose a few instructions before the sync packet. Previously, upon receiving a sync packet, the address within the packet was directly used as the next instruction address to continue parsing. We have now adjusted the decoding logic so that upon receiving a sync packet, instruction inference is still attempted first, rather than directly using the address within the packet as the next instruction address to continue parsing.
 
 Other Debuggers
 ---------------
