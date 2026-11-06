@@ -645,6 +645,8 @@ CSR Renaming:
 
 - Changes based on `riscv-collab/riscv-openocd@f82c5a7 <https://github.com/riscv-collab/riscv-openocd/commit/f82c5a7>`_.
 
+.. _openocd_known_issues:
+
 Known Issues
 ------------
 
