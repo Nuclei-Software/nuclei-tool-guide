@@ -463,6 +463,8 @@ The following extensions can be selected through ``--ext=``. Choose extensions s
 +--------------+-------------------------------------------------------------------------+
 | _xxlclicv2   | Nuclei ECLIC v2 extension (use ``_xlclicv2`` in xlmodel)                |
 +--------------+-------------------------------------------------------------------------+
+| _agnostic    | Nuclei vector tail/mask-agnostic policy: fill ones (V required)         |
++--------------+-------------------------------------------------------------------------+
 
 SoC Configuration
 -----------------------------
