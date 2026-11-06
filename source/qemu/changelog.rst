@@ -12,6 +12,8 @@ Version 2026.10
 
 - Improved ECLIC multi-hart routing and M/S-mode interrupt support.
 - Added ECLIC V2 automatic context save/restore, shadow GPRs and nested-trap handling.
+- Fixed ECLIC interrupt tail-chaining and ``jalmnxti`` return behavior.
+- Fixed ECLIC state reset so interrupts continue to work after a restart.
 - Reworked the SysTimer around shared MTIME state.
 - Improved Sstc integration on EvalSoC.
 - Improved multicore timer delivery, timer control and RV32 compare access.
@@ -26,9 +28,14 @@ Version 2026.10
 - Added RNMI and double-trap extension support.
 - Added NICE plugin support for Nuclei NICE and VNICE instructions.
 - Added Zicfilp, Zicfiss, Zibi, Zimop and Zcmop extension support.
-- Improved Xxldsp, Xxlcz and BF16 instruction behavior.
+- Fixed incorrect results for several Nuclei Xxldsp instructions.
+- Fixed Xxlcz GP-relative stores, operand-boundary behavior and RV64 support.
+- Fixed BF16/VBF16 extension dependencies, conversions and reciprocal-estimate behavior.
+- Fixed Nuclei custom VNICE instructions.
+- Adjusted RVV tail-agnostic handling to match Nuclei hardware behavior.
 - Improved fractional-LMUL instruction behavior and dependency validation.
-- Improved Nuclei custom CSR behavior.
+- Fixed crashes when writing some Nuclei custom CSRs.
+- Fixed scratch-stack switching for synchronous exceptions nested inside ECLIC interrupts.
 - Updated the default RISC-V Privileged ISA specification version to 1.13.
 
 **Peripheral and SoC Module Support**
@@ -104,12 +111,24 @@ For a summary of reported Nuclei QEMU issues, see https://github.com/riscv-mcu/q
 Fixed issues on Nuclei Qemu 2026.10
 -----------------------------------
 
-- Unable to write mip/sip in eclic interrupt mode, see https://github.com/riscv-mcu/qemu/issues/7
-
 - The PLIC/ECLIC interrupt controller cannot be automatically switched, see https://github.com/riscv-mcu/qemu/issues/8
 
 - Can not run SMP version RTOS such FreeRTOS, RT-Thread, Zephyr and ThreadX, see https://github.com/riscv-mcu/qemu/issues/9
 
 - Sstc is not fully compatible with the Nuclei SysTimer, see https://github.com/riscv-mcu/qemu/issues/10
 
-- Caculation error of the "dkmda" and "dkmxda" instructions in Nuclei xxldsp, see https://github.com/riscv-mcu/qemu/issues/11
+- Calculation errors in the ``dkmda`` and ``dkmxda`` instructions in Nuclei Xxldsp, see https://github.com/riscv-mcu/qemu/issues/11
+
+- Incorrect results for several Nuclei Xxldsp instructions, see https://github.com/riscv-mcu/qemu/issues/12
+
+- Incorrect Xxlcz instruction behavior and incomplete RV64 support, see https://github.com/riscv-mcu/qemu/issues/13
+
+- BF16/VBF16 workloads may trap or produce incorrect results, see https://github.com/riscv-mcu/qemu/issues/14
+
+- Writing some Nuclei custom CSRs may crash QEMU, see https://github.com/riscv-mcu/qemu/issues/15
+
+- Incorrect scratch stack switching during nested traps, see https://github.com/riscv-mcu/qemu/issues/16
+
+- ECLIC interrupts may stop working after a GDB restart, see https://github.com/riscv-mcu/qemu/issues/17
+
+- Per-hart CLINT MSIP readback may prevent secondary harts from booting in ECLIC mode, see https://github.com/riscv-mcu/qemu/issues/18

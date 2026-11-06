@@ -24,10 +24,10 @@ Nuclei QEMU is developed based on QEMU version 9.0 and supports the machine feat
   .. code-block:: shell
 
     $ qemu-system-riscv32 --version
-    QEMU emulator version 9.0.4 (v9.0.4-290-g624be4afde5)
+    QEMU emulator version 9.0.4 (v9.0.4-302-gd2e9c7c)
     Copyright (c) 2003-2024 Fabrice Bellard and the QEMU Project developers
 
-  The above shows that Nuclei QEMU is currently developed based on the upstream version 9.0.4, and commit id is `624be4afde5 <https://github.com/riscv-mcu/qemu/tree/624be4afde5>`_.
+  The above shows that Nuclei QEMU is currently developed based on the upstream version 9.0.4, and commit id is `d2e9c7c <https://github.com/riscv-mcu/qemu/tree/d2e9c7c>`_.
 
 The source code is available in the open-source `Nuclei QEMU GitHub repository <https://github.com/riscv-mcu/qemu/tree/nuclei/9.0>`_. For more information about QEMU, see the official `QEMU documentation <https://www.qemu.org/documentation/>`_.
 
