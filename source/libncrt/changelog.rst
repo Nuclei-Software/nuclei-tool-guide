@@ -16,7 +16,7 @@ Version 2026.10
 
 **Bug Fixes:**
 
-- Fixed ``strcmp`` returning a wrong result in some cases when comparing longer strings.
+- Fixed ``strcmp`` returning a wrong result in some cases when comparing longer strings, refer to `issue #66 <https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/66>`__ for details.
 
 .. _libncrt_changelog_202502:
 
