@@ -251,7 +251,7 @@ Libraries
 
 :ref:`libncrt <libncrt_intro>`
 
-    ``libncrt`` is short for **Nuclei C Runtime Library**, which currently supports Nuclei RV32 processor, and is released by Nuclei to reduce c library code size, and improve math library speed, for details, please refer to the user guide located in ``gcc/share/pdf/Nuclei C Runtime Library Doc.pdf``
+    ``libncrt`` is short for **Nuclei C Runtime Library**, which currently supports Nuclei RV32 processor, and is released by Nuclei to reduce c library code size, and improve math library speed, for details, please refer to :ref:`About Nuclei C Runtime Library <libncrt_intro>`
 
 Changelog
 =========
@@ -309,7 +309,7 @@ Known Issues
 
 .. note::
 
-    For more bug issues, please refer to https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/18.
+    This chapter only lists the bugs that are still unfixed at present (or known usage limitations). For the bugs that have already been fixed, and for more bug issues, please refer to https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/18.
 
 ``sscanf`` Format Specifiers Issue in Newlib-nano
 -------------------------------------------------

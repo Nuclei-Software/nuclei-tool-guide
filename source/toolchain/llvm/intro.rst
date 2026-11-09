@@ -187,18 +187,7 @@ Known Issues
 
 .. note::
 
-    For more bug issues, please refer to https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/18.
+    This chapter only lists the bugs that are still unfixed at present (or known usage limitations). For the bugs that have already been fixed, and for more bug issues, please refer to https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/18.
 
-Nuclei ``-mtune`` support bug in the LLVM 2025.10 toolchain
------------------------------------------------------------
-
-.. note::
-
-    This issue is fixed in the 2026.10 toolchain.
-
-The LLVM 2025.10 toolchain only supports the Nuclei ``-mtune`` option for RV32, and it contains a bug: when the LLVM Nuclei scheduling definitions were added, the processor models were declared with the generic ``RISCVProcessorModel`` instead of the architecture-tuned ``RISCVTuneProcessorModel``, so the ``-mtune`` option does not take effect as expected.
-
-References:
-
-- https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/37
+    Compared with the GCC toolchain, the LLVM toolchain generally has more limitations, and its support for Nuclei custom extensions is less complete (many of them are assembly-only or intrinsic-only). The missing support will be added in later releases.
 
