@@ -192,6 +192,16 @@ Nuclei Studio 2026.10 adds support for the RISC-V Big Endian toolchain (this fea
 
 For details, see :ref:`Big Endian Compiler Support <ide_big_endian_compiler>`.
 
+Added Register View Filter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A filter box has been added to the Registers view, so you can quickly locate the registers you want to inspect by entering a keyword during debugging. For details, see :ref:`Register View Filter <ide_register_view_filter>`.
+
+Added Disassembly View C Code Linkage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Disassembly view is now linked with the C source editor: clicking a line in the C file makes the Disassembly view jump to the corresponding instructions and highlight them, and navigating to another source file makes the Disassembly view follow. For details, see :ref:`Disassembly View C Code Linkage <ide_disassembly_c_linkage>`.
+
 Fixed Known Bugs
 ~~~~~~~~~~~~~~~~~
 
@@ -204,6 +214,14 @@ Fixed Known Bugs
 - Fixed the bug that Connect to Running Target would reset the CPU;
 
 - Fixed that running clean on large projects failed because the generated command line (such as ``rm`` or compile commands) was too long;
+
+- Fixed the issue where modifying the Nuclei Settings page did not trigger automatic synchronization of the model;
+
+- Fixed the issue where QEMU could not run n100 programs properly on the IDE;
+
+- Fixed the incorrect and incomplete layout in the New Project Wizard;
+
+- Fixed the incorrect display of the Language standard option in the project Settings;
 
 - Fixed other known bugs.
 
