@@ -11,7 +11,7 @@ Projects created by Nuclei Studio VSCode are Eclipse CDT compatible (``.project`
 
 .. note::
 
-   Nuclei Studio VSCode uses its own version number; the current version is **0.2.0**. The tools it drives come from the Nuclei Studio release (such as **2026.10**), whose version covers the whole package, including the Nuclei Studio IDE, the RISC-V toolchain, OpenOCD, QEMU, and Nuclei Model.
+   Nuclei Studio VSCode uses its own version number; the current version is **0.3.0**. The tools it drives come from the Nuclei Studio release (such as **2026.10**), whose version covers the whole package, including the Nuclei Studio IDE, the RISC-V toolchain, OpenOCD, QEMU, and Nuclei Model.
 
 .. _vscode_intro_features:
 

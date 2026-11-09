@@ -19,7 +19,7 @@ This is **2026.10** release of Nuclei Tools.
 .. note::
 
     - This release is mostly based on 2025.10, the toolchain components such as GCC, Binutils, GDB, Newlib, LLVM and GLIBC keep the same versions.
-    - The **Nuclei Studio VSCode** extension is released for the first time in this release, its version is **0.2.0**.
+    - The **Nuclei Studio VSCode** extension is released for the first time in this release, its version is **0.3.0**.
     - RISC-V **big-endian** target support is added in Nuclei QEMU and Nuclei Model, while the big-endian toolchain is not released yet.
 
 For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nuclei_tool_user_guide.pdf
@@ -43,7 +43,7 @@ For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nu
 - `Nuclei QEMU 2026.10`_ : Based on 2025.10, add Nuclei USART/QSPI/uDMA/XEC support, improve ECLIC V2, timer and AIA support, and add big-endian guest support, see :ref:`qemu_changelog_202610`.
 - `Nuclei OpenOCD 2026.10`_ : Based on 2025.10, add the ``nuclei trace`` command group, enhance ``nuclei etrace`` and ``nuclei cpuinfo``, and add more flash drivers, see :ref:`openocd_changelog_202610`.
 - **Nuclei Model 2026.10** : Based on 2025.10, and support booting a RISC-V Linux kernel, SMP GDB debugging, big-endian ELF, semihosting and ``soc-cfg`` configuration files, see :ref:`xlmodel_changelog_202610`.
-- **Nuclei Studio VSCode 2026.10** : First official release of the Nuclei Studio VSCode extension (extension version **0.2.0**), bringing project management, build, debug, Live Watch, and NPK package management to Visual Studio Code, see :ref:`Nuclei Studio VSCode Changelog <vscode_changelog_202610>`.
+- **Nuclei Studio VSCode 2026.10** : First official release of the Nuclei Studio VSCode extension (extension version **0.3.0**), bringing project management, build, debug, Live Watch, and NPK package management to Visual Studio Code, see :ref:`Nuclei Studio VSCode Changelog <vscode_changelog_202610>`.
 
 .. _changelog_202510:
 
