@@ -138,6 +138,27 @@ General Options
 
 For more about RISC-V options used by LLVM toolchain, please check https://releases.llvm.org/19.1.0/docs/RISCVUsage.html
 
+Nuclei Custom Options
+=====================
+
+In addition to the standard RISC-V options above, clang in the Nuclei LLVM toolchain provides the following Nuclei custom options:
+
+.. note::
+
+    The actual functionality of these options is not implemented yet, currently clang only accepts them without reporting errors.
+
+`-mautovec-rvv/-mno-autovec-rvv`
+
+    Controls the RISC-V RVV automatic vectorization. Enabled by default, use ``-mno-autovec-rvv`` to disable it. This option is added in 2026.10.
+
+`-mautovec-dsp/-mno-autovec-dsp`
+
+    Controls the generation of automatic vectorization of Nuclei DSP instructions. Disabled by default, use ``-mautovec-dsp`` to enable it. This option is added in 2026.10.
+
+`-mautogen-xxlcz/-mno-autogen-xxlcz`
+
+    Controls the auto-generation of the Nuclei ``xxlcz`` extension instructions. Disabled by default, use ``-mautogen-xxlcz`` to enable it. This option is added in 2026.10.
+
 Install and Setup
 =================
 
