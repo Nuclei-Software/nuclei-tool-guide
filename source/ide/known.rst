@@ -44,6 +44,4 @@ As shown in the figure below, the icon in Project Explorer indicates that ``gcc_
 
 .. figure:: /asserts/nucleistudio/known/ld-link-nonexistent.png
 
-Known Issues in 2027.XX
------------------------
 
