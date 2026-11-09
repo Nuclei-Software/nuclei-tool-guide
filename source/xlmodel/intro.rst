@@ -45,8 +45,8 @@ The version output of the current latest version is
         SystemC 2.3.4-Accellera --- May 16 2024 16:02:03
         Copyright (c) 1996-2022 by all Contributors,
         ALL RIGHTS RESERVED
-   [XLMODEL-INFO] xl_cpumodel Commit: 4175eb9
-   [XLMODEL-INFO] xl_cpumodel Version 2026.10 - 1.3.0, Build Time Oct 30 2026, 18:29:51
+   [XLMODEL-INFO] xl_cpumodel Commit: abb552a
+   [XLMODEL-INFO] xl_cpumodel Version 2026.10 - 1.3.0, Build Time Nov  6 2026, 18:38:31
 
 
 Design and Architecture
