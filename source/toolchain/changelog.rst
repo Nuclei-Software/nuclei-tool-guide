@@ -11,7 +11,7 @@ Changelog
 
     - LLVM Known Issues: :ref:`Known Issues <toolchain_llvm_known_issues>`
 
-    - libncrt Known Issues: :ref:`Known Issues <libncrt_202610_knownissues>`
+    - libncrt Known Issues: :ref:`Known Issues <libncrt_known_issues>`
 
 .. _toolchain_changelog_202610:
 

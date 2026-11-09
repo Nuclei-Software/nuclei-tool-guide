@@ -47,21 +47,15 @@ Version 2023.10
 Known Issues
 ============
 
-.. _libncrt_202610_knownissues:
-
 Version 2026.10
 ---------------
 
 - Fixed ``strcmp`` returning a wrong result in some cases when comparing longer strings, refer to `issue #66 <https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/66>`__ for details.
 
-.. _libncrt_202502_knownissues:
-
 Version 2025.02
 ---------------
 
 - Fixed the 64-bit integer multiplication ``__muldi3`` returning a wrong result when built with GCC 14 ``-Os``.
-
-.. _libncrt_202406_knownissues:
 
 Version 2024.06
 ---------------
