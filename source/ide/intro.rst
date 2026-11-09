@@ -617,8 +617,6 @@ Nuclei Studio 2023.10 integrates Nuclei QEMU 2023.10, which is developed based o
 
 |image11|
 
-.. _my_internal_link_label:
-
 Added an ELF File Viewer
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

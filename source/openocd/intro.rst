@@ -570,16 +570,17 @@ Version 2026.10
 
 This release is based on **2025.10** version with some new features and bug fixes introduced.
 
-- Add `nuclei trace` command group for trace-bundle instruction-trace and data-trace support
-- Update `nuclei etrace` command group for ATB2AXI instruction-trace support
-- Update `nuclei cpuinfo` command implementation using nuclei-sdk same source code to provide same behavior
+- Add ``nuclei trace`` command group for trace-bundle instruction-trace and data-trace support
+- Update ``nuclei etrace`` command group for ATB2AXI instruction-trace support
+- Update ``nuclei cpuinfo`` command implementation using nuclei-sdk same source code to provide same behavior
 - Sync nuclei custom CSR support for eclic_v2
-- Modify N100 `vlenb`/`mtopi`/`mtopei` display
+- Modify N100 ``vlenb``/``mtopi``/``mtopei`` display
 - Add flash support for HG25Q16B, GD25LE16E, GD25LQ128E, MX25R8035F, XTD25W02A, XTD25W04A, GT25Q16A, GT25Q32EB, GT25Q64EB
 - Add dummy flash driver to support automatic hardware breakpoint placement in specified address ranges
-- Update custom flash driver with `wrsize` support, flash-id based device matching, and fix memory issues in custom.c and nuspi.c
+- Update custom flash driver with ``wrsize`` support, flash-id based device matching, and fix memory issues in custom.c and nuspi.c
 - Fix FTD2xx vendor IDs and product IDs to resolve matching issues when multiple FTDI devices are present
 - Modify GD32VF103 IDCODE to correctly display chip information on the target
+- Update TraceDecoder to v1.0.0, see :ref:`TraceDecoder Changelog <tracedecoder_decoding_trace_data>`
 
 .. _openocd_changelog_202510:
 
@@ -665,23 +666,23 @@ Known Issues
 
 Nuclei OpenOCD Known Issues. For more complex issues, we create separate issues on GitHub. Please refer to `GitHub Issues <https://github.com/riscv-mcu/riscv-openocd/issues/11>`_.
 
-custom flash driver memory out-of-bounds bug in the 2025.10 openocd
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Custom Flash Driver Memory Out-of-Bounds Bug
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
-    This issue is fixed in the 2026.10 openocd.
+    This issue affects the 2025.10 OpenOCD, and is fixed in the 2026.10 OpenOCD.
 
 When using the custom flash driver on Linux systems, a memory out-of-bounds issue may occur. This is caused by the custom flash driver not accounting for the null terminator ('\0') during malloc. The error log is as follows:
 
 ``malloc():invalid next size(unsorted)``
 
-Multiple vid_pid matching failure bug in the 2025.10 openocd
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Multiple vid_pid Matching Failure Bug
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
-    This issue is fixed in the 2026.10 openocd.
+    This issue affects the 2025.10 OpenOCD, and is fixed in the 2026.10 OpenOCD.
 
 When multiple vid_pid pairs are configured, only the first vid_pid pair is used, while the others are ignored. This causes subsequent vid_pid devices to fail to find the debug device during connection. The error log is as follows:
 
@@ -690,12 +691,12 @@ When multiple vid_pid pairs are configured, only the first vid_pid pair is used,
     Error: unrecognized USB device descriptor
     Error: unable to open ftdi device with description ‘*’, serial ‘*’ at bus location ‘*’
 
-First connection basic_cpuinfo read failure bug in the 2025.10 openocd
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+First Connection basic_cpuinfo Read Failure Bug
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
-    This issue is fixed in the 2026.10 openocd.
+    This issue affects the 2025.10 OpenOCD, and is fixed in the 2026.10 OpenOCD.
 
 An error occurs on the first connection with OpenOCD, but reconnecting with the same debug environment works fine. This is caused by an issue with the basic_cpuinfo call location leading to CSR read failure. The error log is as follows:
 
@@ -707,12 +708,12 @@ An error occurs on the first connection with OpenOCD, but reconnecting with the 
     Error: [riscv.cpu] Unexpected read of fp via program buffer.
     Error: [riscv.cpu] Examination failed
 
-tracedecoder decoding error on Chinese-locale Linux systems bug in the v0.9.0 tracedecoder at 2025.10
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TraceDecoder Decoding Error on Chinese-Locale Linux Systems
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
-    This issue is fixed in the v1.0.0 tracedecoder at 2026.10.
+    This issue affects the v0.9.0 TraceDecoder shipped with 2025.10, and is fixed in the v1.0.0 TraceDecoder shipped with 2026.10.
 
 When using tracedecoder on Linux systems with Chinese locale settings, ELF file parsing errors may occur. This is caused by tracedecoder not accounting for the Chinese locale during decoding. The error log is as follows:
 
@@ -725,12 +726,12 @@ When using tracedecoder on Linux systems with Chinese locale settings, ELF file 
     Error: Trace::configure(): buildElfProcess()failed
     Error: new Trace(trace.bin,rom.elf)failed
 
-tracedecoder runtime library mismatch on Linux systems bug in the v0.9.0 tracedecoder at 2025.10
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TraceDecoder Runtime Library Mismatch on Linux Systems
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
-    This issue is fixed in the v1.0.0 tracedecoder at 2026.10.
+    This issue affects the v0.9.0 TraceDecoder shipped with 2025.10, and is fixed in the v1.0.0 TraceDecoder shipped with 2026.10.
 
 When running tracedecoder on Linux systems, a runtime library mismatch error may occur. This is caused by incompatibility between the runtime library versions on the test system and those used when compiling tracedecoder. The error log is as follows:
 
@@ -739,14 +740,14 @@ When running tracedecoder on Linux systems, a runtime library mismatch error may
     bin/dqr: /lib64/libc.so.6: version 'GLIBc 2.14' not found (required by bin/dqr)
     bin/dgr: /usr/lib64/libstdc++,so.6: version 'GLIBcxx 3.4.21'not found (required by bin/dqr)
 
-tracedecoder may lose a few instructions before the sync packet bug in the v0.9.0 tracedecoder at 2025.10
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TraceDecoder May Lose a Few Instructions Before the Sync Packet
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
-    This issue is fixed in the v1.0.0 tracedecoder at 2026.10.
+    This issue affects the v0.9.0 TraceDecoder shipped with 2025.10, and is fixed in the v1.0.0 TraceDecoder shipped with 2026.10.
 
-tracedecoder may lose a few instructions before the sync packet. Previously, upon receiving a sync packet, the address within the packet was directly used as the next instruction address to continue parsing. We have now adjusted the decoding logic so that upon receiving a sync packet, instruction inference is still attempted first, rather than directly using the address within the packet as the next instruction address to continue parsing.
+TraceDecoder may lose a few instructions before the sync packet. Previously, upon receiving a sync packet, the address within the packet was directly used as the next instruction address to continue parsing. We have now adjusted the decoding logic so that upon receiving a sync packet, instruction inference is still attempted first, rather than directly using the address within the packet as the next instruction address to continue parsing.
 
 Other Debuggers
 ---------------

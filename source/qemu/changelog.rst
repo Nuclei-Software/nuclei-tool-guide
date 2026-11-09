@@ -8,6 +8,8 @@ Changelog
 Version 2026.10
 ---------------
 
+This release is based on **2025.10** version with some new features and bug fixes introduced.
+
 **Interrupt and Timer Support**
 
 - Improved ECLIC multi-hart routing and M/S-mode interrupt support.
@@ -41,13 +43,13 @@ Version 2026.10
 **Peripheral and SoC Module Support**
 
 - Added Nuclei USART support.
-- Added Nuclei QSPI support.
+- Improved Nuclei QSPI support with the SPI v1.2.8 revision and QSPI0 uDMA transfers.
 - Added Nuclei uDMA support.
 - Added Nuclei XEC Ethernet controller support.
-- Added Nuclei MISC support.
+- Added Nuclei MISC support. The MISC device is instantiated at ``0x10012000``, the address used by the GPIO device in 2025.10; GPIO is no longer modeled in this release.
 - Added IREGION capability register support.
 - Improved SD-card SPI CRC handling.
-- Removed UART1.
+- Removed UART1, only UART0 is instantiated now.
 
 **EvalSoC Configuration and Boot**
 
@@ -103,12 +105,20 @@ Version 2025.02
 - Fixed failure to respond to external interrupt in ECLIC
 - Fixed Nuclei systimer support in CLINT  mode
 
+.. _qemu_known_issues:
+
 Known Issues
 ============
 
 For a summary of reported Nuclei QEMU issues, see https://github.com/riscv-mcu/qemu/issues/1.
 
-Fixed issues on Nuclei Qemu 2026.10
+Open Known Issues
+-----------------
+
+No open known issues are recorded in the user guide for this release. Please refer to
+https://github.com/riscv-mcu/qemu/issues/1 for the latest reported issues.
+
+Fixed issues on Nuclei QEMU 2026.10
 -----------------------------------
 
 - The PLIC/ECLIC interrupt controller cannot be automatically switched, see https://github.com/riscv-mcu/qemu/issues/8

@@ -19,6 +19,8 @@ Version 2026.10
 Version 2025.02
 ---------------
 
+This release contains bug fixes only, see :ref:`libncrt_202502_known_issues`.
+
 .. _libncrt_changelog_202406:
 
 Version 2024.06
@@ -47,18 +49,44 @@ Version 2023.10
 Known Issues
 ============
 
+This section lists the ``libncrt`` known issues. Issues already fixed in a release are listed under that release as fixed issues.
+
+.. _libncrt_202610_known_issues:
+
 Version 2026.10
 ---------------
 
+**Open Known Issues:**
+
+No open known issues in this release.
+
+**Fixed Issues:**
+
 - Fixed ``strcmp`` returning a wrong result in some cases when comparing longer strings, refer to `issue #66 <https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/66>`__ for details.
+
+.. _libncrt_202502_known_issues:
 
 Version 2025.02
 ---------------
 
+**Open Known Issues:**
+
+No open known issues in this release.
+
+**Fixed Issues:**
+
 - Fixed the 64-bit integer multiplication ``__muldi3`` returning a wrong result when built with GCC 14 ``-Os``.
+
+.. _libncrt_202406_known_issues:
 
 Version 2024.06
 ---------------
+
+**Open Known Issues:**
+
+No open known issues in this release.
+
+**Fixed Issues:**
 
 - Fixed the double-precision floating-point division ``__divdf3`` failing on cores which only have the ``Zmmul`` extension, since it used the ``divu`` instruction which is not available without the ``M`` extension.
 - Fixed a linker error when linking the UART `'fileops'` library without ``-gc-sections`` due to the unimplemented ``__SEGGER_RTL_X_file_eof``.

@@ -1062,6 +1062,10 @@ Here are the integration steps instructions:
 Changelog
 =========
 
+.. note::
+
+    To check the known issues of the current release, see :ref:`Known Issues <xlmodel_202610_known_issues>`.
+
 .. _xlmodel_changelog_202610:
 
 Version 2026.10
@@ -1104,7 +1108,10 @@ This release is based on **2025.10** version with some new features and bug fixe
 - Fixed Ctrl+C not stopping the model properly in GDB mode; it now works in all modes and dumps the collected gprof and flame graph results on exit
 - Fixed UART issues: the interrupt output now uses transition-detected levels and the pending status is updated while the TX FIFO drains; interactive stdin input was restored and is fed to the RX FIFO regardless of the guest interrupt-enable state
 
-**Known Issues:**
+.. _xlmodel_202610_known_issues:
+
+Known Issues
+~~~~~~~~~~~~
 
 - Does not support CACHE emulation
 - Two ThreadX SMP test cases livelock on nx900fd: ``threadx_event_flag_isr_set_clear_test`` and ``threadx_event_flag_isr_wait_abort_test``. The timer tick lands in a window where the test ISR exit conditions never hold, so hart 0 spins inside ``_tx_thread_smp_protect`` without releasing the lock and the other harts starve. Both cases pass on n900fd, and the issue is sensitive to timing-model changes
@@ -1128,19 +1135,42 @@ This release is based on **2025.02** version with some new features and bug fixe
 - Support for setting the CPU frequency
 - Output is separated into stdout and stderr
 
-**Known Issues:**
+.. _xlmodel_202510_known_issues:
 
-- Does not support CACHE emulation
-- Does not support booting a Linux Kernel
-- Some SMP cases for RT-Thread and Zephyr are not yet running correctly
-- When debugging with Nuclei Studio, if the ELF file lacks DWARF debug information, you need to add the ``--mem=0x0:0x10000000`` option as a workaround to prevent GDB from reporting memory read errors
+Known Issues
+~~~~~~~~~~~~
+
+.. note::
+
+    The status of each issue in the 2026.10 release is annotated below.
+
+- Does not support CACHE emulation.
+
+  .. note::
+
+      Still open in 2026.10.
+
+- Does not support booting a Linux Kernel.
+
+  .. note::
+
+      Fixed in 2026.10, which supports booting a RISC-V Linux kernel in both uniprocessor and SMP mode.
+
+- Some SMP cases for RT-Thread and Zephyr are not yet running correctly.
+
+  .. note::
+
+      2026.10 fixes the illegal-instruction error in S-mode RT-Thread demos, but the SMP test cases have not been re-verified for this release.
+
+- When debugging with Nuclei Studio, if the ELF file lacks DWARF debug information, you need to add the ``--mem=0x0:0x10000000`` option as a workaround to prevent GDB from reporting memory read errors.
 
 .. _xlmodel_changelog_202502:
 
 Version 2025.02
 ---------------
 
-**Known Issues:**
+Known Issues
+~~~~~~~~~~~~
 
 - Does not support smp ECLIC, CIDU and CACHE emulation
 

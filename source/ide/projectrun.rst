@@ -359,7 +359,7 @@ To switch back to serial port printing later, remove the SEGGER folder in the sa
 
 |image34|
 
-.. _debug-configuration-1:
+.. _ide_debug_configuration:
 
 Debug Configuration
 ~~~~~~~~~~~~~~~~~~~~
@@ -383,7 +383,7 @@ You can view the details of the Debug Configurations in the Launch Bar.
 |image38|
 
 
-.. _create-and-configure-debug-configuration-1:
+.. _ide_create_debug_configuration:
 
 Creating and Configuring a Debug Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -419,7 +419,7 @@ Open the ``Startup`` tab, make sure JTAG/SWD Speed is Auto, that ``set Breakpoin
 
 If you changed any of the above settings, click ``Apply`` at the bottom right to save them; if nothing changed, click ``Close``.
 
-.. _debug-program-on-prototype-board-1:
+.. _ide_debug_on_prototype_board:
 
 Debugging the Program on the Prototype Board
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

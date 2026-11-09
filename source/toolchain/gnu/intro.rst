@@ -60,6 +60,10 @@ Extensions Support
 
     .. attention::
 
+        Projects that relied on the automatic Zcmt table jump generation in 2025.10 will get larger code after upgrading to 2026.10 unless ``-Wl,--relax-zcmt`` is added to the link options.
+
+    .. attention::
+
         The Zcmt table jump support has not been merged into the binutils mainline branch yet, it is an experimental feature in the Nuclei toolchain. Please be aware of the risks when using it in production.
 
 - Zvb Extensions

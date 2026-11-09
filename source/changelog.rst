@@ -22,6 +22,18 @@ This is **2026.10** release of Nuclei Tools.
     - The **Nuclei Studio VSCode** extension is released for the first time in this release, its version is **0.3.0**.
     - RISC-V **big-endian** target support is added in Nuclei QEMU and Nuclei Model, while the big-endian toolchain is not released yet.
 
+.. attention::
+
+    **Upgrade notes.** The following changes may silently change the behavior of existing projects, please check your build options after upgrading:
+
+    - The ``Zcmt`` table jump auto-generation is now disabled by default. Pass ``-Wl,--relax-zcmt`` to the linker to enable it again, see :ref:`the Zcmt note <toolchain_gnu_intro>`.
+
+    - The Nuclei DSP auto-vectorization (``-mautovec-dsp``) and the Nuclei ``xxlcz`` auto-generation (``-mautogen-xxlcz``) are disabled by default now, pass the corresponding option to enable them again.
+
+    - The ``-maddibne/-mno-addibne`` option is removed, use ``-mautogen-xxlcz/-mno-autogen-xxlcz`` instead. Build scripts still passing ``-maddibne`` will fail to compile.
+
+    - Nuclei QEMU no longer instantiates UART1 and no longer provides the MROM reset trampoline at ``0x1000``; each hart now resets directly to the selected ``download=`` start address.
+
 For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nuclei_tool_user_guide.pdf
 
 .. note::
@@ -34,7 +46,15 @@ For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nu
 
     - LLVM Toolchain Known Issues: :ref:`Known Issues <toolchain_llvm_known_issues>`
 
-    - libncrt Known Issues: :ref:`Known Issues <libncrt_202610_knownissues>`
+    - libncrt Known Issues: :ref:`Known Issues <libncrt_202610_known_issues>`
+
+    - QEMU Known Issues: :ref:`Known Issues <qemu_known_issues>`
+
+    - OpenOCD Known Issues: :ref:`Known Issues <openocd_known_issues>`
+
+    - Nuclei Studio IDE Known Issues: :ref:`Known Issues <ide_known_issues>`
+
+    - Nuclei Model Known Issues: :ref:`Known Issues <xlmodel_202610_known_issues>`
 
 **Find release note below**:
 

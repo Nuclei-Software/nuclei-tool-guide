@@ -125,8 +125,6 @@ Algorithm
 | Pico     | IEEE single-precision functions use scaled integer arithmetic if there is a scaled-integer implementation of the function. |
 +----------+----------------------------------------------------------------------------------------------------------------------------+
 
-.. _section-1:
-
 Extra fileops and heapops libraries used together with libncrt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -145,5 +143,3 @@ Extra fileops and heapops libraries used together with libncrt
 +------------------------------------------------------+------------------+------------------------------------------------------------------------------------+
 | :ref:`-lheapops_minimal <libncrt_heapops_minimal>`   | heapops          | Using a minimal heap implementation                                                |
 +------------------------------------------------------+------------------+------------------------------------------------------------------------------------+
-
-.. _section-2:

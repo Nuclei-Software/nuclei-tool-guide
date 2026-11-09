@@ -24,7 +24,7 @@ Version 2026.10
     - Merged important upstream bugfixes, such as the VXRM state restore fix, the constant synthesis codegen fixes, and the newlib ``sqrt/sqrtf`` FPU fix
     - Added support for new extensions, such as ``Zibi`` (v0.1), ``RNMI`` (``Smrnmi`` v1.0), ``Double Trap`` (``Smdbltrp/Ssdbltrp`` v1.0), and enhanced the Nuclei custom ``xxlcz`` extension support and the ``xxldsp`` auto-generation capability
 
-- Updated toolchain components to these versions: GCC 14.2.1, Binutils 2.44, GDB 16.2, Newlib 4.5.0, LLVM 19.1.7, and GLIBC 2.41.
+- Toolchain components are unchanged from 2025.10: GCC 14.2.1, Binutils 2.44, GDB 16.2, Newlib 4.5.0, LLVM 19.1.7, and GLIBC 2.41.
 
 - Feature: Added ``RNMI & Double Trap`` extension support (``Smrnmi`` v1.0, ``Smdbltrp/Ssdbltrp`` v1.0) in GCC/LLVM/Binutils/GDB.
 
