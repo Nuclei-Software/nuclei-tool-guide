@@ -192,6 +192,16 @@ Nuclei Studio 2026.10 adds support for the RISC-V Big Endian toolchain (this fea
 
 For details, see :ref:`Big Endian Compiler Support <ide_big_endian_compiler>`.
 
+Added Register View Filter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A filter box has been added to the Registers view, so you can quickly locate the registers you want to inspect by entering a keyword during debugging. For details, see :ref:`Register View Filter <ide_register_view_filter>`.
+
+Added Disassembly View C Code Linkage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Disassembly view is now linked with the C source editor: clicking a line in the C file makes the Disassembly view jump to the corresponding instructions and highlight them, and navigating to another source file makes the Disassembly view follow. For details, see :ref:`Disassembly View C Code Linkage <ide_disassembly_c_linkage>`.
+
 Fixed Known Bugs
 ~~~~~~~~~~~~~~~~~
 

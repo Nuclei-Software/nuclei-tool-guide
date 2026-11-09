@@ -2443,6 +2443,26 @@ Nuclei Studio 2026.10 adds support for the RISC-V Big Endian toolchain, so that 
 
 Then build the project; the generated code and ELF files are big-endian.
 
+.. _ide_register_view_filter:
+
+Register View Filter
+--------------------
+
+A filter box has been added to the Registers view (and the Variables view). During debugging, enter a keyword in the filter box to narrow the register list down to the matching registers, so you can quickly locate the registers you want to view without scrolling through the full list. A counter is displayed next to the filter box while filtering (for example, ``1/9``), indicating how many registers match and which one is currently selected.
+
+|register-filter|
+
+.. _ide_disassembly_c_linkage:
+
+Disassembly View C Code Linkage
+-------------------------------
+
+The Disassembly view is now linked with the C/C++ editor:
+
+- Clicking a line in the C source file makes the Disassembly view jump to the corresponding instructions and highlight them;
+- When the editor navigates to another source file (for example, by following a function call), the Disassembly view follows and displays the disassembly of the corresponding content.
+
+|disassembly-linkage|
 
 .. |image1| image:: /asserts/nucleistudio/advanceusage/image2.png
 
@@ -2827,3 +2847,7 @@ Then build the project; the generated code and ELF files are big-endian.
 .. |image-be-1| image:: /asserts/nucleistudio/advanceusage/big-endian-1.png
 
 .. |image-be-2| image:: /asserts/nucleistudio/advanceusage/big-endian-2.png
+
+.. |register-filter| image:: /asserts/nucleistudio/advanceusage/register-filter.png
+
+.. |disassembly-linkage| image:: /asserts/nucleistudio/advanceusage/disassembly-linkage.png

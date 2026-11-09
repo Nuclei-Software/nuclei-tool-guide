@@ -17,3 +17,4 @@ Nuclei Studio IDE
    advanceusage.rst
    update.rst
    faq.rst
+   known.rst
