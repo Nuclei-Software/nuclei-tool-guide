@@ -209,7 +209,7 @@ In addition to the standard RISC-V options above, the Nuclei GNU toolchain provi
 
 `-mautovec-rvv/-mno-autovec-rvv`
 
-    Controls the RISC-V RVV automatic vectorization. Enabled by default, use ``-mno-autovec-rvv`` to disable it. This option is added since 2026.10.
+    Controls the RISC-V RVV automatic vectorization. Enabled by default, use ``-mno-autovec-rvv`` to disable it. This option is added in 2026.10.
 
     Since 2026.10, RVV automatic vectorization is always disabled in interrupt handlers (functions marked with the ``interrupt`` attribute), regardless of this option. In interrupt handlers, vector registers are only saved when they are directly used by the handler itself; if the handler or its callees use the vector unit, the full vector state must be saved and restored by the user.
 
@@ -219,7 +219,11 @@ In addition to the standard RISC-V options above, the Nuclei GNU toolchain provi
 
 `-mautogen-xxlcz/-mno-autogen-xxlcz`
 
-    Controls the auto-generation of the Nuclei ``xxlcz`` extension instructions (including the ``xl.addibne`` instruction). Disabled by default, use ``-mautogen-xxlcz`` to enable it. This option is added since 2026.10, and replaces the ``-maddibne/-mno-addibne`` option which was removed in 2026.10.
+    Controls the auto-generation of the Nuclei ``xxlcz`` extension instructions (including the ``xl.addibne`` instruction). Disabled by default, use ``-mautogen-xxlcz`` to enable it. This option is added in 2026.10.
+
+`-maddibne/-mno-addibne`
+
+    This option was added in 2025.10 to control the ``xl.addibne`` instruction auto-generation, and is removed in 2026.10. The auto-generation is now controlled by the ``-mautogen-xxlcz/-mno-autogen-xxlcz`` option.
 
 Libraries
 =========
@@ -294,11 +298,21 @@ If you need to report an issue to the developers, please provide:
 
 2. The ``gcc/gitrepo.txt`` file to confirm commit IDs of each tool, which helps determine more detailed build information.
 
+.. _toolchain_gnu_known_issues:
+
 Known Issues
 ============
 
+.. note::
+
+    For more bug issues, please refer to https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/18.
+
 ``sscanf`` Format Specifiers Issue in Newlib-nano
 -------------------------------------------------
+
+.. note::
+
+    This issue affects the 2025.02/2025.10/2026.10 toolchains, and is not fixed yet.
 
 sscanf fails with hhu, llu, etc., due to missing C99 support (%hhX, %llX, %jX, %zX, %tX).
 
@@ -308,9 +322,15 @@ References:
 
 - https://github.com/32bitmicro/newlib-nano-1.0/blob/master/newlib/README.nano
 
+- https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/60
+
 
 GDB RISC-V Memory Access at Address 0 When Symbols Are Missing
 --------------------------------------------------------------
+
+.. note::
+
+    This issue affects the 2025.02/2025.10/2026.10 toolchains, and is not fixed yet.
 
 When debugging a RISC-V target via OpenOCD+GDB, running a stepping command (si) before loading an ELF with symbols causes GDB to incorrectly read memory near address 0x0.
 
@@ -320,6 +340,10 @@ References:
 
 Access to Address 0 Is Compiled Into ``ebreak``
 -----------------------------------------------
+
+.. note::
+
+    This issue affects the 2025.02/2025.10/2026.10 toolchains, and is not fixed yet.
 
 GCC enables the ``-fdelete-null-pointer-checks`` optimization by default on most targets at all optimization levels. It assumes that a program cannot safely dereference the null pointer and that no code or data element resides at address zero. Under this assumption, access to address 0 is treated as undefined behavior and compiled into a trap instruction (``ebreak``), and null-pointer checks after a dereference are removed by the data flow analysis.
 
@@ -332,18 +356,20 @@ References:
 - https://gcc.gnu.org/onlinedocs/gcc-14.4.0/gcc/Optimize-Options.html#index-fdelete-null-pointer-checks
 - https://github.com/riscv-collab/riscv-gnu-toolchain/issues/694
 - https://github.com/riscv-collab/riscv-gnu-toolchain/issues?q=-fno-delete-null-pointer-checks
+- https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/61
 
 ``naked`` Attribute With Variadic Functions Is Not Supported
 ------------------------------------------------------------
+
+.. note::
+
+    This issue affects the 2025.02/2025.10/2026.10 toolchains, and will not be fixed (upstream WONTFIX).
 
 On RISC-V, do not use the ``naked`` function attribute together with variadic functions (varargs). When a ``naked`` function has a variadic parameter list, GCC still emits code from ``riscv_setup_incoming_varargs`` to spill the unnamed argument registers to the stack. Since the ``naked`` attribute suppresses the function prologue, these stores write into the caller's stack frame and corrupt memory.
 
 Upstream has confirmed that naked functions and varargs are fundamentally incompatible with each other and should not be used together, and this issue is closed as WONTFIX and will not be fixed (`GCC bug 125798 <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=125798>`_).
 
-``-Wa,-adhlns`` Breaks the Frame Unwind Information for GDB Debugging
---------------------------------------------------------------------
+References:
 
-Using the assembler listing option ``-Wa,-adhlns=xxx.lst`` on RISC-V emits extra relocations into the ``.eh_frame``/``.debug_frame`` sections, which corrupts the frame unwind information (tools such as readelf will show invalid CFI operations), and breaks the GDB debugging and backtrace which rely on it.
-
-Upstream has confirmed the extra relocations, but there is no fix or further response yet (`binutils bug 33776 <https://sourceware.org/bugzilla/show_bug.cgi?id=33776>`_). If you need to debug your program with GDB, avoid passing the ``-Wa,-adhlns=xxx.lst`` option.
+- https://github.com/riscv-mcu/riscv-gnu-toolchain/issues/62
 

@@ -24,6 +24,18 @@ This is **2026.10** release of Nuclei Tools.
 
 For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nuclei_tool_user_guide.pdf
 
+.. note::
+
+    To check the known issues encountered after this release, please refer to the content at the following link:
+
+    - All Nuclei Tools Known Issues: `Nuclei Tools Known Issues <https://github.com/Nuclei-Software/nuclei-tool-guide/issues/18>`_
+
+    - GNU Toolchain Known Issues: :ref:`Known Issues <toolchain_gnu_known_issues>`
+
+    - LLVM Toolchain Known Issues: :ref:`Known Issues <toolchain_llvm_known_issues>`
+
+    - libncrt Known Issues: :ref:`Known Issues <libncrt_202610_knownissues>`
+
 **Find release note below**:
 
 - `Nuclei Studio 2026.10`_ : Add new features such as RISC-V Extension Selector, Flash Erase, Live Peripheral, CPU Information, MMU View and RISC-V Reference, optimize Connect to Running Target, Trace, Flame View and Live Watch, and add IDE support for the big-endian toolchain which is supplied separately, see :ref:`ide_changelog_202610`.
@@ -32,8 +44,6 @@ For this release pdf doc, please check https://doc.nucleisys.com/nuclei_tools/nu
 - `Nuclei OpenOCD 2026.10`_ : Based on 2025.10, add the ``nuclei trace`` command group, enhance ``nuclei etrace`` and ``nuclei cpuinfo``, and add more flash drivers, see :ref:`openocd_changelog_202610`.
 - **Nuclei Model 2026.10** : Based on 2025.10, and support booting a RISC-V Linux kernel, SMP GDB debugging, big-endian ELF, semihosting and ``soc-cfg`` configuration files, see :ref:`xlmodel_changelog_202610`.
 - **Nuclei Studio VSCode 2026.10** : First official release of the Nuclei Studio VSCode extension (extension version **0.2.0**), bringing project management, build, debug, Live Watch, and NPK package management to Visual Studio Code, see :ref:`Nuclei Studio VSCode Changelog <vscode_changelog_202610>`.
-
-Click https://github.com/Nuclei-Software/nuclei-tool-guide/issues/18 for this release known issues.
 
 .. _changelog_202510:
 
