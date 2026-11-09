@@ -45,8 +45,8 @@ The version output of the current latest version is
         SystemC 2.3.4-Accellera --- May 16 2024 16:02:03
         Copyright (c) 1996-2022 by all Contributors,
         ALL RIGHTS RESERVED
-   [XLMODEL-INFO] xl_cpumodel Commit: 4175eb9
-   [XLMODEL-INFO] xl_cpumodel Version 2026.10 - 1.3.0, Build Time Oct 30 2026, 18:29:51
+   [XLMODEL-INFO] xl_cpumodel Commit: abb552a
+   [XLMODEL-INFO] xl_cpumodel Version 2026.10 - 1.3.0, Build Time Nov  6 2026, 18:38:31
 
 
 Design and Architecture
@@ -462,6 +462,8 @@ The following extensions can be selected through ``--ext=``. Choose extensions s
 |              | set the ``fp16mode`` bit of the ``MMISC_CTL1`` CSR                      |
 +--------------+-------------------------------------------------------------------------+
 | _xxlclicv2   | Nuclei ECLIC v2 extension (use ``_xlclicv2`` in xlmodel)                |
++--------------+-------------------------------------------------------------------------+
+| _agnostic    | Nuclei vector tail/mask-agnostic policy: fill ones (V required)         |
 +--------------+-------------------------------------------------------------------------+
 
 SoC Configuration
@@ -1070,15 +1072,17 @@ This release is based on **2025.10** version with some new features and bug fixe
 **New Features:**
 
 - Support booting a RISC-V Linux kernel with the Nuclei Linux SDK (RV64/RV32, uniprocessor and SMP)
-- SMP GDB debugging: per-hart thread switching, single-step on the selected hart, watchpoints (watch/rwatch/awatch) on virtual addresses, stop-reason reporting, dynamic vector register XML per VLEN
+- SMP GDB debugging: per-hart thread switching, single-step on the selected hart, watchpoints (watch/rwatch/awatch) on virtual addresses, stop-reason reporting
 - Support ECLIC v2 hardware context and shadow register groups (``--ext=_xlclicv2``); add ``--eclic=irqnums:<n>,intctlbits:<n>,shdnum:<n>``
+- Support for vector tail/mask-agnostic policies via ``--ext=v,agnostic=true`` (fill ones) and ``--ext=v,noagnostic=true`` (keep old values).
 - ECLIC interrupt sources scale to 4096(M-only) or 1024(M/S), and Privilege can be configured by ``--priv=m/mu/msu`` options; PLIC interrupt sources scale to 1024
 - Support big-endian RISC-V ELF files; target endianness is detected from the ELF header, including big-endian GDB debugging
+- SMP simulation now supports up to 16 cores (previously limited to 8)
 - Support RISC-V semihosting (``--semihosting=1``) for guest printf/file-I/O/exit via EBREAK
 - Support ``soc-cfg`` JSON configuration files (``--soc-cfg``), aligned with the Nuclei QEMU format, with CLI > soc-cfg > default priority
 - Add ``--fastmode=1`` for maximum functional simulation speed
 - Support the ``Sstc`` supervisor timer extension by default
-- Faster flame graph ``.gtef`` generation with improved symbol resolution
+- Faster flamegraph ``.gtef`` generation with improved symbol resolution
 - Add new extensions: Zibi, Zicfilp, Zacas, Zaamo/Zalrsc, vector crypto (Zvkg/Zvkned/Zvksed/Zvksh), BF16 support: standard extensions (``Zfbfmin``/``Zvfbfmin``/``Zvfbfwma``) and Nuclei ``Xxlfbf``/``Xxlvfbf`` (enabled via the ``MMISC_CTL1`` ``fp16mode`` bit); Nuclei ``Xxlvqmacc`` VPU extension (use ``_xlvqmacc``); DSP extensions differentiated into Xxldspn1x/N2x/N3x; VLEN 2048/4096 support
 - UART: RX polling mode: guest can poll RXDATA without enabling the UART interrupt
 - Add ``--cpu=?`` core listing, ``--timefreq``, ``--srambase/--sramsz`` and ``--vectorbase`` options; ``--ext`` supports per-extension ``name=true/false`` overrides; ``--version`` output now includes the git commit hash
@@ -1087,17 +1091,23 @@ This release is based on **2025.10** version with some new features and bug fixe
 
 **Bug Fixes:**
 
+- Fixed memory issues reported by AddressSanitizer, including incomplete spike-side teardown on model exit and several uninitialized variables
 - Fixed ECLIC pending-bit handling that caused continuous interrupt re-triggering, ECLIC re-arbitration after configuration register writes, edge-trigger handling and S-mode software interrupt issues
+- Fixed PLIC interrupts not being triggered when enabling an already-pending source or setting a pending bit of an already-enabled source
+- Registered the SSCRATCHCSW/SSCRATCHCSWL CSRs, fixing illegal-instruction errors in S-mode RT-Thread demos
 - Fixed lr/sc reservation invalidation across harts in SMP
-- Fixed ThreadX SMP regression on nx900fd
+- Fixed the mtime advance model in Nearcycle/func mode (exact cycle-proportional Bresenham ratio instead of a floored ratio)
 - Fixed PMP fetch/load/store checks, instruction access fault reporting and page-fault exception injection
-- Fixed UART interrupt level/IP status reporting
-- Fixed flame graph issues: RTOS tasks migrating across SMP cores were shown with duplicated thread identities, and M-mode/S-mode interrupt handlers were attributed to the wrong interrupt thread lane
+- Fixed VNICE masked instructions not following the vector tail/mask-agnostic policy, and user-defined VNICE instructions being wrongly masked by ``v0`` when bit 25 of the encoding is 0
+- Fixed GDB connection issues: oversized packets that were not split and reassembled could terminate the GDB session, and bytes left over from an abnormally disconnected client corrupted the next client's handshake
+- Fixed flame graph issues: RTOS tasks migrating across SMP cores were shown with duplicated thread identities, M-mode/S-mode interrupt handlers were attributed to the wrong interrupt thread lane, and frames of nested interrupt handlers were handled incorrectly across cross-mode preemptions, leaving orphaned frames
+- Fixed Ctrl+C not stopping the model properly in GDB mode; it now works in all modes and dumps the collected gprof and flame graph results on exit
+- Fixed UART issues: the interrupt output now uses transition-detected levels and the pending status is updated while the TX FIFO drains; interactive stdin input was restored and is fed to the RX FIFO regardless of the guest interrupt-enable state
 
 **Known Issues:**
 
 - Does not support CACHE emulation
-- Some ThreadX SMP cases are not yet running correctly
+- Two ThreadX SMP test cases livelock on nx900fd: ``threadx_event_flag_isr_set_clear_test`` and ``threadx_event_flag_isr_wait_abort_test``. The timer tick lands in a window where the test ISR exit conditions never hold, so hart 0 spins inside ``_tx_thread_smp_protect`` without releasing the lock and the other harts starve. Both cases pass on n900fd, and the issue is sensitive to timing-model changes
 
 .. _xlmodel_changelog_202510:
 
