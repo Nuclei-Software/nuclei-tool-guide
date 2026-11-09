@@ -205,6 +205,14 @@ Fixed Known Bugs
 
 - Fixed that running clean on large projects failed because the generated command line (such as ``rm`` or compile commands) was too long;
 
+- Fixed the issue where modifying the Nuclei Settings page did not trigger automatic synchronization of the model;
+
+- Fixed the issue where QEMU could not run n100 programs properly on the IDE;
+
+- Fixed the incorrect and incomplete layout in the New Project Wizard;
+
+- Fixed the incorrect display of the Language standard option in the project Settings;
+
 - Fixed other known bugs.
 
 
