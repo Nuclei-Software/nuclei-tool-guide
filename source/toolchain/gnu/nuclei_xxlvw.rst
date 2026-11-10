@@ -107,7 +107,7 @@ Format conversion instructions
 Intrinsic Naming Convention
 ***************************
 
-RVV intrinsic naming convention: **Chapter 6** of ``v-intrinsic-spec.pdf`` in https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0.0-rc7.
+RVV intrinsic naming convention: **Chapter 6** of ``v-intrinsic-spec.pdf`` in https://github.com/riscv-non-isa/rvv-intrinsic-doc/releases/tag/v1.0-ratified.
 
 Our naming convention follows the above specification and adds the ``_xl`` prefix.
 
