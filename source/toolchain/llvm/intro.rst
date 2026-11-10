@@ -81,7 +81,7 @@ Extensions Support
 
 - Nuclei custom VPU Extensions
 
-    xxlvqmacc
+    :ref:`Xxlvqmacc <toolchain_gnu_nuclei_vpu>`
 
 - Nuclei custom BFloat16 Extensions
 
@@ -167,7 +167,7 @@ More information on building and running LLVM, see https://llvm.org/docs/Getting
 Changelog
 =========
 
-    Please check :ref:`Changelog <toolchain_changelog>` here.
+Please check :ref:`Changelog <toolchain_changelog>` here.
 
 Checking LLVM Version
 =====================
