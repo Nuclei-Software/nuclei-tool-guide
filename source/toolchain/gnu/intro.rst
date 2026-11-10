@@ -253,6 +253,8 @@ Libraries
 
     ``libncrt`` is short for **Nuclei C Runtime Library**, which currently supports Nuclei RV32 processor, and is released by Nuclei to reduce c library code size, and improve math library speed, for details, please refer to :ref:`About Nuclei C Runtime Library <libncrt_intro>`
 
+When using a library, we can tell the linker which library we need to link by using the ``-l``, for example, ``-lc`` for newlib-full, ``-lc_nano`` for newlib-nano. For libncrt, you should pass ``--specs=libncrt_xxx.specs`` when using gcc. In addition, you need to link extra ``fileops`` and ``heapops`` static libraries during the linking phase by using the ``-l``, and for the ``fileops``, you must select one of the three options: ``uart``, ``semi`` or ``rtt``, and for the ``heapops``, you must select one of the three options: ``basic``, ``realtime`` or ``minimal``. For more details about libncrt usage, please refer to :ref:`Nuclei C Runtime Library for Nuclei Toolchain <libncrt_toolchain_usage>`.
+
 Changelog
 =========
 
@@ -268,16 +270,6 @@ For more information about how to build a toolchain, see https://github.com/risc
 .. rubric:: Development
 
 The process of user compilation and development can see from https://github.com/riscv-mcu/riscv-gnu-toolchain/blob/nuclei/2025/README.md. To get other technical support, please send issues directly to the upstream repository https://github.com/riscv-collab/riscv-gnu-toolchain.
-
-.. rubric:: Examples
-
-1. If you choose a core of Nuclei N300FD, then the parameter you pass to 'march' should be ``rv32*fd*``, and 'mabi' should choose ``ilp32d``.
-
-2. If you want to bring the full ``B/K/P`` extension, then you also need to bring all the subsets of them in the 'march'. For example, for the ``B`` extension, the parameter you pass to 'march' is ``_zba_zbb_zbc_zbs``.
-
-3. When using a library, we can tell the linker which library we need to link by using the '-l', for example, ``-lc`` for newlib-full, ``-lc_nano`` for newlib-nano. For libncrt, you should pass ``--specs=libncrt_xxx.specs`` when using gcc. In addition, you need to link extra 'fileops' and 'heapops' static libraries during the linking phase by using the '-l', and for the 'fileops', you must select one of the three options: 'uart', 'semi' or 'rtt',
-and for the 'heapops', you must select one of the three options: 'basic', 'realtime' or 'minimal'.
-
 
 Testsuite
 =========
