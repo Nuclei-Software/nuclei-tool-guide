@@ -45,8 +45,8 @@ The version output of the current latest version is
         SystemC 2.3.4-Accellera --- May 16 2024 16:02:03
         Copyright (c) 1996-2022 by all Contributors,
         ALL RIGHTS RESERVED
-   [XLMODEL-INFO] xl_cpumodel Commit: abb552a
-   [XLMODEL-INFO] xl_cpumodel Version 2026.10 - 1.3.0, Build Time Nov  6 2026, 18:38:31
+   [XLMODEL-INFO] xl_cpumodel Commit: ded3124
+   [XLMODEL-INFO] xl_cpumodel Version 2026.10 - 1.3.0, Build Time Nov 10 2026, 17:12:02
 
 
 Design and Architecture
@@ -1104,6 +1104,7 @@ This release is based on **2025.10** version with some new features and bug fixe
 - Fixed PMP fetch/load/store checks, instruction access fault reporting and page-fault exception injection
 - Fixed VNICE masked instructions not following the vector tail/mask-agnostic policy, and user-defined VNICE instructions being wrongly masked by ``v0`` when bit 25 of the encoding is 0
 - Fixed GDB connection issues: oversized packets that were not split and reassembled could terminate the GDB session, and bytes left over from an abnormally disconnected client corrupted the next client's handshake
+- Fixed a spurious GDB server error (`recv error: No error` on Windows) reported when the GDB client is terminated without detaching, e.g. when a debug session is stopped from Nuclei Studio
 - Fixed flame graph issues: RTOS tasks migrating across SMP cores were shown with duplicated thread identities, M-mode/S-mode interrupt handlers were attributed to the wrong interrupt thread lane, and frames of nested interrupt handlers were handled incorrectly across cross-mode preemptions, leaving orphaned frames
 - Fixed Ctrl+C not stopping the model properly in GDB mode; it now works in all modes and dumps the collected gprof and flame graph results on exit
 - Fixed UART issues: the interrupt output now uses transition-detected levels and the pending status is updated while the TX FIFO drains; interactive stdin input was restored and is fed to the RX FIFO regardless of the guest interrupt-enable state
