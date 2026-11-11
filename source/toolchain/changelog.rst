@@ -36,6 +36,8 @@ Version 2026.10
 
 - Feature: Added GDB Python support, which can be enabled with ``--with-python`` when building the toolchain.
 
+- Feature: GDB now supports reading memory variables while the target is running, which allows Nuclei Studio 2026.10 and later versions to view variables without interrupting the target.
+
 - Feature: Updated the Nuclei custom ECLIC V2 CSRs in Binutils/GDB/LLVM.
 
 - Feature: GCC added the new constraint ``R`` for register even-odd pairs.
