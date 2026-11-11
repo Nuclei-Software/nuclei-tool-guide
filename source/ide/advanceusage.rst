@@ -1492,6 +1492,8 @@ The hidden menu bar contains two settings menus for configuring global propertie
 
         - Save Data Speed : sets the frequency at which Live Watch data is automatically saved. The default is once every 10 minutes.
 
+        - Live Watch Data Source : selects GDB or Telnet. GDB is available only for OpenOCD debug configurations with non-stop enabled. When non-stop is not enabled, the GDB option is greyed out and Telnet is selected and saved automatically. To use the GDB channel, open the OpenOCD debug configuration page and check ``Enable GDB non-stop mode to support Live Watch``.
+
 **Number Format**
 
    - Sets the display format of variable values in the Live Watch view.
@@ -1543,6 +1545,8 @@ Therefore:
 Check the option in the **OpenOCD debug configuration page** of Nuclei Studio:
 
 ``Enable GDB non-stop mode to support Live Watch``
+
+|image174|
 
 This checkbox writes the launch attribute ``GDB_NONSTOP`` (``ATTR_DEBUGGER_NON_STOP``); its tooltip text is literally *"You must enable this option to use Live Watch."* After checking it and launching the debug session, Live Watch uses the GDB channel.
 
@@ -1809,13 +1813,14 @@ Tip: the CSV records historical sampling values; you must have enabled Live Watc
 
 View menu → ``Live Peripheral Settings``:
 
+|image166|
 .. list-table::
    :header-rows: 1
 
    * - Setting item
      - Description
    * - Data source
-     - GDB or Telnet. When an old GDB is detected, it is forced to fall back to Telnet
+     - GDB or Telnet. GDB is available only for OpenOCD debug configurations with non-stop enabled. When non-stop is not enabled, the GDB option is greyed out and Telnet is selected and saved automatically. To use the GDB channel, open the OpenOCD debug configuration page and check ``Enable GDB non-stop mode to support Live Watch``. When an old GDB is detected, it also falls back to Telnet.
    * - Speed
      - Sampling speed, range 0–99999, default 10000
    * - CSV save path
@@ -1825,7 +1830,7 @@ View menu → ``Live Peripheral Settings``:
 
 The menu also has ``Refresh SVD data``, used to reload after the SVD file is updated.
 
-|image166|
+
 
 
 Using Live Peripheral
@@ -2807,6 +2812,8 @@ The Disassembly view is now linked with the C/C++ editor:
 .. |image166| image:: /asserts/nucleistudio/advanceusage/image166.png
 
 .. |image167| image:: /asserts/nucleistudio/advanceusage/image167.png
+
+.. |image174| image:: /asserts/nucleistudio/advanceusage/image174.png
 
 .. |image-nice-1| image:: /asserts/nucleistudio/advanceusage/nice-1.png
 
