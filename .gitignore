@@ -30,3 +30,6 @@ __pycache__
 logs*
 node_modules
 *.deb
+
+# Local scratch space, never tracked
+SCRATCH/
